@@ -10,7 +10,11 @@ the AMDGPU kernel driver with limited support for driverless debugging
 
 The tool allows reading/writing MMIO registers, analyzing wavefronts,
 ring contents, as well as performance tracking.  It supports hardware
-from SI based hardware onwards.
+from SI based hardware onwards and requires a v4.10 kernel or newer
+to function correctly.  Older kernels (not older than v4.8) may work
+but with limited functionality/stability.  Older kernels are not supported
+officially so please refrain from submitting bug reports in relation
+to them.
 
 The tool is open source and hosted at
 

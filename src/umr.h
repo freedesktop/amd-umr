@@ -122,6 +122,13 @@ struct umr_gfx_config {
 	unsigned external_rev_id;
 };
 
+struct umr_pci_config {
+	unsigned device;
+	unsigned revision;
+	unsigned subsystem_device;
+	unsigned subsystem_vendor;
+};
+
 struct umr_fw_config {
 	char name[16];
 	uint32_t feature_version,
@@ -165,6 +172,7 @@ struct umr_asic {
 	struct {
 		struct umr_gfx_config gfx;
 		struct umr_fw_config fw[UMR_MAX_FW];
+		struct umr_pci_config pci;
 	} config;
 	struct {
 		int mmio,
@@ -183,6 +191,10 @@ struct umr_asic {
 		int region;
 	} pci;
 	struct umr_options options;
+	struct {
+		struct umr_ip_block **iplist;
+		struct umr_reg **reglist;
+	} mmio_accel;
 };
 
 struct umr_wave_status {
@@ -387,7 +399,8 @@ struct umr_asic *umr_create_verde(struct umr_options *options);
 struct umr_asic *umr_discover_asic(struct umr_options *options);
 struct umr_asic *umr_discover_asic_by_did(struct umr_options *options, long did);
 struct umr_asic *umr_discover_asic_by_name(struct umr_options *options, char *name);
-void umr_close_asic(struct umr_asic *asic);
+void umr_free_asic(struct umr_asic *asic);
+void umr_close_asic(struct umr_asic *asic); // call this to close a fully open asic
 int umr_query_drm(struct umr_asic *asic, int field, uint64_t *ret);
 void umr_enumerate_devices(void);
 
@@ -405,6 +418,7 @@ uint32_t umr_read_reg_by_name(struct umr_asic *asic, char *name);
 int umr_write_reg_by_name(struct umr_asic *asic, char *name, uint32_t value);
 uint32_t umr_bitslice_reg(struct umr_asic *asic, struct umr_reg *reg, char *bitname, uint32_t regvalue);
 uint32_t umr_bitslice_reg_by_name(struct umr_asic *asic, char *regname, char *bitname, uint32_t regvalue);
+int umr_create_mmio_accel(struct umr_asic *asic);
 
 /* IB/ring decoding/dumping/etc */
 void umr_print_decode(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib);

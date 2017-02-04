@@ -51,8 +51,21 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 	FILE *f;
 	unsigned did;
 	struct umr_asic *asic;
+	long trydid = options->forcedid;
 
-	if (options->forcedid < 0) {
+	// try to scan via debugfs
+	asic = calloc(1, sizeof *asic);
+	if (asic) {
+		asic->instance = options->instance;
+		asic->options  = *options;
+		umr_scan_config(asic);
+		if (asic->config.pci.device)
+			trydid = asic->config.pci.device;
+		umr_free_asic(asic);
+		asic = NULL;
+	}
+
+	if (trydid < 0) {
 		snprintf(name, sizeof(name)-1, "/sys/kernel/debug/dri/%d/name", options->instance);
 		f = fopen(name, "r");
 		if (!f) {
@@ -93,7 +106,7 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 		if (options->dev_name[0])
 			asic = umr_discover_asic_by_name(options, options->dev_name);
 		else
-			asic = umr_discover_asic_by_did(options, options->forcedid);
+			asic = umr_discover_asic_by_did(options, trydid);
 	}
 
 	if (asic) {

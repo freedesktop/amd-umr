@@ -24,38 +24,32 @@
  */
 #include "umr.h"
 
-#define cond_close(x) do { if ((x) >= 0) close((x)); } while(0);
+#define LIST_SIZE (1UL << 18)
 
-void umr_free_asic(struct umr_asic *asic)
+int umr_create_mmio_accel(struct umr_asic *asic)
 {
-	int x;
-	if (asic->pci.mem != NULL) {
-		// free PCI mapping
-		pci_device_unmap_range(asic->pci.pdevice, asic->pci.mem, asic->pci.pdevice->regions[asic->pci.region].size);
-		pci_system_cleanup();
-	}
-	for (x = 0; x < asic->no_blocks; x++) {
-		free(asic->blocks[x]->regs);
-		free(asic->blocks[x]);
-	}
-	free(asic->blocks);
-	free(asic->mmio_accel.reglist);
-	free(asic->mmio_accel.iplist);
-	free(asic);
-}
+	int i, j;
 
-void umr_close_asic(struct umr_asic *asic)
-{
-	if (asic) {
-		cond_close(asic->fd.mmio);
-		cond_close(asic->fd.didt);
-		cond_close(asic->fd.pcie);
-		cond_close(asic->fd.smc);
-		cond_close(asic->fd.sensors);
-		cond_close(asic->fd.wave);
-		cond_close(asic->fd.vram);
-		cond_close(asic->fd.gpr);
-		cond_close(asic->fd.drm);
-		umr_free_asic(asic);
+	// create flat array of registers
+	asic->mmio_accel.reglist = calloc(LIST_SIZE, sizeof *asic->mmio_accel.reglist);
+	asic->mmio_accel.iplist  = calloc(LIST_SIZE, sizeof *asic->mmio_accel.iplist);
+	if (!asic->mmio_accel.reglist || !asic->mmio_accel.iplist) {
+		free(asic->mmio_accel.iplist);
+		free(asic->mmio_accel.reglist);
+		return -1;
 	}
+
+	for (i = 0; i < asic->no_blocks; i++) {
+		for (j = 0; j < asic->blocks[i]->no_regs; j++) {
+			if (asic->blocks[i]->regs[j].type == REG_MMIO) {
+				if (asic->blocks[i]->regs[j].addr >= LIST_SIZE) {
+					fprintf(stderr, "[BUG] Register address width too large for scan_log\n");
+					continue;
+				}
+				asic->mmio_accel.reglist[asic->blocks[i]->regs[j].addr] = &asic->blocks[i]->regs[j];
+				asic->mmio_accel.iplist[asic->blocks[i]->regs[j].addr]  = asic->blocks[i];
+			}
+		}
+	}
+	return 0;
 }

@@ -37,8 +37,13 @@ int umr_scan_asic(struct umr_asic *asic, char *asicname, char *ipname, char *reg
 			if (!ipname[0] || !strcmp(ipname, asic->blocks[i]->ipname)) {
 				if (asic->blocks[i]->grant) {
 					r = asic->blocks[i]->grant(asic);
-					if (r)
+					if (r) {
+						if (ipname[0]) {
+							fprintf(stderr, "[ERROR] Must specify at least one 'risky' option before scanning specific blocks.\n");
+							exit(EXIT_FAILURE);
+						}
 						continue;
+					}
 				}
 				for (j = 0; j < asic->blocks[i]->no_regs; j++) {
 					if (!regname[0] || !strcmp(regname, "*") || !strcmp(regname, asic->blocks[i]->regs[j].regname) ||

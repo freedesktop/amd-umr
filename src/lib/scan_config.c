@@ -68,6 +68,15 @@ static void parse_rev2(struct umr_asic *asic, uint32_t *data, int *r)
 	asic->config.gfx.external_rev_id = data[(*r)++];
 }
 
+static void parse_rev3(struct umr_asic *asic, uint32_t *data, int *r)
+{
+	parse_rev2(asic, data, r);
+	asic->config.pci.device = data[(*r)++];
+	asic->config.pci.revision = data[(*r)++];
+	asic->config.pci.subsystem_device = data[(*r)++];
+	asic->config.pci.subsystem_vendor = data[(*r)++];
+}
+
 void umr_scan_config(struct umr_asic *asic)
 {
 	uint32_t data[512];
@@ -105,6 +114,8 @@ gca_config:
 		case 1: parse_rev1(asic, data, &r);
 			break;
 		case 2: parse_rev2(asic, data, &r);
+			break;
+		case 3: parse_rev3(asic, data, &r);
 			break;
 		default:
 			printf("Invalid gca config data header\n");
