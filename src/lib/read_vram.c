@@ -25,12 +25,53 @@
 #include "umrapp.h"
 #include <inttypes.h>
 
+static void read_via_mmio(struct umr_asic *asic, uint64_t address, uint32_t size, void *dst)
+{
+	uint32_t MM_INDEX, MM_INDEX_HI, MM_DATA;
+	uint32_t *out = dst;
+
+	// find registers
+	MM_INDEX    = umr_find_reg(asic, "mmMM_INDEX") * 4;
+	MM_INDEX_HI = umr_find_reg(asic, "mmMM_INDEX_HI") * 4;
+	MM_DATA     = umr_find_reg(asic, "mmMM_DATA") * 4;
+
+	if (MM_INDEX == 0xFFFFFFFF    ||
+	    MM_INDEX_HI == 0xFFFFFFFF ||
+	    MM_DATA == 0xFFFFFFFF) {
+		fprintf(stderr, "[BUG] Cannot find MM access registers for this asic!\n");
+		return;
+	}
+
+	while (size) {
+		umr_write_reg(asic, MM_INDEX, address | 0x80000000);
+		umr_write_reg(asic, MM_INDEX_HI, address >> 31);
+		*out++ = umr_read_reg(asic, MM_DATA);
+		size -= 4;
+		address += 4;
+	}
+}
+
+
 int umr_read_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint32_t size, void *dst)
 {
+	// only aligned reads
+	if ((address & 3) || (size & 3))
+		return -1;
+
+	// only aligned destinations
+	if (((intptr_t)dst) & 3) {
+		fprintf(stderr, "[BUG] vram read destination is not 4-byte aligned\n");
+		return -1;
+	}
+
 	if (vmid == 0xFFFF) {
 		// addressing is physical
-		lseek(asic->fd.vram, address, SEEK_SET);
-		read(asic->fd.vram, dst, size);
+		if (asic->options.use_pci == 0) {
+			lseek(asic->fd.vram, address, SEEK_SET);
+			read(asic->fd.vram, dst, size);
+		} else {
+			read_via_mmio(asic, address, size, dst);
+		}
 		return 0;
 	}
 	return 0;

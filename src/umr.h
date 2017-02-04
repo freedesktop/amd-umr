@@ -410,7 +410,6 @@ uint32_t umr_bitslice_reg_by_name(struct umr_asic *asic, char *regname, char *bi
 void umr_print_decode(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib);
 void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder);
 int umr_read_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint32_t size, void *dst);
-int umr_grab_framebuffer(struct umr_asic *asic, void **fb, uint32_t *size);
 
 #define RED     (options.use_colour ? "\x1b[31;1m" : "")
 #define YELLOW  (options.use_colour ? "\x1b[33;1m" : "")

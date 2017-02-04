@@ -21,7 +21,7 @@ src/lib/asic/tonga.o src/lib/asic/topaz.o src/lib/asic/verde.o \
 \
 src/lib/bitfield_print.o src/lib/close_asic.o src/lib/create_asic_helper.o \
 src/lib/discover_by_did.o src/lib/discover_by_name.o src/lib/discover.o src/lib/dump_ib.o \
-src/lib/find_reg.o src/lib/grab_frame.o src/lib/mmio.o src/lib/query_drm.o \
+src/lib/find_reg.o src/lib/mmio.o src/lib/query_drm.o \
 src/lib/read_sgpr.o src/lib/read_vram.o src/lib/ring_decode.o src/lib/scan_config.o \
 src/lib/wave_status.o \
 \

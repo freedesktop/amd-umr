@@ -27,8 +27,8 @@
 uint32_t umr_read_reg(struct umr_asic *asic, uint64_t addr)
 {
 	uint32_t value=0;
-	if (!addr)
-		fprintf(stderr, "warning: reading from addr==0 is likely a bug\n");
+	if (addr == 0xFFFFFFFF)
+		fprintf(stderr, "warning: reading from addr==0xFFFFFFFF is likely a bug\n");
 
 	if (asic->pci.mem && !(addr & ~0xFFFFFULL)) { // only use pci if enabled and not using high bits 
 		return asic->pci.mem[addr/4];
@@ -43,8 +43,8 @@ uint32_t umr_read_reg(struct umr_asic *asic, uint64_t addr)
 
 int umr_write_reg(struct umr_asic *asic, uint64_t addr, uint32_t value)
 {
-	if (!addr)
-		fprintf(stderr, "warning: reading from addr==0 is likely a bug\n");
+	if (addr == 0xFFFFFFFF)
+		fprintf(stderr, "warning: reading from addr==0xFFFFFFFF is likely a bug\n");
 
 	if (asic->pci.mem && !(addr & ~0xFFFFFULL)) {
 		asic->pci.mem[addr/4] = value;

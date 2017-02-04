@@ -283,23 +283,27 @@ int main(int argc, char **argv)
 		} else if (!strcmp(argv[i], "--enumerate") || !strcmp(argv[i], "-e")) {
 			umr_enumerate_devices();
 			return 0;
-		} else if (!strcmp(argv[i], "--grab-frame") || !strcmp(argv[i], "-gf")) {
-			void *fb;
-			uint32_t size;
-			if (i + 1 < argc) {
+		} else if (!strcmp(argv[i], "--vram") || !strcmp(argv[i], "-v")) {
+			if (i + 2 < argc) {
+				unsigned char buf[256];
+				uint64_t address;
+				uint32_t size, n;
+
 				if (!asic)
 					asic = get_asic();
-				umr_grab_framebuffer(asic, &fb, &size);
-				if (fb) {
-					FILE *out = fopen(argv[i+1], "wb");
-					printf("Saving to %s\n", argv[i+1]);
-					if (!out) { perror("Cannot open output"); return EXIT_FAILURE; }
-					fwrite(fb, 1, size, out);
-					fclose(out);
+
+				sscanf(argv[i+1], "%"SCNx64, &address);
+				sscanf(argv[i+2], "%"SCNu32, &size);
+				while (size) {
+					n = size > sizeof(buf) ? sizeof(buf) : size;
+					umr_read_vram(asic, 0xFFFF, address, n, buf);
+					fwrite(buf, 1, n, stdout);
+					size -= n;
+					address += n;
 				}
-				++i;
+				i += 2;
 			} else {
-				printf("--grab-frame requires one parameter\n");
+				printf("--vram requires two parameters\n");
 				return EXIT_FAILURE;
 			}
 		} else if (!strcmp(argv[i], "--option") || !strcmp(argv[i], "-O")) {
@@ -345,6 +349,8 @@ int main(int argc, char **argv)
 	"\n\t\toptions 'use_colour' to colourize output and 'use_pci' to improve efficiency.\n"
 "\n\t--waves, -wa\n\t\tPrint out information about any active CU waves.  Can use '-O bits'"
 	"\n\t\tto see decoding of various wave fields.\n"
+"\n\t--vram, -v <address> <size>"
+	"\n\t\tRead 'size' bytes (in decimal) from a given address (in hex) to stdout.\n"
 "\n\t--option -O <string>[,<string>,...]\n\t\tEnable various flags: risky, bits, bitsfull, empty_log, follow, named, many,"
 	"\n\t\tuse_pci, use_colour, read_smc, quiet.\n"
 "\n\n", UMR_BUILD_VER, UMR_BUILD_REV);
