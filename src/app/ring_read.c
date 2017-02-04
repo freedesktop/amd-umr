@@ -129,7 +129,9 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 
 	pdecoder = decoder.next_ib;
 	while (pdecoder) {
-		umr_dump_ib(asic, pdecoder);
+		if (asic->options.follow_ib) {
+			umr_dump_ib(asic, pdecoder);
+		}
 		ppdecoder = pdecoder->next_ib;
 		free(pdecoder);
 		pdecoder = ppdecoder;

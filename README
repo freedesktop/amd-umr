@@ -1,4 +1,4 @@
-UserMode Register Debugger for AMDGPU Hardware
+User Mode Register Debugger for AMDGPU Hardware
 Copyright (c) 2017 AMD Inc.
 
 Introduction
@@ -18,19 +18,19 @@ to them.
 
 The tool is open source and hosted at
 
-    : TBD
+    : https://cgit.freedesktop.org/amd/umr/
 
 Users may report bugs, feedback, and submit patches to the amd-gfx
 mailing list at:
 
-    https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+    : https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 
 Building
 ---------
 
-To build umr you will need pciaccess and ncurses headers.  Which are
-available in both Fedora and Ubuntu (as well as other distributions).
-To build simply invoke the make command
+To build umr you will need pciaccess and ncurses headers and libraries.
+Which are available in both Fedora and Ubuntu (as well as other
+distributions).  To build simply invoke the make command
 
     $ make
 
@@ -76,10 +76,14 @@ Selecting Hardware
 -------------------
 
 On machines with more than one AMDGPU device umr can be instructed
-which to look at.  If the driver is loaded and display attached
+which to look at.  If the driver is loaded and display attached [*]
 the --instance option can select a device.  The devices can be listed
-with the --enumerate option.  Once one is picked the number can be used
-for instance:
+with the --enumerate option.
+
+[*] Kernels v4.11 and newer only require the amdgpu module to be loaded
+in order to work without '-f'.
+
+Once one is picked the number can be used for instance:
 
     $ umr -i 1 -s uvd6
 
@@ -172,7 +176,7 @@ Wavefront Debugging
 
 The status of valid wavefronts can be displayed with the --waves
 command.  The bits option enables bitfield decoding.  Normally,
-the colums would be pretty printed:
+the columns would be pretty printed:
 
     $ umr -wa | column -t
 

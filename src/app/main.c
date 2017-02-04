@@ -82,6 +82,8 @@ static void parse_options(char *str)
 			options.read_smc = 1;
 		} else if (!strcmp(option, "quiet")) {
 			options.quiet = 1;
+		} else if (!strcmp(option, "follow_ib")) {
+			options.follow_ib = 1;
 		} else {
 			printf("error: Unknown option [%s]\n", option);
 			exit(EXIT_FAILURE);

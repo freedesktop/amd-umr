@@ -152,7 +152,8 @@ struct umr_options {
 	    use_pci,
 	    use_colour,
 	    read_smc,
-	    quiet;
+	    quiet,
+	    follow_ib;
 	unsigned
 	    instance_bank,
 	    se_bank,

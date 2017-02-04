@@ -55,11 +55,11 @@ static const char *pm4_pkt3_opcode_names[] = {
 	"UNK", // 1a
 	"UNK", // 1b
 	"UNK", // 1c
-	"UNK", // 1d
-	"UNK", // 1e
+	"PKT3_ATOMIC_GDS", // 1d
+	"PKT3_ATOMIC_MEM", // 1e
 	"PKT3_OCCLUSION_QUERY", // 1f
 	"PKT3_SET_PREDICATION", // 20
-	"UNK", // 21
+	"PKT3_REG_RMW", // 21
 	"PKT3_COND_EXEC", // 22
 	"PKT3_PRED_EXEC", // 23
 	"PKT3_DRAW_INDIRECT", // 24
@@ -99,8 +99,8 @@ static const char *pm4_pkt3_opcode_names[] = {
 	"PKT3_EVENT_WRITE", // 46
 	"PKT3_EVENT_WRITE_EOP", // 47
 	"PKT3_EVENT_WRITE_EOS", // 48
-	"UNK", // 49
-	"UNK", // 4a
+	"PKT3_RELEASE_MEM", // 49
+	"PKT3_PREAMBLE_CNTL", // 4a
 	"UNK", // 4b
 	"UNK", // 4c
 	"UNK", // 4d
@@ -115,15 +115,15 @@ static const char *pm4_pkt3_opcode_names[] = {
 	"UNK", // 56
 	"PKT3_ONE_REG_WRITE", // 57
 	"PKT3_ACQUIRE_MEM", // 58
-	"UNK", // 59
+	"PKT3_REWIND", // 59
 	"UNK", // 5a
 	"UNK", // 5b
 	"UNK", // 5c
 	"UNK", // 5d
-	"UNK", // 5e
-	"UNK", // 5f
-	"UNK", // 60
-	"UNK", // 61
+	"PKT3_LOAD_UCONFIG_REG", // 5e
+	"PKT3_LOAD_SH_REG", // 5f
+	"PKT3_LOAD_CONFIG_REG", // 60
+	"PKT3_LOAD_CONTEXT_REG", // 61
 	"UNK", // 62
 	"UNK", // 63
 	"UNK", // 64
@@ -141,12 +141,12 @@ static const char *pm4_pkt3_opcode_names[] = {
 	"UNK", // 70
 	"UNK", // 71
 	"UNK", // 72
-	"UNK", // 73
+	"PKT3_SET_CONTEXT_REG_INDIRECT", // 73
 	"UNK", // 74
 	"UNK", // 75
 	"PKT3_SET_SH_REG", // 76
 	"PKT3_SET_SH_REG_OFFSET", // 77
-	"UNK", // 78
+	"PKT3_SET_QUEUE_REG", // 78
 	"PKT3_SET_UCONFIG_REG", // 79
 	"UNK", // 7a
 	"UNK", // 7b
@@ -162,10 +162,10 @@ static const char *pm4_pkt3_opcode_names[] = {
 	"PKT3_INCREMENT_DE_COUNTER", // 85
 	"PKT3_WAIT_ON_CE_COUNTER", // 86
 	"UNK", // 87
-	"UNK", // 88
+	"PKT3_WAIT_ON_DE_COUNTER_DIFF", // 88
 	"UNK", // 89
 	"UNK", // 8a
-	"UNK", // 8b
+	"PKT3_SWITCH_BUFFER", // 8b
 	"UNK", // 8c
 	"UNK", // 8d
 	"UNK", // 8e
@@ -186,9 +186,9 @@ static const char *pm4_pkt3_opcode_names[] = {
 	"UNK", // 9d
 	"UNK", // 9e
 	"UNK", // 9f
-	"UNK", // a0
+	"PKT3_SET_RESOURCES", // a0
 	"UNK", // a1
-	"UNK", // a2
+	"PKT3_MAP_QUEUES", // a2
 	"UNK", // a3
 	"UNK", // a4
 	"UNK", // a5
@@ -312,7 +312,7 @@ char *umr_reg_name(struct umr_asic *asic, uint64_t addr)
 
 	for (i = 0; i < asic->no_blocks; i++)
 	for (j = 0; j < asic->blocks[i]->no_regs; j++)
-		if (asic->blocks[i]->regs[j].addr == addr)
+		if (asic->blocks[i]->regs[j].type == REG_MMIO && asic->blocks[i]->regs[j].addr == addr)
 			return asic->blocks[i]->regs[j].regname;
 	return "<unknown>";
 }
@@ -405,6 +405,26 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 				case 3: printf("DATA_LO: 0x%08lx", (unsigned long)ib);
 					break;
 				case 4: printf("DATA_HI: 0x%08lx", (unsigned long)ib);
+					break;
+				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
+		case 0x49: // RELEASE_MEM
+			switch(decoder->pm4.cur_word) {
+				case 0: printf("EOP_TCL1_ACTION: %lu, EOP_TC_ACTION: %lu, EOP_TC_WB_ACTION: %lu, EVENT_TYPE: %lu, EVENT_INDEX: %lu",
+				BITS(ib, 16, 17), BITS(ib, 17, 18), BITS(ib, 15, 16), BITS(ib, 0, 7), BITS(ib, 8, 15));
+					break;
+				case 1:
+					printf("DATA_SEL+INT_SEL: 0x%08lx", (unsigned long)ib);
+//DATA_SEL(write64bit ? 2 : 1) | INT_SEL(int_sel ? 2 : 0)
+					break;
+				case 2: printf("ADDR_LO: 0x%08lx", (unsigned long)ib);
+					break;
+				case 3: printf("ADDR_HI: 0x%08lx", (unsigned long)ib);
+					break;
+				case 4: printf("SEQ_LO: 0x%08lx", (unsigned long)ib);
+					break;
+				case 5: printf("SEQ_HI: 0x%08lx", (unsigned long)ib);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}

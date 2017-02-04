@@ -38,6 +38,7 @@ void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder)
 	data = calloc(sizeof(*data), decoder->next_ib_info.size/sizeof(*data));
 	if (data && !umr_read_vram(asic, decoder->next_ib_info.vmid, decoder->next_ib_info.ib_addr, decoder->next_ib_info.size, data)) {
 	// dump IB
+		decoder->pm4.cur_opcode = 0xFFFFFFFF;
 		for (x = 0; x < decoder->next_ib_info.size/4; x++) {
 			printf("IB[%5u] = 0x%08lx ... ", (unsigned)x, (unsigned long)data[x]);
 			umr_print_decode(asic, decoder, data[x]);
