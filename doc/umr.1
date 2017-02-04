@@ -1,0 +1,141 @@
+.TH UMR 1 "January 2017" "AMD (c) 2017" "User Manuals"
+.SH NAME
+umr \- AMDGPU Userspace Register Debugger
+.SH DESCRIPTION
+.B umr
+is a tool to read and display, as well as write to AMDGPU device
+MMIO, PCIE, SMC, and DIDT registers via userspace.  It can autodetect
+and scan AMDGPU devices (SI and up).
+.SH OPTIONS
+.IP "--instance, -i <number>"
+Pick a device instance to work with.  Defaults to the 0'th device.  The instance
+refers to a directory under
+.B /sys/kernel/debug/dri/
+where 0 is the first card probed.
+.IP "--bank, -b <se_bank> <sh_bank> <instance>"
+Select a GFX INSTANCE/SH/SE bank in decimal.  Can use 'x' to denote a broadcast selection.
+.IP "--force -f <number>"
+Force a PCIE Device ID in hex or by asic name.  This is used in case the amdgpu driver
+is not yet loaded or a display is not yet attached.
+.IP "--print, -p"
+Enable scanning and printing all registers.  Defaults to off as it can
+be very verbose.
+.IP "--config, -c"
+Print out configuation data read from kernel driver.
+.IP "--enumerate, -e"
+Enumerate all AMDGPU supported devices.
+.IP "--list-blocks -lb"
+List all blocks attached to the asic that has been detected.
+.IP "--list-regs, -lr <string>"
+List all registers in an IP block (can use '-O bits' to list bitfields)
+.IP "--lookup, -lu <address> <number>"
+Look up an MMIO register by address and bitfield decode the value specified.
+.IP "--write -w <string> <number>"
+Write a value specified in hex to a register specified with a complete
+register path in the form <
+.B asicname.ipname.regname
+>.  The value of asicname can be
+.B *
+to simplify scripting.  This command can be used multiple times to
+write to multiple registers in a single invocation.
+.IP "--writebit -wb <string> <number>"
+Write a value specified in hex to a register bitfield specified with a
+complete register path as in the
+.B --write
+command.
+.IP "--read, -r <string>"
+Read a value from a register specified by a register path to stdout.
+This command uses the same syntax as the
+.B --write
+command but also allows
+.B *
+for the regname field.
+.IP "--scan, -s <string>"
+Scan and print an IP block by name, for example,
+.B uvd5.
+Can be used multiple times in a single invocation.
+.IP "--ring, -R <string>(from:to)"
+Read the contents of a ring named by the string without the
+.B amdgpu_ring_
+prefix.  By default it will read and display the entire ring.  A
+starting and ending address can be specified in decimal or a '.' can
+be used to indicate relative to the current
+.B wptr
+pointer.  For example, "-R gfx" would read the entire gfx ring,
+"-R gfx[0:16]" would display the contents from 0 to 16 inclusively, and
+"-R gfx[.]" or "-R gfx[.:.]" would display the last 32 words relative
+to rptr.
+.IP "--logscan, -ls"
+Read and display contents of the MMIO register log.  Usually specified
+with '-O bits,follow,empty_log' to enable continual dumping of the trace
+log.
+.IP "--top, -t"
+Summarize GPU utilization.  Can select a SE block with --bank.  Relevant
+options that apply are:
+.B use_colour
+and
+.B use_pci
+.
+.IP "--waves, -wa"
+Print out information about any active CU waves.  Note that if GFX power gating
+is enabled this command may result in a GPU hang.  It's unlikely unless you're
+invoking it very rapidly.  Unlike the wave count reading in --top this command
+will operate regardless of whether GFX PG is enabled or not.  Can use
+.B bits
+to decode the wave bitfields.
+
+.IP "--option, -O <string>[,<string>,...]"
+Specify options to the tool.  Multiple options can be specified as comma
+separated strings.
+
+.B quiet
+     Disable various informative but not required (for functionality) outputs.
+
+.B risky
+     enables scanning risky ip blocks (such as GFX).  Specify twice for SMU
+     blocks.
+
+.B read_smc
+     Enable scanning of SMC registers.
+
+.B bits
+     enables displaying bitfields for scanned blocks.
+
+.B bitsfull
+     enables displaying bitfields using their entire path for scanned blocks.
+
+.B empty_log
+     Empties the MMIO log after reading it.
+
+.B follow
+     Causes the --logscan and --top commands to repeatedly produce output without
+     exiting.
+
+.B named
+     Causes --read to print out the register name with the register
+     value.
+
+.B many
+     Allows matching regname openly (used with --read) and implies
+     "named".  For instance "*.dce100.CRTC" would match any register that
+     contains the fragment "CRTC" in the name.
+
+.B use_pci
+     Enable PCI access for MMIO instead of using debugfs.  Used by the --read,
+     --scan, --top, --write, and --write-bit commands.  Does not currently
+     support multiple instances of the same GPU (PCI device ID).  Note that access
+     to non-MMIO registers might be disabled when using this flag.
+
+.B use_colour
+     Enable colour output for --top command, scales from blue, green, yellow, to red.  Also
+     accepted is 'use_color'.
+
+.SH "Notes"
+
+- The "Waves" field in the DRM section of --top only works if GFX PG has been disabled.  Otherwise,
+GPU hangs occur frequently.  When PG is enabled it will read a constant 0.
+
+.SH "Environmental Variables"
+
+.B UMR_LOGGER
+    Directory to output "umr.log" file when capturing samples with the --top command.

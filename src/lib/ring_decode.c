@@ -1,0 +1,460 @@
+/*
+ * Copyright 2017 Advanced Micro Devices, Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * Authors: Tom St Denis <tom.stdenis@amd.com>
+ *
+ */
+#include "umrapp.h"
+#include <inttypes.h>
+
+static const char *pm4_pkt3_opcode_names[] = {
+	"UNK", // 00
+	"UNK", // 01
+	"UNK", // 02
+	"UNK", // 03
+	"UNK", // 04
+	"UNK", // 05
+	"UNK", // 06
+	"UNK", // 07
+	"UNK", // 08
+	"UNK", // 09
+	"UNK", // 0a
+	"UNK", // 0b
+	"UNK", // 0c
+	"UNK", // 0d
+	"UNK", // 0e
+	"UNK", // 0f
+	"PKT3_NOP", // 10
+	"PKT3_SET_BASE", // 11
+	"PKT3_CLEAR_STATE", // 12
+	"PKT3_INDEX_BUFFER_SIZE", // 13
+	"UNK", // 14
+	"PKT3_DISPATCH_DIRECT", // 15
+	"PKT3_DISPATCH_INDIRECT", // 16
+	"UNK", // 17
+	"UNK", // 18
+	"UNK", // 19
+	"UNK", // 1a
+	"UNK", // 1b
+	"UNK", // 1c
+	"UNK", // 1d
+	"UNK", // 1e
+	"PKT3_OCCLUSION_QUERY", // 1f
+	"PKT3_SET_PREDICATION", // 20
+	"UNK", // 21
+	"PKT3_COND_EXEC", // 22
+	"PKT3_PRED_EXEC", // 23
+	"PKT3_DRAW_INDIRECT", // 24
+	"PKT3_DRAW_INDEX_INDIRECT", // 25
+	"PKT3_INDEX_BASE", // 26
+	"PKT3_DRAW_INDEX_2", // 27
+	"PKT3_CONTEXT_CONTROL", // 28
+	"UNK", // 29
+	"PKT3_INDEX_TYPE", // 2a
+	"UNK", // 2b
+	"PKT3_DRAW_INDIRECT_MULTI", // 2c
+	"PKT3_DRAW_INDEX_AUTO", // 2d
+	"PKT3_DRAW_INDEX_IMMD", // 2e
+	"PKT3_NUM_INSTANCES", // 2f
+	"PKT3_DRAW_INDEX_MULTI_AUTO", // 30
+	"UNK", // 31
+	"PKT3_INDIRECT_BUFFER_SI", // 32
+	"PKT3_INDIRECT_BUFFER_CONST", // 33
+	"PKT3_STRMOUT_BUFFER_UPDATE", // 34
+	"PKT3_DRAW_INDEX_OFFSET_2", // 35
+	"PKT3_DRAW_PREAMBLE", // 36
+	"PKT3_WRITE_DATA", // 37
+	"PKT3_DRAW_INDEX_INDIRECT_MULTI", // 38
+	"PKT3_MEM_SEMAPHORE", // 39
+	"PKT3_MPEG_INDEX", // 3a
+	"UNK", // 3b
+	"PKT3_WAIT_REG_MEM", // 3c
+	"PKT3_MEM_WRITE", // 3d
+	"UNK", // 3e
+	"PKT3_INDIRECT_BUFFER_CIK", // 3f
+	"PKT3_COPY_DATA", // 40
+	"PKT3_CP_DMA", // 41
+	"PKT3_PFP_SYNC_ME", // 42
+	"PKT3_SURFACE_SYNC", // 43
+	"PKT3_ME_INITIALIZE", // 44
+	"PKT3_COND_WRITE", // 45
+	"PKT3_EVENT_WRITE", // 46
+	"PKT3_EVENT_WRITE_EOP", // 47
+	"PKT3_EVENT_WRITE_EOS", // 48
+	"UNK", // 49
+	"UNK", // 4a
+	"UNK", // 4b
+	"UNK", // 4c
+	"UNK", // 4d
+	"UNK", // 4e
+	"UNK", // 4f
+	"PKT3_DMA_DATA", // 50
+	"UNK", // 51
+	"UNK", // 52
+	"UNK", // 53
+	"UNK", // 54
+	"UNK", // 55
+	"UNK", // 56
+	"PKT3_ONE_REG_WRITE", // 57
+	"PKT3_ACQUIRE_MEM", // 58
+	"UNK", // 59
+	"UNK", // 5a
+	"UNK", // 5b
+	"UNK", // 5c
+	"UNK", // 5d
+	"UNK", // 5e
+	"UNK", // 5f
+	"UNK", // 60
+	"UNK", // 61
+	"UNK", // 62
+	"UNK", // 63
+	"UNK", // 64
+	"UNK", // 65
+	"UNK", // 66
+	"UNK", // 67
+	"PKT3_SET_CONFIG_REG", // 68
+	"PKT3_SET_CONTEXT_REG", // 69
+	"UNK", // 6a
+	"UNK", // 6b
+	"UNK", // 6c
+	"UNK", // 6d
+	"UNK", // 6e
+	"UNK", // 6f
+	"UNK", // 70
+	"UNK", // 71
+	"UNK", // 72
+	"UNK", // 73
+	"UNK", // 74
+	"UNK", // 75
+	"PKT3_SET_SH_REG", // 76
+	"PKT3_SET_SH_REG_OFFSET", // 77
+	"UNK", // 78
+	"PKT3_SET_UCONFIG_REG", // 79
+	"UNK", // 7a
+	"UNK", // 7b
+	"UNK", // 7c
+	"UNK", // 7d
+	"UNK", // 7e
+	"UNK", // 7f
+	"PKT3_LOAD_CONST_RAM", // 80
+	"PKT3_WRITE_CONST_RAM", // 81
+	"UNK", // 82
+	"PKT3_DUMP_CONST_RAM", // 83
+	"PKT3_INCREMENT_CE_COUNTER", // 84
+	"PKT3_INCREMENT_DE_COUNTER", // 85
+	"PKT3_WAIT_ON_CE_COUNTER", // 86
+	"UNK", // 87
+	"UNK", // 88
+	"UNK", // 89
+	"UNK", // 8a
+	"UNK", // 8b
+	"UNK", // 8c
+	"UNK", // 8d
+	"UNK", // 8e
+	"UNK", // 8f
+	"UNK", // 90
+	"UNK", // 91
+	"UNK", // 92
+	"UNK", // 93
+	"UNK", // 94
+	"UNK", // 95
+	"UNK", // 96
+	"UNK", // 97
+	"UNK", // 98
+	"UNK", // 99
+	"UNK", // 9a
+	"UNK", // 9b
+	"UNK", // 9c
+	"UNK", // 9d
+	"UNK", // 9e
+	"UNK", // 9f
+	"UNK", // a0
+	"UNK", // a1
+	"UNK", // a2
+	"UNK", // a3
+	"UNK", // a4
+	"UNK", // a5
+	"UNK", // a6
+	"UNK", // a7
+	"UNK", // a8
+	"UNK", // a9
+	"UNK", // aa
+	"UNK", // ab
+	"UNK", // ac
+	"UNK", // ad
+	"UNK", // ae
+	"UNK", // af
+	"UNK", // b0
+	"UNK", // b1
+	"UNK", // b2
+	"UNK", // b3
+	"UNK", // b4
+	"UNK", // b5
+	"UNK", // b6
+	"UNK", // b7
+	"UNK", // b8
+	"UNK", // b9
+	"UNK", // ba
+	"UNK", // bb
+	"UNK", // bc
+	"UNK", // bd
+	"UNK", // be
+	"UNK", // bf
+	"UNK", // c0
+	"UNK", // c1
+	"UNK", // c2
+	"UNK", // c3
+	"UNK", // c4
+	"UNK", // c5
+	"UNK", // c6
+	"UNK", // c7
+	"UNK", // c8
+	"UNK", // c9
+	"UNK", // ca
+	"UNK", // cb
+	"UNK", // cc
+	"UNK", // cd
+	"UNK", // ce
+	"UNK", // cf
+	"UNK", // d0
+	"UNK", // d1
+	"UNK", // d2
+	"UNK", // d3
+	"UNK", // d4
+	"UNK", // d5
+	"UNK", // d6
+	"UNK", // d7
+	"UNK", // d8
+	"UNK", // d9
+	"UNK", // da
+	"UNK", // db
+	"UNK", // dc
+	"UNK", // dd
+	"UNK", // de
+	"UNK", // df
+	"UNK", // e0
+	"UNK", // e1
+	"UNK", // e2
+	"UNK", // e3
+	"UNK", // e4
+	"UNK", // e5
+	"UNK", // e6
+	"UNK", // e7
+	"UNK", // e8
+	"UNK", // e9
+	"UNK", // ea
+	"UNK", // eb
+	"UNK", // ec
+	"UNK", // ed
+	"UNK", // ee
+	"UNK", // ef
+	"UNK", // f0
+	"UNK", // f1
+	"UNK", // f2
+	"UNK", // f3
+	"UNK", // f4
+	"UNK", // f5
+	"UNK", // f6
+	"UNK", // f7
+	"UNK", // f8
+	"UNK", // f9
+	"UNK", // fa
+	"UNK", // fb
+	"UNK", // fc
+	"UNK", // fd
+	"UNK", // fe
+	"UNK", // ff
+};
+
+#define BITS(x, a, b) (unsigned long)((x >> a) & ((1ULL << (b-a))-1))
+
+void add_ib(struct umr_ring_decoder *decoder)
+{
+	struct umr_ring_decoder *pdecoder;
+
+	pdecoder = decoder;
+	while (pdecoder->next_ib)
+		pdecoder = pdecoder->next_ib;
+
+	pdecoder->next_ib = calloc(1, sizeof(*(pdecoder->next_ib)));
+	pdecoder = pdecoder->next_ib;
+	pdecoder->pm = 4;
+	pdecoder->next_ib_info.ib_addr = ((uint64_t)decoder->pm4.next_ib_state.ib_addr_hi << 32) |
+					 decoder->pm4.next_ib_state.ib_addr_lo;
+	pdecoder->next_ib_info.size    = decoder->pm4.next_ib_state.ib_size;
+	pdecoder->next_ib_info.vmid    = decoder->pm4.next_ib_state.ib_vmid;
+	pdecoder->next_ib_info.vm_base_addr = ~0ULL; // not used yet.
+
+	memset(&decoder->pm4.next_ib_state, 0, sizeof(decoder->pm4.next_ib_state));
+}
+
+char *umr_reg_name(struct umr_asic *asic, uint64_t addr)
+{
+	int i, j;
+
+	for (i = 0; i < asic->no_blocks; i++)
+	for (j = 0; j < asic->blocks[i]->no_regs; j++)
+		if (asic->blocks[i]->regs[j].addr == addr)
+			return asic->blocks[i]->regs[j].regname;
+	return "<unknown>";
+}
+
+static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib)
+{
+	static const char *op_3c_functions[] = { "true", "<", "<=", "==", "!=", ">=", ">", "reserved" };
+	static const char *op_37_engines[] = { "ME", "PFP", "CE", "DE" };
+	static const char *op_37_dst_sel[] = { "mem-mapped reg", "memory sync", "TC/L2", "GDS", "reserved", "memory async", "reserved", "reserved" };
+	printf("   PKT3 OPCODE 0x%02x, word %u: ", (unsigned)decoder->pm4.cur_opcode, (unsigned)decoder->pm4.cur_word);
+	switch (decoder->pm4.cur_opcode) {
+		case 0x3f: // INDIRECT_BUFFER_CIK
+		case 0x33: // INDIRECT_BUFFER_CONST
+			switch (decoder->pm4.cur_word) {
+				case 0: printf("IB_BASE_LO: 0x%08lx, SWAP:%lu", BITS(ib, 2, 32), BITS(ib, 0, 2));
+					decoder->pm4.next_ib_state.ib_addr_lo = BITS(ib, 2, 32);
+					break;
+				case 1: printf("IB_BASE_HI: 0x%08lx", BITS(ib, 0, 16));
+					decoder->pm4.next_ib_state.ib_addr_hi = BITS(ib, 0, 16);
+					break;
+				case 2: printf("IB_SIZE:%lu, VMID: %lu", BITS(ib, 0, 20), BITS(ib, 24, 32));
+					decoder->pm4.next_ib_state.ib_size = BITS(ib, 0, 20);
+					decoder->pm4.next_ib_state.ib_vmid = BITS(ib, 24, 32);
+					add_ib(decoder);
+					break;
+				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
+		case 0x37: // WRITE_DATA
+			switch (decoder->pm4.cur_word) {
+				case 0: printf("ENGINE:[%s], WR_CONFIRM:%lu, WR_ONE_ADDR:%lu, DST_SEL:[%s]",
+						op_37_engines[BITS(ib,30,32)],
+						BITS(ib,20,21),
+						BITS(ib,16,17),
+						op_37_dst_sel[BITS(ib, 8, 12)]);
+					decoder->pm4.control = ib;
+					decoder->pm4.next_write_mem.type = BITS(ib, 8, 12);
+					break;
+				case 1: printf("DST_ADDR_LO: 0x%08lx", (unsigned long)ib);
+					decoder->pm4.next_write_mem.addr_lo = ib;
+					break;
+				case 2: printf("DST_ADDR_HI: 0x%08lx", (unsigned long)ib);
+					decoder->pm4.next_write_mem.addr_hi = ib;
+					break;
+				default:
+					if (decoder->pm4.next_write_mem.type == 0) { // mem-mapped reg
+						printf("%s <= %08lx", umr_reg_name(asic, ((uint64_t)decoder->pm4.next_write_mem.addr_hi << 32) | decoder->pm4.next_write_mem.addr_lo), (unsigned long)ib);
+						decoder->pm4.next_write_mem.addr_lo++;
+						if (!decoder->pm4.next_write_mem.addr_lo)
+							decoder->pm4.next_write_mem.addr_hi++;
+					} else {
+						printf("DATA");
+					}
+			}
+			break;
+		case 0x3C: // WAIT_MEM_REG
+			switch(decoder->pm4.cur_word) {
+				case 0: printf("ENGINE:%s, MEMSPACE:%s, FUNC:[%s]",
+						BITS(ib, 8, 9) ? "PFP" : "ME",
+						BITS(ib, 4, 5) ? "REG" : "MEM",
+						op_3c_functions[BITS(ib, 0, 4)]);
+					break;
+				case 1: printf("POLL_ADDRESS_LO: 0x%08lx, SWAP: %lu", BITS(ib, 2, 32), BITS(ib, 0, 2));
+					break;
+				case 2: printf("POLL_ADDRESS_HI: 0x%08lx", (unsigned long)ib);
+					break;
+				case 3: printf("REFERENCE: 0x%08lx", (unsigned long)ib);
+					break;
+				case 4: printf("MASK: 0x%08lx", (unsigned long)ib);
+					break;
+				case 5: printf("POLL INTERVAL: 0x%08lx", BITS(ib, 0, 16));
+					break;
+				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
+		case 0x47: // EVENT_WRITE_EOP
+			switch(decoder->pm4.cur_word) {
+				case 0: printf("INV_L2:%lu, EVENT_INDEX:%lu, EVENT_TYPE:%lu",
+						BITS(ib, 20, 21),
+						BITS(ib, 8, 12),
+						BITS(ib, 0, 6));
+					break;
+				case 1: printf("ADDRESS_LO: 0x%08lx", BITS(ib, 2, 32));
+					break;
+				case 2: printf("DATA_SEL:%lu, INT_SEL:%lu, ADDRESS_HI: 0x%08lx",
+						BITS(ib, 29, 32),
+						BITS(ib, 24, 26),
+						BITS(ib, 0,  16));
+					break;
+				case 3: printf("DATA_LO: 0x%08lx", (unsigned long)ib);
+					break;
+				case 4: printf("DATA_HI: 0x%08lx", (unsigned long)ib);
+					break;
+				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
+		default:
+			printf("PKT3 DATA");
+			break;
+	}
+}
+
+static void print_decode_pm4(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib)
+{
+	switch (decoder->pm4.cur_opcode) {
+		case 0xFFFFFFFF: // initial decode
+			decoder->pm4.pkt_type = ib >> 30;
+			decoder->pm4.n_words  = (((ib >> 16) + 1) & 0x3FFF);
+			decoder->pm4.cur_word = 0;
+
+			if (decoder->pm4.pkt_type == 0) {
+				printf("PKT0, COUNT:%lu, BASE_INDEX:0x%lx", (unsigned long)decoder->pm4.n_words, (unsigned long)(ib & 0xFFFF));
+				decoder->pm4.cur_opcode = 0x80000000; // TYPE-0 opcode...
+				decoder->pm4.next_write_mem.addr_lo = ib & 0xFFFF;
+			} else if (decoder->pm4.pkt_type == 2) {
+				printf("PKT2");
+			} else if (decoder->pm4.pkt_type == 3) {
+				decoder->pm4.cur_opcode = (ib >> 8) & 0xFF;
+				printf("PKT3, COUNT:%lu, PREDICATE:%lu, SHADER_TYPE:%lu, OPCODE:%02lx[%s]", (unsigned long)decoder->pm4.n_words, (unsigned long)(ib&1), (unsigned long)((ib>>1)&1), (unsigned long)decoder->pm4.cur_opcode, pm4_pkt3_opcode_names[decoder->pm4.cur_opcode&0xFF]);
+			}
+			if (!decoder->pm4.n_words)
+				decoder->pm4.cur_opcode = 0xFFFFFFFF;
+			return;
+		case 0x80000000:
+			printf("PKT0 %s(0x%lx) == %lx", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo), (unsigned long)decoder->pm4.next_write_mem.addr_lo, (unsigned long)ib);
+			decoder->pm4.next_write_mem.addr_lo++;
+			break;
+		default:
+			print_decode_pm4_pkt3(asic, decoder, ib);
+			++(decoder->pm4.cur_word);
+			break;
+	}
+	if (!--(decoder->pm4.n_words) ) {
+		decoder->pm4.cur_opcode = 0xFFFFFFFF;
+	}
+}
+
+void umr_print_decode(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib)
+{
+	switch (decoder->pm) {
+		case 4:
+			print_decode_pm4(asic, decoder, ib);
+			break;
+	}
+}
