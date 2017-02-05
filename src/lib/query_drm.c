@@ -25,8 +25,8 @@
 #include "umr.h"
 #include <asm/ioctl.h>
 #include <sys/ioctl.h>
-#include <drm/drm.h>
-#include <drm/amdgpu_drm.h>
+#include <drm.h>
+#include <amdgpu_drm.h>
 
 #define DRM_IOC(dir, group, nr, size) _IOC(dir, group, nr, size)
 #define DRM_IOC_WRITE           _IOC_WRITE

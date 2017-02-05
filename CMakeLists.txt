@@ -25,6 +25,9 @@ include_directories(${CURSES_INCLUDE_DIRS})
 find_package(PCIAccess REQUIRED)
 include_directories(${PCIACCESS_INCLUDE_DIR})
 
+find_package(LibDRM REQUIRED)
+include_directories(${LIBDRM_INCLUDE_DIR})
+
 set(REQUIRED_EXTERNAL_LIBS
   ${CURSES_LIBRARIES}
   ${PCIACCESS_LIBRARIES}
