@@ -32,6 +32,7 @@ To build umr you will need pciaccess and ncurses headers and libraries.
 Which are available in both Fedora and Ubuntu (as well as other
 distributions).  To build simply invoke the make command
 
+    $ mkdir build && cd build/ && cmake ../
     $ make
 
 and then
