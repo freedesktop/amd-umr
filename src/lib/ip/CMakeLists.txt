@@ -1,0 +1,41 @@
+# Copyright 2017 Edward O'Callaghan <funfunctor@folklore1984.net>
+
+add_library(ip OBJECT
+  bif30.c
+  bif41.c
+  bif50.c
+  bif51.c
+  dce100.c
+  dce110.c
+  dce112.c
+  dce60.c
+  dce80.c
+  gfx60.c
+  gfx70.c
+  gfx72.c
+  gfx80.c
+  gfx81.c
+  gmc60.c
+  gmc70.c
+  gmc71.c
+  gmc81.c
+  gmc82.c
+  oss10.c
+  oss20.c
+  oss30.c
+  smu60.c
+  smu700.c
+  smu701.c
+  smu710.c
+  smu711.c
+  smu712.c
+  smu713.c
+  smu80.c
+  uvd40.c
+  uvd42.c
+  uvd5.c
+  uvd6.c
+  vce1.c
+  vce2.c
+  vce3.c
+)
