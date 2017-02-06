@@ -78,13 +78,14 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 	drv_wptr = ring_data[2]<<2;
 
 	/* default to reading entire ring */
+	use_decoder = 0;
 	if (!from[0]) {
 		start = 0;
-		end   = ringsize;
+		end   = ringsize-4;
 	} else {
 		if (from[0] == '.' || !to[0] || to[0] == '.') {
 			/* start from 32 words prior to rptr up to wptr */
-			end = wptr+4;
+			end = wptr;
 			if (rptr < (31*4)) {
 				start = rptr - 31*4;
 				start += ringsize;
@@ -95,6 +96,7 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 		} else {
 			sscanf(from, "%"SCNu32, &start);
 			sscanf(to, "%"SCNu32, &end);
+			use_decoder = 1;
 		}
 	}
 	end %= ringsize;
@@ -106,8 +108,7 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 		asic->asicname, ringname, (unsigned long)wptr >> 2,
 		asic->asicname, ringname, (unsigned long)drv_wptr >> 2);
 
-	use_decoder = 0;
-	while (start != end) {
+	do {
 		value = ring_data[(start+12)>>2];
 		printf("%s.%s.ring[%4lu] == 0x%08lx   ", asic->asicname, ringname, (unsigned long)start >> 2, (unsigned long)value);
 		if (enable_decoder && start == rptr && start != wptr) {
@@ -123,7 +124,7 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 		printf("\n");
 		start += 4;
 		start %= ringsize;
-	}
+	} while (start != ((end + 4) % ringsize));
 	free(ring_data);
 	printf("\n");
 
