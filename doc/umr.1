@@ -34,7 +34,7 @@ Look up an MMIO register by address and bitfield decode the value specified.
 Write a value specified in hex to a register specified with a complete
 register path in the form <
 .B asicname.ipname.regname
->.  The value of asicname can be
+>.  For example, fiji.uvd6.mmUVD_CGC_GATE.  The value of asicname can be
 .B *
 to simplify scripting.  This command can be used multiple times to
 write to multiple registers in a single invocation.
@@ -96,7 +96,9 @@ separated strings.
 
 .B risky
      enables scanning risky ip blocks (such as GFX).  Specify twice for SMU
-     blocks.
+     blocks.  This flag is necessary since some blocks are not stable to blindly
+     --scan (or --print) without causing GPU hangs.  The flag is intended to prevent
+     accidental hangs.
 
 .B read_smc
      Enable scanning of SMC registers.

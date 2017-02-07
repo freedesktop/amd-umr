@@ -28,19 +28,19 @@ mailing list at:
 Building
 ---------
 
-To build umr you will need pciaccess and ncurses headers and libraries.
-Which are available in both Fedora and Ubuntu (as well as other
-distributions).  To build simply invoke the make command
+To build umr you will need pciaccess, ncurses, and libdrm headers and
+libraries.  Which are available in both Fedora and Ubuntu (as well as
+other distributions).  To build umr:
 
     $ mkdir build && cd build/ && cmake ../
     $ make
 
-and then
+and then to install:
 
     $ make install
 
-To install it.  If you plan to use it as a non-root user you may
-want to add the setuid bit
+If you plan to use it as a non-root user you may want to add the
+setuid bit:
 
     $ chmod +s `which umr`
 
