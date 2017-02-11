@@ -171,19 +171,14 @@ static struct umr_bitfield stat_uvd_pgfsm7_bits[] = {
 static struct umr_bitfield stat_mc_hub_bits[] = {
 	 { "OUTSTANDING_READ", 255, 255, &umr_bitfield_default },
 	 { "OUTSTANDING_WRITE", 255, 255, &umr_bitfield_default },
-//	 { "OUTSTANDING_ATOMIC", 255, 255, &umr_bitfield_default },
 	 { "OUTSTANDING_HUB_RDREQ", 255, 255, &umr_bitfield_default },
 	 { "OUTSTANDING_HUB_RDRET", 255, 255, &umr_bitfield_default },
 	 { "OUTSTANDING_HUB_WRREQ", 255, 255, &umr_bitfield_default },
 	 { "OUTSTANDING_HUB_WRRET", 255, 255, &umr_bitfield_default },
-//	 { "OUTSTANDING_HUB_ATOMIC_REQ", 255, 255, &umr_bitfield_default },
-//	 { "OUTSTANDING_HUB_ATOMIC_RET", 255, 255, &umr_bitfield_default },
 	 { "OUTSTANDING_RPB_READ", 255, 255, &umr_bitfield_default },
 	 { "OUTSTANDING_RPB_WRITE", 255, 255, &umr_bitfield_default },
-//	 { "OUTSTANDING_RPB_ATOMIC", 255, 255, &umr_bitfield_default },
 	 { "OUTSTANDING_MCD_READ", 255, 255, &umr_bitfield_default },
 	 { "OUTSTANDING_MCD_WRITE", 255, 255, &umr_bitfield_default },
-//	 { "OUTSTANDING_MCD_ATOMIC", 255, 255, &umr_bitfield_default },
 	 { NULL, 0, 0, NULL },
 };
 
