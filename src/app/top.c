@@ -54,6 +54,7 @@ enum sensor_maps {
 	SENSOR_IDENTITY=0, // x = x
 	SENSOR_D1000,    // x = x/1000
 	SENSOR_D100,    // x = x/100
+	SENSOR_WATT,
 };
 
 enum sensor_print {
@@ -61,6 +62,7 @@ enum sensor_print {
 	SENSOR_MHZ,
 	SENSOR_PERCENT,
 	SENSOR_TEMP,
+	SENSOR_POWER,
 };
 
 enum drm_print {
@@ -222,6 +224,10 @@ static struct umr_bitfield stat_vi_sensor_bits[] = {
 	{ "GFX_MCLK", AMDGPU_PP_SENSOR_GFX_MCLK, SENSOR_D100|(SENSOR_MHZ<<4), &umr_bitfield_default },
 	{ "GPU_LOAD", AMDGPU_PP_SENSOR_GPU_LOAD, SENSOR_PERCENT<<4, &umr_bitfield_default },
 	{ "GPU_TEMP", AMDGPU_PP_SENSOR_GPU_TEMP, SENSOR_D1000|(SENSOR_TEMP<<4), &umr_bitfield_default },
+	{ "VDDC",     AMDGPU_PP_SENSOR_GPU_POWER, SENSOR_WATT|(SENSOR_POWER<<4), &umr_bitfield_default },
+	{ "VDDCI",    AMDGPU_PP_SENSOR_GPU_POWER, SENSOR_WATT|(SENSOR_POWER<<4), &umr_bitfield_default },
+	{ "MAX_GPU",  AMDGPU_PP_SENSOR_GPU_POWER, SENSOR_WATT|(SENSOR_POWER<<4), &umr_bitfield_default },
+	{ "AVG_GPU",  AMDGPU_PP_SENSOR_GPU_POWER, SENSOR_WATT|(SENSOR_POWER<<4), &umr_bitfield_default },
 	{ NULL, 0, 0, NULL },
 };
 
@@ -251,6 +257,21 @@ static struct umr_bitfield stat_drm_bits[] = {
 
 static FILE *logfile = NULL;
 
+static volatile int sensor_thread_quit = 0;
+static uint32_t gpu_power_data[4];
+static void *vi_sensor_thread(void *data)
+{
+	struct umr_asic asic = *((struct umr_asic*)data);
+	int size = sizeof(gpu_power_data);
+	char fname[128];
+
+	snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_sensors", asic.instance);
+	asic.fd.sensors = open(fname, O_RDWR);
+	while (!sensor_thread_quit)
+		umr_read_sensor(&asic, AMDGPU_PP_SENSOR_GPU_POWER, gpu_power_data, &size);
+	close(asic.fd.sensors);
+	return NULL;
+}
 
 static unsigned long last_fence_emitted, last_fence_signaled, fence_signal_count, fence_emit_count;
 static void analyze_fence_info(struct umr_asic *asic)
@@ -423,6 +444,9 @@ static void print_sensors(struct umr_bitfield *bits, uint64_t *counts)
 				case SENSOR_TEMP:
 					printw("%5d C  ", counts[i]);
 					break;
+				case SENSOR_POWER:
+					printw("%3d.%02d W ", counts[i]/100, counts[i]%100);
+					break;
 			};
 			if ((++print_j & (top_options.wide ? 3 : 1)) != 0)
 				printw(" |");
@@ -491,8 +515,8 @@ static void parse_bits(struct umr_asic *asic, uint32_t addr, struct umr_bitfield
 
 static void parse_sensors(struct umr_asic *asic, uint32_t addr, struct umr_bitfield *bits, uint64_t *counts, uint32_t *mask, uint32_t *cmp, uint64_t addr_mask)
 {
-	int j;
-	int32_t value;
+	int j, size, x;
+	uint32_t value[16];
 
 	(void)addr;
 	(void)mask;
@@ -502,13 +526,41 @@ static void parse_sensors(struct umr_asic *asic, uint32_t addr, struct umr_bitfi
 	if (asic->fd.sensors < 0)
 		return;
 
-	for (j = 0; bits[j].regname; j++) {
-		lseek(asic->fd.sensors, bits[j].start * 4, SEEK_SET);
-		read(asic->fd.sensors, &value, 4);
-		switch (bits[j].stop & 0x0F) {
-			case SENSOR_IDENTITY:	counts[j] = value; break; // identity
-			case SENSOR_D1000:	counts[j] = value/1000; break; // divide by 1000 (e.g. KHz => MHz)
-			case SENSOR_D100:	counts[j] = value/100; break; // divide by 100 (e.g. 10KHz => MHz)
+	for (j = 0; bits[j].regname; ) {
+		size = 4;
+		if (bits[j].start == AMDGPU_PP_SENSOR_GPU_POWER || !umr_read_sensor(asic, bits[j].start, &value[0], &size)) {
+			x = 0;
+			if (bits[j].start == AMDGPU_PP_SENSOR_GPU_POWER) {
+				size = 4 * sizeof(uint32_t);
+				memcpy(value, gpu_power_data, size);
+			}
+
+			while (size) {
+				switch (bits[j].stop & 0x0F) {
+					case SENSOR_IDENTITY:
+						counts[j] = value[x];
+						break;
+					case SENSOR_D1000:
+						counts[j] = value[x] / 1000;
+						break;
+					case SENSOR_D100:
+						counts[j] = value[x] / 100;
+						break;
+					case SENSOR_WATT:
+						counts[j] = ((value[x] >> 8) * 1000);
+						if ((value[x] & 0xFF) < 100)
+							counts[j] += (value[x] & 0xFF) * 10;
+						else
+							counts[j] += value[x];
+						counts[j] /= 10; // convert to centiwatts since we don't need 3 digits of excess precision
+						break;
+				}
+				size -= 4;
+				++j;
+				++x;
+			}
+		} else {
+			++j;
 		}
 	}
 }
@@ -813,12 +865,13 @@ static void toggle_logger(void)
 
 void umr_top(struct umr_asic *asic)
 {
-	int i, j, k;
+	int i, j, k, use_thread;
 	struct timespec req;
 	uint32_t rep;
 	time_t tt;
 	uint64_t ts;
 	char hostname[64] = { 0 };
+	pthread_t sensor_thread;
 
 	if (getenv("HOSTNAME")) strcpy(hostname, getenv("HOSTNAME"));
 
@@ -838,6 +891,18 @@ void umr_top(struct umr_asic *asic)
 	for (i = 0; stat_counters[i].name; i++)
 		if (stat_counters[i].is_sensor == 0)
 			grab_bits(stat_counters[i].name, asic, stat_counters[i].bits, &stat_counters[i].addr);
+
+	sensor_thread_quit = 0;
+	use_thread = 0;
+
+	// start thread to grab sensor data for VI
+	if (asic->family == FAMILY_VI) {
+		if (pthread_create(&sensor_thread, NULL, vi_sensor_thread, asic)) {
+			fprintf(stderr, "[ERROR] Cannot create vi_sensor_thread\n");
+			return;
+		}
+		use_thread = 1;
+	}
 
 	initscr();
 	start_color();
@@ -968,4 +1033,9 @@ void umr_top(struct umr_asic *asic)
 		refresh();
 	}
 	endwin();
+
+	if (use_thread) {
+		sensor_thread_quit = 1;
+		pthread_join(sensor_thread, NULL);
+	}
 }

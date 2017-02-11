@@ -19,6 +19,9 @@ add_definitions(-DUMR_BUILD_REV=\"${GIT_REV}\")
 # Add local repository for FindXXX.cmake modules.
 SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules/" ${CMAKE_MODULE_PATH})
 
+set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+find_package(Threads REQUIRED)
+
 find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIRS})
 
@@ -31,6 +34,7 @@ include_directories(${LIBDRM_INCLUDE_DIR})
 set(REQUIRED_EXTERNAL_LIBS
   ${CURSES_LIBRARIES}
   ${PCIACCESS_LIBRARIES}
+  Threads::Threads
 )
 
 # Global setting: build everything position independent

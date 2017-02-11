@@ -14,6 +14,7 @@ add_library(umrcore STATIC
   find_reg.c
   mmio.c
   query_drm.c
+  read_sensor.c
   read_sgpr.c
   read_vram.c
   ring_decode.c

@@ -31,6 +31,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <pciaccess.h>
+#include <pthread.h>
 
 /* sourced from amd_powerplay.h from the kernel */
 enum amd_pp_sensors {
@@ -43,6 +44,9 @@ enum amd_pp_sensors {
 	AMDGPU_PP_SENSOR_GPU_LOAD,
 	AMDGPU_PP_SENSOR_GFX_MCLK,
 	AMDGPU_PP_SENSOR_GPU_TEMP,
+	AMDGPU_PP_SENSOR_VCE_POWER,
+	AMDGPU_PP_SENSOR_UVD_POWER,
+	AMDGPU_PP_SENSOR_GPU_POWER,
 };
 
 enum chipfamily {
@@ -409,6 +413,7 @@ void umr_enumerate_devices(void);
 int umr_get_wave_status(struct umr_asic *asic, unsigned se, unsigned sh, unsigned cu, unsigned simd, unsigned wave, struct umr_wave_status *ws);
 int umr_get_wave_sq_info(struct umr_asic *asic, unsigned se, unsigned sh, unsigned cu, struct umr_wave_status *ws);
 int umr_read_sgprs(struct umr_asic *asic, struct umr_wave_status *ws, uint32_t *dst);
+int umr_read_sensor(struct umr_asic *asic, int sensor, void *dst, int *size);
 
 /* mmio helpers */
 uint32_t umr_find_reg(struct umr_asic *asic, char *regname);
