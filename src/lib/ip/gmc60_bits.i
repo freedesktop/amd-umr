@@ -3230,6 +3230,8 @@ static struct umr_bitfield mmVM_PRT_APERTURE3_HIGH_ADDR[] = {
 static struct umr_bitfield mmVM_PRT_CNTL[] = {
 	 { "L1_TLB_STORE_INVALID_ENTRIES", 3, 3, &umr_bitfield_default },
 	 { "L2_CACHE_STORE_INVALID_ENTRIES", 2, 2, &umr_bitfield_default },
+	 { "CB_DISABLE_FAULT_ON_UNMAPPED_ACCESS", 0, 0, &umr_bitfield_default },
+	 { "TC_DISABLE_FAULT_ON_UNMAPPED_ACCESS", 1, 1, &umr_bitfield_default },
 };
 static struct umr_bitfield mmVM_CONTEXTS_DISABLE[] = {
 	 { "DISABLE_CONTEXT_0", 0, 0, &umr_bitfield_default },
