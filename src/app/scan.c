@@ -55,7 +55,7 @@ int umr_scan_asic(struct umr_asic *asic, char *asicname, char *ipname, char *reg
 							case REG_PCIE: fd = asic->fd.pcie; scale = 1; break;
 							case REG_SMC:
 								if (options.read_smc) {
-									fd = asic->fd.smc; scale = 4;
+									fd = asic->fd.smc; scale = 1;
 								} else {
 									continue;
 								}

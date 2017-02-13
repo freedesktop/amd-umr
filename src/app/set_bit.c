@@ -61,7 +61,7 @@ int umr_set_register_bit(struct umr_asic *asic, char *regpath, char *regvalue)
 								case REG_MMIO: fd = asic->fd.mmio; scale = 4; break;
 								case REG_DIDT: fd = asic->fd.didt; scale = 1; break;
 								case REG_PCIE: fd = asic->fd.pcie; scale = 1; break;
-								case REG_SMC:  fd = asic->fd.smc; scale = 4; break;
+								case REG_SMC:  fd = asic->fd.smc;  scale = 1; break;
 								default: return -1;
 								}
 								if (asic->blocks[i]->grant) {
