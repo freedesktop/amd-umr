@@ -24,15 +24,15 @@
  */
 #include "umr.h"
 
-struct umr_asic *umr_create_bonaire(struct umr_options *options)
+struct umr_asic *umr_create_hawaii(struct umr_options *options)
 {
 	return
-		umr_create_asic_helper("bonaire", FAMILY_CIK,
+		umr_create_asic_helper("hawaii", FAMILY_CIK,
 			umr_create_uvd42(options),
 			umr_create_vce2(options),
 			umr_create_gmc70(options),
 			umr_create_dce80(options),
-			umr_create_gfx70(options),
+			umr_create_gfx72(options),
 			umr_create_smu701(options),
 			umr_create_oss20(options),
 			umr_create_bif41(options),

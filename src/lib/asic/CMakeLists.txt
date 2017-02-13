@@ -6,7 +6,10 @@ add_library(asic OBJECT
   carrizo.c
   fiji.c
   hainan.c
+  hawaii.c
+  kabini.c
   kaveri.c
+  mullins.c
   oland.c
   pitcairn.c
   polaris10.c

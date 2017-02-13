@@ -28,10 +28,13 @@ static const struct {
 	char *name;
 	struct umr_asic *(*create)(struct umr_options *option);
 } devices[] = {
+	{ "kabini", &umr_create_kabini },
 	{ "kaveri", &umr_create_kaveri },
+	{ "mullins", &umr_create_mullins },
 	{ "oland", &umr_create_oland },
 	{ "bonaire", &umr_create_bonaire },
 	{ "hainan", &umr_create_hainan },
+	{ "hawaii", &umr_create_hawaii },
 	{ "tahiti", &umr_create_tahiti },
 	{ "polaris10", &umr_create_polaris10 },
 	{ "polaris11", &umr_create_polaris11 },
