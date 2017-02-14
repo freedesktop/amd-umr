@@ -231,6 +231,27 @@ static struct umr_bitfield stat_vi_sensor_bits[] = {
 	{ NULL, 0, 0, NULL },
 };
 
+static struct umr_bitfield stat_cik_sensor_bits[] = {
+	{ "GFX_SCLK", AMDGPU_PP_SENSOR_GFX_SCLK, SENSOR_D100|(SENSOR_MHZ<<4), &umr_bitfield_default },
+	{ "GFX_MCLK", AMDGPU_PP_SENSOR_GFX_MCLK, SENSOR_D100|(SENSOR_MHZ<<4), &umr_bitfield_default },
+	{ "GPU_LOAD", AMDGPU_PP_SENSOR_GPU_LOAD, SENSOR_PERCENT<<4, &umr_bitfield_default },
+	{ "GPU_TEMP", AMDGPU_PP_SENSOR_GPU_TEMP, SENSOR_D1000|(SENSOR_TEMP<<4), &umr_bitfield_default },
+	{ NULL, 0, 0, NULL },
+};
+
+static struct umr_bitfield stat_kaveri_sensor_bits[] = {
+	{ "GFX_SCLK", AMDGPU_PP_SENSOR_GFX_SCLK, SENSOR_D100|(SENSOR_MHZ<<4), &umr_bitfield_default },
+	{ "GPU_TEMP", AMDGPU_PP_SENSOR_GPU_TEMP, SENSOR_D1000|(SENSOR_TEMP<<4), &umr_bitfield_default },
+	{ NULL, 0, 0, NULL },
+};
+
+static struct umr_bitfield stat_si_sensor_bits[] = {
+	{ "GFX_SCLK", AMDGPU_PP_SENSOR_GFX_SCLK, SENSOR_D100|(SENSOR_MHZ<<4), &umr_bitfield_default },
+	{ "GFX_MCLK", AMDGPU_PP_SENSOR_GFX_MCLK, SENSOR_D100|(SENSOR_MHZ<<4), &umr_bitfield_default },
+	{ "GPU_TEMP", AMDGPU_PP_SENSOR_GPU_TEMP, SENSOR_D1000|(SENSOR_TEMP<<4), &umr_bitfield_default },
+	{ NULL, 0, 0, NULL },
+};
+
 #define AMDGPU_INFO_NUM_BYTES_MOVED		0x0f
 #define AMDGPU_INFO_VRAM_USAGE			0x10
 #define AMDGPU_INFO_GTT_USAGE			0x11
@@ -774,6 +795,15 @@ static void top_build_vi_program(struct umr_asic *asic)
 	} else if (asic->config.gfx.family == 130) {
 		// Volcanic Islands Family
 		ENTRY_SENSOR(i++, "GFX_SCLK", &stat_vi_sensor_bits[0], &top_options.vi.sensors, "Sensors");
+	} else if (asic->config.gfx.family == 125) {
+		// Fusion
+		ENTRY_SENSOR(i++, "GFX_SCLK", &stat_kaveri_sensor_bits[0], &top_options.vi.sensors, "Sensors");
+	} else if (asic->config.gfx.family == 120) {
+		// CIK
+		ENTRY_SENSOR(i++, "GFX_SCLK", &stat_cik_sensor_bits[0], &top_options.vi.sensors, "Sensors");
+	} else if (asic->config.gfx.family == 110) {
+		// SI
+		ENTRY_SENSOR(i++, "GFX_SCLK", &stat_si_sensor_bits[0], &top_options.vi.sensors, "Sensors");
 	}
 
 	// More GFX bits
