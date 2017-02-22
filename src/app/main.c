@@ -47,6 +47,31 @@ static struct umr_asic *get_asic(void)
 	return asic;
 }
 
+// returns blockname supports
+// asicname.blockname
+// *.blockname
+// blockname
+static char *get_block_name(struct umr_asic *asic, char *path)
+{
+	static char asicname[256], block[256], *dot;
+
+	memset(asicname, 0, sizeof asicname);
+	memset(block, 0, sizeof block);
+	if ((dot = strstr(path, "."))) {
+		memcpy(asicname, path, (int)(dot - path));
+		strcpy(block, dot + 1);
+	} else {
+		strcpy(block, path);
+	}
+
+	if (asicname[0] && asicname[0] != '*' && strcmp(asic->asicname, asicname)) {
+		printf("[ERROR]: Invalid asicname <%s>\n", asicname);
+		return NULL;
+	}
+	return block;
+}
+
+
 static void parse_options(char *str)
 {
 	char option[64], *p;
@@ -96,7 +121,7 @@ int main(int argc, char **argv)
 {
 	int i, j, k, l;
 	struct umr_asic *asic;
-	char *str, *str2, asicname[256], ipname[256], regname[256];
+	char *blockname, *str, *str2, asicname[256], ipname[256], regname[256];
 	struct timespec req;
 
 	memset(&options, 0, sizeof options);
@@ -162,8 +187,11 @@ int main(int argc, char **argv)
 			if (i + 1 < argc) {
 				if (!asic)
 					asic = get_asic();
+				blockname = get_block_name(asic, argv[i+1]);
+				if (!blockname)
+					return EXIT_FAILURE;
 				for (j = 0; j < asic->no_blocks; j++)
-					if (!strcmp(asic->blocks[j]->ipname, argv[i+1]))
+					if (!strcmp(asic->blocks[j]->ipname, blockname))
 						for (k = 0; k < asic->blocks[j]->no_regs; k++) {
 							printf("\t%s.%s.%s => 0x%05lx\n", asic->asicname, asic->blocks[j]->ipname, asic->blocks[j]->regs[k].regname, (unsigned long)asic->blocks[j]->regs[k].addr);
 							if (options.bitfields) {
@@ -216,8 +244,11 @@ int main(int argc, char **argv)
 			if (i + 1 < argc) {
 				if (!asic)
 					asic = get_asic();
-				if (!umr_scan_asic(asic, "", argv[i+1], ""))
-					umr_print_asic(asic, argv[i+1]);
+				blockname = get_block_name(asic, argv[i+1]);
+				if (!blockname)
+					return EXIT_FAILURE;
+				if (!umr_scan_asic(asic, "", blockname, ""))
+					umr_print_asic(asic, blockname);
 				++i;
 				options.need_scan = 0;
 			} else {
