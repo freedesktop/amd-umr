@@ -27,27 +27,30 @@
 int umr_scan_asic(struct umr_asic *asic, char *asicname, char *ipname, char *regname)
 {
 	int r, fd;
-	int i, j, k;
+	int first, i, j, k;
 	uint64_t addr, scale;
 	char buf[256];
 
 	/* scan them all in order */
 	if (!asicname[0] || !strcmp(asicname, "*") || !strcmp(asicname, asic->asicname)) {
 		for (i = 0; i < asic->no_blocks; i++) {
-			if (!ipname[0] || !strcmp(ipname, asic->blocks[i]->ipname)) {
-				if (asic->blocks[i]->grant) {
-					r = asic->blocks[i]->grant(asic);
-					if (r) {
-						if (ipname[0]) {
-							fprintf(stderr, "[ERROR] Must specify at least one 'risky' option before scanning specific blocks.\n");
-							exit(EXIT_FAILURE);
-						}
-						continue;
-					}
-				}
+			if (!ipname[0] || ipname[0] == '*' || !strcmp(ipname, asic->blocks[i]->ipname)) {
+				first = 1;
 				for (j = 0; j < asic->blocks[i]->no_regs; j++) {
 					if (!regname[0] || !strcmp(regname, "*") || !strcmp(regname, asic->blocks[i]->regs[j].regname) ||
 					(options.many && strstr(asic->blocks[i]->regs[j].regname, regname))) {
+						// only grant if any regspec matches otherwise it's a waste
+						if (first && asic->blocks[i]->grant) {
+							first = 0;
+							r = asic->blocks[i]->grant(asic);
+							if (r) {
+								if (ipname[0]) {
+									fprintf(stderr, "[ERROR] Must specify at least one 'risky' option before scanning specific blocks.\n");
+									exit(EXIT_FAILURE);
+								}
+								continue;
+							}
+						}
 						if (asic->pci.mem == NULL) {
 							switch(asic->blocks[i]->regs[j].type) {
 							case REG_MMIO: fd = asic->fd.mmio; scale = 4; break;
@@ -89,7 +92,7 @@ int umr_scan_asic(struct umr_asic *asic, char *asicname, char *ipname, char *reg
 						}
 						if (regname[0]) {
 							if (options.named)
-								printf("%s%s%s => ", CYAN, asic->blocks[i]->regs[j].regname, RST);
+								printf("%s%s.%s%s => ", CYAN, asic->blocks[i]->ipname,  asic->blocks[i]->regs[j].regname, RST);
 							printf("%s0x%08lx%s\n", YELLOW, (unsigned long)asic->blocks[i]->regs[j].value, RST);
 							if (options.bitfields)
 								for (k = 0; k < asic->blocks[i]->regs[j].no_bits; k++) {
@@ -101,7 +104,8 @@ int umr_scan_asic(struct umr_asic *asic, char *asicname, char *ipname, char *reg
 						}
 					}
 				}
-				if (asic->blocks[i]->release) {
+				// only release if granted
+				if (!first && asic->blocks[i]->release) {
 					r = asic->blocks[i]->release(asic);
 					if (r)
 						goto error;

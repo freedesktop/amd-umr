@@ -34,7 +34,7 @@ Look up an MMIO register by address and bitfield decode the value specified.
 Write a value specified in hex to a register specified with a complete
 register path in the form <
 .B asicname.ipname.regname
->.  For example, fiji.uvd6.mmUVD_CGC_GATE.  The value of asicname can be
+>.  For example, fiji.uvd6.mmUVD_CGC_GATE.  The value of asicname and/or ipname can be
 .B *
 to simplify scripting.  This command can be used multiple times to
 write to multiple registers in a single invocation.
@@ -52,7 +52,9 @@ command but also allows
 for the regname field.
 .IP "--scan, -s <string>"
 Scan and print an IP block by name, for example,
-.B uvd5.
+.B uvd6
+or
+.B carrizo.uvd6.
 Can be used multiple times in a single invocation.
 .IP "--ring, -R <string>(from:to)"
 Read the contents of a ring named by the string without the
