@@ -96,7 +96,10 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 		} else {
 			sscanf(from, "%"SCNu32, &start);
 			sscanf(to, "%"SCNu32, &end);
+			start *= 4;
+			end *= 4;
 			use_decoder = 1;
+			decoder.pm4.cur_opcode = 0xFFFFFFFF;
 		}
 	}
 	end %= ringsize;
