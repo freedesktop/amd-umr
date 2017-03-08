@@ -334,7 +334,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 					decoder->pm4.next_ib_state.ib_addr_hi = BITS(ib, 0, 16);
 					break;
 				case 2: printf("IB_SIZE:%lu, VMID: %lu", BITS(ib, 0, 20), BITS(ib, 24, 32));
-					decoder->pm4.next_ib_state.ib_size = BITS(ib, 0, 20);
+					decoder->pm4.next_ib_state.ib_size = BITS(ib, 0, 20) * 4;
 					decoder->pm4.next_ib_state.ib_vmid = BITS(ib, 24, 32);
 					add_ib(decoder);
 					break;
