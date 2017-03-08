@@ -85,9 +85,10 @@ invoking it very rapidly.  Unlike the wave count reading in --top this command
 will operate regardless of whether GFX PG is enabled or not.  Can use
 .B bits
 to decode the wave bitfields.
-.IP "--vram, -v <address> <size>"
-Read 'size' bytes (in decimal) from the address specified (in hexadecimal) from VRAM
-to stdout.  Can use 'use_pci' to directly access VRAM.
+.IP "--vram, -v [vmid@]<address> <size>"
+Read 'size' bytes (in hex) from the address specified (in hexadecimal) from VRAM
+to stdout.  Optionally specify the VMID (in decimal) treating the address as a
+virtual address instead.  Can use 'use_pci' to directly access VRAM.
 
 .IP "--option, -O <string>[,<string>,...]"
 Specify options to the tool.  Multiple options can be specified as comma

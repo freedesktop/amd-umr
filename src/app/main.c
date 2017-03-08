@@ -320,16 +320,19 @@ int main(int argc, char **argv)
 			if (i + 2 < argc) {
 				unsigned char buf[256];
 				uint64_t address;
-				uint32_t size, n;
+				uint32_t size, n, vmid;
 
 				if (!asic)
 					asic = get_asic();
 
-				sscanf(argv[i+1], "%"SCNx64, &address);
-				sscanf(argv[i+2], "%"SCNu32, &size);
+				if ((n = sscanf(argv[i+1], "%"SCNu32"@%"SCNx64, &vmid, &address)) != 2) {
+					sscanf(argv[i+1], "%"SCNx64, &address);
+					vmid = 0xFFFF;
+				}
+				sscanf(argv[i+2], "%"SCNx32, &size);
 				while (size) {
 					n = size > sizeof(buf) ? sizeof(buf) : size;
-					umr_read_vram(asic, 0xFFFF, address, n, buf);
+					umr_read_vram(asic, vmid, address, n, buf);
 					fwrite(buf, 1, n, stdout);
 					size -= n;
 					address += n;
@@ -383,8 +386,9 @@ int main(int argc, char **argv)
 	"\n\t\toptions 'use_colour' to colourize output and 'use_pci' to improve efficiency.\n"
 "\n\t--waves, -wa\n\t\tPrint out information about any active CU waves.  Can use '-O bits'"
 	"\n\t\tto see decoding of various wave fields.\n"
-"\n\t--vram, -v <address> <size>"
-	"\n\t\tRead 'size' bytes (in decimal) from a given address (in hex) to stdout.\n"
+"\n\t--vram, -v [<vmid>@]<address> <size>"
+	"\n\t\tRead 'size' bytes (in hex) from a given address (in hex) to stdout. Optionally"
+	"\n\t\tspecify the VMID (in decimal) treating the address as a virtual address instead.\n"
 "\n\t--option -O <string>[,<string>,...]\n\t\tEnable various flags: risky, bits, bitsfull, empty_log, follow, named, many,"
 	"\n\t\tuse_pci, use_colour, read_smc, quiet.\n"
 "\n\n", UMR_BUILD_VER, UMR_BUILD_REV);
