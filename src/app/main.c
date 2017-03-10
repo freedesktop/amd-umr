@@ -257,26 +257,34 @@ int main(int argc, char **argv)
 			}
 		} else if (!strcmp(argv[i], "--read") || !strcmp(argv[i], "-r")) {
 			if (i + 1 < argc) {
+				uint32_t reg;
+
 				if (!asic)
 					asic = get_asic();
-				str = strstr(argv[i+1], ".");
-				str2 = strstr(str+1, ".");
-				if (str && str2) {
-					memset(asicname, 0, sizeof asicname);
-					memset(ipname, 0, sizeof ipname);
-					memset(regname, 0, sizeof regname);
-					str[0] = 0;
-					str2[0] = 0;
-					strcpy(asicname, argv[i+1]);
-					strcpy(ipname, str+1);
-					strcpy(regname, str2+1);
+
+				if (sscanf(argv[i+1], "%"SCNx32, &reg) == 1) {
+					reg = umr_read_reg(asic, reg * 4);
+					printf("0x%08lx\n", (unsigned long)reg);
 				} else {
-					printf("Invalid asicname.ipname.regname syntax\n");
-					return EXIT_FAILURE;
+					str = strstr(argv[i+1], ".");
+					str2 = strstr(str+1, ".");
+					if (str && str2) {
+						memset(asicname, 0, sizeof asicname);
+						memset(ipname, 0, sizeof ipname);
+						memset(regname, 0, sizeof regname);
+						str[0] = 0;
+						str2[0] = 0;
+						strcpy(asicname, argv[i+1]);
+						strcpy(ipname, str+1);
+						strcpy(regname, str2+1);
+					} else {
+						printf("Invalid asicname.ipname.regname syntax\n");
+						return EXIT_FAILURE;
+					}
+					umr_scan_asic(asic, asicname, ipname, regname);
+					options.need_scan = 0;
 				}
-				umr_scan_asic(asic, asicname, ipname, regname);
 				++i;
-				options.need_scan = 0;
 			} else {
 				printf("--read requires one parameter\n");
 				return EXIT_FAILURE;
