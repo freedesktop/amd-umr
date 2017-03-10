@@ -61,7 +61,9 @@ static int umr_read_sram(uint64_t address, uint32_t size, void *dst)
 {
 	int fd;
 
-	fd = open("/dev/mem", O_RDWR | O_DSYNC);
+	fd = open("/dev/fmem", O_RDWR);
+	if (fd < 0)
+		fd = open("/dev/mem", O_RDWR | O_DSYNC);
 	if (fd >= 0) {
 		memset(dst, 0xFF, size);
 		lseek(fd, address, SEEK_SET);
@@ -192,6 +194,7 @@ static int umr_read_vram_vi(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 		if (pte_fields.system) {
 			if (umr_read_sram(start_addr, chunk_size, pdst) < 0) {
 				fprintf(stderr, "[ERROR] Cannot read system ram, perhaps CONFIG_STRICT_DEVMEM is set in your kernel config?\n");
+				fprintf(stderr, "[ERROR] Alternatively download and install /dev/fmem\n");
 				return -1;
 			}
 		} else {
