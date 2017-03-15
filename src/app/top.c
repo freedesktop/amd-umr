@@ -811,7 +811,8 @@ static void top_build_vi_program(struct umr_asic *asic)
 	ENTRY(i++, "mmVGT_CNTL_STATUS", &stat_vgt_bits[0], &top_options.vi.vgt, "VGT");
 
 	// UVD registers
-		ENTRY(i++, "mmSRBM_STATUS", &stat_srbm_status_uvd_bits[0], &top_options.vi.uvd, "UVD");
+		if (asic->family < FAMILY_AI)
+			ENTRY(i++, "mmSRBM_STATUS", &stat_srbm_status_uvd_bits[0], &top_options.vi.uvd, "UVD");
 		k = i;
 		ENTRY(i++, "mmUVD_CGC_STATUS", &stat_uvdclk_bits[0], &top_options.vi.uvd, "UVD");
 		// set PG flag for all UVD registers
@@ -836,7 +837,8 @@ static void top_build_vi_program(struct umr_asic *asic)
 		}
 
 	// VCE registers
-		ENTRY(i++, "mmSRBM_STATUS2", &stat_srbm_status2_vce_bits[0], &top_options.vi.vce, "VCE");
+		if (asic->family < FAMILY_AI)
+			ENTRY(i++, "mmSRBM_STATUS2", &stat_srbm_status2_vce_bits[0], &top_options.vi.vce, "VCE");
 		k = i;
 
 		// set PG flag for all VCE registers
@@ -846,11 +848,13 @@ static void top_build_vi_program(struct umr_asic *asic)
 
 	// memory hub
 		k = i;
-		ENTRY(i++, "mmMC_HUB_MISC_STATUS", &stat_mc_hub_bits[0], &top_options.vi.memory_hub, "MC HUB");
+		if (asic->family < FAMILY_AI)
+			ENTRY(i++, "mmMC_HUB_MISC_STATUS", &stat_mc_hub_bits[0], &top_options.vi.memory_hub, "MC HUB");
 
 	// SDMA
 		k = i;
-		ENTRY(i++, "mmSRBM_STATUS2", &stat_sdma_bits[0], &top_options.vi.sdma, "SDMA");
+		if (asic->family < FAMILY_AI)
+			ENTRY(i++, "mmSRBM_STATUS2", &stat_sdma_bits[0], &top_options.vi.sdma, "SDMA");
 
 	// which SE to read ...
 	regname = calloc(1, 64);
@@ -910,7 +914,7 @@ void umr_top(struct umr_asic *asic)
 	load_options();
 
 	// select an architecture ...
-	if (asic->family <= FAMILY_VI)
+	if (asic->family <= FAMILY_AI)
 		top_build_vi_program(asic);
 
 	// add DRM info

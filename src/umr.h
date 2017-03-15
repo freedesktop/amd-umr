@@ -53,7 +53,7 @@ enum chipfamily {
 	FAMILY_SI=0,
 	FAMILY_CIK,
 	FAMILY_VI,
-	FAMILY_NEXT,
+	FAMILY_AI,
 };
 
 enum regclass {
@@ -83,6 +83,14 @@ struct umr_reg {
 	uint32_t value, reserved;
 };
 
+struct umr_reg_soc15 {
+	char *regname;
+	enum regclass type;
+	uint32_t addr, idx;
+	struct umr_bitfield *bits;
+	int no_bits;
+	uint32_t value, reserved;
+};
 
 struct umr_ip_block {
 	char *ipname;
@@ -90,6 +98,11 @@ struct umr_ip_block {
 	struct umr_reg *regs;
 	int (*grant)(struct umr_asic *asic);
 	int (*release)(struct umr_asic *asic);
+};
+
+struct umr_ip_offsets_soc15 {
+	char *name;
+	uint32_t offset[5][5];
 };
 
 struct umr_gfx_config {
@@ -142,7 +155,8 @@ struct umr_fw_config {
 #define UMR_MAX_FW 32
 
 struct umr_options {
-	int instance,
+	int hw_inst,
+	    instance,
 	    need_scan,
 	    print,
 	    risky,
@@ -339,6 +353,24 @@ struct umr_ring_decoder {
 	} next_ib_info;
 };
 
+/* ip block constructors for soc15 */
+int umr_transfer_soc15_to_reg(struct umr_options *options, struct umr_ip_offsets_soc15 *ip, char *ipname, const struct umr_reg_soc15 *regs, struct umr_ip_block *dst);
+struct umr_ip_block *umr_create_gfx90(struct umr_ip_offsets_soc15 *soc15_offsets, struct umr_options *options);
+struct umr_ip_block *umr_create_uvd70(struct umr_ip_offsets_soc15 *soc15_offsets, struct umr_options *options);
+struct umr_ip_block *umr_create_vce40(struct umr_ip_offsets_soc15 *soc15_offsets, struct umr_options *options);
+struct umr_ip_block *umr_create_dce120(struct umr_ip_offsets_soc15 *soc15_offsets, struct umr_options *options);
+struct umr_ip_block *umr_create_hdp40(struct umr_ip_offsets_soc15 *soc15_offsets, struct umr_options *options);
+struct umr_ip_block *umr_create_nbif61(struct umr_ip_offsets_soc15 *soc15_offsets, struct umr_options *options);
+struct umr_ip_block *umr_create_nbio61(struct umr_ip_offsets_soc15 *soc15_offsets, struct umr_options *options);
+struct umr_ip_block *umr_create_oss40(struct umr_ip_offsets_soc15 *soc15_offsets, struct umr_options *options);
+struct umr_ip_block *umr_create_sdma040(struct umr_ip_offsets_soc15 *soc15_offsets, struct umr_options *options);
+struct umr_ip_block *umr_create_sdma140(struct umr_ip_offsets_soc15 *soc15_offsets, struct umr_options *options);
+struct umr_ip_block *umr_create_mmhub10(struct umr_ip_offsets_soc15 *soc15_offsets, struct umr_options *options);
+struct umr_ip_block *umr_create_mp90(struct umr_ip_offsets_soc15 *soc15_offsets, struct umr_options *options);
+struct umr_ip_block *umr_create_mp100(struct umr_ip_offsets_soc15 *soc15_offsets, struct umr_options *options);
+struct umr_ip_block *umr_create_thm90(struct umr_ip_offsets_soc15 *soc15_offsets, struct umr_options *options);
+struct umr_ip_block *umr_create_umc70(struct umr_ip_offsets_soc15 *soc15_offsets, struct umr_options *options);
+
 /* ip block constructors */
 struct umr_ip_block *umr_create_uvd40(struct umr_options *options);
 struct umr_ip_block *umr_create_uvd42(struct umr_options *options);
@@ -400,6 +432,7 @@ struct umr_asic *umr_create_stoney(struct umr_options *options);
 struct umr_asic *umr_create_tahiti(struct umr_options *options);
 struct umr_asic *umr_create_tonga(struct umr_options *options);
 struct umr_asic *umr_create_topaz(struct umr_options *options);
+struct umr_asic *umr_create_vega10(struct umr_options *options);
 struct umr_asic *umr_create_verde(struct umr_options *options);
 
 

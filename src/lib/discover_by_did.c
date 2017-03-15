@@ -218,6 +218,12 @@ static const struct {
 	{ 0x9876, &umr_create_carrizo },
 	{ 0x9877, &umr_create_carrizo },
 	{ 0x98E4, &umr_create_stoney },
+	{ 0x6860, &umr_create_vega10 },
+	{ 0x6861, &umr_create_vega10 },
+	{ 0x6863, &umr_create_vega10 },
+	{ 0x6867, &umr_create_vega10 },
+	{ 0x686c, &umr_create_vega10 },
+	{ 0x687f, &umr_create_vega10 },
 };
 
 struct umr_asic *umr_discover_asic_by_did(struct umr_options *options, long did)

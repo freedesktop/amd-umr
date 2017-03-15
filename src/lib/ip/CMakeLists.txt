@@ -8,6 +8,7 @@ add_library(ip OBJECT
   dce100.c
   dce110.c
   dce112.c
+  dce120.c
   dce60.c
   dce80.c
   gfx60.c
@@ -15,14 +16,23 @@ add_library(ip OBJECT
   gfx72.c
   gfx80.c
   gfx81.c
+  gfx90.c
   gmc60.c
   gmc70.c
   gmc71.c
   gmc81.c
   gmc82.c
+  hdp40.c
+  mmhub10.c
+  mp90.c
+  nbif61.c
+  nbio61.c
   oss10.c
   oss20.c
   oss30.c
+  oss40.c
+  sdma040.c
+  sdma140.c
   smu60.c
   smu700.c
   smu701.c
@@ -31,11 +41,14 @@ add_library(ip OBJECT
   smu712.c
   smu713.c
   smu80.c
+  thm90.c
   uvd40.c
   uvd42.c
   uvd5.c
   uvd6.c
+  uvd70.c
   vce1.c
   vce2.c
   vce3.c
+  vce40.c
 )

@@ -46,6 +46,7 @@ static const struct {
 	{ "fiji", &umr_create_fiji   },
 	{ "carrizo", &umr_create_carrizo },
 	{ "stoney", &umr_create_stoney },
+	{ "vega10", &umr_create_vega10 },
 };
 
 struct umr_asic *umr_discover_asic_by_name(struct umr_options *options, char *name)

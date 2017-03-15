@@ -176,8 +176,8 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 			// scan for a 256K/512K region
 			if (use_region == 6) {
 				for (use_region = 0; use_region < 6; use_region++)
-					if ((asic->family < FAMILY_NEXT && asic->pci.pdevice->regions[use_region].size == (256UL * 1024)) ||
-					    (asic->family == FAMILY_NEXT && asic->pci.pdevice->regions[use_region].size == (512UL * 1024)))
+					if ((asic->family < FAMILY_AI && asic->pci.pdevice->regions[use_region].size == (256UL * 1024)) ||
+					    (asic->family == FAMILY_AI && asic->pci.pdevice->regions[use_region].size == (512UL * 1024)))
 						break;
 			}
 

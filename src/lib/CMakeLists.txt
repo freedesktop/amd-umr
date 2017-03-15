@@ -7,6 +7,7 @@ add_library(umrcore STATIC
   bitfield_print.c
   close_asic.c
   create_asic_helper.c
+  create_mmio_accel.c
   discover_by_did.c
   discover_by_name.c
   discover.c
@@ -19,8 +20,8 @@ add_library(umrcore STATIC
   read_vram.c
   ring_decode.c
   scan_config.c
+  transfer_soc15.c
   wave_status.c
-  create_mmio_accel.c
   $<TARGET_OBJECTS:asic> $<TARGET_OBJECTS:ip>
 )
 
