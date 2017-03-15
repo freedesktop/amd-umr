@@ -216,9 +216,14 @@ int main(int argc, char **argv)
 			}
 		} else if (!strcmp(argv[i], "--write") || !strcmp(argv[i], "-w")) {
 			if (i + 2 < argc) {
+				uint32_t reg, val;
+
 				if (!asic)
 					asic = get_asic();
-				umr_set_register(asic, argv[i+1], argv[i+2]);
+				if (sscanf(argv[i+1], "%"SCNx32, &reg) == 1 && sscanf(argv[i+2], "%"SCNx32, &val) == 1)
+					umr_write_reg(asic, reg * 4, val);
+				else
+					umr_set_register(asic, argv[i+1], argv[i+2]);
 				i += 2;
 				options.need_scan = 0;
 			} else {
