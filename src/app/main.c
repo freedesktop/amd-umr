@@ -221,7 +221,7 @@ int main(int argc, char **argv)
 				if (!asic)
 					asic = get_asic();
 				if (sscanf(argv[i+1], "%"SCNx32, &reg) == 1 && sscanf(argv[i+2], "%"SCNx32, &val) == 1)
-					umr_write_reg(asic, reg * 4, val);
+					umr_write_reg(asic, reg, val);
 				else
 					umr_set_register(asic, argv[i+1], argv[i+2]);
 				i += 2;
@@ -268,7 +268,7 @@ int main(int argc, char **argv)
 					asic = get_asic();
 
 				if (sscanf(argv[i+1], "%"SCNx32, &reg) == 1) {
-					reg = umr_read_reg(asic, reg * 4);
+					reg = umr_read_reg(asic, reg);
 					printf("0x%08lx\n", (unsigned long)reg);
 				} else {
 					str = strstr(argv[i+1], ".");
@@ -406,6 +406,8 @@ int main(int argc, char **argv)
 	"\n\t\tuse_pci, use_colour, read_smc, quiet.\n"
 "\n\n", UMR_BUILD_VER, UMR_BUILD_REV);
 			exit(EXIT_SUCCESS);
+		} else {
+			fprintf(stderr, "[ERROR]: Unknown option <%s>\n", argv[i]);
 		}
 	}
 
