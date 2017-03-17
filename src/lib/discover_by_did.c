@@ -110,6 +110,7 @@ static const struct {
 	{ 0x67CA, &umr_create_polaris10 },
 	{ 0x67CC, &umr_create_polaris10 },
 	{ 0x67CF, &umr_create_polaris10 },
+	{ 0x67D0, &umr_create_polaris10 },
 	{ 0x67DF, &umr_create_polaris10 },
 	{ 0x67E0, &umr_create_polaris11 },
 	{ 0x67E1, &umr_create_polaris11 },
