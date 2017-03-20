@@ -322,8 +322,20 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 	static const char *op_3c_functions[] = { "true", "<", "<=", "==", "!=", ">=", ">", "reserved" };
 	static const char *op_37_engines[] = { "ME", "PFP", "CE", "DE" };
 	static const char *op_37_dst_sel[] = { "mem-mapped reg", "memory sync", "TC/L2", "GDS", "reserved", "memory async", "reserved", "reserved" };
+	struct umr_reg *reg;
 	printf("   PKT3 OPCODE 0x%02x, word %u: ", (unsigned)decoder->pm4.cur_opcode, (unsigned)decoder->pm4.cur_word);
 	switch (decoder->pm4.cur_opcode) {
+		case 0x28: // CONTEXT_CONTROL
+			switch (decoder->pm4.cur_word) {
+				case 0: printf("LOAD_EN: %lu, LOAD_CS: %lu, LOAD_GFX: %lu, LOAD_MULTI: %lu, LOAD_SINGLE: %lu",
+						BITS(ib, 31, 32), BITS(ib, 24, 25), BITS(ib, 16,17), BITS(ib, 1,2), BITS(ib, 0, 1));
+					break;
+				case 1: printf("SHADOW_EN: %lu, SHADOW_CS: %lu, SHADOW_GFX: %lu, SHADOW_MULTI: %lu, SHADOW_SINGLE: %lu",
+						BITS(ib, 31, 32), BITS(ib, 24, 25), BITS(ib, 16,17), BITS(ib, 1,2), BITS(ib, 0, 1));
+					break;
+				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
 		case 0x3f: // INDIRECT_BUFFER_CIK
 		case 0x33: // INDIRECT_BUFFER_CONST
 			switch (decoder->pm4.cur_word) {
@@ -388,6 +400,37 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
 			break;
+		case 0x43: // SURFACE_SYNC
+			switch (decoder->pm4.cur_word) {
+				case 0: printf("ENGINE: %s, COHER_CNTL: 0x%08lx",
+						BITS(ib, 31, 32) ? "ME" : "PFP",
+						BITS(ib, 0, 29));
+					reg = umr_find_reg_data(asic, "mmCP_COHER_CNTL");
+					if (reg && reg->bits) {
+						int i, k;
+						k = 0;
+						printf(" (");
+						for (i = 0; i < reg->no_bits; i++) {
+							if (ib & (1UL << reg->bits[i].start)) {
+								printf("%s%s", k ? ", " : "", reg->bits[i].regname);
+								++k;
+							}
+						}
+						printf(")");
+					}
+					break;
+				case 1:
+					printf("COHER_SIZE: 0x%08lx", (unsigned long)ib);
+					break;
+				case 2:
+					printf("COHER_BASE: 0x%08lx", (unsigned long)ib);
+					break;
+				case 3:
+					printf("POLL_INTERVAL: %lu", BITS(ib, 0, 16));
+					break;
+				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
 		case 0x47: // EVENT_WRITE_EOP
 			switch(decoder->pm4.cur_word) {
 				case 0: printf("INV_L2:%lu, EVENT_INDEX:%lu, EVENT_TYPE:%lu",
@@ -427,6 +470,15 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 				case 5: printf("SEQ_HI: 0x%08lx", (unsigned long)ib);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
+		case 0x68: // SET_CONFIG_REG
+			switch(decoder->pm4.cur_word) {
+				case 0: decoder->pm4.next_write_mem.addr_lo = BITS(ib, 0, 16) + 0x2000;
+					printf("starting reg: %s", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo));
+					break;
+				default: printf("%s <= 0x%08lx", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo++), (unsigned long)ib);
+					break;
 			}
 			break;
 		default:
