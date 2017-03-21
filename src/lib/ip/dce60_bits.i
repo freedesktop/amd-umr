@@ -2488,6 +2488,7 @@ static struct umr_bitfield mmCC_DC_PIPE_DIS[] = {
 };
 static struct umr_bitfield mmAZALIA_F0_CODEC_ENDPOINT_INDEX[] = {
 	 { "AZALIA_ENDPOINT_REG_INDEX", 0, 7, &umr_bitfield_default },
+	 { "AZALIA_ENDPOINT_REG_WRITE_EN", 8, 8, &umr_bitfield_default },
 };
 static struct umr_bitfield mmAZALIA_F0_CODEC_ENDPOINT_DATA[] = {
 	 { "AZALIA_ENDPOINT_REG_DATA", 0, 31, &umr_bitfield_default },

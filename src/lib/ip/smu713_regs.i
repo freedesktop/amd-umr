@@ -1192,6 +1192,7 @@
 	{ "ixGC_CAC_ACC_CU13", REG_SMC, 0xc7, &ixGC_CAC_ACC_CU13[0], sizeof(ixGC_CAC_ACC_CU13)/sizeof(ixGC_CAC_ACC_CU13[0]), 0, 0 },
 	{ "ixGC_CAC_ACC_CU14", REG_SMC, 0xc8, &ixGC_CAC_ACC_CU14[0], sizeof(ixGC_CAC_ACC_CU14)/sizeof(ixGC_CAC_ACC_CU14[0]), 0, 0 },
 	{ "ixGC_CAC_ACC_CU15", REG_SMC, 0xc9, &ixGC_CAC_ACC_CU15[0], sizeof(ixGC_CAC_ACC_CU15)/sizeof(ixGC_CAC_ACC_CU15[0]), 0, 0 },
+	{ "ixCURRENT_PG_STATUS_APU", REG_SMC, 0xd020029c, NULL, 0, 0, 0 },
 	{ "ixSMU_MAIN_PLL_OP_FREQ", REG_SMC, 0xe0003020, &ixSMU_MAIN_PLL_OP_FREQ[0], sizeof(ixSMU_MAIN_PLL_OP_FREQ)/sizeof(ixSMU_MAIN_PLL_OP_FREQ[0]), 0, 0 },
 	{ "ixSMU_STATUS", REG_SMC, 0xe0003088, &ixSMU_STATUS[0], sizeof(ixSMU_STATUS)/sizeof(ixSMU_STATUS[0]), 0, 0 },
 	{ "ixSMU_FIRMWARE", REG_SMC, 0xe00030a4, &ixSMU_FIRMWARE[0], sizeof(ixSMU_FIRMWARE)/sizeof(ixSMU_FIRMWARE[0]), 0, 0 },
