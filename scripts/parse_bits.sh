@@ -4,7 +4,9 @@
 # ASICs
 
 #this is the path to the tree (not necessarily the one running on your host)
-pk=/nas/work/repos/linux/drivers/gpu/drm/amd/include/asic_reg/
+if [ "$pk" == "" ]; then
+	pk=/nas/work/repos/linux/drivers/gpu/drm/amd/include/asic_reg/
+fi
 
 # parse_bits /path/to/asic_reg/foo/block /path/to/umr/file
 parse_bits() {
