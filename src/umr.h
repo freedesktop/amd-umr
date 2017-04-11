@@ -444,6 +444,7 @@ void umr_free_asic(struct umr_asic *asic);
 void umr_close_asic(struct umr_asic *asic); // call this to close a fully open asic
 int umr_query_drm(struct umr_asic *asic, int field, uint64_t *ret);
 void umr_enumerate_devices(void);
+int umr_update(struct umr_asic *asic, char *script);
 
 /* lib helpers */
 int umr_get_wave_status(struct umr_asic *asic, unsigned se, unsigned sh, unsigned cu, unsigned simd, unsigned wave, struct umr_wave_status *ws);

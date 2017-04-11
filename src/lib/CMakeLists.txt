@@ -22,6 +22,7 @@ add_library(umrcore STATIC
   scan_config.c
   transfer_soc15.c
   wave_status.c
+  update.c
   $<TARGET_OBJECTS:asic> $<TARGET_OBJECTS:ip>
 )
 

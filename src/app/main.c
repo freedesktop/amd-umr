@@ -363,6 +363,16 @@ int main(int argc, char **argv)
 				printf("--option requires one parameter\n");
 				return EXIT_FAILURE;
 			}
+		} else if (!strcmp(argv[i], "--update") || !strcmp(argv[i], "-u")) {
+			if (!asic)
+				asic = get_asic();
+			if (i + 1 < argc) {
+				umr_update(asic, argv[i+1]);
+				++i;
+			} else {
+				printf("--update requires one parameter\n");
+				return EXIT_FAILURE;
+			}
 		} else if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) {
 			printf("User Mode Register debugger v%s for AMDGPU devices (build: %s), Copyright (c) 2017, AMD Inc.\n"
 "\n\t--instance, -i <number>\n\t\tSelect a device instance to investigate. (default: 0)"
