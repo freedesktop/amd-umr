@@ -284,6 +284,60 @@ static const char *pm4_pkt3_opcode_names[] = {
 	"UNK", // ff
 };
 
+static const struct {
+	char *name;
+	unsigned event_no;
+} vgt_event_tags[] = {
+	{ "SAMPLE_STREAMOUTSTATS1", 1 },
+	{ "SAMPLE_STREAMOUTSTATS2", 2 },
+	{ "SAMPLE_STREAMOUTSTATS3", 3 },
+	{ "CACHE_FLUSH_TS", 4 },
+	{ "CACHE_FLUSH", 6 },
+	{ "CS_PARTIAL_FLUSH", 7 },
+	{ "VGT_STREAMOUT_RESET", 10 },
+	{ "END_OF_PIPE_INCR_DE", 11 },
+	{ "END_OF_PIPE_IB_END", 12 },
+	{ "RST_PIX_CNT", 13 },
+	{ "VS_PARTIAL_FLUSH", 15 },
+	{ "PS_PARTIAL_FLUSH", 16 },
+	{ "CACHE_FLUSH_AND_INV_TS_EVENT", 20 },
+	{ "ZPASS_DONE", 21 },
+	{ "CACHE_FLUSH_AND_INV_EVENT", 22 },
+	{ "PERFCOUNTER_START", 23 },
+	{ "PERFCOUNTER_STOP", 24 },
+	{ "PIPELINESTAT_START", 25 },
+	{ "PIPELINESTAT_STOP", 26 },
+	{ "PERFCOUNTER_SAMPLE", 27 },
+	{ "SAMPLE_PIPELINESTAT", 30 },
+	{ "SAMPLE_STREAMOUTSTATS", 32 },
+	{ "RESET_VTX_CNT", 33 },
+	{ "VGT_FLUSH", 36 },
+	{ "BOTTOM_OF_PIPE_TS", 40 },
+	{ "DB_CACHE_FLUSH_AND_INV", 42 },
+	{ "FLUSH_AND_INV_DB_DATA_TS", 43 },
+	{ "FLUSH_AND_INV_DB_META", 44 },
+	{ "FLUSH_AND_INV_CB_DATA_TS", 45 },
+	{ "FLUSH_AND_INV_CB_META", 46 },
+	{ "CS_DONE", 47 },
+	{ "PS_DONE", 48 },
+	{ "FLUSH_AND_INV_CB_PIXEL_DATA", 49 },
+	{ "THREAD_TRACE_START", 51 },
+	{ "THREAD_TRACE_STOP", 52 },
+	{ "THREAD_TRACE_FLUSH", 54 },
+	{ "THREAD_TRACE_FINISH", 55 },
+	{ NULL, 0 },
+};
+
+static char *vgt_event_decode(unsigned tag)
+{
+	unsigned x;
+	for (x = 0; vgt_event_tags[x].name; x++) {
+		if (vgt_event_tags[x].event_no == tag)
+			return vgt_event_tags[x].name;
+	}
+	return "<unknown event>";
+}
+
 #define BITS(x, a, b) (unsigned long)((x >> a) & ((1ULL << (b-a))-1))
 
 void add_ib(struct umr_ring_decoder *decoder)
@@ -454,12 +508,11 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 			break;
 		case 0x49: // RELEASE_MEM
 			switch(decoder->pm4.cur_word) {
-				case 0: printf("EOP_TCL1_ACTION: %lu, EOP_TC_ACTION: %lu, EOP_TC_WB_ACTION: %lu, EVENT_TYPE: %lu, EVENT_INDEX: %lu",
-				BITS(ib, 16, 17), BITS(ib, 17, 18), BITS(ib, 15, 16), BITS(ib, 0, 7), BITS(ib, 8, 15));
+				case 0: printf("EOP_TCL1_ACTION: %lu, EOP_TC_ACTION: %lu, EOP_TC_WB_ACTION: %lu, EVENT_TYPE: %lu[%s], EVENT_INDEX: %lu",
+				BITS(ib, 16, 17), BITS(ib, 17, 18), BITS(ib, 15, 16), BITS(ib, 0, 7), vgt_event_decode(BITS(ib, 0, 7)), BITS(ib, 8, 15));
 					break;
 				case 1:
 					printf("DATA_SEL+INT_SEL: 0x%08lx", (unsigned long)ib);
-//DATA_SEL(write64bit ? 2 : 1) | INT_SEL(int_sel ? 2 : 0)
 					break;
 				case 2: printf("ADDR_LO: 0x%08lx", (unsigned long)ib);
 					break;
@@ -469,6 +522,13 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 					break;
 				case 5: printf("SEQ_HI: 0x%08lx", (unsigned long)ib);
 					break;
+				case 6:
+					if (asic->family >= FAMILY_AI) {
+						// decode additional words
+						printf("DATA: 0x%08lx", (unsigned long)ib);
+						break;
+					}
+					// fall through to invalid
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
 			break;
