@@ -272,7 +272,7 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 	DEBUG("VIRT_ADDR = %08llx\n", (unsigned long long)address);
 	DEBUG("PAGE_START_ADDR = %08llx\n", (unsigned long long)page_table_start_addr);
 	DEBUG("BASE_ADDR = 0x%08llx\n", (unsigned long long)page_table_base_addr);
-	DEBUG("BASE_SIZE = %lu\n", page_table_size);
+	DEBUG("TABLE_SIZE = %lu\n", page_table_size);
 	DEBUG("PAGE_TABLE_DEPTH = %d\n", page_table_depth);
 
 	address -= page_table_start_addr;
@@ -285,19 +285,23 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 			pte_idx = (address >> 12) & ((1ULL << (9 + page_table_size)) - 1);
 
 			// AI+ supports more than 1 level of PDEs so we iterate for all of the depths
-			pde_address = address;
+			pde_address = page_table_base_addr;
 			while (page_table_depth) {
+				DEBUG("Decoding depth %u...(0x%llx)\n", (unsigned)page_table_depth, (unsigned long long)address);
 				// decode addr into pte and pde selectors...
 				//                         ~~~ PDE selector ~~~      ~~~ PTE selector ~~~
-				pde_idx = (pde_address >> (page_table_depth*9 + (12 + 9 + page_table_size)));
+				pde_idx = (address >> ((page_table_depth-1)*9 + (12 + 9 + page_table_size)));
 
 				// don't mask the first PDE idx
 				if (!first)
 					pde_idx &= (1ULL << 9) - 1;
 				first = 0;
 
+				DEBUG("pde_idx == %llx\n", (unsigned long long)pde_idx);
+				DEBUG("selector mask == %llx\n", ((unsigned long long)511 << ((page_table_depth-1)*9 + (12 + 9 + page_table_size))));
+
 				// read PDE entry
-				umr_read_vram(asic, 0xFFFF, page_table_base_addr + pde_idx * 8, 8, &pde_entry);
+				umr_read_vram(asic, 0xFFFF, pde_address + pde_idx * 8, 8, &pde_entry);
 
 				// decode PDE values
 				pde_fields.frag_size     = (pde_entry >> 59) & 0x1F;
@@ -308,6 +312,7 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 				// for the next round the address we're decoding is the phys address in the currently decoded PDE
 				--page_table_depth;
 				pde_address = pde_fields.pte_base_addr;
+				DEBUG("...done\n\n");
 			}
 
 			// now read PTE entry for this page
@@ -322,6 +327,7 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 
 			// compute starting address
 			start_addr = pte_fields.page_base_addr + (address & 0xFFF);
+			DEBUG("phys address to read from: %llx\n\n\n", (unsigned long long)start_addr);
 		} else {
 			// in AI+ the BASE_ADDR is treated like a PDE entry...
 			// decode PDE values
@@ -387,6 +393,7 @@ int umr_read_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint32
 	}
 
 	if (vmid == 0xFFFF) {
+		DEBUG("Reading physical addr: 0x%llx\n", (unsigned long long)address);
 		// addressing is physical
 		if (asic->options.use_pci == 0) {
 			lseek(asic->fd.vram, address, SEEK_SET);
