@@ -379,6 +379,19 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 	struct umr_reg *reg;
 	printf("   PKT3 OPCODE 0x%02x, word %u: ", (unsigned)decoder->pm4.cur_opcode, (unsigned)decoder->pm4.cur_word);
 	switch (decoder->pm4.cur_opcode) {
+		case 0x22: // COND_EXEC
+			switch (decoder->pm4.cur_word) {
+				case 0: printf("GPU_ADDR_LO32: 0x%08lx", (unsigned long)ib);
+					break;
+				case 1: printf("GPU_ADDR_HI32: 0x%08lx", (unsigned long)ib);
+					break;
+				case 2: printf("TEST_VALUE: 0x%08lx", (unsigned long)ib);
+					break;
+				case 3: printf("PATCH_VALUE: 0x%08lx", (unsigned long)ib);
+					break;
+				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
 		case 0x28: // CONTEXT_CONTROL
 			switch (decoder->pm4.cur_word) {
 				case 0: printf("LOAD_EN: %lu, LOAD_CS: %lu, LOAD_GFX: %lu, LOAD_MULTI: %lu, LOAD_SINGLE: %lu",
