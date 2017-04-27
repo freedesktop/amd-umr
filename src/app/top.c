@@ -933,7 +933,14 @@ void umr_top(struct umr_asic *asic)
 	time_t tt;
 	uint64_t ts;
 	char hostname[64] = { 0 };
+	char fname[64];
 	pthread_t sensor_thread;
+
+	// open drm file if not already open
+	if (asic->fd.drm < 0) {
+		snprintf(fname, sizeof(fname)-1, "/dev/dri/card%d", asic->instance);
+		asic->fd.drm = open(fname, O_RDWR);
+	}
 
 	if (getenv("HOSTNAME")) strcpy(hostname, getenv("HOSTNAME"));
 
