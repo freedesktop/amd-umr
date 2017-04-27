@@ -138,6 +138,11 @@ separated strings.
      Enable colour output for --top command, scales from blue, green, yellow, to red.  Also
      accepted is 'use_color'.
 
+.B no_kernel
+     Disable using kernel files to access the device.  Implies ''use_pci''.  This is meant to
+     be used only if the KMD is hung or otherwise not working correctly.  Using it on live systems
+     may result in race conditions.
+
 .SH "Notes"
 
 - The "Waves" field in the DRM section of --top only works if GFX PG has been disabled.  Otherwise,

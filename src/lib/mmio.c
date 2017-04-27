@@ -85,9 +85,64 @@ uint32_t umr_bitslice_reg(struct umr_asic *asic, struct umr_reg *reg, char *bitn
 	return 0;
 }
 
+uint32_t umr_bitslice_compose_value(struct umr_asic *asic, struct umr_reg *reg, char *bitname, uint32_t regvalue)
+{
+	int i;
+	for (i = 0; i < reg->no_bits; i++) {
+		if (!strcmp(bitname, reg->bits[i].regname)) {
+			regvalue &= (1UL << (reg->bits[i].stop - reg->bits[i].start + 1)) - 1;
+			regvalue <<= reg->bits[i].start;
+			return regvalue;
+		}
+	}
+	fprintf(stderr, "BUG: Bitfield [%s] not found in reg [%s] on asic [%s]\n", bitname, reg->regname, asic->asicname);
+	return 0;
+}
+
 uint32_t umr_bitslice_reg_by_name(struct umr_asic *asic, char *regname, char *bitname, uint32_t regvalue)
 {
 	struct umr_reg *reg;
 	reg = umr_find_reg_data(asic, regname);
-	return umr_bitslice_reg(asic, reg, bitname, regvalue);
+	if (reg)
+		return umr_bitslice_reg(asic, reg, bitname, regvalue);
+	else
+		return 0;
+}
+
+uint32_t umr_bitslice_compose_value_by_name(struct umr_asic *asic, char *regname, char *bitname, uint32_t regvalue)
+{
+	struct umr_reg *reg;
+	reg = umr_find_reg_data(asic, regname);
+	if (reg)
+		return umr_bitslice_compose_value(asic, reg, bitname, regvalue);
+	else
+		return 0;
+}
+
+int umr_grbm_select_index(struct umr_asic *asic, uint32_t se, uint32_t sh, uint32_t instance)
+{
+	struct umr_reg *grbm_idx;
+	uint32_t data = 0;
+
+	grbm_idx = umr_find_reg_data(asic, "mmGRBM_GFX_INDEX");
+	if (grbm_idx) {
+		if (instance == 0xFFFFFFFF) {
+			data |= umr_bitslice_compose_value(asic, grbm_idx, "INSTANCE_BROADCAST_WRITES", 1);
+		} else {
+			data |= umr_bitslice_compose_value(asic, grbm_idx, "INSTANCE_INDEX", instance);
+		}
+		if (se == 0xFFFFFFFF) {
+			data |= umr_bitslice_compose_value(asic, grbm_idx, "SE_BROADCAST_WRITES", 1);
+		} else {
+			data |= umr_bitslice_compose_value(asic, grbm_idx, "SE_INDEX", instance);
+		}
+		if (sh == 0xFFFFFFFF) {
+			data |= umr_bitslice_compose_value(asic, grbm_idx, "SH_BROADCAST_WRITES", 1);
+		} else {
+			data |= umr_bitslice_compose_value(asic, grbm_idx, "SH_INDEX", instance);
+		}
+		return umr_write_reg(asic, grbm_idx->addr * 4, data);
+	} else {
+		return -1;
+	}
 }

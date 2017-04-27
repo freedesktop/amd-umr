@@ -109,6 +109,9 @@ static void parse_options(char *str)
 			options.quiet = 1;
 		} else if (!strcmp(option, "follow_ib")) {
 			options.follow_ib = 1;
+		} else if (!strcmp(option, "no_kernel")) {
+			options.no_kernel = 1;
+			options.use_pci = 1;
 		} else {
 			printf("error: Unknown option [%s]\n", option);
 			exit(EXIT_FAILURE);
@@ -413,7 +416,7 @@ int main(int argc, char **argv)
 	"\n\t\tRead 'size' bytes (in hex) from a given address (in hex) to stdout. Optionally"
 	"\n\t\tspecify the VMID (in decimal) treating the address as a virtual address instead.\n"
 "\n\t--option -O <string>[,<string>,...]\n\t\tEnable various flags: risky, bits, bitsfull, empty_log, follow, named, many,"
-	"\n\t\tuse_pci, use_colour, read_smc, quiet.\n"
+	"\n\t\tuse_pci, use_colour, read_smc, quiet, no_kernel.\n"
 "\n\n", UMR_BUILD_VER, UMR_BUILD_REV);
 			exit(EXIT_SUCCESS);
 		} else {

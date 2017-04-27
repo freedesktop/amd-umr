@@ -96,9 +96,13 @@ int umr_set_register_bit(struct umr_asic *asic, char *regpath, char *regvalue)
 										}
 									}
 								} else if (asic->blocks[i]->regs[j].type == REG_MMIO) {
+									if (options.use_bank && options.no_kernel)
+										umr_grbm_select_index(asic, options.se_bank, options.sh_bank, options.instance_bank);
 									copy = asic->pci.mem[asic->blocks[i]->regs[j].addr] & ~mask;
 									copy |= (value << asic->blocks[i]->regs[j].bits[k].start) & mask;
 									asic->pci.mem[asic->blocks[i]->regs[j].addr] = copy;
+									if (options.use_bank && options.no_kernel)
+										umr_grbm_select_index(asic, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
 									if (!options.quiet) printf("%s <= 0x%08lx\n", regpath, (unsigned long)copy);
 								}
 								return 0;

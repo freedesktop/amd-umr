@@ -171,7 +171,8 @@ struct umr_options {
 	    use_colour,
 	    read_smc,
 	    quiet,
-	    follow_ib;
+	    follow_ib,
+	    no_kernel;
 	unsigned
 	    instance_bank,
 	    se_bank,
@@ -453,15 +454,33 @@ int umr_read_sgprs(struct umr_asic *asic, struct umr_wave_status *ws, uint32_t *
 int umr_read_sensor(struct umr_asic *asic, int sensor, void *dst, int *size);
 
 /* mmio helpers */
+// init the mmio lookup table
+int umr_create_mmio_accel(struct umr_asic *asic);
+
+// find the word address of a register
 uint32_t umr_find_reg(struct umr_asic *asic, char *regname);
+
+// find the register data for a register
 struct umr_reg *umr_find_reg_data(struct umr_asic *asic, char *regname);
+
+// read/write a 32-bit register given a BYTE address
 uint32_t umr_read_reg(struct umr_asic *asic, uint64_t addr);
 int umr_write_reg(struct umr_asic *asic, uint64_t addr, uint32_t value);
+
+// read/write a register given a name
 uint32_t umr_read_reg_by_name(struct umr_asic *asic, char *name);
 int umr_write_reg_by_name(struct umr_asic *asic, char *name, uint32_t value);
+
+// slice a full register into bits (shifted into LSB)
 uint32_t umr_bitslice_reg(struct umr_asic *asic, struct umr_reg *reg, char *bitname, uint32_t regvalue);
 uint32_t umr_bitslice_reg_by_name(struct umr_asic *asic, char *regname, char *bitname, uint32_t regvalue);
-int umr_create_mmio_accel(struct umr_asic *asic);
+
+// compose a 32-bit register with a value and a bitfield
+uint32_t umr_bitslice_compose_value(struct umr_asic *asic, struct umr_reg *reg, char *bitname, uint32_t regvalue);
+uint32_t umr_bitslice_compose_value_by_name(struct umr_asic *asic, char *reg, char *bitname, uint32_t regvalue);
+
+// select a GRBM_GFX_IDX
+int umr_grbm_select_index(struct umr_asic *asic, uint32_t se, uint32_t sh, uint32_t instance);
 
 /* IB/ring decoding/dumping/etc */
 void umr_print_decode(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib);

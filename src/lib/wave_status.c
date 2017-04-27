@@ -49,20 +49,75 @@ static int umr_get_wave_sq_info_vi(struct umr_asic *asic, unsigned se, unsigned 
 	return 0;
 }
 
+static uint32_t wave_read_ind(struct umr_asic *asic, uint32_t simd, uint32_t wave, uint32_t address)
+{
+	struct umr_reg *ind_index, *ind_data;
+	uint32_t data;
+
+	ind_index = umr_find_reg_data(asic, "mmSQ_IND_INDEX");
+	ind_data  = umr_find_reg_data(asic, "mmSQ_IND_DATA");
+
+	if (ind_index && ind_data) {
+		data = umr_bitslice_compose_value(asic, ind_index, "WAVE_ID", wave);
+		data |= umr_bitslice_compose_value(asic, ind_index, "SIMD_ID", simd);
+		data |= umr_bitslice_compose_value(asic, ind_index, "INDEX", address);
+		data |= umr_bitslice_compose_value(asic, ind_index, "FORCE_READ", 1);
+		umr_write_reg(asic, ind_index->addr * 4, data);
+		return umr_read_reg(asic, ind_data->addr * 4);
+	} else {
+		fprintf(stderr, "[BUG] The required SQ_IND_{INDEX,DATA} registers are not found on the asic <%s>\n", asic->asicname);
+		return -1;
+	}
+}
+
+
+static int read_wave_status_via_mmio(struct umr_asic *asic, uint32_t simd, uint32_t wave, uint32_t *dst, int *no_fields)
+{
+	/* type 0/1 wave data */
+	dst[(*no_fields)++] = (asic->family <= FAMILY_VI) ? 0 : 1;
+	dst[(*no_fields)++] = wave_read_ind(asic, simd, wave, umr_find_reg_data(asic, "ixSQ_WAVE_STATUS")->addr);
+	dst[(*no_fields)++] = wave_read_ind(asic, simd, wave, umr_find_reg_data(asic, "ixSQ_WAVE_PC_LO")->addr);
+	dst[(*no_fields)++] = wave_read_ind(asic, simd, wave, umr_find_reg_data(asic, "ixSQ_WAVE_PC_HI")->addr);
+	dst[(*no_fields)++] = wave_read_ind(asic, simd, wave, umr_find_reg_data(asic, "ixSQ_WAVE_EXEC_LO")->addr);
+	dst[(*no_fields)++] = wave_read_ind(asic, simd, wave, umr_find_reg_data(asic, "ixSQ_WAVE_EXEC_HI")->addr);
+	dst[(*no_fields)++] = wave_read_ind(asic, simd, wave, umr_find_reg_data(asic, "ixSQ_WAVE_HW_ID")->addr);
+	dst[(*no_fields)++] = wave_read_ind(asic, simd, wave, umr_find_reg_data(asic, "ixSQ_WAVE_INST_DW0")->addr);
+	dst[(*no_fields)++] = wave_read_ind(asic, simd, wave, umr_find_reg_data(asic, "ixSQ_WAVE_INST_DW1")->addr);
+	dst[(*no_fields)++] = wave_read_ind(asic, simd, wave, umr_find_reg_data(asic, "ixSQ_WAVE_GPR_ALLOC")->addr);
+	dst[(*no_fields)++] = wave_read_ind(asic, simd, wave, umr_find_reg_data(asic, "ixSQ_WAVE_LDS_ALLOC")->addr);
+	dst[(*no_fields)++] = wave_read_ind(asic, simd, wave, umr_find_reg_data(asic, "ixSQ_WAVE_TRAPSTS")->addr);
+	dst[(*no_fields)++] = wave_read_ind(asic, simd, wave, umr_find_reg_data(asic, "ixSQ_WAVE_IB_STS")->addr);
+	if (asic->family <= FAMILY_VI) {
+		dst[(*no_fields)++] = wave_read_ind(asic, simd, wave, umr_find_reg_data(asic, "ixSQ_WAVE_TBA_LO")->addr);
+		dst[(*no_fields)++] = wave_read_ind(asic, simd, wave, umr_find_reg_data(asic, "ixSQ_WAVE_TBA_HI")->addr);
+		dst[(*no_fields)++] = wave_read_ind(asic, simd, wave, umr_find_reg_data(asic, "ixSQ_WAVE_TMA_LO")->addr);
+		dst[(*no_fields)++] = wave_read_ind(asic, simd, wave, umr_find_reg_data(asic, "ixSQ_WAVE_TMA_HI")->addr);
+	}
+	dst[(*no_fields)++] = wave_read_ind(asic, simd, wave, umr_find_reg_data(asic, "ixSQ_WAVE_IB_DBG0")->addr);
+	dst[(*no_fields)++] = wave_read_ind(asic, simd, wave, umr_find_reg_data(asic, "ixSQ_WAVE_M0")->addr);
+
+	return 0;
+}
+
 static int umr_get_wave_status_vi(struct umr_asic *asic, unsigned se, unsigned sh, unsigned cu, unsigned simd, unsigned wave, struct umr_wave_status *ws)
 {
 	uint32_t x, value, buf[32];
 
 	memset(buf, 0, sizeof buf);
 
-	lseek(asic->fd.wave,
-		0 |
-		((uint64_t)se << 7) |
-		((uint64_t)sh << 15) |
-		((uint64_t)cu << 23) |
-		((uint64_t)wave << 31) |
-		((uint64_t)simd << 37), SEEK_SET);
-	read(asic->fd.wave, &buf, 32*4);
+	if (!asic->options.no_kernel) {
+		lseek(asic->fd.wave,
+			0 |
+			((uint64_t)se << 7) |
+			((uint64_t)sh << 15) |
+			((uint64_t)cu << 23) |
+			((uint64_t)wave << 31) |
+			((uint64_t)simd << 37), SEEK_SET);
+		read(asic->fd.wave, &buf, 32*4);
+	} else {
+		int n = 0;
+		read_wave_status_via_mmio(asic, simd, wave, &buf[0], &n);
+	}
 
 	if (buf[0] != 0) {
 		fprintf(stderr, "Was expecting type 0 wave data on a CZ/VI part!\n");
@@ -152,14 +207,19 @@ static int umr_get_wave_status_next(struct umr_asic *asic, unsigned se, unsigned
 
 	memset(buf, 0, sizeof buf);
 
-	lseek(asic->fd.wave,
-		0 |
-		((uint64_t)se << 7) |
-		((uint64_t)sh << 15) |
-		((uint64_t)cu << 23) |
-		((uint64_t)wave << 31) |
-		((uint64_t)simd << 37), SEEK_SET);
-	read(asic->fd.wave, &buf, 32*4);
+	if (!asic->options.no_kernel) {
+		lseek(asic->fd.wave,
+			0 |
+			((uint64_t)se << 7) |
+			((uint64_t)sh << 15) |
+			((uint64_t)cu << 23) |
+			((uint64_t)wave << 31) |
+			((uint64_t)simd << 37), SEEK_SET);
+		read(asic->fd.wave, &buf, 32*4);
+	} else {
+		int n = 0;
+		read_wave_status_via_mmio(asic, simd, wave, &buf[0], &n);
+	}
 
 	if (buf[0] != 1) {
 		fprintf(stderr, "Was expecting type 1 wave data on a FAMILY_AI part!\n");

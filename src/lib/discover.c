@@ -111,24 +111,37 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 
 	if (asic) {
 		memcpy(&asic->options, options, sizeof(*options));
-		snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_regs", asic->instance);
-		asic->fd.mmio = open(fname, O_RDWR);
-		snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_regs_didt", asic->instance);
-		asic->fd.didt = open(fname, O_RDWR);
-		snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_regs_pcie", asic->instance);
-		asic->fd.pcie = open(fname, O_RDWR);
-		snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_regs_smc", asic->instance);
-		asic->fd.smc = open(fname, O_RDWR);
-		snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_sensors", asic->instance);
-		asic->fd.sensors = open(fname, O_RDWR);
-		snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_wave", asic->instance);
-		asic->fd.wave = open(fname, O_RDWR);
-		snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_vram", asic->instance);
-		asic->fd.vram = open(fname, O_RDWR);
-		snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_gpr", asic->instance);
-		asic->fd.gpr = open(fname, O_RDWR);
-		asic->fd.drm = -1; // default to closed
-		// if appending to the fd list remember to update close_asic() and discover_by_did()...
+		if (!asic->options.no_kernel) {
+			snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_regs", asic->instance);
+			asic->fd.mmio = open(fname, O_RDWR);
+			snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_regs_didt", asic->instance);
+			asic->fd.didt = open(fname, O_RDWR);
+			snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_regs_pcie", asic->instance);
+			asic->fd.pcie = open(fname, O_RDWR);
+			snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_regs_smc", asic->instance);
+			asic->fd.smc = open(fname, O_RDWR);
+			snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_sensors", asic->instance);
+			asic->fd.sensors = open(fname, O_RDWR);
+			snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_wave", asic->instance);
+			asic->fd.wave = open(fname, O_RDWR);
+			snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_vram", asic->instance);
+			asic->fd.vram = open(fname, O_RDWR);
+			snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_gpr", asic->instance);
+			asic->fd.gpr = open(fname, O_RDWR);
+			asic->fd.drm = -1; // default to closed
+			// if appending to the fd list remember to update close_asic() and discover_by_did()...
+		} else {
+			// no files open!
+			asic->fd.mmio = -1;
+			asic->fd.didt = -1;
+			asic->fd.pcie = -1;
+			asic->fd.smc = -1;
+			asic->fd.sensors = -1;
+			asic->fd.wave = -1;
+			asic->fd.vram = -1;
+			asic->fd.gpr = -1;
+			asic->fd.drm = -1;
+		}
 
 		if (options->use_pci) {
 			// init PCI mapping
