@@ -24,13 +24,25 @@
  */
 #include "umr.h"
 
-#include "nbif61_bits.i"
+#include "gfx91_bits.i"
 
-static const struct umr_reg_soc15 nbif61_registers[] = {
-#include "nbif61_regs.i"
+static const struct umr_reg_soc15 gfx91_registers[] = {
+#include "gfx91_regs.i"
 };
 
-struct umr_ip_block *umr_create_nbif61(struct umr_ip_offsets_soc15 *soc15_offsets, struct umr_options *options)
+static int grant(struct umr_asic *asic)
+{
+	(void)asic;
+	return 0;
+}
+
+static int deny(struct umr_asic *asic)
+{
+	(void)asic;
+	return -1;
+}
+
+struct umr_ip_block *umr_create_gfx91(struct umr_ip_offsets_soc15 *soc15_offsets, struct umr_options *options)
 {
 	struct umr_ip_block *ip;
 
@@ -38,15 +50,16 @@ struct umr_ip_block *umr_create_nbif61(struct umr_ip_offsets_soc15 *soc15_offset
 	if (!ip)
 		return NULL;
 
-	ip->ipname = "nbif61";
-	ip->no_regs = sizeof(nbif61_registers)/sizeof(nbif61_registers[0]);
+	ip->ipname = "gfx91";
+	ip->no_regs = sizeof(gfx91_registers)/sizeof(gfx91_registers[0]);
 	ip->regs = calloc(ip->no_regs, sizeof(ip->regs[0]));
 	if (!ip->regs) {
 		free(ip);
 		return NULL;
 	}
+	ip->grant = (options->risky >= 1) ? grant : deny;
 
-	if (umr_transfer_soc15_to_reg(options, soc15_offsets, "NBIF", nbif61_registers, ip)) {
+	if (umr_transfer_soc15_to_reg(options, soc15_offsets, "GC", gfx91_registers, ip)) {
 		free(ip);
 		return NULL;
 	}

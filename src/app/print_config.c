@@ -92,6 +92,7 @@ static const struct {
 	{ "Volcanic Islands", 130 },
 	{ "Carrizo", 135 },
 	{ "Arctic Islands", 141 },
+	{ "Raven", 142 },
 	{ NULL, 0 },
 };
 

@@ -424,6 +424,7 @@ int umr_read_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint32
 	switch (asic->family) {
 		case FAMILY_VI:
 			return umr_read_vram_vi(asic, vmid, address, size, dst);
+		case FAMILY_RV:
 		case FAMILY_AI:
 			return umr_read_vram_ai(asic, vmid, address, size, dst);
 		default:

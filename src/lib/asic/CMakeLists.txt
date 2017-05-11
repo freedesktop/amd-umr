@@ -15,6 +15,7 @@ add_library(asic OBJECT
   polaris10.c
   polaris11.c
   polaris12.c
+  raven1.c
   stoney.c
   tahiti.c
   tonga.c

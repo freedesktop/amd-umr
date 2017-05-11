@@ -29,22 +29,19 @@ static struct umr_ip_offsets_soc15 vega10_offs[] = {
 	{ NULL },
 };
 
-struct umr_asic *umr_create_vega10(struct umr_options *options)
+struct umr_asic *umr_create_raven1(struct umr_options *options)
 {
 	return
-		umr_create_asic_helper("vega10", FAMILY_AI,
-			umr_create_gfx90(vega10_offs, options),
-			umr_create_uvd70(vega10_offs, options),
-			umr_create_vce40(vega10_offs, options),
-			umr_create_dce120(vega10_offs, options),
+		umr_create_asic_helper("raven1", FAMILY_RV,
+			umr_create_gfx91(vega10_offs, options),
+			umr_create_vcn10(vega10_offs, options),
+			umr_create_dcn10(vega10_offs, options),
+			umr_create_nbio70(vega10_offs, options),
+			umr_create_sdma041(vega10_offs, options),
 			umr_create_hdp40(vega10_offs, options),
-			umr_create_nbio61(vega10_offs, options),
 			umr_create_oss40(vega10_offs, options),
-			umr_create_sdma040(vega10_offs, options),
-			umr_create_sdma140(vega10_offs, options),
-			umr_create_thm90(vega10_offs, options),
-			umr_create_mmhub10(vega10_offs, options),
-			umr_create_mp90(vega10_offs, options),
+			umr_create_mmhub91(vega10_offs, options),
+			umr_create_mp100(vega10_offs, options),
 			NULL);
 }
 

@@ -80,8 +80,16 @@ parse_bits ${pk}/vega10/SDMA0/sdma0_4_0 src/lib/ip/sdma040
 parse_bits ${pk}/vega10/THM/thm_9_0 src/lib/ip/thm90
 parse_bits ${pk}/vega10/OSSSYS/osssys_4_0 src/lib/ip/oss40
 parse_bits ${pk}/vega10/GC/gc_9_0 src/lib/ip/gfx90
-parse_bits ${pk}/vega10/NBIF/nbif_6_1 src/lib/ip/nbif61
 parse_bits ${pk}/vega10/NBIO/nbio_6_1 src/lib/ip/nbio61
 parse_bits ${pk}/vega10/HDP/hdp_4_0 src/lib/ip/hdp40
 parse_bits ${pk}/vega10/MMHUB/mmhub_1_0 src/lib/ip/mmhub10
 parse_bits ${pk}/vega10/MP/mp_9_0 src/lib/ip/mp90
+
+parse_bits ${pk}/raven1/VCN/vcn_1_0 src/lib/ip/vcn10
+parse_bits ${pk}/raven1/DCN/dcn_1_0 src/lib/ip/dcn10
+parse_bits ${pk}/raven1/MMHUB/mmhub_9_1 src/lib/ip/mmhub91
+parse_bits ${pk}/raven1/MP/mp_10_0 src/lib/ip/mp100
+parse_bits ${pk}/raven1/NBIO/nbio_7_0 src/lib/ip/nbio70
+parse_bits ${pk}/raven1/SDMA0/sdma0_4_1 src/lib/ip/sdma041
+parse_bits ${pk}/raven1/MP/mp_10_0 src/lib/ip/mp100
+parse_bits ${pk}/raven1/GC/gc_9_1 src/lib/ip/gfx91

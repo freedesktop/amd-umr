@@ -24,27 +24,45 @@
  */
 #include "umr.h"
 
-static struct umr_ip_offsets_soc15 vega10_offs[] = {
-#include "vega10.i"
-	{ NULL },
+#include "mp100_bits.i"
+
+static const struct umr_reg_soc15 mp100_registers[] = {
+#include "mp100_regs.i"
 };
 
-struct umr_asic *umr_create_vega10(struct umr_options *options)
+static int grant(struct umr_asic *asic)
 {
-	return
-		umr_create_asic_helper("vega10", FAMILY_AI,
-			umr_create_gfx90(vega10_offs, options),
-			umr_create_uvd70(vega10_offs, options),
-			umr_create_vce40(vega10_offs, options),
-			umr_create_dce120(vega10_offs, options),
-			umr_create_hdp40(vega10_offs, options),
-			umr_create_nbio61(vega10_offs, options),
-			umr_create_oss40(vega10_offs, options),
-			umr_create_sdma040(vega10_offs, options),
-			umr_create_sdma140(vega10_offs, options),
-			umr_create_thm90(vega10_offs, options),
-			umr_create_mmhub10(vega10_offs, options),
-			umr_create_mp90(vega10_offs, options),
-			NULL);
+	(void)asic;
+	return 0;
 }
 
+static int deny(struct umr_asic *asic)
+{
+	(void)asic;
+	return -1;
+}
+
+struct umr_ip_block *umr_create_mp100(struct umr_ip_offsets_soc15 *soc15_offsets, struct umr_options *options)
+{
+	struct umr_ip_block *ip;
+
+	ip = calloc(1, sizeof *ip);
+	if (!ip)
+		return NULL;
+
+	ip->ipname = "mp100";
+	ip->no_regs = sizeof(mp100_registers)/sizeof(mp100_registers[0]);
+	ip->regs = calloc(ip->no_regs, sizeof(ip->regs[0]));
+	if (!ip->regs) {
+		free(ip);
+		return NULL;
+	}
+	ip->grant = (options->risky >= 1) ? grant : deny;
+
+	if (umr_transfer_soc15_to_reg(options, soc15_offsets, "MP0", mp100_registers, ip)) { // this might be broken because there is MP1/2 as well
+		free(ip);
+		return NULL;
+	}
+
+	return ip;
+}

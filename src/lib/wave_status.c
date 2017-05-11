@@ -201,7 +201,7 @@ static int umr_get_wave_status_vi(struct umr_asic *asic, unsigned se, unsigned s
 	return 0;
 }
 
-static int umr_get_wave_status_next(struct umr_asic *asic, unsigned se, unsigned sh, unsigned cu, unsigned simd, unsigned wave, struct umr_wave_status *ws)
+static int umr_get_wave_status_ai(struct umr_asic *asic, unsigned se, unsigned sh, unsigned cu, unsigned simd, unsigned wave, struct umr_wave_status *ws)
 {
 	uint32_t x, value, buf[32];
 
@@ -301,8 +301,8 @@ static int umr_get_wave_status_next(struct umr_asic *asic, unsigned se, unsigned
 
 int umr_get_wave_status(struct umr_asic *asic, unsigned se, unsigned sh, unsigned cu, unsigned simd, unsigned wave, struct umr_wave_status *ws)
 {
-	if (asic->family == FAMILY_AI)
-		return umr_get_wave_status_next(asic, se, sh, cu, simd, wave, ws);
+	if (asic->family == FAMILY_AI || asic->family == FAMILY_RV)
+		return umr_get_wave_status_ai(asic, se, sh, cu, simd, wave, ws);
 	else if (asic->family <= FAMILY_VI)
 		return umr_get_wave_status_vi(asic, se, sh, cu, simd, wave, ws);
 	return -1;
