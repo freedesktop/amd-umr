@@ -813,8 +813,8 @@ static void top_build_vi_program(struct umr_asic *asic)
 		ENTRY(i++, "mmRLC_GPM_STAT", &stat_rlc_gpm_bits[0], &top_options.vi.gfxpwr, "GFX PWR");
 
 	// sensors
-	if (asic->config.gfx.family == 141) {
-		// Arctic Island Family
+	if (asic->config.gfx.family == 141 || asic->config.gfx.family == 142) {
+		// Arctic Island Family/Raven
 		ENTRY_SENSOR(i++, "GFX_SCLK", &stat_ai_sensor_bits[0], &top_options.vi.sensors, "Sensors");
 	} else if (asic->config.gfx.family == 135) {
 		// Carrizo/Stoney family
