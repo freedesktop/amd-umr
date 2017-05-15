@@ -153,7 +153,7 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 			pci_system_init();
 			pci_iter = pci_id_match_iterator_create(NULL);
 			if (!pci_iter) {
-				fprintf(stderr, "Cannot create PCI iterator");
+				fprintf(stderr, "[ERROR]: Cannot create PCI iterator");
 				goto err_pci;
 			}
 			do {
@@ -161,7 +161,7 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 			} while (asic->pci.pdevice && !(asic->pci.pdevice->vendor_id == 0x1002 && is_did_match(asic, asic->pci.pdevice->device_id)));
 
 			if (!asic->pci.pdevice) {
-				fprintf(stderr, "Could not find ASIC with DID of %04lx\n", (unsigned long)asic->did);
+				fprintf(stderr, "[ERROR]: Could not find ASIC with DID of %04lx\n", (unsigned long)asic->did);
 				goto err_pci;
 			}
 			pci_iterator_destroy(pci_iter);
@@ -194,14 +194,14 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 			}
 
 			if (use_region == 6) {
-				fprintf(stderr, "Could not find PCI region (debugfs mode might still work)\n");
+				fprintf(stderr, "[ERROR]: Could not find PCI region (debugfs mode might still work)\n");
 				goto err_pci;
 			}
 			asic->pci.region = use_region;
 
 			pci_region_addr = asic->pci.pdevice->regions[use_region].base_addr;
 			if (pci_device_map_range(asic->pci.pdevice, pci_region_addr, asic->pci.pdevice->regions[use_region].size, PCI_DEV_MAP_FLAG_WRITABLE, &pcimem_v)) {
-				fprintf(stderr, "Could not map PCI memory\n");
+				fprintf(stderr, "[ERROR]: Could not map PCI memory\n");
 				goto err_pci;
 			}
 			asic->pci.mem = pcimem_v;

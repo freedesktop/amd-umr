@@ -965,7 +965,7 @@ void umr_top(struct umr_asic *asic)
 
 	// start thread to grab sensor data
 	if (pthread_create(&sensor_thread, NULL, gpu_sensor_thread, asic)) {
-		fprintf(stderr, "[ERROR] Cannot create gpu_sensor_thread\n");
+		fprintf(stderr, "[ERROR]: Cannot create gpu_sensor_thread\n");
 		return;
 	}
 

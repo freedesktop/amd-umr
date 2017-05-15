@@ -50,7 +50,7 @@ static void consume_str(char **ptr, char *str)
 	*ptr = p;
 
 	if (!strlen(str))
-		fprintf(stderr, "[ERROR] Premature end of file\n");
+		fprintf(stderr, "[ERROR]: Premature end of file\n");
 }
 
 static void parse_regpath(char **ptr, char *asic, char *ip, char *reg)
@@ -148,7 +148,7 @@ static int do_add_reg(char **ptr, struct umr_asic *as)
 	find_reg(as, ip, reg, &i, &j);
 
 	if (i < 0 || j >= 0) {
-		fprintf(stderr, "[ERROR] Invalid regpath %s.%s for add command\n", ip, reg);
+		fprintf(stderr, "[ERROR]: Invalid regpath %s.%s for add command\n", ip, reg);
 		return -1;
 	}
 
@@ -187,7 +187,7 @@ static int do_add_bit(char **ptr, struct umr_asic *as)
 	find_bit(as, ip, reg, bit, &i, &j, &k);
 
 	if (i < 0 || j < 0 || k >= 0) {
-		fprintf(stderr, "[ERROR] Invalid regpath %s.%s.%s for add command\n", ip, reg, bit);
+		fprintf(stderr, "[ERROR]: Invalid regpath %s.%s.%s for add command\n", ip, reg, bit);
 		return -1;
 	}
 
@@ -226,7 +226,7 @@ static int do_add(char **ptr, struct umr_asic *asic)
 		*ptr += 3;
 		do_add_bit(ptr, asic);
 	} else {
-		fprintf(stderr, "[ERROR] Invalid add command\n");
+		fprintf(stderr, "[ERROR]: Invalid add command\n");
 		return -1;
 	}
 	return 0;
@@ -250,7 +250,7 @@ static int do_edit_reg(char **ptr, struct umr_asic *as)
 	find_reg(as, ip, reg, &i, &j);
 
 	if (i < 0 || j < 0) {
-		fprintf(stderr, "[ERROR] Invalid regpath %s.%s for edit command\n", ip, reg);
+		fprintf(stderr, "[ERROR]: Invalid regpath %s.%s for edit command\n", ip, reg);
 		return -1;
 	}
 
@@ -280,7 +280,7 @@ static int do_edit_bit(char **ptr, struct umr_asic *as)
 	find_bit(as, ip, reg, bit, &i, &j, &k);
 
 	if (i < 0 || j < 0 || k < 0) {
-		fprintf(stderr, "[ERROR] Invalid regpath %s.%s.%s for edit command\n", ip, reg, bit);
+		fprintf(stderr, "[ERROR]: Invalid regpath %s.%s.%s for edit command\n", ip, reg, bit);
 		return -1;
 	}
 
@@ -303,7 +303,7 @@ static int do_edit(char **ptr, struct umr_asic *asic)
 		*ptr += 3;
 		do_edit_bit(ptr, asic);
 	} else {
-		fprintf(stderr, "[ERROR] Invalid edit command\n");
+		fprintf(stderr, "[ERROR]: Invalid edit command\n");
 		return -1;
 	}
 	return 0;
@@ -325,7 +325,7 @@ static int do_del_reg(char **ptr, struct umr_asic *as)
 	find_reg(as, ip, reg, &i, &j);
 
 	if (i < 0 || j < 0) {
-		fprintf(stderr, "[ERROR] Invalid regpath %s.%s for del command\n", ip, reg);
+		fprintf(stderr, "[ERROR]: Invalid regpath %s.%s for del command\n", ip, reg);
 		return -1;
 	}
 
@@ -352,7 +352,7 @@ static int do_del_bit(char **ptr, struct umr_asic *as)
 	find_bit(as, ip, reg, bit, &i, &j, &k);
 
 	if (i < 0 || j < 0 || k < 0) {
-		fprintf(stderr, "[ERROR] Invalid regpath %s.%s.%s for del command\n", ip, reg, bit);
+		fprintf(stderr, "[ERROR]: Invalid regpath %s.%s.%s for del command\n", ip, reg, bit);
 		return -1;
 	}
 
@@ -375,7 +375,7 @@ static int do_del(char **ptr, struct umr_asic *asic)
 		*ptr += 3;
 		do_del_bit(ptr, asic);
 	} else {
-		fprintf(stderr, "[ERROR] Invalid del command\n");
+		fprintf(stderr, "[ERROR]: Invalid del command\n");
 		return -1;
 	}
 	return 0;
@@ -390,7 +390,7 @@ int umr_update(struct umr_asic *asic, char *script)
 
 	fd = open(script, O_RDWR);
 	if (fd < 0) {
-		fprintf(stderr, "[ERROR] Script <%s> not found\n", script);
+		fprintf(stderr, "[ERROR]: Script <%s> not found\n", script);
 		return -1;
 	}
 	len = lseek(fd, 0, SEEK_END) + 1;
@@ -398,7 +398,7 @@ int umr_update(struct umr_asic *asic, char *script)
 	lseek(fd, 0, SEEK_SET);
 	if (!smem) {
 		close(fd);
-		fprintf(stderr, "[ERROR] Out of memory...\n");
+		fprintf(stderr, "[ERROR]: Out of memory...\n");
 		return -1;
 	}
 	read(fd, smem, len);
@@ -420,7 +420,7 @@ int umr_update(struct umr_asic *asic, char *script)
 			sdata += 3;
 			do_del(&sdata, asic);
 		} else if (*sdata) {
-			fprintf(stderr, "[ERROR] Unknown update command [%s]\n", sdata);
+			fprintf(stderr, "[ERROR]: Unknown update command [%s]\n", sdata);
 			*sdata = 0;
 		}
 	}

@@ -38,7 +38,7 @@ static int umr_get_wave_sq_info_vi(struct umr_asic *asic, unsigned se, unsigned 
 		(((uint64_t)cu) << 44);
 
 	if (!index || !data) {
-		fprintf(stderr, "Cannot find SQ indirect registers on this asic!\n");
+		fprintf(stderr, "[BUG]: Cannot find SQ indirect registers on this asic!\n");
 		return -1;
 	}
 
@@ -65,7 +65,7 @@ static uint32_t wave_read_ind(struct umr_asic *asic, uint32_t simd, uint32_t wav
 		umr_write_reg(asic, ind_index->addr * 4, data);
 		return umr_read_reg(asic, ind_data->addr * 4);
 	} else {
-		fprintf(stderr, "[BUG] The required SQ_IND_{INDEX,DATA} registers are not found on the asic <%s>\n", asic->asicname);
+		fprintf(stderr, "[BUG]: The required SQ_IND_{INDEX,DATA} registers are not found on the asic <%s>\n", asic->asicname);
 		return -1;
 	}
 }
@@ -120,7 +120,7 @@ static int umr_get_wave_status_vi(struct umr_asic *asic, unsigned se, unsigned s
 	}
 
 	if (buf[0] != 0) {
-		fprintf(stderr, "Was expecting type 0 wave data on a CZ/VI part!\n");
+		fprintf(stderr, "[ERROR]: Was expecting type 0 wave data on a CZ/VI part!\n");
 		return -1;
 	}
 
@@ -222,7 +222,7 @@ static int umr_get_wave_status_ai(struct umr_asic *asic, unsigned se, unsigned s
 	}
 
 	if (buf[0] != 1) {
-		fprintf(stderr, "Was expecting type 1 wave data on a FAMILY_AI part!\n");
+		fprintf(stderr, "[ERROR]: Was expecting type 1 wave data on a FAMILY_AI part!\n");
 		return -1;
 	}
 

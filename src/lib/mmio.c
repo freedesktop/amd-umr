@@ -28,7 +28,7 @@ uint32_t umr_read_reg(struct umr_asic *asic, uint64_t addr)
 {
 	uint32_t value=0;
 	if (addr == 0xFFFFFFFF)
-		fprintf(stderr, "warning: reading from addr==0xFFFFFFFF is likely a bug\n");
+		fprintf(stderr, "[BUG]: reading from addr==0xFFFFFFFF is likely a bug\n");
 
 	if (asic->pci.mem && !(addr & ~0xFFFFFULL)) { // only use pci if enabled and not using high bits 
 		return asic->pci.mem[addr/4];
@@ -44,7 +44,7 @@ uint32_t umr_read_reg(struct umr_asic *asic, uint64_t addr)
 int umr_write_reg(struct umr_asic *asic, uint64_t addr, uint32_t value)
 {
 	if (addr == 0xFFFFFFFF)
-		fprintf(stderr, "warning: reading from addr==0xFFFFFFFF is likely a bug\n");
+		fprintf(stderr, "[BUG]: reading from addr==0xFFFFFFFF is likely a bug\n");
 
 	if (asic->pci.mem && !(addr & ~0xFFFFFULL)) {
 		asic->pci.mem[addr/4] = value;
@@ -81,7 +81,7 @@ uint32_t umr_bitslice_reg(struct umr_asic *asic, struct umr_reg *reg, char *bitn
 			return regvalue;
 		}
 	}
-	fprintf(stderr, "BUG: Bitfield [%s] not found in reg [%s] on asic [%s]\n", bitname, reg->regname, asic->asicname);
+	fprintf(stderr, "[BUG]: Bitfield [%s] not found in reg [%s] on asic [%s]\n", bitname, reg->regname, asic->asicname);
 	return 0;
 }
 
@@ -95,7 +95,7 @@ uint32_t umr_bitslice_compose_value(struct umr_asic *asic, struct umr_reg *reg, 
 			return regvalue;
 		}
 	}
-	fprintf(stderr, "BUG: Bitfield [%s] not found in reg [%s] on asic [%s]\n", bitname, reg->regname, asic->asicname);
+	fprintf(stderr, "[BUG]: Bitfield [%s] not found in reg [%s] on asic [%s]\n", bitname, reg->regname, asic->asicname);
 	return 0;
 }
 

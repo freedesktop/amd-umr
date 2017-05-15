@@ -51,7 +51,7 @@ void umr_enumerate_devices(void)
 	pci_system_init();
 	pci_iter = pci_id_match_iterator_create(NULL);
 	if (!pci_iter) {
-		fprintf(stderr, "Cannot create PCI iterator");
+		fprintf(stderr, "[ERROR]: Cannot create PCI iterator");
 		return;
 	}
 	do {

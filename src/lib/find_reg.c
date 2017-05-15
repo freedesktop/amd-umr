@@ -32,7 +32,7 @@ uint32_t umr_find_reg(struct umr_asic *asic, char *regname)
 		for (j = 0; j < asic->blocks[i]->no_regs; j++)
 			if (!strcmp(asic->blocks[i]->regs[j].regname, regname))
 				return asic->blocks[i]->regs[j].addr;
-	fprintf(stderr, "BUG: reg [%s] not found on asic [%s]\n", regname, asic->asicname);
+	fprintf(stderr, "[BUG]: reg [%s] not found on asic [%s]\n", regname, asic->asicname);
 	return 0xFFFFFFFF;
 }
 
@@ -44,6 +44,6 @@ struct umr_reg *umr_find_reg_data(struct umr_asic *asic, char *regname)
 		for (j = 0; j < asic->blocks[i]->no_regs; j++)
 			if (!strcmp(asic->blocks[i]->regs[j].regname, regname))
 				return &asic->blocks[i]->regs[j];
-	fprintf(stderr, "BUG: reg [%s] not found on asic [%s]\n", regname, asic->asicname);
+	fprintf(stderr, "[BUG]: reg [%s] not found on asic [%s]\n", regname, asic->asicname);
 	return NULL;
 }

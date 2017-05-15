@@ -45,7 +45,7 @@ static void wave_read_regs_via_mmio(struct umr_asic *asic, uint32_t simd,
 		while (num--)
 			*(out++) = umr_read_reg(asic, ind_data->addr * 4);
 	} else {
-		fprintf(stderr, "[BUG] The required SQ_IND_{INDEX,DATA} registers are not found on the asic <%s>\n", asic->asicname);
+		fprintf(stderr, "[BUG]: The required SQ_IND_{INDEX,DATA} registers are not found on the asic <%s>\n", asic->asicname);
 		return;
 	}
 }

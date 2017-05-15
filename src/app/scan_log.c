@@ -45,7 +45,7 @@ int umr_create_mmio_accel(struct umr_asic *asic)
 		for (j = 0; j < asic->blocks[i]->no_regs; j++) {
 			if (asic->blocks[i]->regs[j].type == REG_MMIO) {
 				if (asic->blocks[i]->regs[j].addr >= LIST_SIZE) {
-					fprintf(stderr, "[BUG] Register address width too large for scan_log\n");
+					fprintf(stderr, "[BUG]: Register address width too large for scan_log\n");
 					continue;
 				}
 				asic->mmio_accel.reglist[asic->blocks[i]->regs[j].addr] = &asic->blocks[i]->regs[j];

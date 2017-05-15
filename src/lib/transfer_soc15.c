@@ -33,7 +33,7 @@ int umr_transfer_soc15_to_reg(struct umr_options *options, struct umr_ip_offsets
 		if (!strcmp(ip[x].name, ipname))
 			break;
 	if (!ip[x].name) {
-		fprintf(stderr, "[BUG] IP '%s' not found in offset table\n", ipname);
+		fprintf(stderr, "[BUG]: IP '%s' not found in offset table\n", ipname);
 		return -1;
 	}
 
