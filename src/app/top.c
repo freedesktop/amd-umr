@@ -796,8 +796,6 @@ static void top_build_vi_program(struct umr_asic *asic)
 	int i, j, k;
 	char *regname;
 
-	(void)asic;
-
 	stat_counters[0].bits = &stat_grbm_bits[0];
 	stat_counters[0].opt = &top_options.vi.grbm;
 	stat_counters[0].tag = "GRBM";
@@ -949,7 +947,7 @@ void umr_top(struct umr_asic *asic)
 	load_options();
 
 	// select an architecture ...
-	if (asic->family <= FAMILY_AI)
+	if (asic->family <= FAMILY_RV)
 		top_build_vi_program(asic);
 
 	// add DRM info
