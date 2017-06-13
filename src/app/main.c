@@ -223,7 +223,7 @@ int main(int argc, char **argv)
 
 				if (!asic)
 					asic = get_asic();
-				if (sscanf(argv[i+1], "%"SCNx32, &reg) == 1 && sscanf(argv[i+2], "%"SCNx32, &val) == 1)
+				if (!memcmp(argv[i+1], "0x", 2) && sscanf(argv[i+1], "%"SCNx32, &reg) == 1 && sscanf(argv[i+2], "%"SCNx32, &val) == 1)
 					umr_write_reg(asic, reg, val);
 				else
 					umr_set_register(asic, argv[i+1], argv[i+2]);
@@ -270,7 +270,7 @@ int main(int argc, char **argv)
 				if (!asic)
 					asic = get_asic();
 
-				if (sscanf(argv[i+1], "%"SCNx32, &reg) == 1) {
+				if (!memcmp(argv[i+1], "0x", 2) && sscanf(argv[i+1], "%"SCNx32, &reg) == 1) {
 					reg = umr_read_reg(asic, reg);
 					printf("0x%08lx\n", (unsigned long)reg);
 				} else {

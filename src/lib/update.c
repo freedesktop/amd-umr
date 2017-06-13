@@ -132,12 +132,21 @@ static void find_bit(struct umr_asic *as, char *ip, char *reg, char *bit, int *i
 static int do_add_reg(char **ptr, struct umr_asic *as)
 {
 	char	asic[BUFLEN], ip[BUFLEN],
-		reg[BUFLEN], addr[BUFLEN];
-	int i, j;
+		reg[BUFLEN], addr[BUFLEN], type[BUFLEN];
+	int i, j, mtype = REG_MMIO;
 	struct umr_reg newreg;
 
 	parse_regpath(ptr, asic, ip, reg);
-	consume_str(ptr, addr);
+	consume_str(ptr, type);
+	if (!strcmp(type, "pci") || !strcmp(type, "smc")) {
+		consume_str(ptr, addr);
+		if (!strcmp(type, "pci"))
+			mtype = REG_PCIE;
+		else
+			mtype = REG_SMC;
+	} else {
+		strcpy(addr, type);
+	}
 
 	// now try to find that asic/ip block
 	if (strcmp(as->asicname, asic)) {
@@ -156,7 +165,7 @@ static int do_add_reg(char **ptr, struct umr_asic *as)
 	memset(&newreg, 0, sizeof(newreg));
 	newreg.regname = calloc(1, strlen(reg)+1);
 	strcpy(newreg.regname, reg);
-	newreg.type = REG_MMIO;
+	newreg.type = mtype;
 	sscanf(addr, "%"SCNx32, &newreg.addr);
 
 	// extend array
@@ -199,6 +208,7 @@ static int do_add_bit(char **ptr, struct umr_asic *as)
 	sscanf(stop, "%"SCNu32, &nstop);
 	newbit.start = nstart;
 	newbit.stop = nstop;
+	newbit.bitfield_print = umr_bitfield_default;
 
 	// extend bits
 	if (as->blocks[i]->regs[j].no_bits == 0) {

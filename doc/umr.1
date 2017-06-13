@@ -1,4 +1,4 @@
-.TH UMR 1 "January 2017" "AMD (c) 2017" "User Manuals"
+.TH UMR 1 "June 2017" "AMD (c) 2017" "User Manuals"
 .SH NAME
 umr \- AMDGPU Userspace Register Debugger
 .SH DESCRIPTION
@@ -90,9 +90,14 @@ Read 'size' bytes (in hex) from the address specified (in hexadecimal) from VRAM
 to stdout.  Optionally specify the VMID (in decimal) treating the address as a
 virtual address instead.  Can use 'use_pci' to directly access VRAM.
 
+.IP "--update, -u" <filename>
+Specify update file to add, change, or delete registers from the register
+database.  Useful for adding registers that are not including in the kernel headers.
+
 .IP "--option, -O <string>[,<string>,...]"
 Specify options to the tool.  Multiple options can be specified as comma
-separated strings.
+separated strings.  Options should be specified before --update or --force commands
+(among others) to enable options specified.
 
 .B quiet
      Disable various informative but not required (for functionality) outputs.
