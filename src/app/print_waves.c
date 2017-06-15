@@ -55,7 +55,8 @@ void umr_print_waves(struct umr_asic *asic)
 				umr_get_wave_status(asic, se, sh, cu, simd, wave, &ws);
 				if (ws.wave_status.halt || ws.wave_status.valid) {
 					// grab sgprs..
-					umr_read_sgprs(asic, &ws, &sgprs[0]);
+					if (ws.wave_status.halt)
+						umr_read_sgprs(asic, &ws, &sgprs[0]);
 
 					if (!options.bitfields && first) {
 						first = 0;
@@ -75,14 +76,15 @@ void umr_print_waves(struct umr_asic *asic)
 (unsigned long)ws.hw_id.value, (unsigned long)ws.gpr_alloc.value, (unsigned long)ws.lds_alloc.value, (unsigned long)ws.trapsts.value, (unsigned long)ws.ib_sts.value,
 (unsigned long)ws.tba_hi, (unsigned long)ws.tba_lo, (unsigned long)ws.tma_hi, (unsigned long)ws.tma_lo, (unsigned long)ws.ib_dbg0, (unsigned long)ws.m0
 );
-						for (x = 0; x < ((ws.gpr_alloc.sgpr_size + 1) << shift); x += 4)
-							printf(">SGPRS[%u..%u] = { %08lx, %08lx, %08lx, %08lx }\n",
-								(unsigned)((ws.gpr_alloc.sgpr_base << shift) + x),
-								(unsigned)((ws.gpr_alloc.sgpr_base << shift) + x + 3),
-								(unsigned long)sgprs[x],
-								(unsigned long)sgprs[x+1],
-								(unsigned long)sgprs[x+2],
-								(unsigned long)sgprs[x+3]);
+						if (ws.wave_status.halt)
+							for (x = 0; x < ((ws.gpr_alloc.sgpr_size + 1) << shift); x += 4)
+								printf(">SGPRS[%u..%u] = { %08lx, %08lx, %08lx, %08lx }\n",
+									(unsigned)((ws.gpr_alloc.sgpr_base << shift) + x),
+									(unsigned)((ws.gpr_alloc.sgpr_base << shift) + x + 3),
+									(unsigned long)sgprs[x],
+									(unsigned long)sgprs[x+1],
+									(unsigned long)sgprs[x+2],
+									(unsigned long)sgprs[x+3]);
 
 						pgm_addr = (((uint64_t)ws.pc_hi << 32) | ws.pc_lo) - (sizeof(opcodes)/2);
 						umr_read_vram(asic, ws.hw_id.vm_id, pgm_addr, sizeof(opcodes), opcodes);
@@ -154,15 +156,17 @@ void umr_print_waves(struct umr_asic *asic)
 						PP(gpr_alloc, sgpr_base);
 						PP(gpr_alloc, sgpr_size);
 
-						printf("\n\nSGPRS:\n");
-						for (x = 0; x < ((ws.gpr_alloc.sgpr_size + 1) << shift); x += 4)
-							printf("\t[%4u..%4u] = { %08lx, %08lx, %08lx, %08lx }\n",
-								(unsigned)((ws.gpr_alloc.sgpr_base << shift) + x),
-								(unsigned)((ws.gpr_alloc.sgpr_base << shift) + x + 3),
-								(unsigned long)sgprs[x],
-								(unsigned long)sgprs[x+1],
-								(unsigned long)sgprs[x+2],
-								(unsigned long)sgprs[x+3]);
+						if (ws.wave_status.halt) {
+							printf("\n\nSGPRS:\n");
+							for (x = 0; x < ((ws.gpr_alloc.sgpr_size + 1) << shift); x += 4)
+								printf("\t[%4u..%4u] = { %08lx, %08lx, %08lx, %08lx }\n",
+									(unsigned)((ws.gpr_alloc.sgpr_base << shift) + x),
+									(unsigned)((ws.gpr_alloc.sgpr_base << shift) + x + 3),
+									(unsigned long)sgprs[x],
+									(unsigned long)sgprs[x+1],
+									(unsigned long)sgprs[x+2],
+									(unsigned long)sgprs[x+3]);
+						}
 
 						printf("\n\nPGM_MEM:\n");
 						pgm_addr = (((uint64_t)ws.pc_hi << 32) | ws.pc_lo) - (sizeof(opcodes)/2);
