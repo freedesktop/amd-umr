@@ -42,8 +42,8 @@ static int umr_get_wave_sq_info_vi(struct umr_asic *asic, unsigned se, unsigned 
 		return -1;
 	}
 
-	umr_write_reg(asic, index|bank, 8 << 16);
-	value = umr_read_reg(asic, data|bank);
+	umr_write_reg(asic, index|bank, 8 << 16, REG_MMIO);
+	value = umr_read_reg(asic, data|bank, REG_MMIO);
 	ws->sq_info.busy = value & 1;
 	ws->sq_info.wave_level = (value >> 4) & 0x3F;
 	return 0;
@@ -62,8 +62,8 @@ static uint32_t wave_read_ind(struct umr_asic *asic, uint32_t simd, uint32_t wav
 		data |= umr_bitslice_compose_value(asic, ind_index, "SIMD_ID", simd);
 		data |= umr_bitslice_compose_value(asic, ind_index, "INDEX", address);
 		data |= umr_bitslice_compose_value(asic, ind_index, "FORCE_READ", 1);
-		umr_write_reg(asic, ind_index->addr * 4, data);
-		return umr_read_reg(asic, ind_data->addr * 4);
+		umr_write_reg(asic, ind_index->addr * 4, data, REG_MMIO);
+		return umr_read_reg(asic, ind_data->addr * 4, REG_MMIO);
 	} else {
 		fprintf(stderr, "[BUG]: The required SQ_IND_{INDEX,DATA} registers are not found on the asic <%s>\n", asic->asicname);
 		return -1;

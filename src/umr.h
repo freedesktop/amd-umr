@@ -471,8 +471,8 @@ uint32_t umr_find_reg(struct umr_asic *asic, char *regname);
 struct umr_reg *umr_find_reg_data(struct umr_asic *asic, char *regname);
 
 // read/write a 32-bit register given a BYTE address
-uint32_t umr_read_reg(struct umr_asic *asic, uint64_t addr);
-int umr_write_reg(struct umr_asic *asic, uint64_t addr, uint32_t value);
+uint32_t umr_read_reg(struct umr_asic *asic, uint64_t addr, enum regclass type);
+int umr_write_reg(struct umr_asic *asic, uint64_t addr, uint32_t value, enum regclass type);
 
 // read/write a register given a name
 uint32_t umr_read_reg_by_name(struct umr_asic *asic, char *name);

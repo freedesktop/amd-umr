@@ -43,9 +43,9 @@ static void read_via_mmio(struct umr_asic *asic, uint64_t address, uint32_t size
 	}
 
 	while (size) {
-		umr_write_reg(asic, MM_INDEX, address | 0x80000000);
-		umr_write_reg(asic, MM_INDEX_HI, address >> 31);
-		*out++ = umr_read_reg(asic, MM_DATA);
+		umr_write_reg(asic, MM_INDEX, address | 0x80000000, REG_MMIO);
+		umr_write_reg(asic, MM_INDEX_HI, address >> 31, REG_MMIO);
+		*out++ = umr_read_reg(asic, MM_DATA, REG_MMIO);
 		size -= 4;
 		address += 4;
 	}

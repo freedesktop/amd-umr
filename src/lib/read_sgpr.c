@@ -41,9 +41,9 @@ static void wave_read_regs_via_mmio(struct umr_asic *asic, uint32_t simd,
 		data |= umr_bitslice_compose_value(asic, ind_index, "THREAD_ID", thread);
 		data |= umr_bitslice_compose_value(asic, ind_index, "FORCE_READ", 1);
 		data |= umr_bitslice_compose_value(asic, ind_index, "AUTO_INCR", 1);
-		umr_write_reg(asic, ind_index->addr * 4, data);
+		umr_write_reg(asic, ind_index->addr * 4, data, REG_MMIO);
 		while (num--)
-			*(out++) = umr_read_reg(asic, ind_data->addr * 4);
+			*(out++) = umr_read_reg(asic, ind_data->addr * 4, REG_MMIO);
 	} else {
 		fprintf(stderr, "[BUG]: The required SQ_IND_{INDEX,DATA} registers are not found on the asic <%s>\n", asic->asicname);
 		return;
