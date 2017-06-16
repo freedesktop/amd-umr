@@ -31,6 +31,7 @@ static uint32_t umr_smc_read(struct umr_asic *asic, uint64_t addr)
 		switch (asic->config.gfx.family) {
 			case 110: // SI
 			case 120: // CIK
+			case 125: // KV
 			case 130: // VI
 				umr_write_reg_by_name(asic, "mmSMC_IND_INDEX_1", addr);
 				return umr_read_reg_by_name(asic, "mmSMC_IND_DATA_1");
@@ -57,6 +58,7 @@ static uint32_t umr_smc_write(struct umr_asic *asic, uint64_t addr, uint32_t val
 		switch (asic->config.gfx.family) {
 			case 110: // SI
 			case 120: // CIK
+			case 125: // KV
 			case 130: // VI
 				umr_write_reg_by_name(asic, "mmSMC_IND_INDEX_1", addr);
 				return umr_write_reg_by_name(asic, "mmSMC_IND_DATA_1", value);
