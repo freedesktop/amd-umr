@@ -178,6 +178,7 @@ static const struct {
 	{ 0x6986, &umr_create_polaris12 },
 	{ 0x6987, &umr_create_polaris12 },
 	{ 0x6995, &umr_create_polaris12 },
+	{ 0x6997, &umr_create_polaris12 },
 	{ 0x699F, &umr_create_polaris12 },
 	{ 0x7300, &umr_create_fiji   },
 	{ 0x730F, &umr_create_fiji   },
