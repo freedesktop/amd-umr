@@ -25,10 +25,10 @@
 
 /* Simple demo application to show off linking in umr externally
  *
- * In this demo we control the PWM of the Vega10 fan and read the GPU_TEMP
+ * In this demo we control the PWM of the dGPU fan and read the GPU_TEMP
  * sensor to try and regulate temp by throttling the fan speed.
  *
- * This is merely a demo as the Vega10 firmware will handle throttling
+ * This is merely a demo as the firmware will handle throttling
  * the temp in normal operation.
  *
  * (note: If you run this it will put the pwm in manual mode so if you
@@ -39,7 +39,7 @@
 #include <time.h>
 
 // path to PWM controller 
-static char pwmname[] =
+static char pwmname[512] =
 	"/sys/devices/pci0000:00/0000:00:03.1/0000:01:00.0/0000:02:00.0/0000:03:00.0/hwmon/hwmon1/pwm1";
 
 static struct umr_options options;
@@ -79,17 +79,23 @@ void down_pwm(uint32_t x)
 	set_pwm();
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
 	uint32_t temp;
 	struct timespec ts;
-	
+	int instance = 1;
+
+	if (argc > 1)
+		instance = atoi(argv[1]);
+	if (argc > 2)
+		strcpy(pwmname, argv[2]);
+
 	// find our asic
 	memset(&options, 0, sizeof options);
-	options.instance = 1;
+	options.instance = instance;
 	asic = umr_discover_asic(&options);
-	if (!asic || asic->family != FAMILY_AI) {
-		fprintf(stderr, "[ERROR]: Could not find AI class device\n");
+	if (!asic) {
+		fprintf(stderr, "[ERROR]: Could not find device\n");
 		exit(EXIT_FAILURE);
 	}
 
