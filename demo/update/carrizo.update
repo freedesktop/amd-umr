@@ -1,0 +1,4 @@
+add reg carrizo.smu80.ixSMUSVI_NB_CURRENTVID smc 0xD8230044
+add bit carrizo.smu80.ixSMUSVI_NB_CURRENTVID.CURRENT_NB_VID 24 31
+add reg carrizo.smu80.ixSMUSVI_GFX_CURRENTVID smc 0xD8230048
+add bit carrizo.smu80.ixSMUSVI_GFX_CURRENTVID.CURRENT_GFX_VID 24 31
