@@ -39,7 +39,7 @@ static uint32_t umr_smc_read(struct umr_asic *asic, uint64_t addr)
 				umr_write_reg_by_name(asic, "mmMP0PUB_IND_INDEX_1", addr);
 				return umr_read_reg_by_name(asic, "mmMP0PUB_IND_DATA_1");
 			default:
-				fprintf(stderr, "[BUG] Unsupported family type in umr_smc_read()\n");
+				fprintf(stderr, "[BUG]: Unsupported family type in umr_smc_read()\n");
 				return 0;
 		}
 	} else {
@@ -66,7 +66,7 @@ static uint32_t umr_smc_write(struct umr_asic *asic, uint64_t addr, uint32_t val
 				umr_write_reg_by_name(asic, "mmMP0PUB_IND_INDEX_1", addr);
 				return umr_write_reg_by_name(asic, "mmMP0PUB_IND_DATA_1", value);
 			default:
-				fprintf(stderr, "[BUG] Unsupported family type in umr_smc_read()\n");
+				fprintf(stderr, "[BUG]: Unsupported family type in umr_smc_write()\n");
 				return -1;
 		}
 	} else {
@@ -103,7 +103,7 @@ uint32_t umr_read_reg(struct umr_asic *asic, uint64_t addr, enum regclass type)
 		case REG_SMC:
 			return umr_smc_read(asic, addr);
 		default:
-			fprintf(stderr, "[BUG] Unsupported register type in umr_read_reg().\n");
+			fprintf(stderr, "[BUG]: Unsupported register type in umr_read_reg().\n");
 			return 0;
 	}
 }
@@ -131,7 +131,7 @@ int umr_write_reg(struct umr_asic *asic, uint64_t addr, uint32_t value, enum reg
 		case REG_SMC:
 			return umr_smc_write(asic, addr, value);
 		default:
-			fprintf(stderr, "[BUG] Unsupported register type in umr_write_reg().\n");
+			fprintf(stderr, "[BUG]: Unsupported register type in umr_write_reg().\n");
 			return -1;
 	}
 	return 0;
