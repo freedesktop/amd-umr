@@ -22,6 +22,9 @@
  * Authors: Tom St Denis <tom.stdenis@amd.com>
  *
  */
+#include <dirent.h>
+#include <sys/types.h>
+
 #include "umr.h"
 
 static int is_did_match(struct umr_asic *asic, unsigned did)
@@ -44,6 +47,44 @@ static int is_did_match(struct umr_asic *asic, unsigned did)
 	return r;
 }
 
+static int find_pci_instance(const char* pci_string) {
+	DIR* dir;
+	dir = opendir("/sys/kernel/debug/dri");
+	if (dir == NULL) {
+		perror("Couldn't open DRI under debugfs");
+		return -1;
+	}
+	struct dirent *dir_entry;
+	while ((dir_entry = readdir(dir)) != NULL) {
+		char device[256], name[256];
+		int parsed_device;
+		// ignore . and ..
+		if (strcmp(dir_entry->d_name, ".") == 0 || strcmp(dir_entry->d_name,
+			"..") == 0) {
+			continue;
+		}
+		snprintf(name, sizeof(name), "/sys/kernel/debug/dri/%s/name",
+			dir_entry->d_name);
+		FILE *f = fopen(name, "r");
+		if (!f) {
+			continue;
+		}
+		device[sizeof(device) - 1] = 0;
+		parsed_device = fscanf(f, "%*s %255s", device);
+		fclose(f);
+		if (parsed_device != 1)
+			continue;
+		// strip off dev= for kernels > 4.7
+		if (strstr(device, "dev="))
+			memmove(device, device+4, strlen(device)-3);
+		if (strcmp(pci_string, device) == 0) {
+			closedir(dir);
+			return atoi(dir_entry->d_name);
+		}
+	}
+	closedir(dir);
+	return -1;
+}
 
 struct umr_asic *umr_discover_asic(struct umr_options *options)
 {
@@ -53,6 +94,30 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 	struct umr_asic *asic;
 	long trydid = options->forcedid;
 
+	// Try to map to instance if we have a specific pci device
+	if (options->pci.domain || options->pci.bus ||
+		options->pci.slot || options->pci.func) {
+		char pci_string[16];
+		int parsed_did;
+		snprintf(pci_string, sizeof(pci_string), "%04x:%02x:%02x.%x",
+			options->pci.domain, options->pci.bus, options->pci.slot,
+			options->pci.func);
+		if (!options->no_kernel) {
+			options->instance = find_pci_instance(pci_string);
+		}
+		snprintf(driver, sizeof(driver), "/sys/bus/pci/devices/%s/device", pci_string);
+		f = fopen(driver, "r");
+		if (!f) {
+			if (!options->quiet) perror("Cannot open PCI device name under sysfs (is a display attached?)");
+			return NULL;
+		}
+		parsed_did = fscanf(f, "0x%04lx", &trydid);
+		fclose(f);
+		if (parsed_did != 1) {
+			if (!options->quiet) printf("Could not read device id");
+			return NULL;
+		}
+	}
 	// try to scan via debugfs
 	asic = calloc(1, sizeof *asic);
 	if (asic) {
@@ -64,7 +129,6 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 		umr_free_asic(asic);
 		asic = NULL;
 	}
-
 	if (trydid < 0) {
 		snprintf(name, sizeof(name)-1, "/sys/kernel/debug/dri/%d/name", options->instance);
 		f = fopen(name, "r");
@@ -86,8 +150,12 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 			}
 			return NULL;
 		}
-		fscanf(f, "%s %s %s\n", driver, name, driver);
+		int parsed_pci_id = fscanf(f, "%*s %s", name);
 		fclose(f);
+		if (parsed_pci_id != 1) {
+			if (!options->quiet) printf("Cannot read pci device id\n");
+			return NULL;
+		}
 
 		// strip off dev= for kernels > 4.7
 		if (strstr(name, "dev="))
@@ -99,8 +167,12 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 			if (!options->quiet) perror("Cannot open PCI device name under sysfs (is a display attached?)");
 			return NULL;
 		}
-		fscanf(f, "0x%04x", &did);
+		int parsed_did = fscanf(f, "0x%04x", &did);
 		fclose(f);
+		if (parsed_did != 1) {
+			if (!options->quiet) printf("Could not read device id");
+			return NULL;
+		}
 		asic = umr_discover_asic_by_did(options, did);
 	} else {
 		if (options->dev_name[0])
@@ -158,6 +230,15 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 			}
 			do {
 				asic->pci.pdevice = pci_device_next(pci_iter);
+				if (options->pci.domain || options->pci.bus || options->pci.slot || options->pci.func) {
+					while (asic->pci.pdevice && (
+						options->pci.domain != asic->pci.pdevice->domain ||
+						options->pci.bus != asic->pci.pdevice->bus ||
+						options->pci.slot != asic->pci.pdevice->dev ||
+						options->pci.func != asic->pci.pdevice->func)) {
+						asic->pci.pdevice = pci_device_next(pci_iter);
+					}
+				}
 			} while (asic->pci.pdevice && !(asic->pci.pdevice->vendor_id == 0x1002 && is_did_match(asic, asic->pci.pdevice->device_id)));
 
 			if (!asic->pci.pdevice) {

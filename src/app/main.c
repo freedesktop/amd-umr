@@ -174,6 +174,15 @@ int main(int argc, char **argv)
 				printf("--force requires a number/name\n");
 				return EXIT_FAILURE;
 			}
+		} else if (!strcmp(argv[i], "--pci")) {
+			if (i + 1 < argc && sscanf(argv[i+1], "%04x:%02x:%02x.%01x",
+				&options.pci.domain, &options.pci.bus, &options.pci.slot,
+				&options.pci.func ) >= 4) {
+				++i;
+			} else {
+				printf("--pci requires domain:bus:slot.function\n");
+				return EXIT_FAILURE;
+			}
 		} else if (!strcmp(argv[i], "--print") || !strcmp(argv[i], "-p")) {
 			options.print = 1;
 			options.need_scan = 1;

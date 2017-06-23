@@ -17,6 +17,10 @@ Select a GFX INSTANCE/SH/SE bank in decimal.  Can use 'x' to denote a broadcast 
 .IP "--force -f <number>"
 Force a PCIE Device ID in hex or by asic name.  This is used in case the amdgpu driver
 is not yet loaded or a display is not yet attached.
+.IP "--pci <device>"
+Force a specific PCI device using the domain:bus:slot.function format in hex.
+This is useful when more than one GPU is available. If the amdgpu driver is
+loaded the corresponding instance will be automatically detected.
 .IP "--print, -p"
 Enable scanning and printing all registers.  Defaults to off as it can
 be very verbose.

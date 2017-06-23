@@ -181,6 +181,12 @@ struct umr_options {
 	long forcedid;
 	char *scanblock;
 	char dev_name[32];
+	struct {
+		int domain,
+		    bus,
+		    slot,
+		    func;
+	} pci;
 };
 
 struct umr_asic {
