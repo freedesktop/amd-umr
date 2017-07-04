@@ -47,36 +47,44 @@ static int is_did_match(struct umr_asic *asic, unsigned did)
 	return r;
 }
 
-static int find_pci_instance(const char* pci_string) {
-	DIR* dir;
+static int find_pci_instance(const char* pci_string)
+{
+	DIR *dir;
+	struct dirent *dir_entry;
+
 	dir = opendir("/sys/kernel/debug/dri");
 	if (dir == NULL) {
 		perror("Couldn't open DRI under debugfs");
 		return -1;
 	}
-	struct dirent *dir_entry;
+
 	while ((dir_entry = readdir(dir)) != NULL) {
 		char device[256], name[256];
 		int parsed_device;
+		FILE *f;
+
 		// ignore . and ..
-		if (strcmp(dir_entry->d_name, ".") == 0 || strcmp(dir_entry->d_name,
-			"..") == 0) {
+		if (strcmp(dir_entry->d_name, ".") == 0 ||
+		    strcmp(dir_entry->d_name, "..") == 0)
 			continue;
-		}
+
 		snprintf(name, sizeof(name), "/sys/kernel/debug/dri/%s/name",
 			dir_entry->d_name);
-		FILE *f = fopen(name, "r");
-		if (!f) {
+
+		f = fopen(name, "r");
+		if (!f)
 			continue;
-		}
+
 		device[sizeof(device) - 1] = 0;
 		parsed_device = fscanf(f, "%*s %255s", device);
 		fclose(f);
+
 		if (parsed_device != 1)
 			continue;
+
 		// strip off dev= for kernels > 4.7
 		if (strstr(device, "dev="))
-			memmove(device, device+4, strlen(device)-3);
+			memmove(device, device + 4, strlen(device) - 3);
 		if (strcmp(pci_string, device) == 0) {
 			closedir(dir);
 			return atoi(dir_entry->d_name);
@@ -96,15 +104,17 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 
 	// Try to map to instance if we have a specific pci device
 	if (options->pci.domain || options->pci.bus ||
-		options->pci.slot || options->pci.func) {
+	    options->pci.slot || options->pci.func) {
 		char pci_string[16];
 		int parsed_did;
+
 		snprintf(pci_string, sizeof(pci_string), "%04x:%02x:%02x.%x",
 			options->pci.domain, options->pci.bus, options->pci.slot,
 			options->pci.func);
-		if (!options->no_kernel) {
+
+		if (!options->no_kernel)
 			options->instance = find_pci_instance(pci_string);
-		}
+
 		snprintf(driver, sizeof(driver), "/sys/bus/pci/devices/%s/device", pci_string);
 		f = fopen(driver, "r");
 		if (!f) {
@@ -130,6 +140,7 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 		asic = NULL;
 	}
 	if (trydid < 0) {
+		int parsed_pci_id, parsed_did;
 		snprintf(name, sizeof(name)-1, "/sys/kernel/debug/dri/%d/name", options->instance);
 		f = fopen(name, "r");
 		if (!f) {
@@ -150,7 +161,8 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 			}
 			return NULL;
 		}
-		int parsed_pci_id = fscanf(f, "%*s %s", name);
+
+		parsed_pci_id = fscanf(f, "%*s %s", name);
 		fclose(f);
 		if (parsed_pci_id != 1) {
 			if (!options->quiet) printf("Cannot read pci device id\n");
@@ -167,7 +179,8 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 			if (!options->quiet) perror("Cannot open PCI device name under sysfs (is a display attached?)");
 			return NULL;
 		}
-		int parsed_did = fscanf(f, "0x%04x", &did);
+
+		parsed_did = fscanf(f, "0x%04x", &did);
 		fclose(f);
 		if (parsed_did != 1) {
 			if (!options->quiet) printf("Could not read device id");
