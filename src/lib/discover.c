@@ -128,17 +128,20 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 			return NULL;
 		}
 	}
+
 	// try to scan via debugfs
-	asic = calloc(1, sizeof *asic);
-	if (asic) {
-		asic->instance = options->instance;
-		asic->options  = *options;
-		umr_scan_config(asic);
-		if (asic->config.pci.device)
-			trydid = asic->config.pci.device;
-		umr_free_asic(asic);
-		asic = NULL;
+	if (!options->no_kernel) {
+		asic = calloc(1, sizeof *asic);
+		if (asic) {
+			asic->instance = options->instance;
+			asic->options  = *options;
+			if (!umr_scan_config(asic) && asic->config.pci.device)
+				trydid = asic->config.pci.device;
+			umr_free_asic(asic);
+			asic = NULL;
+		}
 	}
+
 	if (trydid < 0) {
 		int parsed_pci_id, parsed_did;
 		snprintf(name, sizeof(name)-1, "/sys/kernel/debug/dri/%d/name", options->instance);

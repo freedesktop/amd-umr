@@ -508,4 +508,4 @@ int umr_read_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint32
 #define RST     (options.use_colour ? "\x1b[0m" : "")
 
 void umr_bitfield_default(struct umr_asic *asic, char *asicname, char *ipname, char *regname, char *bitname, int start, int stop, uint32_t value);
-void umr_scan_config(struct umr_asic *asic);
+int umr_scan_config(struct umr_asic *asic);

@@ -100,6 +100,7 @@ void umr_print_config(struct umr_asic *asic)
 {
 	int r, x;
 
+	printf("\tasic.instance == %d\n\n", asic->instance);
 	printf("\tumr.version == %s\n\n", UMR_BUILD_REV);
 
 	for (r = 0; asic->config.fw[r].name[0]; r++) {
@@ -110,7 +111,6 @@ void umr_print_config(struct umr_asic *asic)
 	}
 	printf("\n");
 
-	printf("\tasic.instance == %d\n\n", asic->instance);
 	if (asic->pci.pdevice) {
 		ppx(vendor_id);
 		ppx(device_id);

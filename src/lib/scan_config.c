@@ -77,12 +77,15 @@ static void parse_rev3(struct umr_asic *asic, uint32_t *data, int *r)
 	asic->config.pci.subsystem_vendor = data[(*r)++];
 }
 
-void umr_scan_config(struct umr_asic *asic)
+int umr_scan_config(struct umr_asic *asic)
 {
 	uint32_t data[512];
 	FILE *f;
 	char fname[256];
 	int r;
+
+	if (asic->options.no_kernel)
+		return -1;
 
 	/* process FW block */
 	snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_firmware_info", asic->instance);
@@ -104,7 +107,7 @@ gca_config:
 	snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_gca_config", asic->instance);
 	f = fopen(fname, "rb");
 	if (!f)
-		return;
+		return -1;
 	fread(data, 1, sizeof(data), f);
 	fclose(f);
 
@@ -119,5 +122,7 @@ gca_config:
 			break;
 		default:
 			printf("Invalid gca config data header\n");
+			return -1;
 	}
+	return 0;
 }
