@@ -7,6 +7,7 @@ add_library(umrcore STATIC
   bitfield_print.c
   close_asic.c
   create_asic_helper.c
+  create_asic_from_script.c
   create_mmio_accel.c
   discover_by_did.c
   discover_by_name.c

@@ -55,6 +55,8 @@ enum chipfamily {
 	FAMILY_VI,
 	FAMILY_AI,
 	FAMILY_RV,
+
+	FAMILY_NPI, // reserves for new devices that are not public yet
 };
 
 enum regclass {
@@ -428,6 +430,7 @@ struct umr_ip_block *umr_create_bif51(struct umr_options *options);
 
 /* asic constructors */
 struct umr_asic *umr_create_asic_helper(char *name, int family, ...);
+struct umr_asic *umr_create_asic_from_script(struct umr_options *options, char *name);
 struct umr_asic *umr_create_bonaire(struct umr_options *options);
 struct umr_asic *umr_create_carrizo(struct umr_options *options);
 struct umr_asic *umr_create_fiji(struct umr_options *options);

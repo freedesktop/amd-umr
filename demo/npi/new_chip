@@ -1,0 +1,2 @@
+reg gfx10 mmSUPER_SECRET mmio 0x12345670
+bit gfx10 mmSUPER_SECRET enable 0 0

@@ -1,0 +1,11 @@
+Added fakerizo which is a "fake" Carrizo so I could test the new
+PCI detection logic which should be somewhat more future proof.
+
+An example of using it would be 
+
+umr -O bitsfull --pci 0000:00:01.0 -f @demo/npi/fakerizo -r *.*.mmGRBM_STATUS
+
+This will work on systems where the Carrizo GPU is placed in that PCI topology
+(it may vary on other implementations).
+
+

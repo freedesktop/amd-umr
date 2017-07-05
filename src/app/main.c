@@ -178,6 +178,7 @@ int main(int argc, char **argv)
 			if (i + 1 < argc && sscanf(argv[i+1], "%04x:%02x:%02x.%01x",
 				&options.pci.domain, &options.pci.bus, &options.pci.slot,
 				&options.pci.func ) >= 4) {
+				options.use_pci = 1; // implied by the --pci option
 				++i;
 			} else {
 				printf("--pci requires domain:bus:slot.function\n");

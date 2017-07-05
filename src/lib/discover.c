@@ -101,6 +101,7 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 	unsigned did;
 	struct umr_asic *asic;
 	long trydid = options->forcedid;
+	int busmatch = 0;
 
 	// Try to map to instance if we have a specific pci device
 	if (options->pci.domain || options->pci.bus ||
@@ -254,8 +255,14 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 						options->pci.func != asic->pci.pdevice->func)) {
 						asic->pci.pdevice = pci_device_next(pci_iter);
 					}
+
+					// indicate we found an exact match for the pci bus/slot
+					// this is used because NPI use cases won't have names to
+					// match against in is_did_match()
+					if (asic->pci.pdevice)
+						busmatch = 1;
 				}
-			} while (asic->pci.pdevice && !(asic->pci.pdevice->vendor_id == 0x1002 && is_did_match(asic, asic->pci.pdevice->device_id)));
+			} while (asic->pci.pdevice && !(busmatch || (asic->pci.pdevice->vendor_id == 0x1002 && is_did_match(asic, asic->pci.pdevice->device_id))));
 
 			if (!asic->pci.pdevice) {
 				fprintf(stderr, "[ERROR]: Could not find ASIC with DID of %04lx\n", (unsigned long)asic->did);
@@ -282,11 +289,14 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 				}
 			}
 
-			// scan for a 256K/512K region
+			// scan for a region 256K <= X <= 1024K which is 32-bit, non IO, non prefetchable
 			if (use_region == 6) {
 				for (use_region = 0; use_region < 6; use_region++)
-					if ((asic->family < FAMILY_AI && asic->pci.pdevice->regions[use_region].size == (256UL * 1024)) ||
-					    (asic->family >= FAMILY_AI && asic->pci.pdevice->regions[use_region].size == (512UL * 1024)))
+					if (asic->pci.pdevice->regions[use_region].is_64 == 0 &&
+					    asic->pci.pdevice->regions[use_region].is_prefetchable == 0 &&
+					    asic->pci.pdevice->regions[use_region].is_IO == 0 &&
+					    asic->pci.pdevice->regions[use_region].size >= (256UL * 1024) &&
+					    asic->pci.pdevice->regions[use_region].size <= (1024UL * 1024))
 						break;
 			}
 

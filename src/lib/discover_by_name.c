@@ -55,6 +55,9 @@ struct umr_asic *umr_discover_asic_by_name(struct umr_options *options, char *na
 	unsigned x;
 	struct umr_asic *asic, *tmp;
 
+	if (name[0] == '@')
+		return umr_create_asic_from_script(options, name + 1);
+
 	asic = NULL;
 	for (x = 0; x < (sizeof(devices)/sizeof(devices[0])); x++)
 		if (!strcmp(devices[x].name, name))
