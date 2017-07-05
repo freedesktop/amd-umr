@@ -27,23 +27,38 @@
 
 void umr_lookup(struct umr_asic *asic, char *address, char *value)
 {
-	int i, j, k;
+	int byaddress, i, j, k;
 	uint32_t regno, num;
 
-	sscanf(address, "%"SCNx32, &regno);
+	byaddress = sscanf(address, "0x%"SCNx32, &regno);
 	sscanf(value, "%"SCNx32, &num);
 
-	for (i = 0; i < asic->no_blocks; i++)
-	for (j = 0; j < asic->blocks[i]->no_regs; j++)
-		if (asic->blocks[i]->regs[j].type == REG_MMIO &&
-		    asic->blocks[i]->regs[j].addr == regno) {
-			printf("%s => 0x%08lx\n", asic->blocks[i]->regs[j].regname, (unsigned long)num);
-			for (k = 0; k < asic->blocks[i]->regs[j].no_bits; k++) {
-				uint32_t v;
-				v = (1UL << (asic->blocks[i]->regs[j].bits[k].stop + 1 - asic->blocks[i]->regs[j].bits[k].start)) - 1;
-				v &= (num >> asic->blocks[i]->regs[j].bits[k].start);
-				asic->blocks[i]->regs[j].bits[k].bitfield_print(asic, asic->asicname, asic->blocks[i]->ipname, asic->blocks[i]->regs[j].regname, asic->blocks[i]->regs[j].bits[k].regname, asic->blocks[i]->regs[j].bits[k].start, asic->blocks[i]->regs[j].bits[k].stop, v);
+	if (byaddress) {
+		for (i = 0; i < asic->no_blocks; i++)
+		for (j = 0; j < asic->blocks[i]->no_regs; j++)
+			if (asic->blocks[i]->regs[j].type == REG_MMIO &&
+			    asic->blocks[i]->regs[j].addr == regno) {
+				printf("%s.%s => 0x%08lx\n", asic->blocks[i]->ipname, asic->blocks[i]->regs[j].regname, (unsigned long)num);
+				for (k = 0; k < asic->blocks[i]->regs[j].no_bits; k++) {
+					uint32_t v;
+					v = (1UL << (asic->blocks[i]->regs[j].bits[k].stop + 1 - asic->blocks[i]->regs[j].bits[k].start)) - 1;
+					v &= (num >> asic->blocks[i]->regs[j].bits[k].start);
+					asic->blocks[i]->regs[j].bits[k].bitfield_print(asic, asic->asicname, asic->blocks[i]->ipname, asic->blocks[i]->regs[j].regname, asic->blocks[i]->regs[j].bits[k].regname, asic->blocks[i]->regs[j].bits[k].start, asic->blocks[i]->regs[j].bits[k].stop, v);
+				}
 			}
-		}
+	} else {
+		for (i = 0; i < asic->no_blocks; i++)
+		for (j = 0; j < asic->blocks[i]->no_regs; j++)
+			if (asic->blocks[i]->regs[j].type == REG_MMIO &&
+			    !strcmp(asic->blocks[i]->regs[j].regname, address)) {
+				printf("%s.%s => 0x%08lx\n", asic->blocks[i]->ipname, asic->blocks[i]->regs[j].regname, (unsigned long)num);
+				for (k = 0; k < asic->blocks[i]->regs[j].no_bits; k++) {
+					uint32_t v;
+					v = (1UL << (asic->blocks[i]->regs[j].bits[k].stop + 1 - asic->blocks[i]->regs[j].bits[k].start)) - 1;
+					v &= (num >> asic->blocks[i]->regs[j].bits[k].start);
+					asic->blocks[i]->regs[j].bits[k].bitfield_print(asic, asic->asicname, asic->blocks[i]->ipname, asic->blocks[i]->regs[j].regname, asic->blocks[i]->regs[j].bits[k].regname, asic->blocks[i]->regs[j].bits[k].start, asic->blocks[i]->regs[j].bits[k].stop, v);
+				}
+			}
+	}
 }
 

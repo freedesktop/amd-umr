@@ -32,8 +32,9 @@ Enumerate all AMDGPU supported devices.
 List all blocks attached to the asic that has been detected.
 .IP "--list-regs, -lr <string>"
 List all registers in an IP block (can use '-O bits' to list bitfields)
-.IP "--lookup, -lu <address> <number>"
-Look up an MMIO register by address and bitfield decode the value specified.
+.IP "--lookup, -lu <address_or_regname> <number>"
+Look up an MMIO register by address and bitfield decode the value specified (with 0x prefix) or by
+register name.
 .IP "--write -w <string> <number>"
 Write a value specified in hex to a register specified with a complete
 register path in the form <
