@@ -459,7 +459,7 @@ struct umr_asic *umr_discover_asic_by_did(struct umr_options *options, long did)
 struct umr_asic *umr_discover_asic_by_name(struct umr_options *options, char *name);
 void umr_free_asic(struct umr_asic *asic);
 void umr_close_asic(struct umr_asic *asic); // call this to close a fully open asic
-int umr_query_drm(struct umr_asic *asic, int field, uint64_t *ret);
+int umr_query_drm(struct umr_asic *asic, int field, void *ret, int size);
 void umr_enumerate_devices(void);
 int umr_update(struct umr_asic *asic, char *script);
 

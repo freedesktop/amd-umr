@@ -33,13 +33,13 @@
 #define DRM_IOCTL_BASE                  'd'
 #define DRM_COMMAND_BASE                0x40
 
-int umr_query_drm(struct umr_asic *asic, int field, uint64_t *ret)
+int umr_query_drm(struct umr_asic *asic, int field, void *ret, int size)
 {
 	struct drm_amdgpu_info inf;
 
 	memset(&inf, 0, sizeof inf);
 	inf.return_pointer = (uintptr_t)ret;
-	inf.return_size = sizeof(*ret);
+	inf.return_size = size;
 	inf.query = field;
 	return ioctl(asic->fd.drm, DRM_IOC(DRM_IOC_WRITE, DRM_IOCTL_BASE, DRM_COMMAND_BASE + DRM_AMDGPU_INFO, sizeof(inf)), &inf);
 

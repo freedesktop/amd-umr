@@ -287,6 +287,8 @@ static struct umr_bitfield stat_drm_bits[] = {
 
 static FILE *logfile = NULL;
 
+static uint64_t visible_vram_size = 0;
+
 static volatile int sensor_thread_quit = 0;
 static volatile uint32_t gpu_power_data[32];
 static volatile struct umr_bitfield *sensor_bits = NULL;
@@ -634,7 +636,7 @@ static void parse_drm(struct umr_asic *asic, uint32_t addr, struct umr_bitfield 
 		else if (bits[j].start == AMDGPU_INFO_WAVES)
 			counts[j] = vi_count_waves(asic);
 		else
-			umr_query_drm(asic, bits[j].start, &counts[j]);
+			umr_query_drm(asic, bits[j].start, &counts[j], sizeof(counts[j]));
 	}
 }
 
@@ -643,6 +645,7 @@ static void grab_vram(struct umr_asic *asic)
 	char name[256];
 	FILE *f;
 	unsigned long total, free, used;
+	unsigned long man_size, ram_usage, vis_usage;
 
 	snprintf(name, sizeof(name)-1, "/sys/kernel/debug/dri/%d/amdgpu_vram_mm", asic->instance);
 	f = fopen(name, "rb");
@@ -650,47 +653,57 @@ static void grab_vram(struct umr_asic *asic)
 		fseek(f, -128, SEEK_END); // skip to end of file
 		memset(name, 0, sizeof name);
 		while (fgets(name, sizeof(name)-1, f)) {
-			if (memcmp(name, "total:", 6) == 0) {
-				if (sscanf(name, "total: %lu, used %lu free %lu", &total, &used, &free) == 3)
-					printw("\nVRAM: %lu/%lu (MiB)\n", (used * 4096) / 1048576, (total * 4096) / 1048576);
-				break;
-			}
+			if (!memcmp(name, "total:", 6))
+				sscanf(name, "total: %lu, used %lu free %lu", &total, &used, &free);
+			else if (!memcmp(name, "man size:", 9))
+				sscanf(name, "man size:%lu pages, ram usage:%luMB, vis usage:%luMB",
+				       &man_size, &ram_usage, &vis_usage);
 		}
 		fclose(f);
+
+		printw("\nVRAM: %lu/%lu vis %lu/%llu (MiB)\n",
+		       (used * 4096) / 1048576, (total * 4096) / 1048576,
+		       vis_usage, visible_vram_size >> 20);
 	}
 }
 
 static void analyze_drm_info(struct umr_asic *asic)
 {
 	char region[256], name[256], line[256];
-	unsigned long old_pid, pid, id, size, tot_vram, tot_gtt;
+	unsigned long old_pid, pid, id, size, tot_vram, tot_gtt, tot_vis_vram;
 	FILE *f;
+	unsigned long long vram_addr;
 
 	snprintf(name, sizeof(name)-1, "/sys/kernel/debug/dri/%d/amdgpu_gem_info", asic->instance);
 	f = fopen(name, "rb");
 	if (f) {
 		name[0] = 0;
-		old_pid = pid = tot_vram = tot_gtt = 0;
+		old_pid = pid = tot_vram = tot_gtt = tot_vis_vram = 0;
 		while (fgets(line, sizeof(line)-1, f)) {
 			if (sscanf(line, "pid %lu command %s:", &pid, region) == 2) {
 				if (name[0]) {
 					snprintf(line, sizeof(line)-1, "%s(%5lu)", name, old_pid);
-					printw("   %-30s: %10lu KiB VRAM, %10lu KiB GTT\n", line, tot_vram>>10, tot_gtt>>10);
+					printw("   %-30s: %10lu KiB VRAM, %10lu KiB vis VRAM, %10lu KiB GTT\n",
+					       line, tot_vram>>10, tot_vis_vram>>10, tot_gtt>>10);
 				}
-				tot_vram = tot_gtt = 0;
+				tot_vram = tot_gtt = tot_vis_vram = 0;
 				old_pid = pid;
 				strcpy(name, region);
 			} else {
-				sscanf(line, "\t0x%08lx: %lu byte %s @", &id, &size, region);
-				if (!strcmp(region, "VRAM"))
+				sscanf(line, "\t0x%08lx: %lu byte %s @ %llx", &id, &size, region, &vram_addr);
+				if (!strcmp(region, "VRAM")) {
 					tot_vram += size;
+					if (vram_addr < visible_vram_size>>12)
+						tot_vis_vram += size;
+				}
 				else
 					tot_gtt += size;
 			}
 		}
 		if (name[0]) {
 			snprintf(line, sizeof(line)-1, "%s(%5lu)", name, old_pid);
-			printw("   %-30s: %10lu KiB VRAM, %10lu KiB GTT\n", line, tot_vram>>10, tot_gtt>>10);
+			printw("   %-30s: %10lu KiB VRAM, %10lu KiB vis VRAM, %10lu KiB GTT\n",
+			       line, tot_vram>>10, tot_vis_vram>>10, tot_gtt>>10);
 		}
 		fclose(f);
 	}
@@ -923,6 +936,21 @@ static void toggle_logger(void)
 	}
 }
 
+#define AMDGPU_INFO_VRAM_GTT			0x14
+static uint64_t get_visible_vram_size(struct umr_asic *asic)
+{
+	struct drm_amdgpu_info_vram_gtt {
+		uint64_t vram_size;
+		uint64_t vram_cpu_accessible_size;
+		uint64_t gtt_size;
+	} info;
+
+	if (umr_query_drm(asic, AMDGPU_INFO_VRAM_GTT, &info, sizeof(info)))
+	    return 0;
+
+	return info.vram_cpu_accessible_size;
+}
+
 void umr_top(struct umr_asic *asic)
 {
 	int i, j, k;
@@ -966,6 +994,8 @@ void umr_top(struct umr_asic *asic)
 		fprintf(stderr, "[ERROR]: Cannot create gpu_sensor_thread\n");
 		return;
 	}
+
+	visible_vram_size = get_visible_vram_size(asic);
 
 	initscr();
 	start_color();
