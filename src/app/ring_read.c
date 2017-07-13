@@ -52,6 +52,9 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 	memset(&decoder, 0, sizeof decoder);
 	if (!memcmp(ringname, "gfx", 3) ||
 	    !memcmp(ringname, "uvd", 3) ||
+	    !memcmp(ringname, "vcn_dec", 7) ||
+	    !memcmp(ringname, "vcn_enc", 7) ||
+	    !memcmp(ringname, "vcn_enc", 7) ||
 	    !memcmp(ringname, "comp", 4)) {
 		enable_decoder = 1;
 		decoder.pm = 4;
