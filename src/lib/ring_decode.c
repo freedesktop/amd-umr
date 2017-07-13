@@ -584,7 +584,7 @@ static void print_decode_pm4(struct umr_asic *asic, struct umr_ring_decoder *dec
 			return;
 		case 0x80000000:
 			name = umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo);
-			printf("PKT0 %s(0x%lx) == %lx", name, (unsigned long)decoder->pm4.next_write_mem.addr_lo, (unsigned long)ib);
+			printf("   word (%lu): %s(0x%lx) <= 0x%lx", (unsigned long)decoder->pm4.cur_word++, name, (unsigned long)decoder->pm4.next_write_mem.addr_lo, (unsigned long)ib);
 
 			// detect VCN/UVD IBs and chain them once all
 			// 4 pieces of information are found
