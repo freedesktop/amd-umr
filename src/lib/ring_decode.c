@@ -562,6 +562,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 
 static void print_decode_pm4(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib)
 {
+	char *name;
 	switch (decoder->pm4.cur_opcode) {
 		case 0xFFFFFFFF: // initial decode
 			decoder->pm4.pkt_type = ib >> 30;
@@ -582,7 +583,30 @@ static void print_decode_pm4(struct umr_asic *asic, struct umr_ring_decoder *dec
 				decoder->pm4.cur_opcode = 0xFFFFFFFF;
 			return;
 		case 0x80000000:
-			printf("PKT0 %s(0x%lx) == %lx", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo), (unsigned long)decoder->pm4.next_write_mem.addr_lo, (unsigned long)ib);
+			name = umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo);
+			printf("PKT0 %s(0x%lx) == %lx", name, (unsigned long)decoder->pm4.next_write_mem.addr_lo, (unsigned long)ib);
+
+			// detect VCN/UVD IBs and chain them once all
+			// 4 pieces of information are found
+			if (!strcmp(name, "mmUVD_LMI_RBC_IB_VMID")) {
+				decoder->pm4.next_ib_state.ib_vmid = ib;
+				decoder->pm4.next_ib_state.tally |= 1;
+			} else if (!strcmp(name, "mmUVD_LMI_RBC_IB_64BIT_BAR_LOW")) {
+				decoder->pm4.next_ib_state.ib_addr_lo = ib;
+				decoder->pm4.next_ib_state.tally |= 2;
+			} else if (!strcmp(name, "mmUVD_LMI_RBC_IB_64BIT_BAR_HIGH")) {
+				decoder->pm4.next_ib_state.ib_addr_hi = ib;
+				decoder->pm4.next_ib_state.tally |= 4;
+			} else if (!strcmp(name, "mmUVD_RBC_IB_SIZE")) {
+				decoder->pm4.next_ib_state.ib_size = ib;
+				decoder->pm4.next_ib_state.tally |= 8;
+			}
+
+			if (decoder->pm4.next_ib_state.tally == 15) {
+				decoder->pm4.next_ib_state.tally = 0;
+				add_ib(decoder);
+			}
+
 			decoder->pm4.next_write_mem.addr_lo++;
 			break;
 		default:

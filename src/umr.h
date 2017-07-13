@@ -342,6 +342,7 @@ struct umr_ring_decoder {
 				 ib_addr_hi,
 				 ib_size,
 				 ib_vmid;
+			int tally;
 		} next_ib_state;
 
 		struct {
