@@ -23,8 +23,9 @@
  *
  */
 #include "umrapp.h"
-#include <time.h>
+#include <linux/pci_regs.h>
 #include <ncurses.h>
+#include <time.h>
 
 static struct {
 	int quit,
@@ -48,6 +49,10 @@ static struct {
 	} vi;
 	char *helptext;
 	void (*handle_key)(int ch);
+	struct {
+		int num_vf,
+		    active_vf;
+	} sriov;
 } top_options;
 
 enum sensor_maps {
@@ -68,6 +73,11 @@ enum sensor_print {
 enum drm_print {
 	DRM_INFO_BYTES=0,
 	DRM_INFO_COUNT,
+};
+
+enum iov_print {
+	IOV_VF = 0,
+	IOV_PF = 1,
 };
 
 static struct umr_bitfield stat_grbm_bits[] = {
@@ -97,6 +107,28 @@ static struct umr_bitfield stat_grbm2_bits[] = {
 	 { "CPF_BUSY", 255, 255, &umr_bitfield_default },
 	 { "CPC_BUSY", 255, 255, &umr_bitfield_default },
 	 { "CPG_BUSY", 255, 255, &umr_bitfield_default },
+	 { NULL, 0, 0, NULL },
+};
+
+// The VF virtual bits are remapped from the active VF field
+static struct umr_bitfield stat_rlc_iov_bits[] = {
+	 { "VF00", 0, IOV_VF, &umr_bitfield_default },
+	 { "VF01", 1, IOV_VF, &umr_bitfield_default },
+	 { "VF02", 2, IOV_VF, &umr_bitfield_default },
+	 { "VF03", 3, IOV_VF, &umr_bitfield_default },
+	 { "VF04", 4, IOV_VF, &umr_bitfield_default },
+	 { "VF05", 5, IOV_VF, &umr_bitfield_default },
+	 { "VF06", 6, IOV_VF, &umr_bitfield_default },
+	 { "VF07", 7, IOV_VF, &umr_bitfield_default },
+	 { "VF08", 8, IOV_VF, &umr_bitfield_default },
+	 { "VF09", 9, IOV_VF, &umr_bitfield_default },
+	 { "VF0A", 10, IOV_VF, &umr_bitfield_default },
+	 { "VF0B", 11, IOV_VF, &umr_bitfield_default },
+	 { "VF0C", 12, IOV_VF, &umr_bitfield_default },
+	 { "VF0D", 13, IOV_VF, &umr_bitfield_default },
+	 { "VF0E", 14, IOV_VF, &umr_bitfield_default },
+	 { "VF0F", 15, IOV_VF, &umr_bitfield_default },
+	 { "PF_VF", 0, IOV_PF, &umr_bitfield_default },
 	 { NULL, 0, 0, NULL },
 };
 
@@ -438,6 +470,37 @@ out:
 	return (*addr == 0) ? 1 : 0;
 }
 
+static int grab_addr(char *name, struct umr_asic *asic, struct umr_bitfield *bits, uint32_t *addr)
+{
+	int i, j, k;
+
+	// try to find the register somewhere in the ASIC
+	*addr = 0;
+	for (i = 0; i < asic->no_blocks; i++) {
+		for (j = 0; j < asic->blocks[i]->no_regs; j++) {
+			if (strcmp(asic->blocks[i]->regs[j].regname, name) == 0) {
+				*addr = asic->blocks[i]->regs[j].addr<<2;
+				goto out;
+			}
+		}
+	}
+out:
+
+	// let's trim _BUSY out of the names since it's redundant
+	if (*addr) {
+		for (k = 0; bits[k].regname; k++) {
+			bits[k].regname = strcpy(calloc(1, strlen(bits[k].regname) + 1), bits[k].regname);
+			slice(bits[k].regname, "_BUSY");
+			slice(bits[k].regname, "_STATUS");
+			slice(bits[k].regname, "_VALUE");
+			slice(bits[k].regname, "_ACTIVE");
+			slice(bits[k].regname, "OUTSTANDING_");
+			slice(bits[k].regname, "PGFSM_READ_");
+		}
+	}
+	return (*addr == 0) ? 1 : 0;
+}
+
 static int print_j = 0;
 
 static void print_count_value(uint64_t count)
@@ -546,6 +609,21 @@ static void print_drm(struct umr_bitfield *bits, uint64_t *counts)
 	}
 }
 
+static void print_iov(uint64_t *counts)
+{
+	int i;
+	for (i = 0; i < top_options.sriov.num_vf; i++) {
+		char custom_namefmt[30];
+		snprintf(custom_namefmt, sizeof(custom_namefmt)-1,
+			"%%%ds(%%02d) => ", maxstrlen - 3);
+		printw(custom_namefmt, "VF", i);
+		print_count_value(counts[i]);
+		if ((++print_j & (top_options.wide ? 3 : 1)) != 0)
+			printw(" |");
+		else
+			printw("\n");
+	}
+}
 
 static void parse_bits(struct umr_asic *asic, uint32_t addr, struct umr_bitfield *bits, uint64_t *counts, uint32_t *mask, uint32_t *cmp, uint64_t addr_mask)
 {
@@ -637,6 +715,34 @@ static void parse_drm(struct umr_asic *asic, uint32_t addr, struct umr_bitfield 
 			counts[j] = vi_count_waves(asic);
 		else
 			umr_query_drm(asic, bits[j].start, &counts[j], sizeof(counts[j]));
+	}
+}
+
+static void parse_iov(struct umr_asic *asic, uint32_t addr, struct umr_bitfield *bits, uint64_t *counts, uint32_t *mask, uint32_t *cmp, uint64_t addr_mask)
+{
+	int j;
+	uint32_t value;
+
+	(void)mask;
+	(void)cmp;
+
+	if (addr) {
+		if (addr_mask && asic->fd.mmio < 0) {
+			value = 0;
+		} else if (!addr_mask && asic->pci.mem) {
+			value = asic->pci.mem[addr>>2];
+		} else {
+			lseek(asic->fd.mmio, addr | addr_mask, SEEK_SET);
+			read(asic->fd.mmio, &value, 4);
+		}
+		for (j = 0; bits[j].regname; j++)
+			if (bits[j].start != 255) {
+				if (bits[j].stop == IOV_VF) {
+					counts[j] += ((value & 0xF) == bits[j].start) ? 1 : 0;
+				} else {
+					counts[j] += (value & 0x80000000) ? 1 : 0;
+				}
+			}
 	}
 }
 
@@ -804,6 +910,38 @@ static void vi_handle_keys(int i)
 	}
 }
 
+#define PCI_EXT_CAP_BASE 0x100
+#define PCI_EXT_CAP_LIMIT 0x1000
+
+static int sriov_supported_vf(struct umr_asic *asic)
+{
+	int retval = 0;
+	if (!asic->pci.pdevice)
+	return 0;
+	// Verify if the SRIOV capability is listed in the pci device configuration
+	pciaddr_t pci_offset = PCI_EXT_CAP_BASE;
+	while (pci_offset && pci_offset < PCI_EXT_CAP_LIMIT)
+	{
+		uint32_t pci_cfg_data;
+		if (pci_device_cfg_read_u32(asic->pci.pdevice, &pci_cfg_data, pci_offset))
+			return 0;
+		if (PCI_EXT_CAP_ID(pci_cfg_data) == PCI_EXT_CAP_ID_SRIOV) {
+			uint16_t sriov_ctrl;
+			if (pci_device_cfg_read_u16(asic->pci.pdevice, &sriov_ctrl,
+				pci_offset + PCI_SRIOV_CTRL))
+				return 0;
+			uint16_t sriov_num_vf;
+			if (pci_device_cfg_read_u16(asic->pci.pdevice, &sriov_num_vf,
+				pci_offset + PCI_SRIOV_NUM_VF))
+				return 0;
+
+			return (sriov_ctrl & PCI_SRIOV_CTRL_VFE) ? sriov_num_vf : 0;
+		}
+		pci_offset = PCI_EXT_CAP_NEXT(pci_cfg_data);
+	}
+	return retval;
+}
+
 static void top_build_vi_program(struct umr_asic *asic)
 {
 	int i, j, k;
@@ -819,6 +957,14 @@ static void top_build_vi_program(struct umr_asic *asic)
 	stat_counters[1].bits = &stat_grbm2_bits[0];
 
 	i = 2;
+
+	top_options.sriov.active_vf = -1;
+	top_options.sriov.num_vf = sriov_supported_vf(asic);
+	if (top_options.sriov.num_vf != 0) {
+		stat_counters[i].is_sensor = 3;
+		ENTRY(i++, "mmRLC_GPU_IOV_ACTIVE_FCN_ID", &stat_rlc_iov_bits[0],
+			&top_options.vi.grbm, "GPU_IOV");
+	}
 
 	if (asic->config.gfx.family > 110)
 		ENTRY(i++, "mmRLC_GPM_STAT", &stat_rlc_gpm_bits[0], &top_options.vi.gfxpwr, "GFX PWR");
@@ -951,6 +1097,22 @@ static uint64_t get_visible_vram_size(struct umr_asic *asic)
 	return info.vram_cpu_accessible_size;
 }
 
+int get_active_vf(struct umr_asic *asic, uint32_t addr)
+{
+	uint32_t value = -1;
+
+	if (addr) {
+		if (asic->pci.mem) {
+			value = asic->pci.mem[addr>>2];
+		} else {
+			lseek(asic->fd.mmio, addr, SEEK_SET);
+			read(asic->fd.mmio, &value, 4);
+		}
+		value &= 0xF;
+	}
+	return value;
+}
+
 void umr_top(struct umr_asic *asic)
 {
 	int i, j, k;
@@ -983,9 +1145,12 @@ void umr_top(struct umr_asic *asic)
 	ENTRY(i, "DRM", &stat_drm_bits[0], &top_options.drm, "DRM");
 	stat_counters[i].is_sensor = 2;
 
-	for (i = 0; stat_counters[i].name; i++)
+	for (i = 0; stat_counters[i].name; i++) {
 		if (stat_counters[i].is_sensor == 0)
 			grab_bits(stat_counters[i].name, asic, stat_counters[i].bits, &stat_counters[i].addr);
+		else if (stat_counters[i].is_sensor == 3)
+			grab_addr(stat_counters[i].name, asic, stat_counters[i].bits, &stat_counters[i].addr);
+	}
 
 	sensor_thread_quit = 0;
 
@@ -1022,15 +1187,21 @@ void umr_top(struct umr_asic *asic)
 			memset(stat_counters[i].counts, 0, sizeof(stat_counters[i].counts[0])*32);
 
 		for (i = 0; i < (int)rep / (top_options.high_frequency ? 10 : 1); i++) {
-			for (j = 0; stat_counters[j].name; j++)
-				if (top_options.all || *stat_counters[j].opt) {
-					if (stat_counters[j].is_sensor == 0)
-						parse_bits(asic, stat_counters[j].addr, stat_counters[j].bits, stat_counters[j].counts, stat_counters[j].mask, stat_counters[j].cmp, stat_counters[j].addr_mask);
-					else if (i == 0 && stat_counters[j].is_sensor == 1) // only parse sensors on first go-around per display
-						parse_sensors(asic, stat_counters[j].addr, stat_counters[j].bits, stat_counters[j].counts, stat_counters[j].mask, stat_counters[j].cmp, stat_counters[j].addr_mask);
-					else if (i == 0 && stat_counters[j].is_sensor == 2) // only parse drm on first go-around per display
-						parse_drm(asic, stat_counters[j].addr, stat_counters[j].bits, stat_counters[j].counts, stat_counters[j].mask, stat_counters[j].cmp, stat_counters[j].addr_mask);
+			if (!top_options.sriov.num_vf || top_options.sriov.active_vf < 0 ||
+				top_options.sriov.active_vf == get_active_vf(asic, stat_counters[2].addr)) {
+				for (j = 0; stat_counters[j].name; j++) {
+					if (top_options.all || *stat_counters[j].opt) {
+						if (stat_counters[j].is_sensor == 0)
+							parse_bits(asic, stat_counters[j].addr, stat_counters[j].bits, stat_counters[j].counts, stat_counters[j].mask, stat_counters[j].cmp, stat_counters[j].addr_mask);
+						else if (i == 0 && stat_counters[j].is_sensor == 1) // only parse sensors on first go-around per display
+							parse_sensors(asic, stat_counters[j].addr, stat_counters[j].bits, stat_counters[j].counts, stat_counters[j].mask, stat_counters[j].cmp, stat_counters[j].addr_mask);
+						else if (i == 0 && stat_counters[j].is_sensor == 2) // only parse drm on first go-around per display
+							parse_drm(asic, stat_counters[j].addr, stat_counters[j].bits, stat_counters[j].counts, stat_counters[j].mask, stat_counters[j].cmp, stat_counters[j].addr_mask);
+						else if (stat_counters[j].is_sensor == 3)
+							parse_iov(asic, stat_counters[j].addr, stat_counters[j].bits, stat_counters[j].counts, stat_counters[j].mask, stat_counters[j].cmp, stat_counters[j].addr_mask);
+					}
 				}
+			}
 			nanosleep(&req, NULL);
 			ts += (req.tv_nsec / 1000000);
 		}
@@ -1057,6 +1228,25 @@ void umr_top(struct umr_asic *asic)
 				break;
 			case '2':
 				top_options.high_frequency ^= 1;
+				break;
+			case '[':
+				if (top_options.sriov.num_vf) {
+					top_options.sriov.active_vf--;
+					if (top_options.sriov.active_vf < 0)
+						top_options.sriov.active_vf = top_options.sriov.num_vf - 1;
+				}
+				break;
+			case ']':
+				if (top_options.sriov.num_vf) {
+					top_options.sriov.active_vf++;
+					if (top_options.sriov.active_vf >= top_options.sriov.num_vf)
+						top_options.sriov.active_vf = 0;
+				}
+				break;
+			case '=':
+				if (top_options.sriov.num_vf) {
+					top_options.sriov.active_vf = -1;
+				}
 				break;
 			case 'r': top_options.drm ^= 1; break;
 			default:
@@ -1108,6 +1298,8 @@ void umr_top(struct umr_asic *asic)
 					print_sensors(stat_counters[i].bits, stat_counters[i].counts);
 				else if (stat_counters[i].is_sensor == 2)
 					print_drm(stat_counters[i].bits, stat_counters[i].counts);
+				else if (stat_counters[i].is_sensor == 3)
+					print_iov(stat_counters[i].counts);
 			}
 		}
 		if (logfile != NULL) {
@@ -1123,6 +1315,9 @@ void umr_top(struct umr_asic *asic)
 		if (print_j & (top_options.wide ? 3 : 1))
 			printw("\n");
 		printw("\n(a)ll (w)ide (1)high_precision (2)high_frequency (W)rite (l)ogger\n(v)ram d(r)m\n%s", top_options.helptext);
+		if (top_options.sriov.num_vf) {
+			printw("([)prev VF (])next VF (=)all VF\n");
+		}
 		refresh();
 	}
 	endwin();
