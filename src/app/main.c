@@ -346,10 +346,13 @@ int main(int argc, char **argv)
 				if (!asic)
 					asic = get_asic();
 
-				if ((n = sscanf(argv[i+1], "%"SCNu32"@%"SCNx64, &vmid, &address)) != 2) {
-					sscanf(argv[i+1], "%"SCNx64, &address);
-					vmid = 0xFFFF;
-				}
+				// allow specifying the vmid in hex as well so
+				// people can add the HUB flags more easily
+				if ((n = sscanf(argv[i+1], "0x%"SCNx32"@%"SCNx64, &vmid, &address)) != 2)
+					if ((n = sscanf(argv[i+1], "%"SCNu32"@%"SCNx64, &vmid, &address)) != 2) {
+						sscanf(argv[i+1], "%"SCNx64, &address);
+						vmid = UMR_LINEAR_HUB;
+					}
 				sscanf(argv[i+2], "%"SCNx32, &size);
 				while (size) {
 					n = size > sizeof(buf) ? sizeof(buf) : size;

@@ -89,8 +89,9 @@ will operate regardless of whether GFX PG is enabled or not.  Can use
 to decode the wave bitfields.
 .IP "--vram, -v [vmid@]<address> <size>"
 Read 'size' bytes (in hex) from the address specified (in hexadecimal) from VRAM
-to stdout.  Optionally specify the VMID (in decimal) treating the address as a
-virtual address instead.  Can use 'use_pci' to directly access VRAM.
+to stdout.  Optionally specify the VMID (in decimal or in hex with a 0x prefix)
+treating the address as a virtual address instead.  Can use 'use_pci' to
+directly access VRAM.
 
 .IP "--update, -u" <filename>
 Specify update file to add, change, or delete registers from the register
