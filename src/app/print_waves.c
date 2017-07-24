@@ -40,6 +40,9 @@ void umr_print_waves(struct umr_asic *asic)
 	struct umr_wave_status ws;
 	int first = 1, col = 0;
 
+	if (asic->options.halt_waves)
+		umr_sq_cmd_halt_waves(asic, UMR_SQ_CMD_HALT);
+
 	if (asic->family <= FAMILY_CIK)
 		shift = 3;  // on SI..CIK allocations were done in 8-dword blocks
 	else
@@ -206,4 +209,7 @@ void umr_print_waves(struct umr_asic *asic)
 	}
 	if (first)
 		printf("No active waves!\n");
+
+	if (asic->options.halt_waves)
+		umr_sq_cmd_halt_waves(asic, UMR_SQ_CMD_RESUME);
 }

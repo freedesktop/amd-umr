@@ -21,6 +21,7 @@ add_library(umrcore STATIC
   read_vram.c
   ring_decode.c
   scan_config.c
+  sq_cmd_halt_waves.c
   transfer_soc15.c
   wave_status.c
   update.c

@@ -36,14 +36,21 @@ uint32_t umr_find_reg(struct umr_asic *asic, char *regname)
 	return 0xFFFFFFFF;
 }
 
-struct umr_reg *umr_find_reg_data(struct umr_asic *asic, char *regname)
+struct umr_reg *umr_find_reg_data_by_ip(struct umr_asic *asic, char *ip, char *regname)
 {
 	int i, j;
 
-	for (i = 0; i < asic->no_blocks; i++)
+	for (i = 0; i < asic->no_blocks; i++) {
+		if (ip && memcmp(asic->blocks[i]->ipname, ip, strlen(ip))) continue;
 		for (j = 0; j < asic->blocks[i]->no_regs; j++)
 			if (!strcmp(asic->blocks[i]->regs[j].regname, regname))
 				return &asic->blocks[i]->regs[j];
+	}
 	fprintf(stderr, "[BUG]: reg [%s] not found on asic [%s]\n", regname, asic->asicname);
 	return NULL;
+}
+
+struct umr_reg *umr_find_reg_data(struct umr_asic *asic, char *regname)
+{
+	return umr_find_reg_data_by_ip(asic, NULL, regname);
 }

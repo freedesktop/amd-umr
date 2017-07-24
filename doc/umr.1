@@ -87,6 +87,13 @@ invoking it very rapidly.  Unlike the wave count reading in --top this command
 will operate regardless of whether GFX PG is enabled or not.  Can use
 .B bits
 to decode the wave bitfields.
+
+.IP "--vm-decode, -vm vmid@<address> <num_of_pages>"
+Decode page mappings at a specified address (in hex) from the VMID specified.
+The VMID can be specified in hexadecimal (with leading '0x') or in decimal.
+Implies '-O verbose' for the duration of the command so does not require it
+to be manually specified.
+
 .IP "--vram, -v [vmid@]<address> <size>"
 Read 'size' bytes (in hex) from the address specified (in hexadecimal) from VRAM
 to stdout.  Optionally specify the VMID (in decimal or in hex with a 0x prefix)
@@ -144,6 +151,12 @@ separated strings.  Options should be specified before --update or --force comma
      Disable using kernel files to access the device.  Implies ''use_pci''.  This is meant to
      be used only if the KMD is hung or otherwise not working correctly.  Using it on live systems
      may result in race conditions.
+
+.B verbose
+     Enable verbose diagnostics (used in --vram).
+
+.B halt_waves
+     Halt/resume all waves while reading wave status.
 
 .SH "Notes"
 

@@ -589,7 +589,7 @@ static void print_decode_pm4(struct umr_asic *asic, struct umr_ring_decoder *dec
 			// detect VCN/UVD IBs and chain them once all
 			// 4 pieces of information are found
 			if (!strcmp(name, "mmUVD_LMI_RBC_IB_VMID")) {
-				decoder->pm4.next_ib_state.ib_vmid = ib;
+				decoder->pm4.next_ib_state.ib_vmid = ib | ((asic->family <= FAMILY_VI) ? 0 : UMR_MM_HUB);
 				decoder->pm4.next_ib_state.tally |= 1;
 			} else if (!strcmp(name, "mmUVD_LMI_RBC_IB_64BIT_BAR_LOW")) {
 				decoder->pm4.next_ib_state.ib_addr_lo = ib;
@@ -598,7 +598,7 @@ static void print_decode_pm4(struct umr_asic *asic, struct umr_ring_decoder *dec
 				decoder->pm4.next_ib_state.ib_addr_hi = ib;
 				decoder->pm4.next_ib_state.tally |= 4;
 			} else if (!strcmp(name, "mmUVD_RBC_IB_SIZE")) {
-				decoder->pm4.next_ib_state.ib_size = ib;
+				decoder->pm4.next_ib_state.ib_size = ib * 4;
 				decoder->pm4.next_ib_state.tally |= 8;
 			}
 

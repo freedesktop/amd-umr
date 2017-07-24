@@ -22,31 +22,36 @@
  * Authors: Tom St Denis <tom.stdenis@amd.com>
  *
  */
-#include "umrapp.h"
-#include <inttypes.h>
+#include "umr.h"
 
-void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder)
+int umr_sq_cmd_halt_waves(struct umr_asic *asic, enum umr_sq_cmd_halt_resume mode)
 {
-	uint32_t *data = NULL, x;
-	static const char *hubs[] = { "gfxhub", "mmhub" };
+	struct umr_reg *reg;
+	uint32_t value;
+	uint64_t addr;
 
-	printf("Dumping IB at (%s) VMID:%u 0x%llx of %u words\n",
-		hubs[decoder->next_ib_info.vmid >> 8],
-		(unsigned)decoder->next_ib_info.vmid & 0xFF,
-		(unsigned long long)decoder->next_ib_info.ib_addr,
-		(unsigned)decoder->next_ib_info.size/4);
-
-	// read IB
-	data = calloc(sizeof(*data), decoder->next_ib_info.size/sizeof(*data));
-	if (data && !umr_read_vram(asic, decoder->next_ib_info.vmid, decoder->next_ib_info.ib_addr, decoder->next_ib_info.size, data)) {
-	// dump IB
-		decoder->pm4.cur_opcode = 0xFFFFFFFF;
-		for (x = 0; x < decoder->next_ib_info.size/4; x++) {
-			printf("IB[%5u] = 0x%08lx ... ", (unsigned)x, (unsigned long)data[x]);
-			umr_print_decode(asic, decoder, data[x]);
-			printf("\n");
-		}
+	reg = umr_find_reg_data(asic, "SQ_CMD");
+	if (!reg) {
+		fprintf(stderr, "[BUG]: Cannot find SQ_CMD register in umr_sq_cmd_halt_waves()\n");
+		return -1;
 	}
-	free(data);
-	printf("\n");
+
+	// compose value
+	if (asic->family == FAMILY_CIK) {
+		value = umr_bitslice_compose_value(asic, reg, "CMD", mode == UMR_SQ_CMD_HALT ? 1 : 2); // SETHALT
+	} else {
+		value = umr_bitslice_compose_value(asic, reg, "CMD", 1); // SETHALT
+		value |= umr_bitslice_compose_value(asic, reg, "DATA", mode == UMR_SQ_CMD_HALT ? 1 : 0);
+	}
+	value |= umr_bitslice_compose_value(asic, reg, "MODE", 1); // BROADCAST
+
+	// compose address
+	addr = reg->addr * 4;
+	addr |= (1ULL << 62) |      // we need to take the lock so we can ensure a broadcast write
+			(0x3FFULL << 24) |
+			(0x3FFULL << 34) |
+			(0x3FFULL << 44);
+	umr_write_reg(asic, addr, value, reg->type);
+
+	return 0;
 }

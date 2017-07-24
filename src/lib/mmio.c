@@ -145,24 +145,34 @@ int umr_write_reg(struct umr_asic *asic, uint64_t addr, uint32_t value, enum reg
 	return 0;
 }
 
-uint32_t umr_read_reg_by_name(struct umr_asic *asic, char *name)
+uint32_t umr_read_reg_by_name_by_ip(struct umr_asic *asic, char *ip, char *name)
 {
 	struct umr_reg *reg;
-	reg = umr_find_reg_data(asic, name);
+	reg = umr_find_reg_data_by_ip(asic, ip, name);
 	if (reg)
 		return umr_read_reg(asic, reg->addr * (reg->type == REG_MMIO ? 4 : 1), reg->type);
 	else
 		return 0;
 }
 
-int umr_write_reg_by_name(struct umr_asic *asic, char *name, uint32_t value)
+uint32_t umr_read_reg_by_name(struct umr_asic *asic, char *name)
+{
+	return umr_read_reg_by_name_by_ip(asic, NULL, name);
+}
+
+int umr_write_reg_by_name_by_ip(struct umr_asic *asic, char *ip, char *name, uint32_t value)
 {
 	struct umr_reg *reg;
-	reg = umr_find_reg_data(asic, name);
+	reg = umr_find_reg_data_by_ip(asic, ip, name);
 	if (reg)
 		return umr_write_reg(asic, reg->addr * (reg->type == REG_MMIO ? 4 : 1), value, reg->type);
 	else
 		return -1;
+}
+
+int umr_write_reg_by_name(struct umr_asic *asic, char *name, uint32_t value)
+{
+	return umr_write_reg_by_name_by_ip(asic, NULL, name, value);
 }
 
 uint32_t umr_bitslice_reg(struct umr_asic *asic, struct umr_reg *reg, char *bitname, uint32_t regvalue)
@@ -193,24 +203,34 @@ uint32_t umr_bitslice_compose_value(struct umr_asic *asic, struct umr_reg *reg, 
 	return 0;
 }
 
-uint32_t umr_bitslice_reg_by_name(struct umr_asic *asic, char *regname, char *bitname, uint32_t regvalue)
+uint32_t umr_bitslice_reg_by_name_by_ip(struct umr_asic *asic, char *ip, char *regname, char *bitname, uint32_t regvalue)
 {
 	struct umr_reg *reg;
-	reg = umr_find_reg_data(asic, regname);
+	reg = umr_find_reg_data_by_ip(asic, ip, regname);
 	if (reg)
 		return umr_bitslice_reg(asic, reg, bitname, regvalue);
 	else
 		return 0;
 }
 
-uint32_t umr_bitslice_compose_value_by_name(struct umr_asic *asic, char *regname, char *bitname, uint32_t regvalue)
+uint32_t umr_bitslice_reg_by_name(struct umr_asic *asic, char *regname, char *bitname, uint32_t regvalue)
+{
+	return umr_bitslice_reg_by_name_by_ip(asic, NULL, regname, bitname, regvalue);
+}
+
+uint32_t umr_bitslice_compose_value_by_name_by_ip(struct umr_asic *asic, char *ip, char *regname, char *bitname, uint32_t regvalue)
 {
 	struct umr_reg *reg;
-	reg = umr_find_reg_data(asic, regname);
+	reg = umr_find_reg_data_by_ip(asic, ip, regname);
 	if (reg)
 		return umr_bitslice_compose_value(asic, reg, bitname, regvalue);
 	else
 		return 0;
+}
+
+uint32_t umr_bitslice_compose_value_by_name(struct umr_asic *asic, char *regname, char *bitname, uint32_t regvalue)
+{
+	return umr_bitslice_compose_value_by_name_by_ip(asic, NULL, regname, bitname, regvalue);
 }
 
 int umr_grbm_select_index(struct umr_asic *asic, uint32_t se, uint32_t sh, uint32_t instance)

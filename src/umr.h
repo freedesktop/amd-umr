@@ -33,6 +33,20 @@
 #include <pciaccess.h>
 #include <pthread.h>
 
+/* SQ_CMD halt/resume */
+enum umr_sq_cmd_halt_resume {
+	UMR_SQ_CMD_HALT=0,
+	UMR_SQ_CMD_RESUME,
+};
+
+/* memory space hubs */
+enum umr_hub_space {
+	UMR_GFX_HUB = 0 << 8,        // default on everything before AI
+	UMR_MM_HUB = 1 << 8,         // available on AI and later
+
+	UMR_LINEAR_HUB = 0xFF << 8,  // this is for linear access to vram
+};
+
 /* sourced from amd_powerplay.h from the kernel */
 enum amd_pp_sensors {
 	AMDGPU_PP_SENSOR_GFX_SCLK = 0,
@@ -174,6 +188,8 @@ struct umr_options {
 	    read_smc,
 	    quiet,
 	    follow_ib,
+	    verbose,
+	    halt_waves,
 	    no_kernel;
 	unsigned
 	    instance_bank,
@@ -477,6 +493,7 @@ int umr_create_mmio_accel(struct umr_asic *asic);
 uint32_t umr_find_reg(struct umr_asic *asic, char *regname);
 
 // find the register data for a register
+struct umr_reg *umr_find_reg_data_by_ip(struct umr_asic *asic, char *ip, char *regname);
 struct umr_reg *umr_find_reg_data(struct umr_asic *asic, char *regname);
 
 // read/write a 32-bit register given a BYTE address
@@ -487,16 +504,25 @@ int umr_write_reg(struct umr_asic *asic, uint64_t addr, uint32_t value, enum reg
 uint32_t umr_read_reg_by_name(struct umr_asic *asic, char *name);
 int umr_write_reg_by_name(struct umr_asic *asic, char *name, uint32_t value);
 
+// read/write a register by ip/name
+uint32_t umr_read_reg_by_name_by_ip(struct umr_asic *asic, char *ip, char *name);
+int umr_write_reg_by_name_by_ip(struct umr_asic *asic, char *ip, char *name, uint32_t value);
+
 // slice a full register into bits (shifted into LSB)
 uint32_t umr_bitslice_reg(struct umr_asic *asic, struct umr_reg *reg, char *bitname, uint32_t regvalue);
 uint32_t umr_bitslice_reg_by_name(struct umr_asic *asic, char *regname, char *bitname, uint32_t regvalue);
+uint32_t umr_bitslice_reg_by_name_by_ip(struct umr_asic *asic, char *ip, char *regname, char *bitname, uint32_t regvalue);
 
 // compose a 32-bit register with a value and a bitfield
 uint32_t umr_bitslice_compose_value(struct umr_asic *asic, struct umr_reg *reg, char *bitname, uint32_t regvalue);
 uint32_t umr_bitslice_compose_value_by_name(struct umr_asic *asic, char *reg, char *bitname, uint32_t regvalue);
+uint32_t umr_bitslice_compose_value_by_name_by_ip(struct umr_asic *asic, char *ip, char *regname, char *bitname, uint32_t regvalue);
 
 // select a GRBM_GFX_IDX
 int umr_grbm_select_index(struct umr_asic *asic, uint32_t se, uint32_t sh, uint32_t instance);
+
+// halt/resume SQ waves
+int umr_sq_cmd_halt_waves(struct umr_asic *asic, enum umr_sq_cmd_halt_resume mode);
 
 /* IB/ring decoding/dumping/etc */
 void umr_print_decode(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib);
