@@ -30,21 +30,11 @@ static const struct umr_reg gfx72_registers[] = {
 #include "gfx72_regs.i"
 };
 
-static int grant(struct umr_asic *asic)
-{
-	(void)asic;
-	return 0;
-}
-
-static int deny(struct umr_asic *asic)
-{
-	(void)asic;
-	return -1;
-}
-
 struct umr_ip_block *umr_create_gfx72(struct umr_options *options)
 {
 	struct umr_ip_block *ip;
+
+	(void)options;
 
 	ip = calloc(1, sizeof *ip);
 	if (!ip)
@@ -57,7 +47,6 @@ struct umr_ip_block *umr_create_gfx72(struct umr_options *options)
 		free(ip);
 		return NULL;
 	}
-	ip->grant = (options->risky >= 1) ? grant : deny;
 	memcpy(ip->regs, gfx72_registers, sizeof(gfx72_registers));
 	return ip;
 }

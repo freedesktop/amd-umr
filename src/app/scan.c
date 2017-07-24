@@ -45,7 +45,6 @@ int umr_scan_asic(struct umr_asic *asic, char *asicname, char *ipname, char *reg
 							r = asic->blocks[i]->grant(asic);
 							if (r) {
 								if (ipname[0]) {
-									fprintf(stderr, "[ERROR]: Must specify at least one 'risky' option before scanning specific blocks.\n");
 									exit(EXIT_FAILURE);
 								}
 								continue;

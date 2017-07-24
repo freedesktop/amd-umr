@@ -83,9 +83,7 @@ static void parse_options(char *str)
 		*p = 0;
 		if (*str == ',')
 			++str;
-		if (!strcmp(option, "risky")) {
-			options.risky++;
-		} else if (!strcmp(option, "named")) {
+		if (!strcmp(option, "named")) {
 			options.named = 1;
 		} else if (!strcmp(option, "many")) {
 			options.named = 1;
@@ -184,9 +182,6 @@ int main(int argc, char **argv)
 				printf("--pci requires domain:bus:slot.function\n");
 				return EXIT_FAILURE;
 			}
-		} else if (!strcmp(argv[i], "--print") || !strcmp(argv[i], "-p")) {
-			options.print = 1;
-			options.need_scan = 1;
 		} else if (!strcmp(argv[i], "--config") || !strcmp(argv[i], "-c")) {
 			if (!asic)
 				asic = get_asic();
@@ -398,7 +393,6 @@ int main(int argc, char **argv)
 	"\n\t\tForce a specific PCI device using the domain:bus:slot.function format in hex."
 	"\n\t\tThis is useful when more than one GPU is available. If the amdgpu driver is"
 	"\n\t\tloaded the corresponding instance will be automatically detected.\n"
-"\n\t--print, -p\n\t\tEnable dumping of all device registers. (default: off)\n"
 "\n\t--config, -c\n\t\tPrint out configuation data read from kernel driver.\n"
 "\n\t--enumerate, -e\n\t\tEnumerate all AMDGPU devices detected.\n"
 "\n\t--list-blocks, -lb\n\t\tList IP blocks discovered for this device.\n"

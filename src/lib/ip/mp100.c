@@ -30,18 +30,6 @@ static const struct umr_reg_soc15 mp100_registers[] = {
 #include "mp100_regs.i"
 };
 
-static int grant(struct umr_asic *asic)
-{
-	(void)asic;
-	return 0;
-}
-
-static int deny(struct umr_asic *asic)
-{
-	(void)asic;
-	return -1;
-}
-
 struct umr_ip_block *umr_create_mp100(struct umr_ip_offsets_soc15 *soc15_offsets, struct umr_options *options)
 {
 	struct umr_ip_block *ip;
@@ -57,7 +45,6 @@ struct umr_ip_block *umr_create_mp100(struct umr_ip_offsets_soc15 *soc15_offsets
 		free(ip);
 		return NULL;
 	}
-	ip->grant = (options->risky >= 1) ? grant : deny;
 
 	if (umr_transfer_soc15_to_reg(options, soc15_offsets, "MP0", mp100_registers, ip)) { // this might be broken because there is MP1/2 as well
 		free(ip);

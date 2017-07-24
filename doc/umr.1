@@ -21,9 +21,6 @@ is not yet loaded or a display is not yet attached.
 Force a specific PCI device using the domain:bus:slot.function format in hex.
 This is useful when more than one GPU is available. If the amdgpu driver is
 loaded the corresponding instance will be automatically detected.
-.IP "--print, -p"
-Enable scanning and printing all registers.  Defaults to off as it can
-be very verbose.
 .IP "--config, -c"
 Print out configuation data read from kernel driver.
 .IP "--enumerate, -e"
@@ -106,12 +103,6 @@ separated strings.  Options should be specified before --update or --force comma
 
 .B quiet
      Disable various informative but not required (for functionality) outputs.
-
-.B risky
-     enables scanning risky ip blocks (such as GFX).  Specify twice for SMU
-     blocks.  This flag is necessary since some blocks are not stable to blindly
-     --scan (or --print) without causing GPU hangs.  The flag is intended to prevent
-     accidental hangs.
 
 .B read_smc
      Enable scanning of SMC registers.

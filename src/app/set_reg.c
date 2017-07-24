@@ -61,7 +61,6 @@ int umr_set_register(struct umr_asic *asic, char *regpath, char *regvalue)
 
 							if (asic->blocks[i]->grant) {
 								if (asic->blocks[i]->grant(asic)) {
-									fprintf(stderr, "[ERROR]: Must specify at least one 'risky' before writing to this block.\n");
 									return -1;
 								}
 							}

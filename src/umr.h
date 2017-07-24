@@ -162,7 +162,6 @@ struct umr_options {
 	    instance,
 	    need_scan,
 	    print,
-	    risky,
 	    bitfields,
 	    bitfields_full,
 	    named,

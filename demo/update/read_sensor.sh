@@ -6,7 +6,7 @@
 # In this case we're reading the NB voltage sensor from Carrizo
 
 # capture value in hex
-NB_VID=`umr -O risky,risky,read_smc -u carrizo.update -r carrizo.smu80.ixSMUSVI_NB_CURRENTVID | cut -b1-4`
+NB_VID=`umr -O read_smc -u carrizo.update -r carrizo.smu80.ixSMUSVI_NB_CURRENTVID | cut -b1-4`
 
 # convert to decimal
 NB_VID_DEC=`printf "%d" ${NB_VID}`
