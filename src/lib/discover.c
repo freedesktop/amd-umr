@@ -269,20 +269,25 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 				goto err_pci;
 			}
 			pci_iterator_destroy(pci_iter);
+
+			// enable device if kernel module isn't present
+			if (asic->options.no_kernel)
+				pci_device_enable(asic->pci.pdevice);
+
 			pci_device_probe(asic->pci.pdevice);
 
 			use_region = 6;
 			// try to detect based on ASIC family
 			if (asic->family <= FAMILY_SI) {
 				// try region 2 for SI
-				if (	asic->pci.pdevice->regions[2].is_64 == 0 &&
+				if (asic->pci.pdevice->regions[2].is_64 == 0 &&
 					asic->pci.pdevice->regions[2].is_prefetchable == 0 &&
 					asic->pci.pdevice->regions[2].is_IO == 0) {
 						use_region = 2;
 				}
 			} else if (asic->family <= FAMILY_VI) {
 				// try region 5 for CIK..VI
-				if (	asic->pci.pdevice->regions[5].is_64 == 0 &&
+				if (asic->pci.pdevice->regions[5].is_64 == 0 &&
 					asic->pci.pdevice->regions[5].is_prefetchable == 0 &&
 					asic->pci.pdevice->regions[5].is_IO == 0) {
 						use_region = 5;

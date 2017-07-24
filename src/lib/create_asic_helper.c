@@ -48,6 +48,11 @@ struct umr_asic *umr_create_asic_helper(char *name, int family, ...)
 	}
 	va_end(ap);
 
+	if (!asic->no_blocks) {
+		free(asic);
+		return NULL;
+	}
+
 	asic->blocks = calloc(asic->no_blocks, sizeof(struct umr_ip_block *));
 	if (!asic->blocks) {
 		free(asic);

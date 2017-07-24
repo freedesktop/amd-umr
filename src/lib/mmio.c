@@ -88,6 +88,10 @@ uint32_t umr_read_reg(struct umr_asic *asic, uint64_t addr, enum regclass type)
 	if (addr == 0xFFFFFFFF)
 		fprintf(stderr, "[BUG]: reading from addr==0xFFFFFFFF is likely a bug\n");
 
+	// lop off top bits in no-kernel mode
+	if (asic->options.no_kernel)
+		addr &= 0xFFFFFF;
+
 	switch (type) {
 		case REG_MMIO:
 			if (asic->pci.mem && !(addr & ~0xFFFFFULL)) { // only use pci if enabled and not using high bits 
@@ -112,6 +116,10 @@ int umr_write_reg(struct umr_asic *asic, uint64_t addr, uint32_t value, enum reg
 {
 	if (addr == 0xFFFFFFFF)
 		fprintf(stderr, "[BUG]: reading from addr==0xFFFFFFFF is likely a bug\n");
+
+	// lop off top bits in no-kernel mode
+	if (asic->options.no_kernel)
+		addr &= 0xFFFFFF;
 
 	switch (type) {
 		case REG_MMIO:

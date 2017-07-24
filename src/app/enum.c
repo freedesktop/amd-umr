@@ -55,7 +55,6 @@ void umr_enumerate_devices(void)
 		return;
 	}
 	do {
-		x = 0;
 		do {
 			pdevice = pci_device_next(pci_iter);
 		} while (pdevice && pdevice->vendor_id != 0x1002);
@@ -64,12 +63,11 @@ void umr_enumerate_devices(void)
 			asics[devices].instance = -1;
 			asics[devices].asic->pci.pdevice = &asics[devices].pcopy;
 			asics[devices++].pcopy = *pdevice;
-			x = 1;
 		}
 	} while (pdevice && devices < MAX_DEV);
 
 	// now try to match devices against instances
-	for (y = 0; y < MAX_DEV; y++) {
+	for (y = 0; y < devices; y++) {
 		snprintf(path, sizeof(path)-1, "/sys/kernel/debug/dri/%d/name", y);
 		dri = fopen(path, "r");
 		if (dri) {
