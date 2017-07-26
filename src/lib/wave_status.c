@@ -310,7 +310,7 @@ int umr_get_wave_status(struct umr_asic *asic, unsigned se, unsigned sh, unsigne
 
 int umr_get_wave_sq_info(struct umr_asic *asic, unsigned se, unsigned sh, unsigned cu, struct umr_wave_status *ws)
 {
-	if (asic->family <= FAMILY_AI)
+	if (asic->family <= FAMILY_RV)
 		return umr_get_wave_sq_info_vi(asic, se, sh, cu, ws);
 	return -1;
 }
