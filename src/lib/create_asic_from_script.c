@@ -198,6 +198,14 @@ out_of_mem:
 	return -1;
 }
 
+static void chomp(char *str)
+{
+	char *p = &str[strlen(str)-1];
+	while (p != str && (*p == '\r' || *p == '\n')) {
+		*p = 0;
+		--p;
+	}
+}
 
 // create an asic from a script with multiples of the following lines
 // reg ${ipname} ${regname} ${type} ${addr}
@@ -205,43 +213,22 @@ out_of_mem:
 //
 // for soc15 devices you need to compute the linear offset for the register
 // for that particular ASIC.
-struct umr_asic *umr_create_asic_from_script(struct umr_options *options, char *name)
+
+static int parse_file(struct umr_asic *asic, char *path, char *name)
 {
-	struct umr_asic *asic;
-	char *txt, line[512];
 	FILE *f;
-	int lineno = 1, i, j, k;
+	char *txt, line[512];
+	int lineno = 1;
 
-	if (!options->use_pci)
-		fprintf(stderr, "[WARNING]: Should use --pci when using create_asic_from_script()\n");
-
-	f = fopen(name, "r");
+	snprintf(line, sizeof(line)-1, "%s%s", path, name);
+	f = fopen(line, "r");
 	if (!f) {
 		perror("Cannot open script file");
-		return NULL;
+		return -1;
 	}
-
-	txt = name + strlen(name) - 1;
-	// walk back to start or first
-	while (txt != name) {
-		if (*txt == '/') {
-			++txt;
-			break;
-		}
-		--txt;
-	}
-
-	asic = calloc(1, sizeof *asic);
-	if (!asic || !(asic->asicname = strdup(txt))) {
-		fprintf(stderr, "[ERROR]: Out of memory\n");
-		free(asic);
-		fclose(f);
-		return NULL;
-	}
-	asic->options = *options;
-	asic->family = FAMILY_NPI;
 
 	while (fgets(line, sizeof(line)-1, f) != NULL) {
+		chomp(line);
 		txt = &line[0];
 		skip_whitespace(&txt);
 		if (!memcmp(txt, "reg", 3)) {
@@ -256,6 +243,29 @@ struct umr_asic *umr_create_asic_from_script(struct umr_options *options, char *
 				fprintf(stderr, "[ERROR]: Error adding bit definition\n");
 				goto error;
 			}
+		} else if (!memcmp(txt, "include", 7)) {
+			txt += 7;
+			skip_whitespace(&txt);
+			if (parse_file(asic, path, txt))
+				goto error;
+		} else if (!memcmp(txt, "name", 4)) {
+			txt += 4;
+			skip_whitespace(&txt);
+			free(asic->asicname);
+			asic->asicname = strdup(txt);
+			if (!asic->asicname) {
+				fprintf(stderr, "[ERROR]: Out of memory\n");
+				goto error;
+			}
+		} else if (!memcmp(txt, "family", 6)) {
+			int family;
+			txt += 6;
+			skip_whitespace(&txt);
+			if (sscanf(txt, "%d", &family) != 1) {
+				fprintf(stderr, "[ERROR]: Expecting decimal number for asic family\n");
+				goto error;
+			}
+			asic->family = family;
 		} else if (txt[0]) {
 			fprintf(stderr, "[ERROR]: Invalid script command <%s>\n", txt);
 			goto error;
@@ -263,24 +273,65 @@ struct umr_asic *umr_create_asic_from_script(struct umr_options *options, char *
 		++lineno;
 	}
 	fclose(f);
-	return asic;
+	return 0;
 error:
-	fprintf(stderr, "[ERROR]: Parser error on line %d:\n\t\t%s\n", lineno, line);
+	fprintf(stderr, "[ERROR]: Parser error on line %s%s:%d:\n\t\t%s\n", path, name, lineno, line);
 	fclose(f);
-	for (i = 0; i < asic->no_blocks; i++) {
-		for (j = 0; j < asic->blocks[i]->no_regs; j++) {
-			for (k = 0; k < asic->blocks[i]->regs[j].no_bits; k++)
-				free(asic->blocks[i]->regs[j].bits[k].regname);
-			free(asic->blocks[i]->regs[j].bits);
-			free(asic->blocks[i]->regs[j].regname);
-		}
-		free(asic->blocks[i]->regs);
-		free(asic->blocks[i]->ipname);
-		free(asic->blocks[i]);
-	}
-	free(asic->blocks);
-	free(asic->asicname);
-	free(asic);
+	return -1;
+}
 
-	return NULL;
+struct umr_asic *umr_create_asic_from_script(struct umr_options *options, char *name)
+{
+	struct umr_asic *asic;
+	char *txt, path[512];
+	int i, j, k;
+
+	if (!options->use_pci)
+		fprintf(stderr, "[WARNING]: Should use --pci when using create_asic_from_script()\n");
+
+	txt = name + strlen(name) - 1;
+	// walk back to start or first
+	while (txt != name) {
+		if (*txt == '/') {
+			++txt;
+			break;
+		}
+		--txt;
+	}
+
+	// default to ./ for the path or read the path out of the name
+	if (txt == name) {
+		strcpy(path, "./");
+	} else {
+		memset(path, 0, sizeof path);
+		memcpy(path, name, (int)(txt - name));
+	}
+
+	asic = calloc(1, sizeof *asic);
+	if (!asic || !(asic->asicname = strdup(txt))) {
+		fprintf(stderr, "[ERROR]: Out of memory\n");
+		free(asic);
+		return NULL;
+	}
+	asic->options = *options;
+	asic->family = FAMILY_NPI;
+
+	if (parse_file(asic, path, txt)) {
+		for (i = 0; i < asic->no_blocks; i++) {
+			for (j = 0; j < asic->blocks[i]->no_regs; j++) {
+				for (k = 0; k < asic->blocks[i]->regs[j].no_bits; k++)
+					free(asic->blocks[i]->regs[j].bits[k].regname);
+				free(asic->blocks[i]->regs[j].bits);
+				free(asic->blocks[i]->regs[j].regname);
+			}
+			free(asic->blocks[i]->regs);
+			free(asic->blocks[i]->ipname);
+			free(asic->blocks[i]);
+		}
+		free(asic->blocks);
+		free(asic->asicname);
+		free(asic);
+		return NULL;
+	}
+	return asic;
 }
