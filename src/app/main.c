@@ -341,6 +341,14 @@ int main(int argc, char **argv)
 		} else if (!strcmp(argv[i], "--enumerate") || !strcmp(argv[i], "-e")) {
 			umr_enumerate_devices();
 			return 0;
+		} else if (!strcmp(argv[i], "-mm")) {
+			if (i + 1 < argc) {
+				strcpy(options.hub_name, argv[i+1]);
+				++i;
+			} else {
+				printf("-mm requires on parameter");
+				return EXIT_FAILURE;
+			}
 		} else if (!strcmp(argv[i], "--vm-decode") || !strcmp(argv[i], "-vm")) {
 			if (i + 2 < argc) {
 				uint64_t address;
@@ -361,6 +369,11 @@ int main(int argc, char **argv)
 						exit(EXIT_FAILURE);
 					}
 				sscanf(argv[i+2], "%"SCNx32, &size);
+
+				// imply user hub if hub name specified
+				if (options.hub_name[0])
+					vmid |= UMR_USER_HUB;
+
 				while (size--) {
 					if (umr_read_vram(asic, vmid, address, 0, NULL))
 						break;
@@ -389,6 +402,11 @@ int main(int argc, char **argv)
 						sscanf(argv[i+1], "%"SCNx64, &address);
 						vmid = UMR_LINEAR_HUB;
 					}
+
+				// imply user hub if hub name specified
+				if (options.hub_name[0])
+					vmid |= UMR_USER_HUB;
+
 				sscanf(argv[i+2], "%"SCNx32, &size);
 				do {
 					n = size > sizeof(buf) ? sizeof(buf) : size;

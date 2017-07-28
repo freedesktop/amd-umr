@@ -44,6 +44,7 @@ enum umr_hub_space {
 	UMR_GFX_HUB = 0 << 8,        // default on everything before AI
 	UMR_MM_HUB = 1 << 8,         // available on AI and later
 
+	UMR_USER_HUB = 0xFE << 8,    // for user supplied HUB names (npi work...)
 	UMR_LINEAR_HUB = 0xFF << 8,  // this is for linear access to vram
 };
 
@@ -196,8 +197,10 @@ struct umr_options {
 	    se_bank,
 	    sh_bank;
 	long forcedid;
-	char *scanblock;
-	char dev_name[32];
+	char
+		*scanblock,
+		dev_name[32],
+		hub_name[32];
 	struct {
 		int domain,
 		    bus,

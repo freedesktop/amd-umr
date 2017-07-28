@@ -309,6 +309,7 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 	char buf[64];
 	unsigned char *pdst = dst;
 	char *hub;
+	unsigned hubid;
 
 	memset(&registers, 0, sizeof registers);
 
@@ -333,12 +334,23 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 	 * 0 valid
 	 */
 
-	if ((vmid & 0xFF00) == UMR_MM_HUB)
-		hub = "mmhub";
-	else
-		hub = "gfx";
-
+	hubid = vmid & 0xFF00;
 	vmid &= 0xFF;
+
+	switch (hubid) {
+		case UMR_MM_HUB:
+			hub = "mmhub";
+			break;
+		case UMR_GFX_HUB:
+			hub = "gfx";
+			break;
+		case UMR_USER_HUB:
+			hub = asic->options.hub_name;
+			break;
+		default:
+			fprintf(stderr, "[ERROR]: Invalid hub specified in umr_read_vram_ai()\n");
+			return -1;
+	}
 
 	// read vm registers
 	sprintf(buf, "mmVM_CONTEXT%d_PAGE_TABLE_START_ADDR_LO32", (int)vmid);
