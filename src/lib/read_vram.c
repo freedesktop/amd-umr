@@ -91,7 +91,7 @@ static int umr_read_vram_vi(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 			frag_size,
 			pte_base_addr,
 			valid;
-	} pde_fields;
+	} pde_fields, pde_copy;
 	struct {
 		uint64_t
 			page_base_addr,
@@ -110,6 +110,7 @@ static int umr_read_vram_vi(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 	unsigned char *pdst = dst;
 
 	memset(&registers, 0, sizeof registers);
+	memset(&pde_copy, 0, sizeof pde_copy);
 
 	/*
 	 * PTE format on VI:
@@ -186,12 +187,13 @@ static int umr_read_vram_vi(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 			pde_fields.frag_size     = (pde_entry >> 59) & 0x1F;
 			pde_fields.pte_base_addr = pde_entry & 0xFFFFFFF000ULL;
 			pde_fields.valid         = pde_entry & 1;
-			if (asic->options.verbose)
+			if (memcmp(&pde_copy, &pde_fields, sizeof pde_fields) && asic->options.verbose)
 				fprintf(stderr, "[VERBOSE]: PDE=0x%016llx, VA=0x%010llx, PBA==0x%010llx, V=%d\n",
 						(unsigned long long)pde_entry,
 						(unsigned long long)address & pde_mask,
 						(unsigned long long)pde_fields.pte_base_addr,
 						(int)pde_fields.valid);
+			memcpy(&pde_copy, &pde_fields, sizeof pde_fields);
 
 			if (!pde_fields.valid)
 				return -1;
@@ -206,7 +208,7 @@ static int umr_read_vram_vi(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 			pte_fields.system         = (pte_entry >> 1) & 1;
 			pte_fields.valid          = pte_entry & 1;
 			if (asic->options.verbose)
-				fprintf(stderr, "[VERBOSE]: PTE=0x%016llx, VA=0x%010llx, PBA==0x%010llx, V=%d, S=%d\n",
+				fprintf(stderr, "[VERBOSE]: \\-> PTE=0x%016llx, VA=0x%010llx, PBA==0x%010llx, V=%d, S=%d\n",
 					(unsigned long long)pte_entry,
 					(unsigned long long)address & pte_mask,
 					(unsigned long long)pte_fields.page_base_addr,
@@ -252,19 +254,23 @@ static int umr_read_vram_vi(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 			chunk_size = size;
 		}
 		DEBUG("Computed address we will read from: %s:%llx (reading: %lu bytes)\n", pte_fields.system ? "sys" : "vram", (unsigned long long)start_addr, (unsigned long)chunk_size);
-		if (pte_fields.system) {
-			if (umr_read_sram(start_addr, chunk_size, pdst) < 0) {
-				fprintf(stderr, "[ERROR]: Cannot read system ram, perhaps CONFIG_STRICT_DEVMEM is set in your kernel config?\n");
-				fprintf(stderr, "[ERROR]: Alternatively download and install /dev/fmem\n");
-				return -1;
+
+		// allow destination to be NULL to simply use decoder
+		if (pdst) {
+			if (pte_fields.system) {
+				if (umr_read_sram(start_addr, chunk_size, pdst) < 0) {
+					fprintf(stderr, "[ERROR]: Cannot read system ram, perhaps CONFIG_STRICT_DEVMEM is set in your kernel config?\n");
+					fprintf(stderr, "[ERROR]: Alternatively download and install /dev/fmem\n");
+					return -1;
+				}
+			} else {
+				if (umr_read_vram(asic, UMR_LINEAR_HUB, start_addr, chunk_size, pdst) < 0) {
+					fprintf(stderr, "[ERROR]: Cannot read from VRAM\n");
+					return -1;
+				}
 			}
-		} else {
-			if (umr_read_vram(asic, UMR_LINEAR_HUB, start_addr, chunk_size, pdst) < 0) {
-				fprintf(stderr, "[ERROR]: Cannot read from VRAM\n");
-				return -1;
-			}
+			pdst += chunk_size;
 		}
-		pdst += chunk_size;
 		size -= chunk_size;
 		address += chunk_size;
 	} while (size);
@@ -278,7 +284,7 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 		 pde_address, vga_base_address, vm_fb_offset, vm_fb_base,
 		 va_mask;
 	uint32_t chunk_size, tmp;
-	int page_table_depth, first, depth, indent;
+	int pde_cnt, current_depth, page_table_depth, first;
 	struct {
 		uint32_t
 			mmVM_CONTEXTx_PAGE_TABLE_START_ADDR_LO32,
@@ -298,7 +304,7 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 			system,
 			cache,
 			pte;
-	} pde_fields;
+	} pde_fields, pde_array[8];
 	struct {
 		uint64_t
 			page_base_addr,
@@ -310,8 +316,10 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 	unsigned char *pdst = dst;
 	char *hub;
 	unsigned hubid;
+	static const char *indentation = "            \\->";
 
 	memset(&registers, 0, sizeof registers);
+	memset(&pde_array, 0, sizeof pde_array);
 
 	/*
 	 * PTE format on AI:
@@ -413,11 +421,12 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 	DEBUG("\n");
 
 	// transform page_table_base
-	pde_entry = page_table_base_addr;
 	page_table_base_addr -= vm_fb_offset;
 	address -= page_table_start_addr;
 
 	do {
+		pde_entry = page_table_base_addr;
+
 		first = 1;
 		if (page_table_depth >= 1) {
 			// decode PDE values
@@ -428,20 +437,18 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 			pde_fields.cache         = (pde_entry >> 2) & 1;
 			pde_fields.pte           = (pde_entry >> 54) & 1;
 
-			// mask off valid bit
-			page_table_base_addr &= ~1ULL;
-
 			// read PTE selector
 			pte_idx = (address >> 12) & ((1ULL << (9 + page_table_size)) - 1);
 
 			// AI+ supports more than 1 level of PDEs so we iterate for all of the depths
-			pde_address = page_table_base_addr;
+			pde_address = page_table_base_addr & ~1ULL;
 			pde_fields.system = 0;
-			depth = 0;
 			va_mask = ((unsigned long long)511 << ((page_table_depth)*9 + (12 + 9 + page_table_size)));
-			if (asic->options.verbose)
+			pde_cnt = 0;
+
+			if (memcmp(&pde_fields, &pde_array[pde_cnt], sizeof pde_fields) && asic->options.verbose)
 				fprintf(stderr, "[VERBOSE]: PDE%d=0x%016llx, VA=0x%012llx, PBA==0x%012llx, V=%d, S=%d, C=%d, P=%d\n",
-						depth++,
+						pde_cnt,
 						(unsigned long long)pde_entry,
 						(unsigned long long)address & va_mask,
 						(unsigned long long)pde_fields.pte_base_addr,
@@ -449,12 +456,14 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 						(int)pde_fields.system,
 						(int)pde_fields.cache,
 						(int)pde_fields.pte);
-			indent = page_table_depth * 3;
-			while (page_table_depth) {
-				DEBUG("Decoding depth %u...(0x%llx)\n", (unsigned)page_table_depth, (unsigned long long)address);
+			memcpy(&pde_array[pde_cnt++], &pde_fields, sizeof pde_fields);
+
+			current_depth = page_table_depth;
+			while (current_depth) {
+				DEBUG("Decoding depth %u...(0x%llx)\n", (unsigned)current_depth, (unsigned long long)address);
 				// decode addr into pte and pde selectors...
 				//                         ~~~ PDE selector ~~~      ~~~ PTE selector ~~~
-				pde_idx = (address >> ((page_table_depth-1)*9 + (12 + 9 + page_table_size)));
+				pde_idx = (address >> ((current_depth-1)*9 + (12 + 9 + page_table_size)));
 
 				// don't mask the first PDE idx
 				if (!first)
@@ -462,7 +471,7 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 				first = 0;
 
 				DEBUG("pde_idx == %llx\n", (unsigned long long)pde_idx);
-				va_mask = ((unsigned long long)511 << ((page_table_depth-2)*9 + (12 + 9 + page_table_size)));
+				va_mask = ((unsigned long long)511 << ((page_table_depth - pde_cnt)*9 + (12 + 9 + page_table_size)));
 				DEBUG("selector mask == %llx\n", va_mask);
 
 				// read PDE entry
@@ -476,9 +485,10 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 				pde_fields.system        = (pde_entry >> 1) & 1;
 				pde_fields.cache         = (pde_entry >> 2) & 1;
 				pde_fields.pte           = (pde_entry >> 54) & 1;
-				if (asic->options.verbose)
-					fprintf(stderr, "[VERBOSE]: PDE%d=0x%016llx, VA=0x%012llx, PBA==0x%012llx, V=%d, S=%d, C=%d, P=%d\n",
-							depth,
+				if (memcmp(&pde_fields, &pde_array[pde_cnt], sizeof pde_fields) && asic->options.verbose)
+					fprintf(stderr, "[VERBOSE]: %s PDE%d=0x%016llx, VA=0x%012llx, PBA==0x%012llx, V=%d, S=%d, C=%d, P=%d\n",
+							&indentation[12-pde_cnt*3],
+							pde_cnt,
 							(unsigned long long)pde_entry,
 							(unsigned long long)address & va_mask,
 							(unsigned long long)pde_fields.pte_base_addr,
@@ -486,6 +496,7 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 							(int)pde_fields.system,
 							(int)pde_fields.cache,
 							(int)pde_fields.pte);
+				memcpy(&pde_array[pde_cnt++], &pde_fields, sizeof pde_fields);
 
 				if (!pde_fields.system)
 					pde_fields.pte_base_addr -= vm_fb_offset;
@@ -494,9 +505,7 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 					return -1;
 
 				// for the next round the address we're decoding is the phys address in the currently decoded PDE
-				--page_table_depth;
-				++depth;
-				indent -= 3;
+				--current_depth;
 				pde_address = pde_fields.pte_base_addr;
 				DEBUG("...done\n\n");
 			}
@@ -511,9 +520,10 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 			pte_fields.system         = (pte_entry >> 1) & 1;
 			pte_fields.valid          = pte_entry & 1;
 			if (asic->options.verbose)
-				fprintf(stderr, "[VERBOSE]: PTE==0x%016llx, VA=0x%012llx, PBA==0x%012llx, V=%d, S=%d\n",
+				fprintf(stderr, "[VERBOSE]: %s PTE==0x%016llx, VA=0x%012llx, PBA==0x%012llx, V=%d, S=%d\n",
+					&indentation[12-pde_cnt*3],
 					(unsigned long long)pte_entry,
-					(unsigned long long)address & ((1ULL << (9 + page_table_size)) - 1),
+					(unsigned long long)address & (((1ULL << (9 + page_table_size)) - 1) << 12),
 					(unsigned long long)pte_fields.page_base_addr,
 					(int)pte_fields.valid,
 					(int)pte_fields.system);
@@ -536,12 +546,18 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 			pde_fields.pte_base_addr = page_table_base_addr & 0xFFFFFFFFFF000ULL;
 			pde_fields.system        = (page_table_base_addr >> 1) & 1;
 			pde_fields.valid         = page_table_base_addr & 1;
-			if (asic->options.verbose)
-				fprintf(stderr, "[VERBOSE]: PDE=0x%016llx, PBA==0x%012llx, V=%d, S=%d\n",
+
+			if (memcmp(&pde_array[0], &pde_fields, sizeof pde_fields) && asic->options.verbose)
+				fprintf(stderr, "[VERBOSE]: PDE=0x%016llx, PBA==0x%012llx, V=%d, S=%d, FS=%u\n",
 						(unsigned long long)page_table_base_addr,
 						(unsigned long long)pde_fields.pte_base_addr,
 						(int)pde_fields.valid,
-						(int)pde_fields.system);
+						(int)pde_fields.system,
+						(unsigned)pde_fields.frag_size);
+			memcpy(&pde_array[0], &pde_fields, sizeof pde_fields);
+
+			if (!pde_fields.valid)
+				return -1;
 
 			// PTE addr = baseaddr[47:6] + (logical - start) >> fragsize)
 			pte_idx = (address >> (12 + pde_fields.frag_size));
@@ -554,14 +570,18 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 			pte_fields.fragment       = (pte_entry >> 7)  & 0x1F;
 			pte_fields.system         = (pte_entry >> 1) & 1;
 			pte_fields.valid          = pte_entry & 1;
+
 			if (asic->options.verbose)
-				fprintf(stderr, "[VERBOSE]: PTE=0x%016llx, PBA==0x%012llx, F=%u, V=%d, S=%d\n",
+				fprintf(stderr, "[VERBOSE]: \\-> PTE=0x%016llx, VA=0x%016llx, PBA==0x%012llx, F=%u, V=%d, S=%d\n",
 					(unsigned long long)pte_entry,
+					(unsigned long long)address & ~0xFFFUL,
 					(unsigned long long)pte_fields.page_base_addr,
 					(unsigned)pte_fields.fragment,
 					(int)pte_fields.valid,
 					(int)pte_fields.system);
 
+			if (!pte_fields.valid)
+				return -1;
 
 			// compute starting address
 			start_addr = pte_fields.page_base_addr + (address & 0xFFF);
@@ -576,19 +596,23 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 		}
 		DEBUG("Computed address we will read from: %s:%llx (reading: %lu bytes)\n", pte_fields.system ? "sys" : "vram",
 			(unsigned long long)start_addr, (unsigned long)chunk_size);
-		if (pte_fields.system) {
-			if (umr_read_sram(start_addr, chunk_size, pdst) < 0) {
-				fprintf(stderr, "[ERROR]: Cannot read system ram, perhaps CONFIG_STRICT_DEVMEM is set in your kernel config?\n");
-				fprintf(stderr, "[ERROR]: Alternatively download and install /dev/fmem\n");
-				return -1;
+
+		// allow destination to be NULL to simply use decoder
+		if (pdst) {
+			if (pte_fields.system) {
+				if (umr_read_sram(start_addr, chunk_size, pdst) < 0) {
+					fprintf(stderr, "[ERROR]: Cannot read system ram, perhaps CONFIG_STRICT_DEVMEM is set in your kernel config?\n");
+					fprintf(stderr, "[ERROR]: Alternatively download and install /dev/fmem\n");
+					return -1;
+				}
+			} else {
+				if (umr_read_vram(asic, UMR_LINEAR_HUB, start_addr, chunk_size, pdst) < 0) {
+					fprintf(stderr, "[ERROR]: Cannot read from VRAM\n");
+					return -1;
+				}
 			}
-		} else {
-			if (umr_read_vram(asic, UMR_LINEAR_HUB, start_addr, chunk_size, pdst) < 0) {
-				fprintf(stderr, "[ERROR]: Cannot read from VRAM\n");
-				return -1;
-			}
+			pdst += chunk_size;
 		}
-		pdst += chunk_size;
 		size -= chunk_size;
 		address += chunk_size;
 	} while (size);

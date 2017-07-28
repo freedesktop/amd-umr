@@ -374,11 +374,7 @@ int main(int argc, char **argv)
 				if (options.hub_name[0])
 					vmid |= UMR_USER_HUB;
 
-				while (size--) {
-					if (umr_read_vram(asic, vmid, address, 0, NULL))
-						break;
-					address += 0x1000;
-				}
+				umr_read_vram(asic, vmid, address, 0x1000UL * size, NULL);
 				i += 2;
 
 				asic->options.verbose = overbose;
