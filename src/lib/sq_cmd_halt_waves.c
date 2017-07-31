@@ -30,7 +30,7 @@ int umr_sq_cmd_halt_waves(struct umr_asic *asic, enum umr_sq_cmd_halt_resume mod
 	uint32_t value;
 	uint64_t addr;
 
-	reg = umr_find_reg_data(asic, "SQ_CMD");
+	reg = umr_find_reg_data(asic, "mmSQ_CMD");
 	if (!reg) {
 		fprintf(stderr, "[BUG]: Cannot find SQ_CMD register in umr_sq_cmd_halt_waves()\n");
 		return -1;
