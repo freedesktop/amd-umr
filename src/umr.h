@@ -206,7 +206,19 @@ struct umr_options {
 		    bus,
 		    slot,
 		    func;
+		char name[32];
 	} pci;
+};
+
+struct umr_dma_maps {
+	struct umr_map {
+		uint64_t
+			dma_addr,
+			phys_addr,
+			key;
+		int valid;
+		struct umr_map *left, *right;
+	} *maps;
 };
 
 struct umr_asic {
@@ -242,6 +254,7 @@ struct umr_asic {
 		struct umr_ip_block **iplist;
 		struct umr_reg **reglist;
 	} mmio_accel;
+	struct umr_dma_maps *maps;
 };
 
 struct umr_wave_status {
@@ -477,6 +490,7 @@ struct umr_asic *umr_discover_asic(struct umr_options *options);
 struct umr_asic *umr_discover_asic_by_did(struct umr_options *options, long did);
 struct umr_asic *umr_discover_asic_by_name(struct umr_options *options, char *name);
 void umr_free_asic(struct umr_asic *asic);
+void umr_free_maps(struct umr_asic *asic);
 void umr_close_asic(struct umr_asic *asic); // call this to close a fully open asic
 int umr_query_drm(struct umr_asic *asic, int field, void *ret, int size);
 void umr_enumerate_devices(void);

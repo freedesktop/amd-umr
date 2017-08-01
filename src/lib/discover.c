@@ -101,22 +101,21 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 	unsigned did;
 	struct umr_asic *asic;
 	long trydid = options->forcedid;
-	int busmatch = 0;
+	int busmatch = 0, parsed_did;
 
 	// Try to map to instance if we have a specific pci device
 	if (options->pci.domain || options->pci.bus ||
 	    options->pci.slot || options->pci.func) {
-		char pci_string[16];
 		int parsed_did;
 
-		snprintf(pci_string, sizeof(pci_string), "%04x:%02x:%02x.%x",
+		snprintf(options->pci.name, sizeof(options->pci.name), "%04x:%02x:%02x.%x",
 			options->pci.domain, options->pci.bus, options->pci.slot,
 			options->pci.func);
 
 		if (!options->no_kernel)
-			options->instance = find_pci_instance(pci_string);
+			options->instance = find_pci_instance(options->pci.name);
 
-		snprintf(driver, sizeof(driver), "/sys/bus/pci/devices/%s/device", pci_string);
+		snprintf(driver, sizeof(driver), "/sys/bus/pci/devices/%s/device", options->pci.name);
 		f = fopen(driver, "r");
 		if (!f) {
 			if (!options->quiet) perror("Cannot open PCI device name under sysfs (is a display attached?)");
@@ -143,40 +142,43 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 		}
 	}
 
-	if (trydid < 0) {
-		int parsed_pci_id, parsed_did;
-		snprintf(name, sizeof(name)-1, "/sys/kernel/debug/dri/%d/name", options->instance);
-		f = fopen(name, "r");
-		if (!f) {
-			int found = 0;
-			if (!options->quiet) {
-				f = popen("lsmod | grep ^amdgpu", "r");
-				while (fgets(name, sizeof(name)-1, f)) {
-					if (strstr(name, "amdgpu"))
-						found = 1;
-				}
-				pclose(f);
-
-				perror("Cannot open DRI name under debugfs");
-				if (!found)
-					printf("ERROR: amdgpu.ko is not loaded.\n");
-				else
-					printf("ERROR: amdgpu.ko is loaded but /sys/kernel/debug/dri/%d/name is not found\n", options->instance);
+	snprintf(name, sizeof(name)-1, "/sys/kernel/debug/dri/%d/name", options->instance);
+	f = fopen(name, "r");
+	if (!f && !options->no_kernel && !options->use_pci) {
+		int found = 0;
+		if (!options->quiet) {
+			f = popen("lsmod | grep ^amdgpu", "r");
+			while (fgets(name, sizeof(name)-1, f)) {
+				if (strstr(name, "amdgpu"))
+					found = 1;
 			}
-			return NULL;
-		}
+			pclose(f);
 
-		parsed_pci_id = fscanf(f, "%*s %s", name);
-		fclose(f);
-		if (parsed_pci_id != 1) {
-			if (!options->quiet) printf("Cannot read pci device id\n");
-			return NULL;
+			perror("Cannot open DRI name under debugfs");
+			if (!found)
+				printf("ERROR: amdgpu.ko is not loaded.\n");
+			else
+				printf("ERROR: amdgpu.ko is loaded but /sys/kernel/debug/dri/%d/name is not found\n", options->instance);
 		}
+		return NULL;
+	} else if (f) {
+		fscanf(f, "%*s %s", name);
+		fclose(f);
 
 		// strip off dev= for kernels > 4.7
 		if (strstr(name, "dev="))
 			memmove(name, name+4, strlen(name)-3);
 
+		// read the PCI info
+		strcpy(options->pci.name, name);
+		sscanf(name, "%04x:%02x:%02x.%x",
+			&options->pci.domain,
+			&options->pci.bus,
+			&options->pci.slot,
+			&options->pci.func);
+	}
+
+	if (trydid < 0) {
 		snprintf(driver, sizeof(driver)-1, "/sys/bus/pci/devices/%s/device", name);
 		f = fopen(driver, "r");
 		if (!f) {
