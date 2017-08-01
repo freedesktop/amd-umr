@@ -406,8 +406,8 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 		case 0x3f: // INDIRECT_BUFFER_CIK
 		case 0x33: // INDIRECT_BUFFER_CONST
 			switch (decoder->pm4.cur_word) {
-				case 0: printf("IB_BASE_LO: 0x%08lx, SWAP:%lu", BITS(ib, 2, 32), BITS(ib, 0, 2));
-					decoder->pm4.next_ib_state.ib_addr_lo = BITS(ib, 2, 32);
+				case 0: printf("IB_BASE_LO: 0x%08lx, SWAP:%lu", BITS(ib, 2, 32) << 2, BITS(ib, 0, 2));
+					decoder->pm4.next_ib_state.ib_addr_lo = BITS(ib, 2, 32) << 2;
 					break;
 				case 1: printf("IB_BASE_HI: 0x%08lx", BITS(ib, 0, 16));
 					decoder->pm4.next_ib_state.ib_addr_hi = BITS(ib, 0, 16);
