@@ -338,7 +338,7 @@ static char *vgt_event_decode(unsigned tag)
 	return "<unknown event>";
 }
 
-#define BITS(x, a, b) (unsigned long)((x >> a) & ((1ULL << (b-a))-1))
+#define BITS(x, a, b) (unsigned long)((x >> (a)) & ((1ULL << ((b)-(a)))-1))
 
 void add_ib(struct umr_ring_decoder *decoder)
 {
@@ -389,6 +389,16 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 					break;
 				case 3: printf("PATCH_VALUE: 0x%08lx", (unsigned long)ib);
 					break;
+				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
+		case 0x27: // DRAW_INDEX_2
+			switch (decoder->pm4.cur_word) {
+				case 0: printf("MAX_SIZE: %lu", (unsigned long) BITS(ib, 0, 32)); break;
+				case 1: printf("INDEX_BASE_LO: 0x%08lx", (unsigned long) BITS(ib, 0, 32)); break;
+				case 2: printf("INDEX_BASE_HI: 0x%08lx", (unsigned long) BITS(ib, 0, 32)); break;
+				case 3: printf("INDEX_COUNT: %lu", (unsigned long) BITS(ib, 0, 32)); break;
+				case 4: printf("DRAW_INITIATOR: 0x%08lx", (unsigned long) BITS(ib, 0, 32)); break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
 			break;
@@ -542,6 +552,32 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 						break;
 					}
 					// fall through to invalid
+				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
+		case 0x50: // DMA_DATA
+			switch(decoder->pm4.cur_word) {
+				case 0: printf("ENG_SEL: %d, SRC_CACHE: %d, DST_SEL: %d, DST_CACHE: %d, SRC_SEL: %d, CP_SYNC: %d",
+						(int)BITS(ib, 0, 1),
+						(int)BITS(ib, 1+12, 1+12+2),
+						(int)BITS(ib, 1+12+2+5,1+12+2+5+2),
+						(int)BITS(ib, 1+12+2+5+2+3, 1+12+2+5+2+3+2),
+						(int)BITS(ib, 1+12+2+5+2+3+2+2, 1+12+2+5+2+3+2+2+2),
+						(int)BITS(ib, 1+12+2+5+2+3+2+2+2, 1+12+2+5+2+3+2+2+2+1));
+					break;
+				case 1: printf("SRC_ADDR_LO_OR_DATA: 0x%08lx", (unsigned long)BITS(ib, 0, 32)); break;
+				case 2: printf("SRC_ADDR_HI: 0x%08lx", (unsigned long)BITS(ib, 0, 32)); break;
+				case 3: printf("DST_ADDR_LO: 0x%08lx", (unsigned long)BITS(ib, 0, 32)); break;
+				case 4: printf("DST_ADDR_HI: 0x%08lx", (unsigned long)BITS(ib, 0, 32)); break;
+				case 5: printf("BYTE COUNT: %lu, SAS: %d, DAS: %d, SAIC: %d, DAIC: %d, RAW_WAIT: %d, DIS_WC: %d",
+						(unsigned long)BITS(ib, 0, 26),
+						(int)BITS(ib, 26, 26+1),
+						(int)BITS(ib, 26+1, 26+1+1),
+						(int)BITS(ib, 26+1+1, 26+1+1+1),
+						(int)BITS(ib, 26+1+1+1, 26+1+1+1+1),
+						(int)BITS(ib, 26+1+1+1+1, 26+1+1+1+1+1),
+						(int)BITS(ib, 26+1+1+1+1+1, 26+1+1+1+1+1+1));
+					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
 			break;
