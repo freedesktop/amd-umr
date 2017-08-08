@@ -94,14 +94,13 @@ static uint64_t dma_to_phys(struct umr_asic *asic, uint64_t dma_addr)
 		return map->dma_addr;
 }
 
-static int parse_trace(struct umr_asic *asic, struct umr_dma_maps *maps)
+static int parse_trace(struct umr_asic *asic)
 {
 	FILE *f;
 	uint64_t d, p;
 	char *s, buf[512];
 	int err = -1, valid;
-
-	memset(maps, 0, sizeof *maps);
+	struct umr_dma_maps *maps = asic->maps;
 
 	if (!check_trace) {
 		check_trace = 1;
@@ -792,7 +791,7 @@ int umr_read_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint32
 			return -1;
 		}
 
-		if (parse_trace(asic, asic->maps))
+		if (parse_trace(asic))
 			return -1;
 	}
 
