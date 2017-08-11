@@ -371,12 +371,12 @@ static int umr_read_vram_vi(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 			pte_fields.system         = (pte_entry >> 1) & 1;
 			pte_fields.valid          = pte_entry & 1;
 			if (asic->options.verbose)
-				fprintf(stderr, "[VERBOSE]: PTE=0x%016llx, VA=0x%010llx, PBA==0x%010llx, PTE.system=%d, PTE.valid=%d\n",
+				fprintf(stderr, "[VERBOSE]: PTE=0x%016llx, VA=0x%010llx, PBA==0x%010llx, V=%d, S=%d\n",
 					(unsigned long long)pte_entry,
 					(unsigned long long)address & ~0xFFFULL,
 					(unsigned long long)pte_fields.page_base_addr,
-					(int)pte_fields.system,
-					(int)pte_fields.valid);
+					(int)pte_fields.valid,
+					(int)pte_fields.system);
 
 			if (!pte_fields.valid)
 				return -1;
