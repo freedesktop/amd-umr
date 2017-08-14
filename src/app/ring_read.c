@@ -61,6 +61,9 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 		enable_decoder = 0;
 	}
 
+	if (asic->options.halt_waves)
+		umr_sq_cmd_halt_waves(asic, UMR_SQ_CMD_HALT);
+
 	/* determine file size */
 	ringsize = lseek(fd, 0, SEEK_END) - 12;
 	lseek(fd, 0, SEEK_SET);
@@ -69,7 +72,7 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 	if (!ring_data) {
 		close(fd);
 		perror("Could not allocate ring data");
-		return;
+		goto end;
 	}
 	read(fd, ring_data, ringsize + 12);
 	close(fd);
@@ -142,4 +145,8 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 		free(pdecoder);
 		pdecoder = ppdecoder;
 	}
+
+end:
+	if (asic->options.halt_waves)
+		umr_sq_cmd_halt_waves(asic, UMR_SQ_CMD_RESUME);
 }
