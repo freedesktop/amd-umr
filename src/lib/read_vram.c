@@ -104,20 +104,20 @@ static int parse_trace(struct umr_asic *asic)
 
 	if (!check_trace) {
 		check_trace = 1;
-		f = fopen("/sys/kernel/debug/tracing/events/amdgpu/amdgpu_ttm_tt_populate/enable", "r");
+		f = fopen("/sys/kernel/debug/tracing/events/ttm/ttm_dma_map/enable", "r");
 		if (!f) {
-			fprintf(stderr, "[WARNING]: kernel does not support TTM populate trace, please update kernel\n");
+			fprintf(stderr, "[WARNING]: kernel does not support TTM mapping trace, please update kernel\n");
 		} else {
 			fgets(buf, sizeof(buf)-1, f);
 			if (sscanf(buf, "%"SCNu64, &d) == 1) {
 				if (d != 1) {
 					fprintf(stderr,
-					"[WARNING]: amdgpu_ttm_tt_populate trace is not enabled, VM decoding may fail!\n"
-					"[WARNING]: Enable with: 'echo 1 > /sys/kernel/debug/tracing/events/amdgpu/amdgpu_ttm_tt_populate/enable'\n"
-					"[WARNING]: Enable with: 'echo 1 > /sys/kernel/debug/tracing/events/amdgpu/amdgpu_ttm_tt_unpopulate/enable'\n");
+					"[WARNING]: ttm_dma_map trace is not enabled, VM decoding may fail!\n"
+					"[WARNING]: Enable with: 'echo 1 > /sys/kernel/debug/tracing/events/ttm/ttm_dma_map/enable'\n"
+					"[WARNING]: Enable with: 'echo 1 > /sys/kernel/debug/tracing/events/ttm/ttm_dma_unmap/enable'\n");
 				}
 			} else {
-				fprintf(stderr, "[ERROR]: could not read amdgpu_ttm_tt_populate enable file\n");
+				fprintf(stderr, "[ERROR]: could not read ttm_dma_map enable file\n");
 			}
 			fclose(f);
 		}
@@ -134,14 +134,14 @@ static int parse_trace(struct umr_asic *asic)
 	while (fgets(buf, sizeof(buf)-1, f)) {
 		valid = -1;
 
-		s = strstr(buf, "amdgpu_ttm_tt_populate");
+		s = strstr(buf, "ttm_dma_map");
 		if (s) {
-			s += strlen("amdgpu_ttm_tt_populate");
+			s += strlen("ttm_dma_map");
 			valid = 1;
 		} else {
-			s = strstr(buf, "amdgpu_ttm_tt_unpopulate");
+			s = strstr(buf, "ttm_dma_unmap");
 			if (s) {
-				s += strlen("amdgpu_ttm_tt_unpopulate");
+				s += strlen("ttm_dma_unmap");
 				valid = 0;
 			}
 		}
