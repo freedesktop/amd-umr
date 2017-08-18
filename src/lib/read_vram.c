@@ -31,16 +31,17 @@ static struct umr_map *find_map(struct umr_dma_maps *maps, uint64_t dma_addr, in
 	struct umr_map *n = maps->maps, **nn;
 	uint64_t key;
 
-	if (!n) {
-		maps->maps = calloc(1, sizeof(maps->maps[0]));
-		return maps->maps;
-	}
-
 	// addresses aren't terribly random
 	// so if we use an identity function on the search
 	// key we'll end up with a really unbalanced tree
 	// so mix up address a bit to randomize keys
 	key = dma_addr ^ (dma_addr >> 9);
+
+	if (!n) {
+		maps->maps = calloc(1, sizeof(maps->maps[0]));
+		maps->maps->key = key;
+		return maps->maps;
+	}
 
 	while (n->dma_addr != dma_addr) {
 		if (key > n->key)
