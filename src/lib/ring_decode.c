@@ -382,6 +382,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 	static const char *op_3c_functions[] = { "true", "<", "<=", "==", "!=", ">=", ">", "reserved" };
 	static const char *op_37_engines[] = { "ME", "PFP", "CE", "DE" };
 	static const char *op_37_dst_sel[] = { "mem-mapped reg", "memory sync", "TC/L2", "GDS", "reserved", "memory async", "reserved", "reserved" };
+	static const char *op_84_cntr_sel[] = { "invalid", "ce", "cs", "ce and cs" };
 	struct umr_reg *reg;
 	printf("   PKT3 OPCODE 0x%02x, word %u: ", (unsigned)decoder->pm4.cur_opcode, (unsigned)decoder->pm4.cur_word);
 	switch (decoder->pm4.cur_opcode) {
@@ -424,6 +425,13 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 				case 0: printf("INDEX_COUNT: %lu", (unsigned long)ib);
 					break;
 				case 1: printf("DRAW_INITIATOR: 0x%lx", (unsigned long)ib);
+					break;
+				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
+		case 0x2f: // NUM_INSTANCES
+			switch (decoder->pm4.cur_word) {
+				case 0: printf("NUM_INSTANCES: %lu", (unsigned long)ib);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
@@ -636,6 +644,30 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 					break;
 			}
 			break;
+		case 0x79: // SET_UCONFIG_REG
+			switch(decoder->pm4.cur_word) {
+				case 0: decoder->pm4.next_write_mem.addr_lo = BITS(ib, 0, 16) + 0xC000;
+					printf("OFFSET: 0x%lx", (unsigned long)BITS(ib, 0, 16));
+					break;
+				default: printf("%s <= 0x%08lx", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo++), (unsigned long)ib);
+					break;
+			}
+			break;
+		case 0x80: // LOAD_CONST_RAM
+			switch(decoder->pm4.cur_word) {
+				case 0: printf("ADDR_LO: 0x%08lx", (unsigned long)ib);
+					break;
+				case 1: printf("ADDR_HI: 0x%08lx", (unsigned long)ib);
+					break;
+				case 2: printf("NUM_DW: 0x%08lx", (unsigned long)BITS(ib, 0, 15));
+					break;
+				case 3: printf("START_ADDR: 0x%08lx, CACHE_POLICY: %s",
+					       (unsigned long)BITS(ib, 0, 16),
+					       BITS(ib, 25, 27) ? "stream" : "lru");
+					break;
+				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
 		case 0x81: // WRITE_CONST_RAM
 			switch(decoder->pm4.cur_word) {
 				case 0: decoder->pm4.next_write_mem.addr_lo = BITS(ib, 0, 16);
@@ -662,6 +694,24 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 					break;
 				case 3:
 					printf("ADDR_HI: 0x%08lx", (unsigned long)ib);
+					break;
+				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
+		case 0x84: // INCREMENT_CE_COUNTER
+			switch(decoder->pm4.cur_word) {
+				case 0: printf("CNTRSEL: [%s]",
+						op_84_cntr_sel[BITS(ib, 0, 2)]);
+					break;
+				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
+		case 0x86: // WAIT_ON_CE_COUNTER
+			switch(decoder->pm4.cur_word) {
+				case 0: printf("COND_ACQUIRE_MEM: %d, FORCE_SYNC: %d, MEM_VOLATILE: %d",
+						(int)BITS(ib, 0, 1),
+						(int)BITS(ib, 1, 2),
+						(int)BITS(ib, 27, 28));
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
