@@ -360,15 +360,21 @@ void add_ib(struct umr_ring_decoder *decoder)
 	memset(&decoder->pm4.next_ib_state, 0, sizeof(decoder->pm4.next_ib_state));
 }
 
-char *umr_reg_name(struct umr_asic *asic, uint64_t addr)
+static char *umr_reg_name(struct umr_asic *asic, uint64_t addr)
 {
 	int i, j;
+	static char regname[512];
+
+	strcpy(regname, "<unknown>");
 
 	for (i = 0; i < asic->no_blocks; i++)
 	for (j = 0; j < asic->blocks[i]->no_regs; j++)
-		if (asic->blocks[i]->regs[j].type == REG_MMIO && asic->blocks[i]->regs[j].addr == addr)
-			return asic->blocks[i]->regs[j].regname;
-	return "<unknown>";
+		if (asic->blocks[i]->regs[j].type == REG_MMIO && asic->blocks[i]->regs[j].addr == addr) {
+			snprintf(regname, sizeof(regname)-1, "%s.%s", asic->blocks[i]->ipname, asic->blocks[i]->regs[j].regname);
+			goto end;
+		}
+end:
+	return regname;
 }
 
 static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib)
