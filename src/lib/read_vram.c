@@ -35,7 +35,7 @@ static struct umr_map *find_map(struct umr_dma_maps *maps, uint64_t dma_addr, in
 	// so if we use an identity function on the search
 	// key we'll end up with a really unbalanced tree
 	// so mix up address a bit to randomize keys
-	key = dma_addr ^ (dma_addr >> 9);
+	key = dma_addr ^ (dma_addr >> 11);
 
 	if (!n) {
 		maps->maps = calloc(1, sizeof(maps->maps[0]));
@@ -60,6 +60,7 @@ static struct umr_map *find_map(struct umr_dma_maps *maps, uint64_t dma_addr, in
 			return *nn;
 		}
 	}
+
 	return n;
 }
 
@@ -71,9 +72,26 @@ static int insert_map(struct umr_dma_maps *maps,
 
 	// don't add a new node if we're marking it invalid
 	if (map) {
-		map->dma_addr = dma_addr;
-		map->phys_addr = phys_addr;
-		map->valid = valid;
+		if (valid) {
+			map->dma_addr = dma_addr;
+			map->phys_addr = phys_addr;
+			map->valid = valid;
+		} else {
+			struct umr_map *tmap = NULL;
+
+			// if marking invalid see if we can prune
+			// the tree a little if the node we're marking
+			// as invalid only has one child
+			if (map->left == NULL && map->right) {
+				tmap = map->right;
+				*map = *(map->right);
+			} else if (map->right == NULL && map->left) {
+				tmap = map->left;
+				*map = *(map->left);
+			}
+			if (tmap)
+				free(tmap);
+		}
 	}
 
 	return 0;
