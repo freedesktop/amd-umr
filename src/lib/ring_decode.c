@@ -340,7 +340,7 @@ static char *vgt_event_decode(unsigned tag)
 
 #define BITS(x, a, b) (unsigned long)((x >> (a)) & ((1ULL << ((b)-(a)))-1))
 
-void add_ib(struct umr_ring_decoder *decoder)
+static void add_ib(struct umr_ring_decoder *decoder)
 {
 	struct umr_ring_decoder *pdecoder;
 
