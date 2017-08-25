@@ -232,6 +232,7 @@ struct umr_asic {
 		struct umr_gfx_config gfx;
 		struct umr_fw_config fw[UMR_MAX_FW];
 		struct umr_pci_config pci;
+		char vbios_version[128];
 	} config;
 	struct {
 		int mmio,

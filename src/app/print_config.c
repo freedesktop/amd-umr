@@ -100,8 +100,12 @@ void umr_print_config(struct umr_asic *asic)
 {
 	int r, x;
 
-	printf("\tasic.instance == %d\n\n", asic->instance);
-	printf("\tumr.version == %s\n\n", UMR_BUILD_REV);
+	printf("\tasic.instance == %d\n", asic->instance);
+	printf("\tasic.devname == %s\n", asic->options.pci.name);
+
+	printf("\n\tumr.version == %s\n\n", UMR_BUILD_REV);
+
+	printf("\tvbios.version == %s\n\n", asic->config.vbios_version);
 
 	for (r = 0; asic->config.fw[r].name[0]; r++) {
 		printf("\tfw.%s == .feature==%lu .firmware==0x%08lx\n",

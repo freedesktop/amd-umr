@@ -87,6 +87,15 @@ int umr_scan_config(struct umr_asic *asic)
 	if (asic->options.no_kernel)
 		return -1;
 
+	// read vbios version
+	snprintf(fname, sizeof(fname)-1, "/sys/bus/pci/devices/%s/vbios_version", asic->options.pci.name);
+	f = fopen(fname, "r");
+	if (f) {
+		fgets(asic->config.vbios_version, sizeof(asic->config.vbios_version)-1, f);
+		asic->config.vbios_version[strlen(asic->config.vbios_version)-1] = 0; // remove newline...
+		fclose(f);
+	}
+
 	/* process FW block */
 	snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_firmware_info", asic->instance);
 	f = fopen(fname, "r");

@@ -101,7 +101,7 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 	unsigned did;
 	struct umr_asic *asic;
 	long trydid = options->forcedid;
-	int busmatch = 0, parsed_did;
+	int busmatch = 0, parsed_did, need_config_scan = 0;
 
 	// Try to map to instance if we have a specific pci device
 	if (options->pci.domain || options->pci.bus ||
@@ -169,13 +169,16 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 		if (strstr(name, "dev="))
 			memmove(name, name+4, strlen(name)-3);
 
-		// read the PCI info
-		strcpy(options->pci.name, name);
-		sscanf(name, "%04x:%02x:%02x.%x",
-			&options->pci.domain,
-			&options->pci.bus,
-			&options->pci.slot,
-			&options->pci.func);
+		if (!strlen(options->pci.name)) {
+			// read the PCI info
+			strcpy(options->pci.name, name);
+			sscanf(name, "%04x:%02x:%02x.%x",
+				&options->pci.domain,
+				&options->pci.bus,
+				&options->pci.slot,
+				&options->pci.func);
+			need_config_scan = 1;
+		}
 	}
 
 	if (trydid < 0) {
@@ -321,6 +324,10 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 			asic->pci.mem = pcimem_v;
 		}
 	}
+
+	if (need_config_scan)
+		umr_scan_config(asic);
+
 	return asic;
 err_pci:
 	umr_close_asic(asic);
