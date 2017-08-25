@@ -748,6 +748,10 @@ static void print_decode_pm4(struct umr_asic *asic, struct umr_ring_decoder *dec
 			name = umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo);
 			printf("   word (%lu): %s(0x%lx) <= 0x%lx", (unsigned long)decoder->pm4.cur_word++, name, (unsigned long)decoder->pm4.next_write_mem.addr_lo, (unsigned long)ib);
 
+			// strip off IP name
+			name = strstr(name, ".");
+			if (name[0] == '.') ++name;
+
 			// detect VCN/UVD IBs and chain them once all
 			// 4 pieces of information are found
 			if (!strcmp(name, "mmUVD_LMI_RBC_IB_VMID")) {
