@@ -182,7 +182,7 @@ error:
 	return err;
 }
 
-static void read_via_mmio(struct umr_asic *asic, uint64_t address, uint32_t size, void *dst)
+static void access_vram_via_mmio(struct umr_asic *asic, uint64_t address, uint32_t size, void *dst, int write_en)
 {
 	uint32_t MM_INDEX, MM_INDEX_HI, MM_DATA;
 	uint32_t *out = dst;
@@ -202,7 +202,10 @@ static void read_via_mmio(struct umr_asic *asic, uint64_t address, uint32_t size
 	while (size) {
 		umr_write_reg(asic, MM_INDEX, address | 0x80000000, REG_MMIO);
 		umr_write_reg(asic, MM_INDEX_HI, address >> 31, REG_MMIO);
-		*out++ = umr_read_reg(asic, MM_DATA, REG_MMIO);
+		if (write_en == 0)
+			*out++ = umr_read_reg(asic, MM_DATA, REG_MMIO);
+		else
+			umr_write_reg(asic, MM_DATA, *out++, REG_MMIO);
 		size -= 4;
 		address += 4;
 	}
@@ -214,7 +217,7 @@ static void read_via_mmio(struct umr_asic *asic, uint64_t address, uint32_t size
 #define DEBUG(...)
 #endif
 
-static int umr_read_sram(uint64_t address, uint32_t size, void *dst)
+static int umr_access_sram(uint64_t address, uint32_t size, void *dst, int write_en)
 {
 	int fd;
 
@@ -224,11 +227,18 @@ static int umr_read_sram(uint64_t address, uint32_t size, void *dst)
 	if (fd < 0)
 		fd = open("/dev/mem", O_RDWR | O_DSYNC);
 	if (fd >= 0) {
-		memset(dst, 0xFF, size);
 		lseek(fd, address, SEEK_SET);
-		if (read(fd, dst, size) != size) {
-			close(fd);
-			return -1;
+		if (write_en == 0) {
+			memset(dst, 0xFF, size);
+			if (read(fd, dst, size) != size) {
+				close(fd);
+				return -1;
+			}
+		} else {
+			if (write(fd, dst, size) != size) {
+				close(fd);
+				return -1;
+			}
 		}
 		close(fd);
 		return 0;
@@ -236,7 +246,10 @@ static int umr_read_sram(uint64_t address, uint32_t size, void *dst)
 	return -1;
 }
 
-static int umr_read_vram_vi(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint32_t size, void *dst)
+
+static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
+			      uint64_t address, uint32_t size,
+			      void *dst, int write_en)
 {
 	uint64_t start_addr, page_table_start_addr, page_table_base_addr,
 		 page_table_size, pte_idx, pde_idx, pte_entry, pde_entry,
@@ -415,14 +428,14 @@ static int umr_read_vram_vi(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 		// allow destination to be NULL to simply use decoder
 		if (pdst) {
 			if (pte_fields.system) {
-				if (umr_read_sram(start_addr, chunk_size, pdst) < 0) {
-					fprintf(stderr, "[ERROR]: Cannot read system ram, perhaps CONFIG_STRICT_DEVMEM is set in your kernel config?\n");
+				if (umr_access_sram(start_addr, chunk_size, pdst, write_en) < 0) {
+					fprintf(stderr, "[ERROR]: Cannot access system ram, perhaps CONFIG_STRICT_DEVMEM is set in your kernel config?\n");
 					fprintf(stderr, "[ERROR]: Alternatively download and install /dev/fmem\n");
 					return -1;
 				}
 			} else {
-				if (umr_read_vram(asic, UMR_LINEAR_HUB, start_addr, chunk_size, pdst) < 0) {
-					fprintf(stderr, "[ERROR]: Cannot read from VRAM\n");
+				if (umr_access_vram(asic, UMR_LINEAR_HUB, start_addr, chunk_size, pdst, write_en) < 0) {
+					fprintf(stderr, "[ERROR]: Cannot access VRAM\n");
 					return -1;
 				}
 			}
@@ -434,7 +447,9 @@ static int umr_read_vram_vi(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 	return 0;
 }
 
-static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint32_t size, void *dst)
+static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
+			      uint64_t address, uint32_t size,
+			      void *dst, int write_en)
 {
 	uint64_t start_addr, page_table_start_addr, page_table_base_addr,
 		 page_table_size, pte_idx, pde_idx, pte_entry, pde_entry,
@@ -757,14 +772,14 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 		// allow destination to be NULL to simply use decoder
 		if (pdst) {
 			if (pte_fields.system) {
-				if (umr_read_sram(start_addr, chunk_size, pdst) < 0) {
-					fprintf(stderr, "[ERROR]: Cannot read system ram, perhaps CONFIG_STRICT_DEVMEM is set in your kernel config?\n");
+				if (umr_access_sram(start_addr, chunk_size, pdst, write_en) < 0) {
+					fprintf(stderr, "[ERROR]: Cannot access system ram, perhaps CONFIG_STRICT_DEVMEM is set in your kernel config?\n");
 					fprintf(stderr, "[ERROR]: Alternatively download and install /dev/fmem\n");
 					return -1;
 				}
 			} else {
-				if (umr_read_vram(asic, UMR_LINEAR_HUB, start_addr, chunk_size, pdst) < 0) {
-					fprintf(stderr, "[ERROR]: Cannot read from VRAM\n");
+				if (umr_access_vram(asic, UMR_LINEAR_HUB, start_addr, chunk_size, pdst, write_en) < 0) {
+					fprintf(stderr, "[ERROR]: Cannot access VRAM\n");
 					return -1;
 				}
 			}
@@ -776,14 +791,14 @@ static int umr_read_vram_ai(struct umr_asic *asic, uint32_t vmid, uint64_t addre
 	return 0;
 }
 
-int umr_read_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint32_t size, void *dst)
+int umr_access_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint32_t size, void *data, int write_en)
 {
 	// only aligned reads
 	if ((address & 3) || (size & 3))
 		return -1;
 
 	// only aligned destinations
-	if (((intptr_t)dst) & 3) {
+	if (((intptr_t)data) & 3) {
 		fprintf(stderr, "[BUG]: vram read destination is not 4-byte aligned\n");
 		return -1;
 	}
@@ -793,12 +808,19 @@ int umr_read_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint32
 		// addressing is physical
 		if (asic->options.use_pci == 0) {
 			lseek(asic->fd.vram, address, SEEK_SET);
-			if (read(asic->fd.vram, dst, size) != size) {
-				fprintf(stderr, "[ERROR]: Could not read from VRAM at address 0x%llx\n", (unsigned long long)address);
-				return -1;
+			if (write_en == 0) {
+				if (read(asic->fd.vram, data, size) != size) {
+					fprintf(stderr, "[ERROR]: Could not read from VRAM at address 0x%llx\n", (unsigned long long)address);
+					return -1;
+				}
+			} else {
+				if (write(asic->fd.vram, data, size) != size) {
+					fprintf(stderr, "[ERROR]: Could not write to VRAM at address 0x%llx\n", (unsigned long long)address);
+					return -1;
+				}
 			}
 		} else {
-			read_via_mmio(asic, address, size, dst);
+			access_vram_via_mmio(asic, address, size, data, write_en);
 		}
 		return 0;
 	}
@@ -818,10 +840,10 @@ int umr_read_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint32
 		case FAMILY_SI:
 		case FAMILY_CIK:
 		case FAMILY_VI:
-			return umr_read_vram_vi(asic, vmid, address, size, dst);
+			return umr_access_vram_vi(asic, vmid, address, size, data, write_en);
 		case FAMILY_RV:
 		case FAMILY_AI:
-			return umr_read_vram_ai(asic, vmid, address, size, dst);
+			return umr_access_vram_ai(asic, vmid, address, size, data, write_en);
 		default:
 			fprintf(stderr, "[BUG]: Unsupported ASIC family type for umr_read_vram()\n");
 			return -1;

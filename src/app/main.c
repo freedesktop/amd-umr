@@ -382,7 +382,8 @@ int main(int argc, char **argv)
 				printf("--vm-decode requires two parameters\n");
 				return EXIT_FAILURE;
 			}
-		} else if (!strcmp(argv[i], "--vram") || !strcmp(argv[i], "-v")) {
+		} else if (!strcmp(argv[i], "--vram") || !strcmp(argv[i], "-v") ||
+			   !strcmp(argv[i], "--vram-read") || !strcmp(argv[i], "-vr")) {
 			if (i + 2 < argc) {
 				unsigned char buf[256];
 				uint64_t address;
@@ -413,7 +414,41 @@ int main(int argc, char **argv)
 				} while (size);
 				i += 2;
 			} else {
-				printf("--vram requires two parameters\n");
+				printf("--vram-read requires two parameters\n");
+				return EXIT_FAILURE;
+			}
+		} else if (!strcmp(argv[i], "--vram-write") || !strcmp(argv[i], "-vw")) {
+			if (i + 2 < argc) {
+				unsigned char buf[256];
+				uint64_t address;
+				uint32_t size, n, vmid;
+
+				if (!asic)
+					asic = get_asic();
+
+				// allow specifying the vmid in hex as well so
+				// people can add the HUB flags more easily
+				if ((n = sscanf(argv[i+1], "0x%"SCNx32"@%"SCNx64, &vmid, &address)) != 2)
+					if ((n = sscanf(argv[i+1], "%"SCNu32"@%"SCNx64, &vmid, &address)) != 2) {
+						sscanf(argv[i+1], "%"SCNx64, &address);
+						vmid = UMR_LINEAR_HUB;
+					}
+
+				// imply user hub if hub name specified
+				if (options.hub_name[0])
+					vmid |= UMR_USER_HUB;
+
+				sscanf(argv[i+2], "%"SCNx32, &size);
+				do {
+					n = size > sizeof(buf) ? sizeof(buf) : size;
+					fread(buf, 1, n, stdin);
+					umr_write_vram(asic, vmid, address, n, buf);
+					size -= n;
+					address += n;
+				} while (size);
+				i += 2;
+			} else {
+				printf("--vram-write requires two parameters\n");
 				return EXIT_FAILURE;
 			}
 		} else if (!strcmp(argv[i], "--option") || !strcmp(argv[i], "-O")) {
@@ -479,11 +514,13 @@ int main(int argc, char **argv)
 	"\n\t\tThe VMID can be specified in hexadecimal (with leading '0x') or in decimal."
 	"\n\t\tImplies '-O verbose' for the duration of the command so does not require it"
 	"\n\t\tto be manually specified.\n"
-"\n\t--vram, -v [<vmid>@]<address> <size>"
+"\n\t--vram-read, -vr [<vmid>@]<address> <size>"
 	"\n\t\tRead 'size' bytes (in hex) from a given address (in hex) to stdout. Optionally"
 	"\n\t\tspecify the VMID (in decimal or in hex with a '0x' prefix) treating the address"
 	"\n\t\tas a virtual address instead.  Can use 'verbose' option to print out PDE/PTE"
 	"\n\t\tdecodings.\n"
+"\n\t--vram-write, -vw [<vmid>@]<address> <size>"
+	"\n\t\tWrite 'size' bytes (in hex) to a given address (in hex) from stdin.\n"
 "\n\t--option -O <string>[,<string>,...]\n\t\tEnable various flags: bits, bitsfull, empty_log, follow, named, many,"
 	"\n\t\tuse_pci, use_colour, read_smc, quiet, no_kernel, verbose, halt_waves.\n"
 "\n\n", UMR_BUILD_VER, UMR_BUILD_REV);

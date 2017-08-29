@@ -545,7 +545,11 @@ int umr_sq_cmd_halt_waves(struct umr_asic *asic, enum umr_sq_cmd_halt_resume mod
 /* IB/ring decoding/dumping/etc */
 void umr_print_decode(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib);
 void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder);
-int umr_read_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint32_t size, void *dst);
+
+// memory access
+int umr_access_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint32_t size, void *data, int write_en);
+#define umr_read_vram(asic, vmid, address, size, dst) umr_access_vram(asic, vmid, address, size, dst, 0)
+#define umr_write_vram(asic, vmid, address, size, src) umr_access_vram(asic, vmid, address, size, src, 1)
 
 #define RED     (options.use_colour ? "\x1b[31;1m" : "")
 #define YELLOW  (options.use_colour ? "\x1b[33;1m" : "")
