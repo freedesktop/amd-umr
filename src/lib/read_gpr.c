@@ -75,7 +75,7 @@ int umr_read_sgprs(struct umr_asic *asic, struct umr_wave_status *ws, uint32_t *
 		return read(asic->fd.gpr, dst, 4 * ((ws->gpr_alloc.sgpr_size + 1) << shift));
 	} else {
 		umr_grbm_select_index(asic, ws->hw_id.se_id, ws->hw_id.sh_id, ws->hw_id.cu_id);
-		wave_read_regs_via_mmio(asic, ws->hw_id.simd_id, ws->hw_id.wave_id, 0, 0,
+		wave_read_regs_via_mmio(asic, ws->hw_id.simd_id, ws->hw_id.wave_id, 0, 0x200,
 					(ws->gpr_alloc.sgpr_size + 1) << shift, dst);
 		umr_grbm_select_index(asic, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
 		return 0;
