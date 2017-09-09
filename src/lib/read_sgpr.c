@@ -63,7 +63,7 @@ int umr_read_sgprs(struct umr_asic *asic, struct umr_wave_status *ws, uint32_t *
 	if (!asic->options.no_kernel) {
 		addr =
 			(1ULL << 60)                             | // reading SGPRs
-			((uint64_t)ws->gpr_alloc.sgpr_base << shift) | // starting address to read from
+			((uint64_t)0)                            | // starting address to read from
 			((uint64_t)ws->hw_id.se_id << 12)        |
 			((uint64_t)ws->hw_id.sh_id << 20)        |
 			((uint64_t)ws->hw_id.cu_id << 28)        |
@@ -75,7 +75,8 @@ int umr_read_sgprs(struct umr_asic *asic, struct umr_wave_status *ws, uint32_t *
 		return read(asic->fd.gpr, dst, 4 * ((ws->gpr_alloc.sgpr_size + 1) << shift));
 	} else {
 		umr_grbm_select_index(asic, ws->hw_id.se_id, ws->hw_id.sh_id, ws->hw_id.cu_id);
-		wave_read_regs_via_mmio(asic, ws->hw_id.simd_id, ws->hw_id.wave_id, ws->gpr_alloc.sgpr_base << shift, 0, (ws->gpr_alloc.sgpr_size + 1) << shift, dst);
+		wave_read_regs_via_mmio(asic, ws->hw_id.simd_id, ws->hw_id.wave_id, 0, 0,
+					(ws->gpr_alloc.sgpr_size + 1) << shift, dst);
 		umr_grbm_select_index(asic, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
 		return 0;
 	}

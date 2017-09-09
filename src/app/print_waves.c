@@ -82,8 +82,8 @@ void umr_print_waves(struct umr_asic *asic)
 						if (ws.wave_status.halt)
 							for (x = 0; x < ((ws.gpr_alloc.sgpr_size + 1) << shift); x += 4)
 								printf(">SGPRS[%u..%u] = { %08lx, %08lx, %08lx, %08lx }\n",
-									(unsigned)((ws.gpr_alloc.sgpr_base << shift) + x),
-									(unsigned)((ws.gpr_alloc.sgpr_base << shift) + x + 3),
+									(unsigned)(x),
+									(unsigned)(x + 3),
 									(unsigned long)sgprs[x],
 									(unsigned long)sgprs[x+1],
 									(unsigned long)sgprs[x+2],
@@ -163,8 +163,8 @@ void umr_print_waves(struct umr_asic *asic)
 							printf("\n\nSGPRS:\n");
 							for (x = 0; x < ((ws.gpr_alloc.sgpr_size + 1) << shift); x += 4)
 								printf("\t[%4u..%4u] = { %08lx, %08lx, %08lx, %08lx }\n",
-									(unsigned)((ws.gpr_alloc.sgpr_base << shift) + x),
-									(unsigned)((ws.gpr_alloc.sgpr_base << shift) + x + 3),
+									(unsigned)(x),
+									(unsigned)(x + 3),
 									(unsigned long)sgprs[x],
 									(unsigned long)sgprs[x+1],
 									(unsigned long)sgprs[x+2],
