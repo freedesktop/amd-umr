@@ -81,3 +81,33 @@ int umr_read_sgprs(struct umr_asic *asic, struct umr_wave_status *ws, uint32_t *
 		return 0;
 	}
 }
+
+
+int umr_read_vgprs(struct umr_asic *asic, struct umr_wave_status *ws, uint32_t thread, uint32_t *dst)
+{
+	uint64_t addr;
+
+	if (asic->family < FAMILY_AI)
+		return -1;
+
+	if (!asic->options.no_kernel) {
+		addr =
+			(0ULL << 60)                             | // reading VGPRs
+			((uint64_t)0)                            | // starting address to read from
+			((uint64_t)ws->hw_id.se_id << 12)        |
+			((uint64_t)ws->hw_id.sh_id << 20)        |
+			((uint64_t)ws->hw_id.cu_id << 28)        |
+			((uint64_t)ws->hw_id.wave_id << 36)      |
+			((uint64_t)ws->hw_id.simd_id << 44)      |
+			((uint64_t)thread << 52);
+
+		lseek(asic->fd.gpr, addr, SEEK_SET);
+		return read(asic->fd.gpr, dst, 4 * ((ws->gpr_alloc.vgpr_size + 1) << 2));
+	} else {
+		umr_grbm_select_index(asic, ws->hw_id.se_id, ws->hw_id.sh_id, ws->hw_id.cu_id);
+		wave_read_regs_via_mmio(asic, ws->hw_id.simd_id, ws->hw_id.wave_id, thread, 0x400,
+					(ws->gpr_alloc.vgpr_size + 1) << 2, dst);
+		umr_grbm_select_index(asic, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
+		return 0;
+	}
+}

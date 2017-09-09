@@ -36,6 +36,8 @@
 void umr_print_waves(struct umr_asic *asic)
 {
 	uint32_t x, se, sh, cu, simd, wave, sgprs[1024], shift, opcodes[8];
+	uint32_t vgprs[64 * 256];
+	uint32_t thread;
 	uint64_t pgm_addr;
 	struct umr_wave_status ws;
 	int first = 1, col = 0;
@@ -57,9 +59,21 @@ void umr_print_waves(struct umr_asic *asic)
 			for (wave = 0; wave < 10; wave++) { //both simd/wave are hard coded at the moment...
 				umr_get_wave_status(asic, se, sh, cu, simd, wave, &ws);
 				if (ws.wave_status.halt || ws.wave_status.valid) {
+					unsigned have_vgprs = 0;
+
 					// grab sgprs..
-					if (ws.wave_status.halt)
+					if (ws.wave_status.halt) {
 						umr_read_sgprs(asic, &ws, &sgprs[0]);
+
+						if (options.bitfields) {
+							have_vgprs = 1;
+							for (thread = 0; thread < 64; ++thread) {
+								if (umr_read_vgprs(asic, &ws, thread,
+										   &vgprs[256 * thread]) < 0)
+									have_vgprs = 0;
+							}
+						}
+					}
 
 					if (!options.bitfields && first) {
 						first = 0;
@@ -169,6 +183,30 @@ void umr_print_waves(struct umr_asic *asic)
 									(unsigned long)sgprs[x+1],
 									(unsigned long)sgprs[x+2],
 									(unsigned long)sgprs[x+3]);
+						}
+
+
+						if (have_vgprs) {
+							printf("\n");
+							for (x = 0; x < ((ws.gpr_alloc.vgpr_size + 1) << 2); ++x) {
+								if (x % 16 == 0) {
+									if (x == 0)
+										printf("VGPRS:       ");
+									else
+										printf("             ");
+									for (thread = 0; thread < 64; ++thread) {
+										unsigned live = thread < 32 ? (ws.exec_lo & (1u << thread))
+													    : (ws.exec_hi & (1u << (thread - 32)));
+										printf(live ? " t%02u     " : " (t%02u)   ", thread);
+									}
+									printf("\n");
+								}
+
+								printf("    [%3u] = {", x);
+								for (thread = 0; thread < 64; ++thread)
+									printf(" %08x", vgprs[thread * 256 + x]);
+								printf(" }\n");
+							}
 						}
 
 						printf("\n\nPGM_MEM:\n");
