@@ -65,7 +65,7 @@ void umr_print_waves(struct umr_asic *asic)
 					if (ws.wave_status.halt) {
 						umr_read_sgprs(asic, &ws, &sgprs[0]);
 
-						if (options.bitfields) {
+						if (asic->options.bitfields) {
 							have_vgprs = 1;
 							for (thread = 0; thread < 64; ++thread) {
 								if (umr_read_vgprs(asic, &ws, thread,
@@ -75,11 +75,11 @@ void umr_print_waves(struct umr_asic *asic)
 						}
 					}
 
-					if (!options.bitfields && first) {
+					if (!asic->options.bitfields && first) {
 						first = 0;
 						printf("SE SH CU SIMD WAVE# WAVE_STATUS PC_HI PC_LO INST_DW0 INST_DW1 EXEC_HI EXEC_LO HW_ID GPRALLOC LDSALLOC TRAPSTS IBSTS TBA_HI TBA_LO TMA_HI TMA_LO IB_DBG0 M0\n");
 					}
-					if (!options.bitfields) {
+					if (!asic->options.bitfields) {
 					printf(
 "%u %u %u %u %u " // se/sh/cu/simd/wave
 "%08lx %08lx %08lx " // wave_status pc/hi/lo
