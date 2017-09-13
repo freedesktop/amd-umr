@@ -383,7 +383,16 @@ int main(int argc, char **argv)
 				return EXIT_FAILURE;
 			}
 		} else if (!strcmp(argv[i], "--vram") || !strcmp(argv[i], "-v") ||
-			   !strcmp(argv[i], "--vram-read") || !strcmp(argv[i], "-vr")) {
+			   !strcmp(argv[i], "--vram-read") || !strcmp(argv[i], "-vr") ||
+			   !strcmp(argv[i], "--vm-read")) {
+
+// eventually remove this
+if (strcmp(argv[i], "--vm-read") && strcmp(argv[i], "-vr")) {
+	fprintf(stderr, "[WARNING]: Please use --vm-read or -vr to read VM memory\n");
+}
+//
+
+
 			if (i + 2 < argc) {
 				unsigned char buf[256];
 				uint64_t address;
@@ -417,7 +426,15 @@ int main(int argc, char **argv)
 				printf("--vram-read requires two parameters\n");
 				return EXIT_FAILURE;
 			}
-		} else if (!strcmp(argv[i], "--vram-write") || !strcmp(argv[i], "-vw")) {
+		} else if (!strcmp(argv[i], "--vram-write") || !strcmp(argv[i], "-vw") ||
+			   !strcmp(argv[i], "--vm-write")) {
+
+// eventually remove this
+if (strcmp(argv[i], "--vm-write") && strcmp(argv[i], "-vw")) {
+	fprintf(stderr, "[WARNING]: Please use --vm-write or -vw to write VM memory\n");
+}
+//
+
 			if (i + 2 < argc) {
 				unsigned char buf[256];
 				uint64_t address;
@@ -514,12 +531,12 @@ int main(int argc, char **argv)
 	"\n\t\tThe VMID can be specified in hexadecimal (with leading '0x') or in decimal."
 	"\n\t\tImplies '-O verbose' for the duration of the command so does not require it"
 	"\n\t\tto be manually specified.\n"
-"\n\t--vram-read, -vr [<vmid>@]<address> <size>"
+"\n\t--vm-read, -vr [<vmid>@]<address> <size>"
 	"\n\t\tRead 'size' bytes (in hex) from a given address (in hex) to stdout. Optionally"
 	"\n\t\tspecify the VMID (in decimal or in hex with a '0x' prefix) treating the address"
 	"\n\t\tas a virtual address instead.  Can use 'verbose' option to print out PDE/PTE"
 	"\n\t\tdecodings.\n"
-"\n\t--vram-write, -vw [<vmid>@]<address> <size>"
+"\n\t--vm-write, -vw [<vmid>@]<address> <size>"
 	"\n\t\tWrite 'size' bytes (in hex) to a given address (in hex) from stdin.\n"
 "\n\t--option -O <string>[,<string>,...]\n\t\tEnable various flags: bits, bitsfull, empty_log, follow, named, many,"
 	"\n\t\tuse_pci, use_colour, read_smc, quiet, no_kernel, verbose, halt_waves.\n"
@@ -541,3 +558,4 @@ int main(int argc, char **argv)
 
 	umr_close_asic(asic);
 }
+-
