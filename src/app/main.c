@@ -558,4 +558,3 @@ if (strcmp(argv[i], "--vm-write") && strcmp(argv[i], "-vw")) {
 
 	umr_close_asic(asic);
 }
--

@@ -542,8 +542,8 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 
 	sprintf(buf, "mmVM_CONTEXT%d_CNTL", (int)vmid);
 		tmp = registers.mmVM_CONTEXTx_CNTL = umr_read_reg_by_name_by_ip(asic, hub, buf);
-		page_table_depth      = umr_bitslice_reg_by_name(asic, buf, "PAGE_TABLE_DEPTH", tmp);
-		page_table_size       = umr_bitslice_reg_by_name(asic, buf, "PAGE_TABLE_BLOCK_SIZE", tmp);
+		page_table_depth      = umr_bitslice_reg_by_name_by_ip(asic, hub, buf, "PAGE_TABLE_DEPTH", tmp);
+		page_table_size       = umr_bitslice_reg_by_name_by_ip(asic, hub, buf, "PAGE_TABLE_BLOCK_SIZE", tmp);
 
 	sprintf(buf, "mmVM_CONTEXT%d_PAGE_TABLE_BASE_ADDR_LO32", (int)vmid);
 		registers.mmVM_CONTEXTx_PAGE_TABLE_BASE_ADDR_LO32 = umr_read_reg_by_name_by_ip(asic, hub, buf);
