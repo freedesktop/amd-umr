@@ -29,7 +29,6 @@
 void umr_free_asic(struct umr_asic *asic)
 {
 	int x;
-	umr_free_maps(asic);
 	if (asic->pci.mem != NULL) {
 		// free PCI mapping
 		pci_device_unmap_range(asic->pci.pdevice, asic->pci.mem, asic->pci.pdevice->regions[asic->pci.region].size);
@@ -57,6 +56,7 @@ void umr_close_asic(struct umr_asic *asic)
 		cond_close(asic->fd.vram);
 		cond_close(asic->fd.gpr);
 		cond_close(asic->fd.drm);
+		cond_close(asic->fd.iova);
 		umr_free_asic(asic);
 	}
 }

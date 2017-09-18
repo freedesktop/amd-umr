@@ -14,7 +14,6 @@ add_library(umrcore STATIC
   discover.c
   dump_ib.c
   find_reg.c
-  free_maps.c
   mmio.c
   query_drm.c
   read_sensor.c
