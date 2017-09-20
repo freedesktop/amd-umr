@@ -210,6 +210,17 @@ struct umr_options {
 	} pci;
 };
 
+struct umr_dma_maps {
+	struct umr_map {
+		uint64_t
+			dma_addr,
+			phys_addr,
+			key;
+		int valid;
+		struct umr_map *left, *right;
+	} *maps;
+};
+
 struct umr_asic {
 	char *asicname;
 	int no_blocks;
@@ -232,8 +243,7 @@ struct umr_asic {
 		    drm,
 		    wave,
 		    vram,
-		    gpr,
-		    iova;
+		    gpr;
 	} fd;
 	struct {
 		struct pci_device *pdevice;

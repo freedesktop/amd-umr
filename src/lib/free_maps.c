@@ -24,39 +24,21 @@
  */
 #include "umr.h"
 
-#define cond_close(x) do { if ((x) >= 0) close((x)); } while(0);
-
-void umr_free_asic(struct umr_asic *asic)
+static void recurse_free(struct umr_map *map)
 {
-	int x;
-	umr_free_maps(asic);
-	if (asic->pci.mem != NULL) {
-		// free PCI mapping
-		pci_device_unmap_range(asic->pci.pdevice, asic->pci.mem, asic->pci.pdevice->regions[asic->pci.region].size);
-		pci_system_cleanup();
-	}
-	for (x = 0; x < asic->no_blocks; x++) {
-		free(asic->blocks[x]->regs);
-		free(asic->blocks[x]);
-	}
-	free(asic->blocks);
-	free(asic->mmio_accel.reglist);
-	free(asic->mmio_accel.iplist);
-	free(asic);
+	if (map->left)
+		recurse_free(map->left);
+	if (map->right)
+		recurse_free(map->right);
+	free(map);
 }
 
-void umr_close_asic(struct umr_asic *asic)
+void umr_free_maps(struct umr_asic *asic)
 {
-	if (asic) {
-		cond_close(asic->fd.mmio);
-		cond_close(asic->fd.didt);
-		cond_close(asic->fd.pcie);
-		cond_close(asic->fd.smc);
-		cond_close(asic->fd.sensors);
-		cond_close(asic->fd.wave);
-		cond_close(asic->fd.vram);
-		cond_close(asic->fd.gpr);
-		cond_close(asic->fd.drm);
-		umr_free_asic(asic);
-	}
+	if (!asic->maps)
+		return;
+
+	recurse_free(asic->maps->maps);
+	free(asic->maps);
+	asic->maps = NULL;
 }

@@ -25,6 +25,163 @@
 #include "umrapp.h"
 #include <inttypes.h>
 
+// find a mapping or create node for it
+static struct umr_map *find_map(struct umr_dma_maps *maps, uint64_t dma_addr, int create)
+{
+	struct umr_map *n = maps->maps, **nn;
+	uint64_t key;
+
+	// addresses aren't terribly random
+	// so if we use an identity function on the search
+	// key we'll end up with a really unbalanced tree
+	// so mix up address a bit to randomize keys
+	key = dma_addr ^ (dma_addr >> 11);
+
+	if (!n) {
+		maps->maps = calloc(1, sizeof(maps->maps[0]));
+		maps->maps->key = key;
+		return maps->maps;
+	}
+
+	while (n->dma_addr != dma_addr) {
+		if (key > n->key)
+			nn = &n->left;
+		else
+			nn = &n->right;
+
+		if (*nn) {
+			n = *nn;
+		} else {
+			if (!create) return NULL;
+			
+			// add the new node
+			*nn = calloc(1, sizeof(maps->maps[0]));
+			(*nn)->key = key;
+			return *nn;
+		}
+	}
+
+	return n;
+}
+
+// insert/replace mapping in array
+static int insert_map(struct umr_dma_maps *maps,
+		       uint64_t dma_addr, uint64_t phys_addr, int valid)
+{
+	struct umr_map *map = find_map(maps, dma_addr, valid);
+
+	// don't add a new node if we're marking it invalid
+	if (map) {
+		if (valid) {
+			map->dma_addr = dma_addr;
+			map->phys_addr = phys_addr;
+			map->valid = valid;
+		} else {
+			struct umr_map *tmap = NULL;
+
+			// if marking invalid see if we can prune
+			// the tree a little if the node we're marking
+			// as invalid only has one child
+			if (map->left == NULL && map->right) {
+				tmap = map->right;
+				*map = *(map->right);
+			} else if (map->right == NULL && map->left) {
+				tmap = map->left;
+				*map = *(map->left);
+			}
+			if (tmap)
+				free(tmap);
+		}
+	}
+
+	return 0;
+}
+
+static int check_trace = 0;
+
+// try to convert a DMA address to physical via trace
+static uint64_t dma_to_phys(struct umr_asic *asic, uint64_t dma_addr)
+{
+	struct umr_map *map = find_map(asic->maps, dma_addr, 0);
+
+	if (map == NULL)
+		return dma_addr;
+
+	if (map->valid)
+		return map->phys_addr;
+	else
+		return map->dma_addr;
+}
+
+static int parse_trace(struct umr_asic *asic)
+{
+	FILE *f;
+	uint64_t d, p;
+	char *s, buf[512];
+	int err = -1, valid;
+	struct umr_dma_maps *maps = asic->maps;
+
+	if (!check_trace) {
+		check_trace = 1;
+		f = fopen("/sys/kernel/debug/tracing/events/ttm/ttm_dma_map/enable", "r");
+		if (!f) {
+			fprintf(stderr, "[WARNING]: kernel does not support TTM mapping trace, please update kernel\n");
+		} else {
+			fgets(buf, sizeof(buf)-1, f);
+			if (sscanf(buf, "%"SCNu64, &d) == 1) {
+				if (d != 1) {
+					fprintf(stderr,
+					"[WARNING]: ttm_dma_map trace is not enabled, VM decoding may fail!\n"
+					"[WARNING]: Enable with: 'echo 1 > /sys/kernel/debug/tracing/events/ttm/ttm_dma_map/enable'\n"
+					"[WARNING]: Enable with: 'echo 1 > /sys/kernel/debug/tracing/events/ttm/ttm_dma_unmap/enable'\n");
+				}
+			} else {
+				fprintf(stderr, "[ERROR]: could not read ttm_dma_map enable file\n");
+			}
+			fclose(f);
+		}
+	}
+
+	// try to open ~/trace first
+	snprintf(buf, sizeof(buf)-1, "%s/trace", getenv("HOME"));
+	f = fopen(buf, "r");
+	if (!f)
+		f = fopen("/sys/kernel/debug/tracing/trace", "r");
+	if (!f)
+		goto error;
+
+	while (fgets(buf, sizeof(buf)-1, f)) {
+		valid = -1;
+
+		s = strstr(buf, "ttm_dma_map");
+		if (s) {
+			s += strlen("ttm_dma_map");
+			valid = 1;
+		} else {
+			s = strstr(buf, "ttm_dma_unmap");
+			if (s) {
+				s += strlen("ttm_dma_unmap");
+				valid = 0;
+			}
+		}
+
+		if (valid != -1) {
+			s = strstr(s, asic->options.pci.name);
+			if (s) {
+				s += strlen(asic->options.pci.name) + 2;
+				if (sscanf(s, "0x%"SCNx64" => 0x%"SCNx64, &d, &p) == 2) {
+					if (insert_map(maps, d, p, valid))
+						goto error;
+				}
+			}
+		}
+	}
+	err = 0;
+error:
+	fclose(f);
+	return err;
+}
+
 static void access_vram_via_mmio(struct umr_asic *asic, uint64_t address, uint32_t size, void *dst, int write_en)
 {
 	uint32_t MM_INDEX, MM_INDEX_HI, MM_DATA;
@@ -60,27 +217,33 @@ static void access_vram_via_mmio(struct umr_asic *asic, uint64_t address, uint32
 #define DEBUG(...)
 #endif
 
-static int umr_access_sram(struct umr_asic *asic, uint64_t address, uint32_t size, void *dst, int write_en)
+static int umr_access_sram(uint64_t address, uint32_t size, void *dst, int write_en)
 {
+	int fd;
+
 	DEBUG("Reading physical sys addr: 0x%llx\n", (unsigned long long)address);
 
-	if (asic->fd.iova < 0) {
-		fprintf(stderr, "[ERROR]: amdgpu_iova not open, please update your kernel\n");
-		return -1;
-	}
-
-	lseek(asic->fd.iova, address, SEEK_SET);
-	if (write_en == 0) {
-		memset(dst, 0xFF, size);
-		if (read(asic->fd.iova, dst, size) != size) {
-			return -1;
+	fd = open("/dev/fmem", O_RDWR);
+	if (fd < 0)
+		fd = open("/dev/mem", O_RDWR | O_DSYNC);
+	if (fd >= 0) {
+		lseek(fd, address, SEEK_SET);
+		if (write_en == 0) {
+			memset(dst, 0xFF, size);
+			if (read(fd, dst, size) != size) {
+				close(fd);
+				return -1;
+			}
+		} else {
+			if (write(fd, dst, size) != size) {
+				close(fd);
+				return -1;
+			}
 		}
-	} else {
-		if (write(asic->fd.iova, dst, size) != size) {
-			return -1;
-		}
+		close(fd);
+		return 0;
 	}
-	return 0;
+	return -1;
 }
 
 
@@ -226,7 +389,7 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 				return -1;
 
 			// compute starting address
-			start_addr = pte_fields.page_base_addr + (address & 0xFFF);
+			start_addr = dma_to_phys(asic, pte_fields.page_base_addr) + (address & 0xFFF);
 		} else {
 			// depth == 0 == PTE only
 			pte_idx = (address >> 12);
@@ -251,7 +414,7 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 				return -1;
 
 			// compute starting address
-			start_addr = pte_fields.page_base_addr + (address & 0xFFF);
+			start_addr = dma_to_phys(asic, pte_fields.page_base_addr) + (address & 0xFFF);
 		}
 
 		// read upto 4K from it
@@ -265,7 +428,7 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 		// allow destination to be NULL to simply use decoder
 		if (pdst) {
 			if (pte_fields.system) {
-				if (umr_access_sram(asic, start_addr, chunk_size, pdst, write_en) < 0) {
+				if (umr_access_sram(start_addr, chunk_size, pdst, write_en) < 0) {
 					fprintf(stderr, "[ERROR]: Cannot access system ram, perhaps CONFIG_STRICT_DEVMEM is set in your kernel config?\n");
 					fprintf(stderr, "[ERROR]: Alternatively download and install /dev/fmem\n");
 					return -1;
@@ -544,7 +707,7 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 				return -1;
 
 			// compute starting address
-			start_addr = pte_fields.page_base_addr + (address & 0xFFF);
+			start_addr = dma_to_phys(asic, pte_fields.page_base_addr) + (address & 0xFFF);
 			DEBUG("phys address to read from: %llx\n\n\n", (unsigned long long)start_addr);
 		} else {
 			// in AI+ the BASE_ADDR is treated like a PDE entry...
@@ -593,7 +756,7 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 				return -1;
 
 			// compute starting address
-			start_addr = pte_fields.page_base_addr + (address & 0xFFF);
+			start_addr = dma_to_phys(asic, pte_fields.page_base_addr) + (address & 0xFFF);
 		}
 
 		// read upto 4K from it
@@ -609,7 +772,7 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 		// allow destination to be NULL to simply use decoder
 		if (pdst) {
 			if (pte_fields.system) {
-				if (umr_access_sram(asic, start_addr, chunk_size, pdst, write_en) < 0) {
+				if (umr_access_sram(start_addr, chunk_size, pdst, write_en) < 0) {
 					fprintf(stderr, "[ERROR]: Cannot access system ram, perhaps CONFIG_STRICT_DEVMEM is set in your kernel config?\n");
 					fprintf(stderr, "[ERROR]: Alternatively download and install /dev/fmem\n");
 					return -1;
@@ -660,6 +823,17 @@ int umr_access_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint
 			access_vram_via_mmio(asic, address, size, data, write_en);
 		}
 		return 0;
+	}
+
+	if (!asic->maps) {
+		asic->maps = calloc(1, sizeof(asic->maps[0]));
+		if (!asic->maps) {
+			fprintf(stderr, "[ERROR]: Out of memory building dma maps\n");
+			return -1;
+		}
+
+		if (parse_trace(asic))
+			return -1;
 	}
 
 	switch (asic->family) {
