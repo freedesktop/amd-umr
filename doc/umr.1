@@ -31,7 +31,7 @@ List all blocks attached to the asic that has been detected.
 List all registers in an IP block (can use '-O bits' to list bitfields)
 .IP "--lookup, -lu <address_or_regname> <number>"
 Look up an MMIO register by address and bitfield decode the value specified (with 0x prefix) or by
-register name.
+register name.  The register name string must include the ipname, e.g., uvd6.mmUVD_CONTEXT_ID.
 .IP "--write -w <string> <number>"
 Write a value specified in hex to a register specified with a complete
 register path in the form <

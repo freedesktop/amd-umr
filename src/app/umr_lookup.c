@@ -47,16 +47,31 @@ void umr_lookup(struct umr_asic *asic, char *address, char *value)
 				}
 			}
 	} else {
+		char ipname[256], regname[256], *p;
+
+		memset(ipname, 0, sizeof ipname);
+		memset(regname, 0, sizeof regname);
+		p = strstr(address, ".");
+		if (!p) {
+			fprintf(stderr, "[ERROR]: Must specify ipname.regname for umr_lookup()\n");
+			return;
+		}
+		memcpy(ipname, address, p - address);
+		strcpy(regname, p + 1);
+
 		for (i = 0; i < asic->no_blocks; i++)
-		for (j = 0; j < asic->blocks[i]->no_regs; j++)
-			if (asic->blocks[i]->regs[j].type == REG_MMIO &&
-			    !strcmp(asic->blocks[i]->regs[j].regname, address)) {
-				printf("%s.%s => 0x%08lx\n", asic->blocks[i]->ipname, asic->blocks[i]->regs[j].regname, (unsigned long)num);
-				for (k = 0; k < asic->blocks[i]->regs[j].no_bits; k++) {
-					uint32_t v;
-					v = (1UL << (asic->blocks[i]->regs[j].bits[k].stop + 1 - asic->blocks[i]->regs[j].bits[k].start)) - 1;
-					v &= (num >> asic->blocks[i]->regs[j].bits[k].start);
-					asic->blocks[i]->regs[j].bits[k].bitfield_print(asic, asic->asicname, asic->blocks[i]->ipname, asic->blocks[i]->regs[j].regname, asic->blocks[i]->regs[j].bits[k].regname, asic->blocks[i]->regs[j].bits[k].start, asic->blocks[i]->regs[j].bits[k].stop, v);
+			if (!strcmp(asic->blocks[i]->ipname, ipname)) {
+				for (j = 0; j < asic->blocks[i]->no_regs; j++) {
+					if (asic->blocks[i]->regs[j].type == REG_MMIO &&
+					    !strcmp(asic->blocks[i]->regs[j].regname, regname)) {
+						printf("%s.%s => 0x%08lx\n", asic->blocks[i]->ipname, asic->blocks[i]->regs[j].regname, (unsigned long)num);
+						for (k = 0; k < asic->blocks[i]->regs[j].no_bits; k++) {
+							uint32_t v;
+							v = (1UL << (asic->blocks[i]->regs[j].bits[k].stop + 1 - asic->blocks[i]->regs[j].bits[k].start)) - 1;
+							v &= (num >> asic->blocks[i]->regs[j].bits[k].start);
+							asic->blocks[i]->regs[j].bits[k].bitfield_print(asic, asic->asicname, asic->blocks[i]->ipname, asic->blocks[i]->regs[j].regname, asic->blocks[i]->regs[j].bits[k].regname, asic->blocks[i]->regs[j].bits[k].start, asic->blocks[i]->regs[j].bits[k].stop, v);
+						}
+					}
 				}
 			}
 	}
