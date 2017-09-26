@@ -5637,6 +5637,7 @@ static struct umr_bitfield mmHUBPREQ0_DCSURF_SECONDARY_META_SURFACE_ADDRESS_HIGH
 	 { "SECONDARY_META_SURFACE_ADDRESS_HIGH_C", 0, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield mmHUBPREQ0_DCSURF_SURFACE_CONTROL[] = {
+	 { "PRIMARY_SURFACE_TMZ", 0, 0, &umr_bitfield_default },
 	 { "PRIMARY_SURFACE_DCC_EN", 1, 1, &umr_bitfield_default },
 	 { "PRIMARY_SURFACE_DCC_IND_64B_BLK", 2, 2, &umr_bitfield_default },
 	 { "PRIMARY_SURFACE_DCC_IND_64B_BLK_C", 5, 5, &umr_bitfield_default },
@@ -26346,6 +26347,9 @@ static struct umr_bitfield mmDCIO_WRCMD_DELAY[] = {
 	 { "DPHY_DELAY", 8, 11, &umr_bitfield_default },
 	 { "DCRXPHY_DELAY", 12, 15, &umr_bitfield_default },
 	 { "ZCAL_DELAY", 16, 19, &umr_bitfield_default },
+};
+static struct umr_bitfield mmDC_PINSTRAPS[] = {
+	 { "DC_PINSTRAPS_AUDIO", 14, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield mmDC_DVODATA_CONFIG[] = {
 	 { "VIP_MUX_EN", 19, 19, &umr_bitfield_default },
