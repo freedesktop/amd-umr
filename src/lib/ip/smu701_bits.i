@@ -3669,6 +3669,9 @@ static struct umr_bitfield ixSMC_SYSCON_CLOCK_CNTL_1[] = {
 static struct umr_bitfield ixSMC_SYSCON_CLOCK_CNTL_2[] = {
 	 { "wake_on_irq", 0, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixSMC_SYSCON_MISC_CNTL[] = {
+	 { "pre_fetcher_en", 0, 0, &umr_bitfield_default },
+};
 static struct umr_bitfield ixSMC_SYSCON_MSG_ARG_0[] = {
 	 { "smc_msg_arg", 0, 31, &umr_bitfield_default },
 };
