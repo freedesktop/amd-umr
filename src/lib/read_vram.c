@@ -432,7 +432,8 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 				"[VERBOSE]: mmVM_CONTEXT%d_CNTL=0x%llx\n"
 				"[VERBOSE]: mmVGA_MEMORY_BASE_ADDRESS=0x%llx\n"
 				"[VERBOSE]: mmVGA_MEMORY_BASE_ADDRESS_HIGH=0x%llx\n"
-				"[VERBOSE]: mmMC_VM_FB_OFFSET=0x%llx\n",
+				"[VERBOSE]: mmMC_VM_FB_OFFSET=0x%llx\n"
+				"[VERBOSE]: mmMC_VM_FB_LOCATION_BASE=0x%llx\n",
 			(int)vmid, (unsigned long long)registers.mmVM_CONTEXTx_PAGE_TABLE_START_ADDR_LO32,
 			(int)vmid, (unsigned long long)registers.mmVM_CONTEXTx_PAGE_TABLE_START_ADDR_HI32,
 			(int)vmid, (unsigned long long)registers.mmVM_CONTEXTx_PAGE_TABLE_BASE_ADDR_LO32,
@@ -440,13 +441,8 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 			(int)vmid, (unsigned long long)registers.mmVM_CONTEXTx_CNTL,
 			(unsigned long long)registers.mmVGA_MEMORY_BASE_ADDRESS,
 			(unsigned long long)registers.mmVGA_MEMORY_BASE_ADDRESS_HIGH,
-			(unsigned long long)registers.mmMC_VM_FB_OFFSET);
-
-
-	DEBUG("mmMC_VM_FB_LOCATION_BASE == %llx\n", (unsigned long long)vm_fb_base);
-	DEBUG("mmMC_VM_FB_OFFSET = 0x%08llx\n", (unsigned long long)vm_fb_offset);
-	DEBUG("mmVGA_MEMORY_BASE_ADDRESS = 0x%08llx\n", (unsigned long long)vga_base_address);
-	DEBUG("\n");
+			(unsigned long long)registers.mmMC_VM_FB_OFFSET,
+			(unsigned long long)vm_fb_base);
 
 	// transform page_table_base
 	page_table_base_addr -= vm_fb_offset;

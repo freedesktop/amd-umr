@@ -59,7 +59,7 @@ static int find_pci_instance(const char* pci_string)
 	}
 
 	while ((dir_entry = readdir(dir)) != NULL) {
-		char device[256], name[256];
+		char device[256], name[300];
 		int parsed_device;
 		FILE *f;
 
