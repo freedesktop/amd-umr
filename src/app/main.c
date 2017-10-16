@@ -382,17 +382,7 @@ int main(int argc, char **argv)
 				printf("--vm-decode requires two parameters\n");
 				return EXIT_FAILURE;
 			}
-		} else if (!strcmp(argv[i], "--vram") || !strcmp(argv[i], "-v") ||
-			   !strcmp(argv[i], "--vram-read") || !strcmp(argv[i], "-vr") ||
-			   !strcmp(argv[i], "--vm-read")) {
-
-// eventually remove this
-if (strcmp(argv[i], "--vm-read") && strcmp(argv[i], "-vr")) {
-	fprintf(stderr, "[WARNING]: Please use --vm-read or -vr to read VM memory\n");
-}
-//
-
-
+		} else if (!strcmp(argv[i], "-vr") || !strcmp(argv[i], "--vm-read")) {
 			if (i + 2 < argc) {
 				unsigned char buf[256];
 				uint64_t address;
@@ -426,15 +416,7 @@ if (strcmp(argv[i], "--vm-read") && strcmp(argv[i], "-vr")) {
 				printf("--vram-read requires two parameters\n");
 				return EXIT_FAILURE;
 			}
-		} else if (!strcmp(argv[i], "--vram-write") || !strcmp(argv[i], "-vw") ||
-			   !strcmp(argv[i], "--vm-write")) {
-
-// eventually remove this
-if (strcmp(argv[i], "--vm-write") && strcmp(argv[i], "-vw")) {
-	fprintf(stderr, "[WARNING]: Please use --vm-write or -vw to write VM memory\n");
-}
-//
-
+		} else if (!strcmp(argv[i], "-vw") || !strcmp(argv[i], "--vm-write")) {
 			if (i + 2 < argc) {
 				unsigned char buf[256];
 				uint64_t address;
