@@ -112,7 +112,7 @@ static int add_reg(struct umr_asic *asic, char **t)
 		if (!tmp)
 			goto out_of_mem;
 		asic->blocks[j]->regs = tmp;
-		memset(&asic->blocks[j]->regs[asic->blocks[j]->no_regs], 0, 32 * sizeof(struct umr_reg));
+		memset(&asic->blocks[j]->regs[asic->blocks[j]->no_regs], 0, 32 * sizeof(asic->blocks[j]->regs[0]));
 	}
 
 	i = asic->blocks[j]->no_regs++;
@@ -179,7 +179,7 @@ static int add_bit(struct umr_asic *asic, char **t)
 
 	// allocate bit array if needed
 	if (!asic->blocks[i]->regs[j].no_bits) {
-		asic->blocks[i]->regs[j].bits = calloc(32, sizeof(struct umr_bitfield));
+		asic->blocks[i]->regs[j].bits = calloc(64, sizeof(struct umr_bitfield));
 		if (!asic->blocks[i]->regs[j].bits)
 			goto out_of_mem;
 	}
