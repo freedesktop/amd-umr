@@ -509,20 +509,20 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 				pde_fields.system        = (pde_entry >> 1) & 1;
 				pde_fields.cache         = (pde_entry >> 2) & 1;
 				pde_fields.pte           = (pde_entry >> 54) & 1;
-				if (!pde_fields.pte && memcmp(&pde_fields, &pde_array[pde_cnt], sizeof pde_fields) && asic->options.verbose)
-					fprintf(stderr, "[VERBOSE]: %s PDE%d=0x%016llx, VA=0x%012llx, PBA==0x%012llx, V=%d, S=%d, C=%d, P=%d\n",
-							&indentation[12-pde_cnt*3],
-							pde_cnt,
-							(unsigned long long)pde_entry,
-							(unsigned long long)address & va_mask,
-							(unsigned long long)pde_fields.pte_base_addr,
-							(int)pde_fields.valid,
-							(int)pde_fields.system,
-							(int)pde_fields.cache,
-							(int)pde_fields.pte);
-				memcpy(&pde_array[pde_cnt++], &pde_fields, sizeof pde_fields);
-
-				if (pde_fields.pte) {
+				if (!pde_fields.pte) {
+					if (memcmp(&pde_fields, &pde_array[pde_cnt], sizeof pde_fields) && asic->options.verbose)
+						fprintf(stderr, "[VERBOSE]: %s PDE%d=0x%016llx, VA=0x%012llx, PBA==0x%012llx, V=%d, S=%d, C=%d, P=%d\n",
+								&indentation[12-pde_cnt*3],
+								pde_cnt,
+								(unsigned long long)pde_entry,
+								(unsigned long long)address & va_mask,
+								(unsigned long long)pde_fields.pte_base_addr,
+								(int)pde_fields.valid,
+								(int)pde_fields.system,
+								(int)pde_fields.cache,
+								(int)pde_fields.pte);
+					memcpy(&pde_array[pde_cnt++], &pde_fields, sizeof pde_fields);
+				} else {
 					pte_entry = pde_entry;
 					goto pde_is_pte;
 				}
