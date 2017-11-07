@@ -338,7 +338,8 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 			page_base_addr,
 			fragment,
 			system,
-			valid;
+			valid,
+			prt;
 	} pte_fields;
 	char buf[64];
 	unsigned char *pdst = dst;
@@ -549,19 +550,21 @@ pde_is_pte:
 			pte_fields.fragment       = (pte_entry >> 7)  & 0x1F;
 			pte_fields.system         = (pte_entry >> 1) & 1;
 			pte_fields.valid          = pte_entry & 1;
+			pte_fields.prt            = (pte_entry >> 61) & 1;
 			if (asic->options.verbose)
-				fprintf(stderr, "[VERBOSE]: %s PTE==0x%016llx, VA=0x%012llx, PBA==0x%012llx, V=%d, S=%d\n",
+				fprintf(stderr, "[VERBOSE]: %s PTE==0x%016llx, VA=0x%012llx, PBA==0x%012llx, V=%d, S=%d, P=%d\n",
 					&indentation[12-pde_cnt*3],
 					(unsigned long long)pte_entry,
 					(unsigned long long)address & (((1ULL << (9 + page_table_size)) - 1) << 12),
 					(unsigned long long)pte_fields.page_base_addr,
 					(int)pte_fields.valid,
-					(int)pte_fields.system);
+					(int)pte_fields.system,
+					(int)pte_fields.prt);
 
 			if (!pte_fields.system)
 				pte_fields.page_base_addr -= vm_fb_offset;
 
-			if (!pte_fields.valid)
+			if (!pte_fields.prt && !pte_fields.valid)
 				return -1;
 
 			// compute starting address
@@ -600,6 +603,7 @@ pde_is_pte:
 			pte_fields.fragment       = (pte_entry >> 7)  & 0x1F;
 			pte_fields.system         = (pte_entry >> 1) & 1;
 			pte_fields.valid          = pte_entry & 1;
+			pte_fields.prt            = 0;
 
 			if (asic->options.verbose)
 				fprintf(stderr, "[VERBOSE]: \\-> PTE=0x%016llx, VA=0x%016llx, PBA==0x%012llx, F=%u, V=%d, S=%d\n",
@@ -628,20 +632,28 @@ pde_is_pte:
 			(unsigned long long)start_addr, (unsigned long)chunk_size);
 
 		// allow destination to be NULL to simply use decoder
-		if (pdst) {
-			if (pte_fields.system) {
-				if (umr_access_sram(start_addr, chunk_size, pdst, write_en) < 0) {
-					fprintf(stderr, "[ERROR]: Cannot access system ram, perhaps CONFIG_STRICT_DEVMEM is set in your kernel config?\n");
-					fprintf(stderr, "[ERROR]: Alternatively download and install /dev/fmem\n");
-					return -1;
+		if (!pte_fields.valid) {
+			if (pdst) {
+				if (pte_fields.system) {
+					if (umr_access_sram(start_addr, chunk_size, pdst, write_en) < 0) {
+						fprintf(stderr, "[ERROR]: Cannot access system ram, perhaps CONFIG_STRICT_DEVMEM is set in your kernel config?\n");
+						fprintf(stderr, "[ERROR]: Alternatively download and install /dev/fmem\n");
+						return -1;
+					}
+				} else {
+					if (umr_access_vram(asic, UMR_LINEAR_HUB, start_addr, chunk_size, pdst, write_en) < 0) {
+						fprintf(stderr, "[ERROR]: Cannot access VRAM\n");
+						return -1;
+					}
 				}
-			} else {
-				if (umr_access_vram(asic, UMR_LINEAR_HUB, start_addr, chunk_size, pdst, write_en) < 0) {
-					fprintf(stderr, "[ERROR]: Cannot access VRAM\n");
-					return -1;
-				}
+				pdst += chunk_size;
 			}
-			pdst += chunk_size;
+		} else {
+			if (asic->options.verbose && pte_fields.prt)
+				fprintf(stderr, "[VERBOSE]: Page is set as PRT so we cannot read/write it, skipping ahead.\n");
+
+			if (pdst)
+				pdst += chunk_size;
 		}
 		size -= chunk_size;
 		address += chunk_size;
