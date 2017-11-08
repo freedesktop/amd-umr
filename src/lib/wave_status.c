@@ -116,7 +116,9 @@ static int umr_get_wave_status_vi(struct umr_asic *asic, unsigned se, unsigned s
 		read(asic->fd.wave, &buf, 32*4);
 	} else {
 		int n = 0;
+		umr_grbm_select_index(asic, se, sh, cu);
 		read_wave_status_via_mmio(asic, simd, wave, &buf[0], &n);
+		umr_grbm_select_index(asic, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
 	}
 
 	if (buf[0] != 0) {
@@ -218,7 +220,9 @@ static int umr_get_wave_status_ai(struct umr_asic *asic, unsigned se, unsigned s
 		read(asic->fd.wave, &buf, 32*4);
 	} else {
 		int n = 0;
+		umr_grbm_select_index(asic, se, sh, cu);
 		read_wave_status_via_mmio(asic, simd, wave, &buf[0], &n);
+		umr_grbm_select_index(asic, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
 	}
 
 	if (buf[0] != 1) {
