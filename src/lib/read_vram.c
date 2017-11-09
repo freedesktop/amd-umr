@@ -632,7 +632,7 @@ pde_is_pte:
 			(unsigned long long)start_addr, (unsigned long)chunk_size);
 
 		// allow destination to be NULL to simply use decoder
-		if (!pte_fields.valid) {
+		if (pte_fields.valid) {
 			if (pdst) {
 				if (pte_fields.system) {
 					if (umr_access_sram(start_addr, chunk_size, pdst, write_en) < 0) {
