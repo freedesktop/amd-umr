@@ -47,6 +47,7 @@ add_library(ip OBJECT
   smu713.c
   smu80.c
   thm90.c
+  umc60.c
   uvd40.c
   uvd42.c
   uvd5.c

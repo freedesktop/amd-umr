@@ -84,6 +84,7 @@ parse_bits ${pk}/vega10/NBIO/nbio_6_1 src/lib/ip/nbio61
 parse_bits ${pk}/vega10/HDP/hdp_4_0 src/lib/ip/hdp40
 parse_bits ${pk}/vega10/MMHUB/mmhub_1_0 src/lib/ip/mmhub10
 parse_bits ${pk}/vega10/MP/mp_9_0 src/lib/ip/mp90
+parse_bits ${pk}/vega10/UMC/umc_6_0 src/lib/ip/umc60
 
 parse_bits ${pk}/raven1/VCN/vcn_1_0 src/lib/ip/vcn10
 parse_bits ${pk}/raven1/DCN/dcn_1_0 src/lib/ip/dcn10
