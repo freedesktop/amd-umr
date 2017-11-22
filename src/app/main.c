@@ -521,7 +521,7 @@ int main(int argc, char **argv)
 	"\n\t\tdecodings.\n"
 "\n\t--vm-write, -vw [<vmid>@]<address> <size>"
 	"\n\t\tWrite 'size' bytes (in hex) to a given address (in hex) from stdin.\n"
-"\n\t--option -O <string>[,<string>,...]\n\t\tEnable various flags: bits, bitsfull, empty_log, follow, named, many,"
+"\n\t--option -O <string>[,<string>,...]\n\t\tEnable various flags: bits, bitsfull, empty_log, follow, follow_ib, named, many,"
 	"\n\t\tuse_pci, use_colour, read_smc, quiet, no_kernel, verbose, halt_waves.\n"
 "\n\n", UMR_BUILD_VER, UMR_BUILD_REV);
 			exit(EXIT_SUCCESS);
