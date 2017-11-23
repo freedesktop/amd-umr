@@ -54,3 +54,17 @@ struct umr_reg *umr_find_reg_data(struct umr_asic *asic, char *regname)
 {
 	return umr_find_reg_data_by_ip(asic, NULL, regname);
 }
+
+struct umr_reg *umr_find_reg_by_addr(struct umr_asic *asic, uint64_t addr, struct umr_ip_block **ip)
+{
+	int i, j;
+
+	for (i = 0; i < asic->no_blocks; i++)
+	for (j = 0; j < asic->blocks[i]->no_regs; j++)
+		if (asic->blocks[i]->regs[j].type == REG_MMIO && asic->blocks[i]->regs[j].addr == addr) {
+			if (*ip)
+				*ip = asic->blocks[i];
+			return &asic->blocks[i]->regs[j];
+		}
+	return NULL;
+}

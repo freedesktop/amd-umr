@@ -363,18 +363,34 @@ static void add_ib(struct umr_ring_decoder *decoder)
 static char *umr_reg_name(struct umr_asic *asic, uint64_t addr)
 {
 	int i, j;
-	static char regname[512];
+	struct umr_reg *reg;
+	struct umr_ip_block *ip;
+	static char name[512];
 
-	strcpy(regname, "<unknown>");
+	reg = umr_find_reg_by_addr(asic, addr, &ip);
+	if (reg) {
+		sprintf(name, "%s.%s", ip->ipname, reg->regname);
+		return name;
+	} else {
+		return "<unknown>";
+	}
+}
 
-	for (i = 0; i < asic->no_blocks; i++)
-	for (j = 0; j < asic->blocks[i]->no_regs; j++)
-		if (asic->blocks[i]->regs[j].type == REG_MMIO && asic->blocks[i]->regs[j].addr == addr) {
-			snprintf(regname, sizeof(regname)-1, "%s.%s", asic->blocks[i]->ipname, asic->blocks[i]->regs[j].regname);
-			goto end;
+static void print_bits(struct umr_asic *asic, uint32_t regno, uint32_t value)
+{
+	struct umr_ip_block *ip;
+	struct umr_reg *reg = umr_find_reg_by_addr(asic, regno, &ip);
+
+	if (reg && reg->bits && reg->no_bits && asic->options.bitfields) {
+		int k;
+		printf("\n");
+		for (k = 0; k < reg->no_bits; k++) {
+			uint32_t v;
+			printf("\t\t\t\t\t\t\t");
+			v = (value >> reg->bits[k].start) & (1UL << (reg->bits[k].stop - reg->bits[k].start));
+			reg->bits[k].bitfield_print(asic, asic->asicname, ip->ipname, reg->regname, reg->bits[k].regname, reg->bits[k].start, reg->bits[k].stop, v);
 		}
-end:
-	return regname;
+	}
 }
 
 static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib)
@@ -472,6 +488,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 				default:
 					if (decoder->pm4.next_write_mem.type == 0) { // mem-mapped reg
 						printf("%s <= %08lx", umr_reg_name(asic, ((uint64_t)decoder->pm4.next_write_mem.addr_hi << 32) | decoder->pm4.next_write_mem.addr_lo), (unsigned long)ib);
+						print_bits(asic, decoder->pm4.next_write_mem.addr_lo, ib);
 						decoder->pm4.next_write_mem.addr_lo++;
 						if (!decoder->pm4.next_write_mem.addr_lo)
 							decoder->pm4.next_write_mem.addr_hi++;
@@ -623,6 +640,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 					printf("OFFSET: 0x%lx", (unsigned long)BITS(ib, 0, 16));
 					break;
 				default: printf("%s <= 0x%08lx", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo++), (unsigned long)ib);
+					print_bits(asic, decoder->pm4.next_write_mem.addr_lo - 1, ib);
 					break;
 			}
 			break;
@@ -632,6 +650,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 					printf("OFFSET: 0x%lx", (unsigned long)BITS(ib, 0, 16));
 					break;
 				default: printf("%s <= 0x%08lx", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo++), (unsigned long)ib);
+					print_bits(asic, decoder->pm4.next_write_mem.addr_lo - 1, ib);
 					break;
 			}
 			break;
@@ -641,6 +660,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 					printf("OFFSET: 0x%lx", (unsigned long)BITS(ib, 0, 16));
 					break;
 				default: printf("%s <= 0x%08lx", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo++), (unsigned long)ib);
+					print_bits(asic, decoder->pm4.next_write_mem.addr_lo - 1, ib);
 					break;
 			}
 			break;
@@ -650,6 +670,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 					printf("OFFSET: 0x%lx", (unsigned long)BITS(ib, 0, 16));
 					break;
 				default: printf("%s <= 0x%08lx", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo++), (unsigned long)ib);
+					print_bits(asic, decoder->pm4.next_write_mem.addr_lo - 1, ib);
 					break;
 			}
 			break;
