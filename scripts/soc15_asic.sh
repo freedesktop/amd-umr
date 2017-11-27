@@ -5,7 +5,7 @@
 
 #this is the path to the tree (not necessarily the one running on your host)
 if [ -z "${pk}" ]; then
-	pk=/stuff/work/linux/drivers/gpu/drm/amd/include/asic_reg/
+	pk=/stuff/work/linux/drivers/gpu/drm/amd/include/
 fi
 
 # convert into a table of the format
@@ -48,4 +48,4 @@ parse_offsets() {
 	)
 }
 
-parse_offsets ${pk}/vega10/soc15ip.h src/lib/asic/vega10.i
+parse_offsets ${pk}/soc15ip.h src/lib/asic/vega10.i

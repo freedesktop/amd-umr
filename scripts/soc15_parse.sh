@@ -72,19 +72,19 @@ ENDCB
 ) > /tmp/countbits.c
 gcc /tmp/countbits.c -o /tmp/countbits
 
-parse_bits ${pk}/vega10/DC/dce_12_0 src/lib/ip/dce120
-parse_bits ${pk}/vega10/VCE/vce_4_0 src/lib/ip/vce40
-parse_bits ${pk}/vega10/UVD/uvd_7_0 src/lib/ip/uvd70
-parse_bits ${pk}/vega10/SDMA1/sdma1_4_0 src/lib/ip/sdma140
-parse_bits ${pk}/vega10/SDMA0/sdma0_4_0 src/lib/ip/sdma040
-parse_bits ${pk}/vega10/THM/thm_9_0 src/lib/ip/thm90
-parse_bits ${pk}/vega10/OSSSYS/osssys_4_0 src/lib/ip/oss40
-parse_bits ${pk}/vega10/GC/gc_9_0 src/lib/ip/gfx90
-parse_bits ${pk}/vega10/NBIO/nbio_6_1 src/lib/ip/nbio61
-parse_bits ${pk}/vega10/HDP/hdp_4_0 src/lib/ip/hdp40
-parse_bits ${pk}/vega10/MMHUB/mmhub_1_0 src/lib/ip/mmhub10
-parse_bits ${pk}/vega10/MP/mp_9_0 src/lib/ip/mp90
-parse_bits ${pk}/vega10/UMC/umc_6_0 src/lib/ip/umc60
+parse_bits ${pk}/dce/dce_12_0 src/lib/ip/dce120
+parse_bits ${pk}/vce/vce_4_0 src/lib/ip/vce40
+parse_bits ${pk}/uvd/uvd_7_0 src/lib/ip/uvd70
+parse_bits ${pk}/sdma1/sdma1_4_0 src/lib/ip/sdma140
+parse_bits ${pk}/sdma0/sdma0_4_0 src/lib/ip/sdma040
+parse_bits ${pk}/thm/thm_9_0 src/lib/ip/thm90
+parse_bits ${pk}/oss/osssys_4_0 src/lib/ip/oss40
+parse_bits ${pk}/gc/gc_9_0 src/lib/ip/gfx90
+parse_bits ${pk}/nbio/nbio_6_1 src/lib/ip/nbio61
+parse_bits ${pk}/hdp/hdp_4_0 src/lib/ip/hdp40
+parse_bits ${pk}/mmhub/mmhub_1_0 src/lib/ip/mmhub10
+parse_bits ${pk}/mp/mp_9_0 src/lib/ip/mp90
+parse_bits ${pk}/umc/umc_6_0 src/lib/ip/umc60
 
 parse_bits ${pk}/raven1/VCN/vcn_1_0 src/lib/ip/vcn10
 parse_bits ${pk}/raven1/DCN/dcn_1_0 src/lib/ip/dcn10
