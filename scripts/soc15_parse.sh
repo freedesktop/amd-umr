@@ -86,11 +86,11 @@ parse_bits ${pk}/mmhub/mmhub_1_0 src/lib/ip/mmhub10
 parse_bits ${pk}/mp/mp_9_0 src/lib/ip/mp90
 parse_bits ${pk}/umc/umc_6_0 src/lib/ip/umc60
 
-parse_bits ${pk}/raven1/VCN/vcn_1_0 src/lib/ip/vcn10
-parse_bits ${pk}/raven1/DCN/dcn_1_0 src/lib/ip/dcn10
-parse_bits ${pk}/raven1/MMHUB/mmhub_9_1 src/lib/ip/mmhub91
-parse_bits ${pk}/raven1/MP/mp_10_0 src/lib/ip/mp100
-parse_bits ${pk}/raven1/NBIO/nbio_7_0 src/lib/ip/nbio70
-parse_bits ${pk}/raven1/SDMA0/sdma0_4_1 src/lib/ip/sdma041
-parse_bits ${pk}/raven1/MP/mp_10_0 src/lib/ip/mp100
-parse_bits ${pk}/raven1/GC/gc_9_1 src/lib/ip/gfx91
+parse_bits ${pk}/vcn/vcn_1_0 src/lib/ip/vcn10
+parse_bits ${pk}/dcn/dcn_1_0 src/lib/ip/dcn10
+parse_bits ${pk}/mmhub/mmhub_9_1 src/lib/ip/mmhub91
+parse_bits ${pk}/mp/mp_10_0 src/lib/ip/mp100
+parse_bits ${pk}/nbio/nbio_7_0 src/lib/ip/nbio70
+parse_bits ${pk}/sdma0/sdma0_4_1 src/lib/ip/sdma041
+parse_bits ${pk}/mp/mp_10_0 src/lib/ip/mp100
+parse_bits ${pk}/gc/gc_9_1 src/lib/ip/gfx91
