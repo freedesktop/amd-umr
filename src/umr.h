@@ -352,6 +352,13 @@ struct umr_ring_decoder {
 		pm;
 
 	struct {
+		uint64_t
+			addr,
+			vmid,
+			ib_addr;
+	} src; 
+
+	struct {
 		uint32_t
 			cur_opcode,
 			pkt_type,
@@ -382,7 +389,8 @@ struct umr_ring_decoder {
 		uint64_t ib_addr,
 			 vm_base_addr; // not used yet (will be used by IB parser...)
 		uint32_t vmid,
-			 size;
+			 size,
+			 addr;
 	} next_ib_info;
 };
 

@@ -357,6 +357,11 @@ static void add_ib(struct umr_ring_decoder *decoder)
 	pdecoder->next_ib_info.vmid    = decoder->pm4.next_ib_state.ib_vmid;
 	pdecoder->next_ib_info.vm_base_addr = ~0ULL; // not used yet.
 
+
+	pdecoder->src.ib_addr = decoder->next_ib_info.ib_addr;
+	pdecoder->src.vmid    = decoder->next_ib_info.vmid;
+	pdecoder->src.addr    = decoder->next_ib_info.addr;
+
 	memset(&decoder->pm4.next_ib_state, 0, sizeof(decoder->pm4.next_ib_state));
 }
 
@@ -369,14 +374,14 @@ static char *umr_reg_name(struct umr_asic *asic, uint64_t addr)
 
 	reg = umr_find_reg_by_addr(asic, addr, &ip);
 	if (ip && reg) {
-		sprintf(name, "%s.%s", ip->ipname, reg->regname);
+		sprintf(name, "%s%s.%s%s", RED, ip->ipname, reg->regname, RST);
 		return name;
 	} else {
 		return "<unknown>";
 	}
 }
 
-static void print_bits(struct umr_asic *asic, uint32_t regno, uint32_t value)
+static void print_bits(struct umr_asic *asic, uint32_t regno, uint32_t value, int tabs)
 {
 	struct umr_ip_block *ip;
 	struct umr_reg *reg = umr_find_reg_by_addr(asic, regno, &ip);
@@ -386,7 +391,11 @@ static void print_bits(struct umr_asic *asic, uint32_t regno, uint32_t value)
 		printf("\n");
 		for (k = 0; k < reg->no_bits; k++) {
 			uint32_t v;
-			printf("\t\t\t\t\t\t\t");
+			if (tabs) printf("\t\t");
+			if (k == (reg->no_bits - 1))
+				printf("\t\t\t\t\t\t\t\t\\----+ ");
+			else
+				printf("\t\t\t\t\t\t\t\t|----+ ");
 			v = (value >> reg->bits[k].start) & (1UL << (reg->bits[k].stop - reg->bits[k].start));
 			reg->bits[k].bitfield_print(asic, asic->asicname, ip->ipname, reg->regname, reg->bits[k].regname, reg->bits[k].start, reg->bits[k].stop, v);
 		}
@@ -400,54 +409,68 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 	static const char *op_37_dst_sel[] = { "mem-mapped reg", "memory sync", "TC/L2", "GDS", "reserved", "memory async", "reserved", "reserved" };
 	static const char *op_84_cntr_sel[] = { "invalid", "ce", "cs", "ce and cs" };
 	struct umr_reg *reg;
-	printf("   PKT3 OPCODE 0x%02x, word %u: ", (unsigned)decoder->pm4.cur_opcode, (unsigned)decoder->pm4.cur_word);
+
+	if (decoder->pm4.n_words == 1)
+		printf("\\---+ ");
+	else
+		printf("|---+ ");
+
+	printf("PKT3 OPCODE 0x%02x, word %u: ", (unsigned)decoder->pm4.cur_opcode, (unsigned)decoder->pm4.cur_word);
 	switch (decoder->pm4.cur_opcode) {
 		case 0x22: // COND_EXEC
 			switch (decoder->pm4.cur_word) {
-				case 0: printf("GPU_ADDR_LO32: 0x%08lx", (unsigned long)ib);
+				case 0: printf("GPU_ADDR_LO32: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
-				case 1: printf("GPU_ADDR_HI32: 0x%08lx", (unsigned long)ib);
+				case 1: printf("GPU_ADDR_HI32: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
-				case 2: printf("TEST_VALUE: 0x%08lx", (unsigned long)ib);
+				case 2: printf("TEST_VALUE: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
-				case 3: printf("PATCH_VALUE: 0x%08lx", (unsigned long)ib);
+				case 3: printf("PATCH_VALUE: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
 			break;
 		case 0x27: // DRAW_INDEX_2
 			switch (decoder->pm4.cur_word) {
-				case 0: printf("MAX_SIZE: %lu", (unsigned long) BITS(ib, 0, 32)); break;
-				case 1: printf("INDEX_BASE_LO: 0x%08lx", (unsigned long) BITS(ib, 0, 32)); break;
-				case 2: printf("INDEX_BASE_HI: 0x%08lx", (unsigned long) BITS(ib, 0, 32)); break;
-				case 3: printf("INDEX_COUNT: %lu", (unsigned long) BITS(ib, 0, 32)); break;
-				case 4: printf("DRAW_INITIATOR: 0x%08lx", (unsigned long) BITS(ib, 0, 32)); break;
+				case 0: printf("MAX_SIZE: %s%lu%s", BLUE, (unsigned long) BITS(ib, 0, 32), RST); break;
+				case 1: printf("INDEX_BASE_LO: %s0x%08lx%s", YELLOW, (unsigned long) BITS(ib, 0, 32), RST); break;
+				case 2: printf("INDEX_BASE_HI: %s0x%08lx%s", YELLOW, (unsigned long) BITS(ib, 0, 32), RST); break;
+				case 3: printf("INDEX_COUNT: %s%lu%s", BLUE, (unsigned long) BITS(ib, 0, 32), RST); break;
+				case 4: printf("DRAW_INITIATOR: %s0x%08lx%s", YELLOW, (unsigned long) BITS(ib, 0, 32), RST); break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
 			break;
 		case 0x28: // CONTEXT_CONTROL
 			switch (decoder->pm4.cur_word) {
-				case 0: printf("LOAD_EN: %lu, LOAD_CS: %lu, LOAD_GFX: %lu, LOAD_MULTI: %lu, LOAD_SINGLE: %lu",
-						BITS(ib, 31, 32), BITS(ib, 24, 25), BITS(ib, 16,17), BITS(ib, 1,2), BITS(ib, 0, 1));
+				case 0: printf("LOAD_EN: %s%lu%s, LOAD_CS: %s%lu%s, LOAD_GFX: %s%lu%s, LOAD_MULTI: %s%lu%s, LOAD_SINGLE: %s%lu%s",
+						BLUE, BITS(ib, 31, 32), RST,
+						BLUE, BITS(ib, 24, 25), RST,
+						BLUE, BITS(ib, 16,17), RST,
+						BLUE, BITS(ib, 1,2), RST,
+						BLUE, BITS(ib, 0, 1), RST);
 					break;
-				case 1: printf("SHADOW_EN: %lu, SHADOW_CS: %lu, SHADOW_GFX: %lu, SHADOW_MULTI: %lu, SHADOW_SINGLE: %lu",
-						BITS(ib, 31, 32), BITS(ib, 24, 25), BITS(ib, 16,17), BITS(ib, 1,2), BITS(ib, 0, 1));
+				case 1: printf("SHADOW_EN: %s%lu%s, SHADOW_CS: %s%lu%s, SHADOW_GFX: %s%lu%s, SHADOW_MULTI: %s%lu%s, SHADOW_SINGLE: %s%lu%s",
+						BLUE, BITS(ib, 31, 32), RST,
+						BLUE, BITS(ib, 24, 25), RST,
+						BLUE, BITS(ib, 16,17), RST,
+						BLUE, BITS(ib, 1,2), RST,
+						BLUE, BITS(ib, 0, 1), RST);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
 			break;
 		case 0x2d: // DRAW_INDEX_AUTO
 			switch (decoder->pm4.cur_word) {
-				case 0: printf("INDEX_COUNT: %lu", (unsigned long)ib);
+				case 0: printf("INDEX_COUNT: %s%lu%s", BLUE, (unsigned long)ib, RST);
 					break;
-				case 1: printf("DRAW_INITIATOR: 0x%lx", (unsigned long)ib);
+				case 1: printf("DRAW_INITIATOR: %s0x%lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
 			break;
 		case 0x2f: // NUM_INSTANCES
 			switch (decoder->pm4.cur_word) {
-				case 0: printf("NUM_INSTANCES: %lu", (unsigned long)ib);
+				case 0: printf("NUM_INSTANCES: %s%lu%s", BLUE, (unsigned long)ib, RST);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
@@ -455,13 +478,13 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 		case 0x3f: // INDIRECT_BUFFER_CIK
 		case 0x33: // INDIRECT_BUFFER_CONST
 			switch (decoder->pm4.cur_word) {
-				case 0: printf("IB_BASE_LO: 0x%08lx, SWAP:%lu", BITS(ib, 2, 32) << 2, BITS(ib, 0, 2));
+				case 0: printf("IB_BASE_LO: %s0x%08lx%s, SWAP:%lu", YELLOW, BITS(ib, 2, 32) << 2, RST, BITS(ib, 0, 2));
 					decoder->pm4.next_ib_state.ib_addr_lo = BITS(ib, 2, 32) << 2;
 					break;
-				case 1: printf("IB_BASE_HI: 0x%08lx", BITS(ib, 0, 16));
+				case 1: printf("IB_BASE_HI: %s0x%08lx%s", YELLOW, BITS(ib, 0, 16), RST);
 					decoder->pm4.next_ib_state.ib_addr_hi = BITS(ib, 0, 16);
 					break;
-				case 2: printf("IB_SIZE:%lu, VMID: %lu", BITS(ib, 0, 20), BITS(ib, 24, 32));
+				case 2: printf("IB_SIZE:%s%lu%s, VMID: %s%lu%s", BLUE, BITS(ib, 0, 20), RST, BLUE, BITS(ib, 24, 32), RST);
 					decoder->pm4.next_ib_state.ib_size = BITS(ib, 0, 20) * 4;
 					decoder->pm4.next_ib_state.ib_vmid = BITS(ib, 24, 32);
 					add_ib(decoder);
@@ -471,24 +494,26 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 			break;
 		case 0x37: // WRITE_DATA
 			switch (decoder->pm4.cur_word) {
-				case 0: printf("ENGINE:[%s], WR_CONFIRM:%lu, WR_ONE_ADDR:%lu, DST_SEL:[%s]",
-						op_37_engines[BITS(ib,30,32)],
-						BITS(ib,20,21),
-						BITS(ib,16,17),
-						op_37_dst_sel[BITS(ib, 8, 12)]);
+				case 0: printf("ENGINE:[%s%s%s], WR_CONFIRM:%s%lu%s, WR_ONE_ADDR:%s%lu%s, DST_SEL:[%s%s%s]",
+						BLUE, op_37_engines[BITS(ib,30,32)], RST,
+						BLUE, BITS(ib,20,21), RST,
+						BLUE, BITS(ib,16,17), RST,
+						BLUE, op_37_dst_sel[BITS(ib, 8, 12)], RST);
 					decoder->pm4.control = ib;
 					decoder->pm4.next_write_mem.type = BITS(ib, 8, 12);
 					break;
-				case 1: printf("DST_ADDR_LO: 0x%08lx", (unsigned long)ib);
+				case 1: printf("DST_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					decoder->pm4.next_write_mem.addr_lo = ib;
 					break;
-				case 2: printf("DST_ADDR_HI: 0x%08lx", (unsigned long)ib);
+				case 2: printf("DST_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					decoder->pm4.next_write_mem.addr_hi = ib;
 					break;
 				default:
 					if (decoder->pm4.next_write_mem.type == 0) { // mem-mapped reg
-						printf("%s <= %08lx", umr_reg_name(asic, ((uint64_t)decoder->pm4.next_write_mem.addr_hi << 32) | decoder->pm4.next_write_mem.addr_lo), (unsigned long)ib);
-						print_bits(asic, decoder->pm4.next_write_mem.addr_lo, ib);
+						printf("%s <= %s0x%08lx%s",
+							umr_reg_name(asic, ((uint64_t)decoder->pm4.next_write_mem.addr_hi << 32) | decoder->pm4.next_write_mem.addr_lo),
+							YELLOW, (unsigned long)ib, RST);
+						print_bits(asic, decoder->pm4.next_write_mem.addr_lo, ib, 1);
 						decoder->pm4.next_write_mem.addr_lo++;
 						if (!decoder->pm4.next_write_mem.addr_lo)
 							decoder->pm4.next_write_mem.addr_hi++;
@@ -499,29 +524,31 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 			break;
 		case 0x3C: // WAIT_MEM_REG
 			switch(decoder->pm4.cur_word) {
-				case 0: printf("ENGINE:%s, MEMSPACE:%s, FUNC:[%s]",
-						BITS(ib, 8, 9) ? "PFP" : "ME",
-						BITS(ib, 4, 5) ? "REG" : "MEM",
-						op_3c_functions[BITS(ib, 0, 4)]);
+				case 0: printf("ENGINE:%s%s%s, MEMSPACE:%s%s%s, FUNC:[%s%s%s]",
+						BLUE, BITS(ib, 8, 9) ? "PFP" : "ME", RST,
+						BLUE, BITS(ib, 4, 5) ? "REG" : "MEM", RST,
+						BLUE, op_3c_functions[BITS(ib, 0, 4)], RST);
 					break;
-				case 1: printf("POLL_ADDRESS_LO: 0x%08lx, SWAP: %lu", BITS(ib, 2, 32), BITS(ib, 0, 2));
+				case 1: printf("POLL_ADDRESS_LO: %s0x%08lx%s, SWAP: %s%lu%s",
+						YELLOW, BITS(ib, 2, 32), RST,
+						BLUE, BITS(ib, 0, 2), RST);
 					break;
-				case 2: printf("POLL_ADDRESS_HI: 0x%08lx", (unsigned long)ib);
+				case 2: printf("POLL_ADDRESS_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
-				case 3: printf("REFERENCE: 0x%08lx", (unsigned long)ib);
+				case 3: printf("REFERENCE: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
-				case 4: printf("MASK: 0x%08lx", (unsigned long)ib);
+				case 4: printf("MASK: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
-				case 5: printf("POLL INTERVAL: 0x%08lx", BITS(ib, 0, 16));
+				case 5: printf("POLL INTERVAL: %s0x%08lx%s", YELLOW, BITS(ib, 0, 16), RST);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
 			break;
 		case 0x43: // SURFACE_SYNC
 			switch (decoder->pm4.cur_word) {
-				case 0: printf("ENGINE: %s, COHER_CNTL: 0x%08lx",
-						BITS(ib, 31, 32) ? "ME" : "PFP",
-						BITS(ib, 0, 29));
+				case 0: printf("ENGINE: %s%s%s, COHER_CNTL: %s0x%08lx%s",
+						BLUE, BITS(ib, 31, 32) ? "ME" : "PFP", RST,
+						BLUE, BITS(ib, 0, 29), RST);
 					reg = umr_find_reg_data(asic, "mmCP_COHER_CNTL");
 					if (reg && reg->bits) {
 						int i, k;
@@ -529,7 +556,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 						printf(" (");
 						for (i = 0; i < reg->no_bits; i++) {
 							if (ib & (1UL << reg->bits[i].start)) {
-								printf("%s%s", k ? ", " : "", reg->bits[i].regname);
+								printf("%s%s%s%s", k ? ", " : "", RED, reg->bits[i].regname, RST);
 								++k;
 							}
 						}
@@ -537,71 +564,75 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 					}
 					break;
 				case 1:
-					printf("COHER_SIZE: 0x%08lx", (unsigned long)ib);
+					printf("COHER_SIZE: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
 					break;
 				case 2:
-					printf("COHER_BASE: 0x%08lx", (unsigned long)ib);
+					printf("COHER_BASE: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
 				case 3:
-					printf("POLL_INTERVAL: %lu", BITS(ib, 0, 16));
+					printf("POLL_INTERVAL: %s%lu%s", BLUE, BITS(ib, 0, 16), RST);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
 			break;
 		case 0x46: // EVENT_WRITE
 			switch (decoder->pm4.cur_word) {
-				case 0: printf("EVENT_TYPE: 0x%lx, EVENT_INDEX: 0x%lx",
-					       (unsigned long)BITS(ib, 0, 6),
-					       (unsigned long)BITS(ib, 8,12));
+				case 0: printf("EVENT_TYPE: %s0x%lx%s, EVENT_INDEX: %s0x%lx%s",
+					       BLUE, (unsigned long)BITS(ib, 0, 6), RST,
+					       BLUE, (unsigned long)BITS(ib, 8,12), RST);
 					break;
-				case 1: printf("ADDRESS_LO: 0x%08lx", (unsigned long)ib);
+				case 1: printf("ADDRESS_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
-				case 2: printf("ADDRESS_HI: 0x%08lx", (unsigned long)ib);
+				case 2: printf("ADDRESS_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
 			break;
 		case 0x47: // EVENT_WRITE_EOP
 			switch(decoder->pm4.cur_word) {
-				case 0: printf("INV_L2:%lu, EVENT_INDEX:%lu, EVENT_TYPE:%lu",
-						BITS(ib, 20, 21),
-						BITS(ib, 8, 12),
-						BITS(ib, 0, 6));
+				case 0: printf("INV_L2:%s%lu%s, EVENT_INDEX:%s%lu%s, EVENT_TYPE:%s%lu%s",
+						BLUE, BITS(ib, 20, 21), RST,
+						BLUE, BITS(ib, 8, 12), RST,
+						BLUE, BITS(ib, 0, 6), RST);
 					break;
-				case 1: printf("ADDRESS_LO: 0x%08lx", BITS(ib, 2, 32));
+				case 1: printf("ADDRESS_LO: %s0x%08lx%s", YELLOW, BITS(ib, 2, 32), RST);
 					break;
-				case 2: printf("DATA_SEL:%lu, INT_SEL:%lu, ADDRESS_HI: 0x%08lx",
-						BITS(ib, 29, 32),
-						BITS(ib, 24, 26),
-						BITS(ib, 0,  16));
+				case 2: printf("DATA_SEL:%s%lu%s, INT_SEL:%s%lu%s, ADDRESS_HI: %s0x%08lx%s",
+						BLUE, BITS(ib, 29, 32), RST,
+						BLUE, BITS(ib, 24, 26), RST,
+						YELLOW, BITS(ib, 0,  16), RST);
 					break;
-				case 3: printf("DATA_LO: 0x%08lx", (unsigned long)ib);
+				case 3: printf("DATA_LO: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
 					break;
-				case 4: printf("DATA_HI: 0x%08lx", (unsigned long)ib);
+				case 4: printf("DATA_HI: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
 			break;
 		case 0x49: // RELEASE_MEM
 			switch(decoder->pm4.cur_word) {
-				case 0: printf("EOP_TCL1_ACTION: %lu, EOP_TC_ACTION: %lu, EOP_TC_WB_ACTION: %lu, EVENT_TYPE: %lu[%s], EVENT_INDEX: %lu",
-				BITS(ib, 16, 17), BITS(ib, 17, 18), BITS(ib, 15, 16), BITS(ib, 0, 7), vgt_event_decode(BITS(ib, 0, 7)), BITS(ib, 8, 15));
+				case 0: printf("EOP_TCL1_ACTION: %s%lu%s, EOP_TC_ACTION: %s%lu%s, EOP_TC_WB_ACTION: %s%lu%s, EVENT_TYPE: %s%lu%s[%s%s%s], EVENT_INDEX: %s%lu%s",
+				BLUE, BITS(ib, 16, 17), RST,
+				BLUE, BITS(ib, 17, 18), RST,
+				BLUE, BITS(ib, 15, 16), RST,
+				BLUE, BITS(ib, 0, 7), RST, CYAN, vgt_event_decode(BITS(ib, 0, 7)), RST,
+				BLUE, BITS(ib, 8, 15), RST);
 					break;
 				case 1:
-					printf("DATA_SEL+INT_SEL: 0x%08lx", (unsigned long)ib);
+					printf("DATA_SEL+INT_SEL: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
 					break;
-				case 2: printf("ADDR_LO: 0x%08lx", (unsigned long)ib);
+				case 2: printf("ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
-				case 3: printf("ADDR_HI: 0x%08lx", (unsigned long)ib);
+				case 3: printf("ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
-				case 4: printf("SEQ_LO: 0x%08lx", (unsigned long)ib);
+				case 4: printf("SEQ_LO: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
 					break;
-				case 5: printf("SEQ_HI: 0x%08lx", (unsigned long)ib);
+				case 5: printf("SEQ_HI: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
 					break;
 				case 6:
 					if (asic->family >= FAMILY_AI) {
 						// decode additional words
-						printf("DATA: 0x%08lx", (unsigned long)ib);
+						printf("DATA: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
 						break;
 					}
 					// fall through to invalid
@@ -610,26 +641,26 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 			break;
 		case 0x50: // DMA_DATA
 			switch(decoder->pm4.cur_word) {
-				case 0: printf("ENG_SEL: %d, SRC_CACHE: %d, DST_SEL: %d, DST_CACHE: %d, SRC_SEL: %d, CP_SYNC: %d",
-						(int)BITS(ib, 0, 1),
-						(int)BITS(ib, 1+12, 1+12+2),
-						(int)BITS(ib, 1+12+2+5,1+12+2+5+2),
-						(int)BITS(ib, 1+12+2+5+2+3, 1+12+2+5+2+3+2),
-						(int)BITS(ib, 1+12+2+5+2+3+2+2, 1+12+2+5+2+3+2+2+2),
-						(int)BITS(ib, 1+12+2+5+2+3+2+2+2, 1+12+2+5+2+3+2+2+2+1));
+				case 0: printf("ENG_SEL: %s%d%s, SRC_CACHE: %s%d%s, DST_SEL: %s%d%s, DST_CACHE: %s%d%s, SRC_SEL: %s%d%s, CP_SYNC: %s%d%s",
+						BLUE, (int)BITS(ib, 0, 1), RST,
+						BLUE, (int)BITS(ib, 1+12, 1+12+2), RST,
+						BLUE, (int)BITS(ib, 1+12+2+5,1+12+2+5+2), RST,
+						BLUE, (int)BITS(ib, 1+12+2+5+2+3, 1+12+2+5+2+3+2), RST,
+						BLUE, (int)BITS(ib, 1+12+2+5+2+3+2+2, 1+12+2+5+2+3+2+2+2), RST,
+						BLUE, (int)BITS(ib, 1+12+2+5+2+3+2+2+2, 1+12+2+5+2+3+2+2+2+1), RST);
 					break;
-				case 1: printf("SRC_ADDR_LO_OR_DATA: 0x%08lx", (unsigned long)BITS(ib, 0, 32)); break;
-				case 2: printf("SRC_ADDR_HI: 0x%08lx", (unsigned long)BITS(ib, 0, 32)); break;
-				case 3: printf("DST_ADDR_LO: 0x%08lx", (unsigned long)BITS(ib, 0, 32)); break;
-				case 4: printf("DST_ADDR_HI: 0x%08lx", (unsigned long)BITS(ib, 0, 32)); break;
-				case 5: printf("BYTE COUNT: %lu, SAS: %d, DAS: %d, SAIC: %d, DAIC: %d, RAW_WAIT: %d, DIS_WC: %d",
-						(unsigned long)BITS(ib, 0, 26),
-						(int)BITS(ib, 26, 26+1),
-						(int)BITS(ib, 26+1, 26+1+1),
-						(int)BITS(ib, 26+1+1, 26+1+1+1),
-						(int)BITS(ib, 26+1+1+1, 26+1+1+1+1),
-						(int)BITS(ib, 26+1+1+1+1, 26+1+1+1+1+1),
-						(int)BITS(ib, 26+1+1+1+1+1, 26+1+1+1+1+1+1));
+				case 1: printf("SRC_ADDR_LO_OR_DATA: %s0x%08lx%s", YELLOW, (unsigned long)BITS(ib, 0, 32), RST); break;
+				case 2: printf("SRC_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)BITS(ib, 0, 32), RST); break;
+				case 3: printf("DST_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)BITS(ib, 0, 32), RST); break;
+				case 4: printf("DST_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)BITS(ib, 0, 32), RST); break;
+				case 5: printf("BYTE COUNT: %s%lu%s, SAS: %s%d%s, DAS: %s%d%s, SAIC: %s%d%s, DAIC: %s%d%s, RAW_WAIT: %s%d%s, DIS_WC: %s%d%s",
+						BLUE, (unsigned long)BITS(ib, 0, 26), RST,
+						BLUE, (int)BITS(ib, 26, 26+1), RST,
+						BLUE, (int)BITS(ib, 26+1, 26+1+1), RST,
+						BLUE, (int)BITS(ib, 26+1+1, 26+1+1+1), RST,
+						BLUE, (int)BITS(ib, 26+1+1+1, 26+1+1+1+1), RST,
+						BLUE, (int)BITS(ib, 26+1+1+1+1, 26+1+1+1+1+1), RST,
+						BLUE, (int)BITS(ib, 26+1+1+1+1+1, 26+1+1+1+1+1+1), RST);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
@@ -637,54 +668,54 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 		case 0x68: // SET_CONFIG_REG
 			switch(decoder->pm4.cur_word) {
 				case 0: decoder->pm4.next_write_mem.addr_lo = BITS(ib, 0, 16) + 0x2000;
-					printf("OFFSET: 0x%lx", (unsigned long)BITS(ib, 0, 16));
+					printf("OFFSET: %s0x%lx%s", BLUE, (unsigned long)BITS(ib, 0, 16), RST);
 					break;
-				default: printf("%s <= 0x%08lx", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo++), (unsigned long)ib);
-					print_bits(asic, decoder->pm4.next_write_mem.addr_lo - 1, ib);
+				default: printf("%s <= %s0x%08lx%s", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo++), YELLOW, (unsigned long)ib, RST);
+					print_bits(asic, decoder->pm4.next_write_mem.addr_lo - 1, ib, 0);
 					break;
 			}
 			break;
 		case 0x69: // SET_CONTEXT_REG
 			switch(decoder->pm4.cur_word) {
 				case 0: decoder->pm4.next_write_mem.addr_lo = BITS(ib, 0, 16) + 0xA000;
-					printf("OFFSET: 0x%lx", (unsigned long)BITS(ib, 0, 16));
+					printf("OFFSET: %s0x%lx%s", BLUE, (unsigned long)BITS(ib, 0, 16), RST);
 					break;
-				default: printf("%s <= 0x%08lx", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo++), (unsigned long)ib);
-					print_bits(asic, decoder->pm4.next_write_mem.addr_lo - 1, ib);
+				default: printf("%s <= %s0x%08lx%s", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo++), YELLOW, (unsigned long)ib, RST);
+					print_bits(asic, decoder->pm4.next_write_mem.addr_lo - 1, ib, 0);
 					break;
 			}
 			break;
 		case 0x76: // SET_SH_REG
 			switch(decoder->pm4.cur_word) {
 				case 0: decoder->pm4.next_write_mem.addr_lo = BITS(ib, 0, 16) + 0x2C00;
-					printf("OFFSET: 0x%lx", (unsigned long)BITS(ib, 0, 16));
+					printf("OFFSET: %s0x%lx%s", BLUE, (unsigned long)BITS(ib, 0, 16), RST);
 					break;
-				default: printf("%s <= 0x%08lx", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo++), (unsigned long)ib);
-					print_bits(asic, decoder->pm4.next_write_mem.addr_lo - 1, ib);
+				default: printf("%s <= %s0x%08lx%s", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo++), YELLOW, (unsigned long)ib, RST);
+					print_bits(asic, decoder->pm4.next_write_mem.addr_lo - 1, ib, 0);
 					break;
 			}
 			break;
 		case 0x79: // SET_UCONFIG_REG
 			switch(decoder->pm4.cur_word) {
 				case 0: decoder->pm4.next_write_mem.addr_lo = BITS(ib, 0, 16) + 0xC000;
-					printf("OFFSET: 0x%lx", (unsigned long)BITS(ib, 0, 16));
+					printf("OFFSET: %s0x%lx%s", BLUE, (unsigned long)BITS(ib, 0, 16), RST);
 					break;
-				default: printf("%s <= 0x%08lx", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo++), (unsigned long)ib);
-					print_bits(asic, decoder->pm4.next_write_mem.addr_lo - 1, ib);
+				default: printf("%s <= %s0x%08lx%s", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo++), YELLOW, (unsigned long)ib, RST);
+					print_bits(asic, decoder->pm4.next_write_mem.addr_lo - 1, ib, 0);
 					break;
 			}
 			break;
 		case 0x80: // LOAD_CONST_RAM
 			switch(decoder->pm4.cur_word) {
-				case 0: printf("ADDR_LO: 0x%08lx", (unsigned long)ib);
+				case 0: printf("ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
-				case 1: printf("ADDR_HI: 0x%08lx", (unsigned long)ib);
+				case 1: printf("ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
-				case 2: printf("NUM_DW: 0x%08lx", (unsigned long)BITS(ib, 0, 15));
+				case 2: printf("NUM_DW: %s0x%08lx%s", BLUE, (unsigned long)BITS(ib, 0, 15), RST);
 					break;
-				case 3: printf("START_ADDR: 0x%08lx, CACHE_POLICY: %s",
-					       (unsigned long)BITS(ib, 0, 16),
-					       BITS(ib, 25, 27) ? "stream" : "lru");
+				case 3: printf("START_ADDR: %s0x%08lx%s, CACHE_POLICY: %s%s%s",
+					       YELLOW, (unsigned long)BITS(ib, 0, 16), RST,
+					       CYAN, BITS(ib, 25, 27) ? "stream" : "lru", RST);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
@@ -692,47 +723,49 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 		case 0x81: // WRITE_CONST_RAM
 			switch(decoder->pm4.cur_word) {
 				case 0: decoder->pm4.next_write_mem.addr_lo = BITS(ib, 0, 16);
-					printf("OFFSET: 0x%lx", (unsigned long)BITS(ib, 0, 16));
+					printf("OFFSET: %s0x%lx%s", YELLOW, (unsigned long)BITS(ib, 0, 16), RST);
 					break;
-				default: printf("CONST_RAM[0x%lx] <= 0x%08lx", (unsigned long)decoder->pm4.next_write_mem.addr_lo, (unsigned long)ib);
+				default: printf("CONST_RAM[%s0x%lx%s] <= %s0x%08lx%s",
+						BLUE, (unsigned long)decoder->pm4.next_write_mem.addr_lo, RST,
+						YELLOW, (unsigned long)ib, RST);
 					 decoder->pm4.next_write_mem.addr_lo += 4;
 					break;
 			}
 			break;
 		case 0x83: // DUMP_CONST_RAM
 			switch(decoder->pm4.cur_word) {
-				case 0: printf("OFFSET: 0x%lx, CACHE_POLICY: [%s], INC_CE: %d, INC_CS: %d",
-						(unsigned long)BITS(ib, 0, 16),
-						BITS(ib, 25, 26) ? "stream" : "lru",
-						(int)BITS(ib, 30, 31),
-						(int)BITS(ib, 31, 32));
+				case 0: printf("OFFSET: %s0x%lx%s, CACHE_POLICY: [%s%s%s], INC_CE: %s%d%s, INC_CS: %s%d%s",
+						YELLOW, (unsigned long)BITS(ib, 0, 16), RST,
+						CYAN, BITS(ib, 25, 26) ? "stream" : "lru", RST,
+						BLUE, (int)BITS(ib, 30, 31), RST,
+						BLUE, (int)BITS(ib, 31, 32), RST);
 					break;
 				case 1:
-					printf("NUM_DW: 0x%lx", (unsigned long)BITS(ib, 0, 15));
+					printf("NUM_DW: %s0x%lx%s", BLUE, (unsigned long)BITS(ib, 0, 15), RST);
 					break;
 				case 2:
-					printf("ADDR_LO: 0x%08lx", (unsigned long)ib);
+					printf("ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
 				case 3:
-					printf("ADDR_HI: 0x%08lx", (unsigned long)ib);
+					printf("ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
 			break;
 		case 0x84: // INCREMENT_CE_COUNTER
 			switch(decoder->pm4.cur_word) {
-				case 0: printf("CNTRSEL: [%s]",
-						op_84_cntr_sel[BITS(ib, 0, 2)]);
+				case 0: printf("CNTRSEL: [%s%s%s]",
+						CYAN, op_84_cntr_sel[BITS(ib, 0, 2)], RST);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
 			break;
 		case 0x86: // WAIT_ON_CE_COUNTER
 			switch(decoder->pm4.cur_word) {
-				case 0: printf("COND_ACQUIRE_MEM: %d, FORCE_SYNC: %d, MEM_VOLATILE: %d",
-						(int)BITS(ib, 0, 1),
-						(int)BITS(ib, 1, 2),
-						(int)BITS(ib, 27, 28));
+				case 0: printf("COND_ACQUIRE_MEM: %s%d%s, FORCE_SYNC: %s%d%s, MEM_VOLATILE: %s%d%s",
+						BLUE, (int)BITS(ib, 0, 1), RST,
+						BLUE, (int)BITS(ib, 1, 2), RST,
+						BLUE, (int)BITS(ib, 27, 28), RST);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
@@ -760,7 +793,9 @@ static void print_decode_pm4(struct umr_asic *asic, struct umr_ring_decoder *dec
 				printf("PKT2");
 			} else if (decoder->pm4.pkt_type == 3) {
 				decoder->pm4.cur_opcode = (ib >> 8) & 0xFF;
-				printf("PKT3, COUNT:%lu, PREDICATE:%lu, SHADER_TYPE:%lu, OPCODE:%02lx[%s]", (unsigned long)decoder->pm4.n_words, (unsigned long)(ib&1), (unsigned long)((ib>>1)&1), (unsigned long)decoder->pm4.cur_opcode, pm4_pkt3_opcode_names[decoder->pm4.cur_opcode&0xFF]);
+				printf("PKT3, COUNT:%lu, PREDICATE:%lu, SHADER_TYPE:%lu, OPCODE:%02lx[%s%s%s]",
+				(unsigned long)decoder->pm4.n_words, (unsigned long)(ib&1), (unsigned long)((ib>>1)&1), (unsigned long)decoder->pm4.cur_opcode,
+				CYAN, pm4_pkt3_opcode_names[decoder->pm4.cur_opcode&0xFF], RST);
 			}
 			if (!decoder->pm4.n_words)
 				decoder->pm4.cur_opcode = 0xFFFFFFFF;
@@ -775,18 +810,23 @@ static void print_decode_pm4(struct umr_asic *asic, struct umr_ring_decoder *dec
 
 			// detect VCN/UVD IBs and chain them once all
 			// 4 pieces of information are found
-			if (!strcmp(name, "mmUVD_LMI_RBC_IB_VMID")) {
+			if (strstr(name, "mmUVD_LMI_RBC_IB_VMID")) {
 				decoder->pm4.next_ib_state.ib_vmid = ib | ((asic->family <= FAMILY_VI) ? 0 : UMR_MM_HUB);
 				decoder->pm4.next_ib_state.tally |= 1;
-			} else if (!strcmp(name, "mmUVD_LMI_RBC_IB_64BIT_BAR_LOW")) {
+			} else if (strstr(name, "mmUVD_LMI_RBC_IB_64BIT_BAR_LOW")) {
 				decoder->pm4.next_ib_state.ib_addr_lo = ib;
 				decoder->pm4.next_ib_state.tally |= 2;
-			} else if (!strcmp(name, "mmUVD_LMI_RBC_IB_64BIT_BAR_HIGH")) {
+			} else if (strstr(name, "mmUVD_LMI_RBC_IB_64BIT_BAR_HIGH")) {
 				decoder->pm4.next_ib_state.ib_addr_hi = ib;
 				decoder->pm4.next_ib_state.tally |= 4;
-			} else if (!strcmp(name, "mmUVD_RBC_IB_SIZE")) {
+			} else if (strstr(name, "mmUVD_RBC_IB_SIZE")) {
 				decoder->pm4.next_ib_state.ib_size = ib * 4;
 				decoder->pm4.next_ib_state.tally |= 8;
+			}
+
+			if (decoder->pm4.next_ib_state.tally == (2|4|8)) {
+				decoder->pm4.next_ib_state.ib_vmid = 0;
+				decoder->pm4.next_ib_state.tally = 15;
 			}
 
 			if (decoder->pm4.next_ib_state.tally == 15) {

@@ -118,7 +118,10 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 
 	do {
 		value = ring_data[(start+12)>>2];
-		printf("%s.%s.ring[%4lu] == 0x%08lx   ", asic->asicname, ringname, (unsigned long)start >> 2, (unsigned long)value);
+		printf("%s.%s.ring[%s%4lu%s] == %s0x%08lx%s   ",
+			asic->asicname, ringname,
+			BLUE, (unsigned long)start >> 2, RST,
+			YELLOW, (unsigned long)value, RST);
 		if (enable_decoder && start == rptr && start != wptr) {
 			use_decoder = 1;
 			decoder.pm4.cur_opcode = 0xFFFFFFFF;
@@ -127,6 +130,7 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 			(start == rptr) ? 'r' : '.',
 			(start == wptr) ? 'w' : '.',
 			(start == drv_wptr) ? 'D' : '.');
+		decoder.next_ib_info.addr = start / 4;
 		if (use_decoder)
 			umr_print_decode(asic, &decoder, value);
 		printf("\n");
