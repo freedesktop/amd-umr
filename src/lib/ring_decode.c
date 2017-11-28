@@ -368,7 +368,7 @@ static char *umr_reg_name(struct umr_asic *asic, uint64_t addr)
 	static char name[512];
 
 	reg = umr_find_reg_by_addr(asic, addr, &ip);
-	if (reg) {
+	if (ip && reg) {
 		sprintf(name, "%s.%s", ip->ipname, reg->regname);
 		return name;
 	} else {
