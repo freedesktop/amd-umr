@@ -367,7 +367,6 @@ static void add_ib(struct umr_ring_decoder *decoder)
 
 static char *umr_reg_name(struct umr_asic *asic, uint64_t addr)
 {
-	int i, j;
 	struct umr_reg *reg;
 	struct umr_ip_block *ip;
 	static char name[512];
@@ -802,7 +801,10 @@ static void print_decode_pm4(struct umr_asic *asic, struct umr_ring_decoder *dec
 			return;
 		case 0x80000000:
 			name = umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo);
-			printf("   word (%lu): %s(0x%lx) <= 0x%lx", (unsigned long)decoder->pm4.cur_word++, name, (unsigned long)decoder->pm4.next_write_mem.addr_lo, (unsigned long)ib);
+			printf("   word (%lu): %s(%s0x%lx%s) <= %s0x%lx%s",
+				(unsigned long)decoder->pm4.cur_word++, name,
+				BLUE, (unsigned long)decoder->pm4.next_write_mem.addr_lo, RST,
+				YELLOW, (unsigned long)ib, RST);
 
 			// strip off IP name
 			name = strstr(name, ".");

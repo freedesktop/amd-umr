@@ -41,7 +41,7 @@ void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder)
 	else
 		printf("IB[%s%u%s] at %s%d%s:%s0x%llx%s",
 			BLUE, (unsigned)decoder->src.addr, RST,
-			YELLOW, decoder->src.vmid, RST,
+			YELLOW, (int)decoder->src.vmid, RST,
 			YELLOW, (unsigned long long)decoder->src.ib_addr, RST);
 
 	printf("\n");
@@ -61,5 +61,5 @@ void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder)
 		}
 	}
 	free(data);
-	printf("\n");
+	printf("End of IB\n\n");
 }
