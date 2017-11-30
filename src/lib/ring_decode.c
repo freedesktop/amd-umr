@@ -395,7 +395,7 @@ static void print_bits(struct umr_asic *asic, uint32_t regno, uint32_t value, in
 				printf("\t\t\t\t\t\t\t\t\\----+ ");
 			else
 				printf("\t\t\t\t\t\t\t\t|----+ ");
-			v = (value >> reg->bits[k].start) & (1UL << (reg->bits[k].stop - reg->bits[k].start));
+			v = (value >> reg->bits[k].start) & ((1ULL << ((reg->bits[k].stop + 1) - reg->bits[k].start)) - 1);
 			reg->bits[k].bitfield_print(asic, asic->asicname, ip->ipname, reg->regname, reg->bits[k].regname, reg->bits[k].start, reg->bits[k].stop, v);
 		}
 	}
@@ -805,6 +805,7 @@ static void print_decode_pm4(struct umr_asic *asic, struct umr_ring_decoder *dec
 				(unsigned long)decoder->pm4.cur_word++, name,
 				BLUE, (unsigned long)decoder->pm4.next_write_mem.addr_lo, RST,
 				YELLOW, (unsigned long)ib, RST);
+			print_bits(asic, decoder->pm4.next_write_mem.addr_lo, ib, 1);
 
 			// strip off IP name
 			name = strstr(name, ".");
