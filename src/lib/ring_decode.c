@@ -340,7 +340,7 @@ static char *vgt_event_decode(unsigned tag)
 
 #define BITS(x, a, b) (unsigned long)((x >> (a)) & ((1ULL << ((b)-(a)))-1))
 
-static void add_ib(struct umr_ring_decoder *decoder)
+static void add_ib_pm4(struct umr_ring_decoder *decoder)
 {
 	struct umr_ring_decoder *pdecoder;
 
@@ -363,6 +363,31 @@ static void add_ib(struct umr_ring_decoder *decoder)
 	pdecoder->src.addr    = decoder->next_ib_info.addr;
 
 	memset(&decoder->pm4.next_ib_state, 0, sizeof(decoder->pm4.next_ib_state));
+}
+
+static void add_ib_pm3(struct umr_ring_decoder *decoder)
+{
+	struct umr_ring_decoder *pdecoder;
+
+	pdecoder = decoder;
+	while (pdecoder->next_ib)
+		pdecoder = pdecoder->next_ib;
+
+	pdecoder->next_ib = calloc(1, sizeof(*(pdecoder->next_ib)));
+	pdecoder = pdecoder->next_ib;
+	pdecoder->pm = 3;
+	pdecoder->next_ib_info.ib_addr = ((uint64_t)decoder->sdma.next_ib_state.ib_addr_hi << 32) |
+					 decoder->sdma.next_ib_state.ib_addr_lo;
+	pdecoder->next_ib_info.size    = decoder->sdma.next_ib_state.ib_size;
+	pdecoder->next_ib_info.vmid    = decoder->sdma.next_ib_state.ib_vmid;
+	pdecoder->next_ib_info.vm_base_addr = ~0ULL; // not used yet.
+
+
+	pdecoder->src.ib_addr = decoder->next_ib_info.ib_addr;
+	pdecoder->src.vmid    = decoder->next_ib_info.vmid;
+	pdecoder->src.addr    = decoder->next_ib_info.addr;
+
+	memset(&decoder->sdma.next_ib_state, 0, sizeof(decoder->sdma.next_ib_state));
 }
 
 static char *umr_reg_name(struct umr_asic *asic, uint64_t addr)
@@ -486,7 +511,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 				case 2: printf("IB_SIZE:%s%lu%s, VMID: %s%lu%s", BLUE, BITS(ib, 0, 20), RST, BLUE, BITS(ib, 24, 32), RST);
 					decoder->pm4.next_ib_state.ib_size = BITS(ib, 0, 20) * 4;
 					decoder->pm4.next_ib_state.ib_vmid = BITS(ib, 24, 32);
-					add_ib(decoder);
+					add_ib_pm4(decoder);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
@@ -834,7 +859,7 @@ static void print_decode_pm4(struct umr_asic *asic, struct umr_ring_decoder *dec
 
 			if (decoder->pm4.next_ib_state.tally == 15) {
 				decoder->pm4.next_ib_state.tally = 0;
-				add_ib(decoder);
+				add_ib_pm4(decoder);
 			}
 
 			decoder->pm4.next_write_mem.addr_lo++;
@@ -849,11 +874,523 @@ static void print_decode_pm4(struct umr_asic *asic, struct umr_ring_decoder *dec
 	}
 }
 
+static const char *sdma_opcodes[] = {
+	"NOP", // 0
+	"COPY", // 1
+	"WRITE", // 2
+	"",
+	"INDIRECT_BUFFER", // 4
+	"FENCE", //5
+	"TRAP", //6
+	"SEM", //7
+	"POLL_REGMEM", //8
+	"COND_EXE", //9
+	"ATOMIC", //10
+	"CONST_FILL", //11
+	"GEN_PTEPDE", //12
+	"TIMESTAMP", //13
+	"SRBM WRITE", //14
+	"PRE EXE",//15
+};
+
+static void parse_next_sdma_pkt(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib)
+{
+	if (decoder->sdma.n_words == 1)
+		printf("\\---+ ");
+	else
+		printf("|---+ ");
+
+	printf("WORD [%s%u%s]: ", BLUE, (unsigned)decoder->sdma.cur_word, RST);
+	switch (decoder->sdma.cur_opcode) {
+		case 1: // COPY
+			switch (decoder->sdma.cur_sub_opcode) {
+				case 0: // LINEAR
+					switch (decoder->sdma.header_dw & (1UL << 27)) {
+						case 0: // not broadcast
+							switch (decoder->sdma.cur_word) {
+								case 1: printf("COPY_COUNT: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+									break;
+								case 2: printf("DST_SW: %s%u%s, DST_HA: %s%u%s, SRC_SW: %s%u%s, SRC_HA: %s%u%s",
+										BLUE, ((unsigned)(ib >> 16) & 3), RST,
+										BLUE, ((unsigned)(ib >> 22) & 1), RST,
+										BLUE, ((unsigned)(ib >> 24) & 3), RST,
+										BLUE, ((unsigned)(ib >> 30) & 1), RST);
+									break;
+								case 3: printf("SRC_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+									break;
+								case 4: printf("SRC_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+									break;
+								case 5: printf("DST_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+									break;
+								case 6: printf("DST_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+									break;
+							}
+							break;
+						default: // broadcast
+							break;
+					}
+					break;
+				case 1: // TILED
+					break;
+				case 3: // SOA
+					break;
+				case 4: // LINEAR_SUB_WINDOW
+					switch (decoder->sdma.cur_word) {
+						case 1: printf("SRC_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							break;
+						case 2: printf("SRC_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							break;
+						case 3: printf("SRC_X: %s%u%s, SRC_Y: %s%u%s",
+								BLUE, ((unsigned)(ib >> 0) & 0x3FFF), RST,
+								BLUE, ((unsigned)(ib >> 16) & 0x3FFF), RST);
+							break;
+						case 4: printf("SRC_Z: %s%u%s, SRC_PITCH: %s%u%s",
+								BLUE, ((unsigned)(ib >> 0) & 0x7FF), RST,
+								BLUE, ((unsigned)(ib >> 16) & 0x3FFF), RST);
+							break;
+						case 5: printf("SRC_SLICE_PITCH: %s%u%s", BLUE, ib & 0xFFFFFFF, RST);
+							break;
+						case 6: printf("DST_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							break;
+						case 7: printf("DST_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							break;
+						case 8: printf("DST_X: %s%u%s, DST_Y: %s%u%s",
+								BLUE, ((unsigned)(ib >> 0) & 0x3FFF), RST,
+								BLUE, ((unsigned)(ib >> 16) & 0x3FFF), RST);
+							break;
+						case 9: printf("DST_Z: %s%u%s, DST_PITCH: %s%u%s",
+								BLUE, ((unsigned)(ib >> 0) & 0x7FF), RST,
+								BLUE, ((unsigned)(ib >> 16) & 0x3FFF), RST);
+							break;
+						case 10: printf("DST_SLICE_PITCH: %s%u%s", BLUE, ib & 0xFFFFFFF, RST);
+							break;
+						case 11: printf("RECT_X: %s%u%s, RECT_Y: %s%u%s",
+								BLUE, ((unsigned)(ib >> 0) & 0x3FFF), RST,
+								BLUE, ((unsigned)(ib >> 16) & 0x3FFF), RST);
+							break;
+						case 12: printf("RECT_Z: %s%u%s, DST_SW: %s%u%s, DST_HA: %s%u%s, SRC_SW: %s%u%s, SRC_HA: %s%u%s",
+								BLUE, ((unsigned)(ib >> 0) & 0x3FFF), RST,
+								BLUE, ((unsigned)(ib >> 16) & 0x3), RST,
+								BLUE, ((unsigned)(ib >> 22) & 0x1), RST,
+								BLUE, ((unsigned)(ib >> 24) & 0x3), RST,
+								BLUE, ((unsigned)(ib >> 30) & 0x1), RST);
+							break;
+					}
+					break;
+				case 5: // TILED_SUB_WINDOW (TODO bitfields)
+					switch (decoder->sdma.cur_word) {
+						case 1: printf("TILED_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							break;
+						case 2: printf("TILED_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							break;
+						case 3: printf("TILED_X: %s%u%s, TILED_Y: %s%u%s",
+								BLUE, ((unsigned)(ib >> 0) & 0x3FFF), RST,
+								BLUE, ((unsigned)(ib >> 16) & 0x3FFF), RST);
+							break;
+						case 4: printf("TILED_Z: %s%u%s, TILED_PITCH: %s%u%s",
+								BLUE, ((unsigned)(ib >> 0) & 0x7FF), RST,
+								BLUE, ((unsigned)(ib >> 16) & 0x3FFF), RST);
+							break;
+						case 5: printf("PITCH_IN_TILE: %s%u%s", BLUE, ib & 0xFFFFFFF, RST);
+							break;
+						case 6: printf("ELEMENT_SIZE: %s%u%s, ARRAY_MODE: %s%u%s, MIT_MODE: %s%u%s, TILESPLIT_SIZE: %s%u%s, BANK_W: %s%u%s, BANK_H: %s%u%s, NUM_BANK: %s%u%s, MAT_ASPT: %s%u%s, PIPE_CONFIG: %s%u%s",
+								BLUE, ((unsigned)(ib >> 0) & 0x7), RST,
+								BLUE, ((unsigned)(ib >> 3) & 0xF), RST,
+								BLUE, ((unsigned)(ib >> 8) & 0x7), RST,
+								BLUE, ((unsigned)(ib >> 11) & 0x7), RST,
+								BLUE, ((unsigned)(ib >> 15) & 0x3), RST,
+								BLUE, ((unsigned)(ib >> 18) & 0x3), RST,
+								BLUE, ((unsigned)(ib >> 21) & 0x3), RST,
+								BLUE, ((unsigned)(ib >> 24) & 0x3), RST,
+								BLUE, ((unsigned)(ib >> 26) & 0x1F), RST);
+							break;
+						case 7: printf("LINEAR_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							break;
+						case 8: printf("LINEAR_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							break;
+						case 9: printf("LINEAR_X: %s%u%s, LINEAR_Y: %s%u%s",
+								BLUE, ((unsigned)(ib >> 0) & 0x3FFF), RST,
+								BLUE, ((unsigned)(ib >> 16) & 0x3FFF), RST);
+							break;
+						case 10: printf("LINEAR_Z: %s%u%s, LINEAR_PITCH: %s%u%s",
+								BLUE, ((unsigned)(ib >> 0) & 0x7FF), RST,
+								BLUE, ((unsigned)(ib >> 16) & 0x3FFF), RST);
+							break;
+						case 11: printf("LINEAR_SLICE_PITCH: %s%u%s", BLUE, ib & 0xFFFFFFF, RST);
+							break;
+						case 12: printf("RECT_X: %s%u%s, RECT_Y: %s%u%s",
+								BLUE, ((unsigned)(ib >> 0) & 0x3FFF), RST,
+								BLUE, ((unsigned)(ib >> 16) & 0x3FFF), RST);
+							break;
+						case 13: printf("RECT_Z: %s%u%s, LINEAR_SW: %s%u%s, TILE_SW: %s%u%s",
+								BLUE, ((unsigned)(ib >> 0) & 0x7FF), RST,
+								BLUE, ((unsigned)(ib >> 16) & 0x3), RST,
+								BLUE, ((unsigned)(ib >> 24) & 0x3), RST);
+							break;
+					}
+					break;
+				case 6: // T2T_SUB_WINDOW
+					switch (decoder->sdma.cur_word) {
+						case 1: printf("SRC_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							break;
+						case 2: printf("SRC_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							break;
+						case 3: printf("SRC_X: %s%u%s, SRC_Y: %s%u%s",
+								BLUE, ((unsigned)(ib >> 0) & 0x3FFF), RST,
+								BLUE, ((unsigned)(ib >> 16) & 0x3FFF), RST);
+							break;
+						case 4: printf("SRC_Z: %s%u%s, SRC_PITCH: %s%u%s",
+								BLUE, ((unsigned)(ib >> 0) & 0x7FF), RST,
+								BLUE, ((unsigned)(ib >> 16) & 0x3FFF), RST);
+							break;
+						case 5: printf("SRC_SLICE_PITCH: %s%u%s", BLUE, ib & 0xFFFFFFF, RST);
+							break;
+						case 6: printf("SRC_ELEMENT_SIZE: %s%u%s, SRC_ARRAY_MODE: %s%u%s, SRC_MIT_MODE: %s%u%s, SRC_TILESPLIT_SIZE: %s%u%s, SRC_BANK_W: %s%u%s, SRC_BANK_H: %s%u%s, NUM_BANKS: %s%u%s, MAT_ASPT: %s%u%s, PIPE_CONFIG: %s%u%s",
+								BLUE, ((unsigned)(ib >> 0) & 0x7), RST,
+								BLUE, ((unsigned)(ib >> 3) & 0xF), RST,
+								BLUE, ((unsigned)(ib >> 8) & 0x7), RST,
+								BLUE, ((unsigned)(ib >> 11) & 0x7), RST,
+								BLUE, ((unsigned)(ib >> 15) & 0x3), RST,
+								BLUE, ((unsigned)(ib >> 18) & 0x3), RST,
+								BLUE, ((unsigned)(ib >> 21) & 0x3), RST,
+								BLUE, ((unsigned)(ib >> 24) & 0x3), RST,
+								BLUE, ((unsigned)(ib >> 26) & 0x1F), RST);
+							break;
+						case 7: printf("DST_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							break;
+						case 8: printf("DST_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							break;
+						case 9: printf("DW9: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+							break;
+						case 10: printf("DST_Z: %s%u%s, DST_PITCH: %s%u%s",
+								BLUE, ((unsigned)(ib >> 0) & 0x7FF), RST,
+								BLUE, ((unsigned)(ib >> 16) & 0x3FFF), RST);
+							break;
+						case 11: printf("DST_SLICE_PITCH: %s%u%s", BLUE, ib & 0xFFFFFFF, RST);
+							break;
+						case 12: printf("ARRAY_MODE: %s%u%s, MIT_MODE: %s%u%s, TILESPLIT_SIZE: %s%u%s, BANK_W: %s%u%s, BANK_H: %s%u%s, NUM_BANK: %s%u%s, MAT_ASPT: %s%u%s, PIPE_CONFIG: %s%u%s",
+								BLUE, ((unsigned)(ib >> 3) & 0xF), RST,
+								BLUE, ((unsigned)(ib >> 8) & 0x7), RST,
+								BLUE, ((unsigned)(ib >> 11) & 0x7), RST,
+								BLUE, ((unsigned)(ib >> 15) & 0x3), RST,
+								BLUE, ((unsigned)(ib >> 18) & 0x3), RST,
+								BLUE, ((unsigned)(ib >> 21) & 0x3), RST,
+								BLUE, ((unsigned)(ib >> 24) & 0x3), RST,
+								BLUE, ((unsigned)(ib >> 26) & 0x1F), RST);
+							break;
+						case 13: printf("RECT_X: %s%u%s, RECT_Y: %s%u%s",
+								BLUE, ((unsigned)(ib >> 0) & 0x3FFF), RST,
+								BLUE, ((unsigned)(ib >> 16) & 0x3FFF), RST);
+							break;
+						case 14: printf("RECT_Z: %s%u%s, DST_SW: %s%u%s, SRC_SW: %s%u%s",
+								BLUE, ((unsigned)(ib >> 0) & 0x7FF), RST,
+								BLUE, ((unsigned)(ib >> 16) & 0x3), RST,
+								BLUE, ((unsigned)(ib >> 24) & 0x3), RST);
+							break;
+					}
+					break;
+			}
+			break;
+		case 2: // WRITE
+			switch (decoder->sdma.cur_sub_opcode) {
+				case 0: // LINEAR
+					switch (decoder->sdma.cur_word) {
+						case 1: printf("DST_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							break;
+						case 2: printf("DST_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							break;
+						case 3: printf("COUNT: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+							decoder->sdma.n_words += ib - 1;
+							break;
+						default: printf("DATA: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+							break;
+					}
+					break;
+
+				case 1: // TILED (TODO bit decodings...)
+					switch (decoder->sdma.cur_word) {
+						case 1: printf("DST_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							break;
+						case 2: printf("DST_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							break;
+						case 3: printf("DW3: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+							break;
+						case 4: printf("DW4: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+							break;
+						case 5: printf("DW5: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+							break;
+						case 6: printf("DW6: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+							break;
+						case 7: printf("DW7: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+							break;
+					}
+					break;
+			}
+			break;
+		case 4: // INDIRECT
+			switch (decoder->sdma.cur_word) {
+				case 1: printf("IB_BASE_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					decoder->sdma.next_ib_state.ib_addr_lo = ib;
+					break;
+				case 2: printf("IB_BASE_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					decoder->sdma.next_ib_state.ib_addr_hi = ib;
+					break;
+				case 3: printf("IB_BASE_SIZE: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					decoder->sdma.next_ib_state.ib_size = ib * 4; // number of bytesq
+					break;
+				case 4: printf("IB_CSA_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					decoder->sdma.next_ib_state.csa_addr_lo = ib;
+					break;
+				case 5: printf("IB_CSA_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					decoder->sdma.next_ib_state.csa_addr_hi = ib;
+					add_ib_pm3(decoder);
+					break;
+			}
+			break;
+		case 5: // FENCE
+			switch (decoder->sdma.cur_word) {
+				case 1: printf("FENCE_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					break;
+				case 2: printf("FENCE_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					break;
+				case 3: printf("FENCE_DATA: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+			}
+			break;
+		case 6: // TRAP
+			switch (decoder->sdma.cur_word) {
+				case 1: printf("TRAP_INT_CONTEXT: %s0x%08lx%s", YELLOW, (unsigned long)ib & 0xFFFFFFF, RST);
+					break;
+			}
+			break;
+		case 8: // POLL_REGMEM
+			switch (decoder->sdma.cur_word) {
+				case 1: printf("POLL_REGMEM_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					if (!(decoder->sdma.header_dw & (1UL << 31))) printf("(%s)", umr_reg_name(asic, ib));
+					break;
+				case 2: printf("POLL_REGMEM_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					if (!(decoder->sdma.header_dw & (1UL << 31))) printf("(%s)", umr_reg_name(asic, ib));
+					break;
+				case 3: printf("POLL_REGMEM_ADDR_VALUE: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+				case 4: printf("POLL_REGMEM_ADDR_MASK: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+				case 5: printf("POLL_REGMEM_ADDR_DW5: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+			}
+			break;
+		case 11: // CONST_FILL
+			switch (decoder->sdma.cur_word) {
+				case 1: printf("CONST_FILL_DST_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					break;
+				case 2: printf("CONST_FILL_DST_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					break;
+				case 3: printf("CONST_FILL_DATA: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+				case 4: printf("CONST_FILL_BYTE_COUNT: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+			}
+			break;
+		case 12: // GEN_PTEPDE
+			switch (decoder->sdma.cur_word) {
+				case 1: printf("GEN_PTEPDE_PE_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					break;
+				case 2: printf("GEN_PTEPDE_PE_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					break;
+				case 3: printf("GEN_PTEPDE_FLAGS_LO: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+				case 4: printf("GEN_PTEPDE_FLAGS_HI: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+				case 5: printf("GEN_PTEPDE_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					break;
+				case 6: printf("GEN_PTEPDE_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					break;
+				case 7: printf("GEN_PTEPDE_INC_SIZE: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+				case 8: printf("GEN_PTEPDE_DW8: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+				case 9: printf("GEN_PTEPDE_COUNT: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+			}
+			break;
+		case 14: // SRBM_WRITE
+			switch (decoder->sdma.cur_word) {
+				case 1: printf("SRBM_WRITE_ADDR: %s0x%08lx%s(%s)",
+						YELLOW, (unsigned long)ib & 0xFFFF, RST, umr_reg_name(asic, ib & 0xFFFF));
+					decoder->sdma.next_write_mem = ib;
+					break;
+				case 2: printf("SRBM_WRITE_DATA: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					print_bits(asic, decoder->sdma.next_write_mem, ib, 1);
+					break;
+			}
+			break;
+	}
+
+	decoder->sdma.cur_word++;
+}
+
+static void print_decode_sdma(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib)
+{
+	static const char *poll_regmem_funcs[] = { "always", "<", "<=", "==", "!=", ">=", ">", "N/A" };
+	switch (decoder->sdma.cur_opcode) {
+		case 0xFFFFFFFF: // initial decode
+			decoder->sdma.cur_opcode = ib & 0xFF;
+			decoder->sdma.cur_sub_opcode = (ib >> 8) & 0xFF;
+			decoder->sdma.cur_word = 1;
+			decoder->sdma.header_dw = ib;
+
+			// sanity check
+			if (decoder->sdma.cur_opcode > 15) {
+				// invalid
+				decoder->sdma.cur_opcode = 0xFFFFFFFF;
+				break;
+			}
+
+			printf("OPCODE: [%s%s%s], SUB-OPCODE: [%s%u%s]",
+				CYAN, sdma_opcodes[decoder->sdma.cur_opcode], RST,
+				BLUE, (unsigned)decoder->sdma.cur_sub_opcode, RST);
+
+			// handle decoding "extra information" from header word
+			switch (decoder->sdma.cur_opcode) {
+				case 0: // NOP
+					decoder->sdma.n_words = 1;
+					break;
+				case 1:  // COPY
+					switch (decoder->sdma.cur_sub_opcode) {
+						case 0: // LINEAR
+							printf(", %sLINEAR", CYAN);
+							decoder->sdma.n_words = 7;
+
+							// BROADCAST
+							if (ib & (1UL << 27)) {
+								decoder->sdma.n_words += 2;
+								printf("_BROADCAST");
+							}
+							printf("_COPY%s", RST);
+							break;
+						case 1: // TILED
+							printf(", %sTILED_COPY%s", CYAN, RST);
+							decoder->sdma.n_words = 12;
+							break;
+						case 3: // STRUCTURE/SOA
+							printf(", %sSTRUCTURE_COPY%s", CYAN, RST);
+							decoder->sdma.n_words = 8;
+							break;
+						case 4: // LINEAR_SUB_WINDOW
+							printf(", %sLINEAR_SUB_WINDOW_COPY%s", CYAN, RST);
+							decoder->sdma.n_words = 13;
+							break;
+						case 5: // TILED_SUB_WINDOW
+							printf(", %sTILED_SUB_WINDOW_COPY%s, DETILE: %s%u%s", CYAN, RST, BLUE, (unsigned)(ib >> 31), RST);
+							decoder->sdma.n_words = 14;
+							break;
+						case 6: // T2T_SUB_WIND
+							printf(", %sT2T_SUB_WINDOW_COPY%s", CYAN, RST);
+							decoder->sdma.n_words = 15;
+							break;
+					}
+					break;
+				case 2:  // WRITE
+					switch (decoder->sdma.cur_sub_opcode) {
+						case 0: // LINEAR
+							printf(", %sLINEAR_WRITE%s", CYAN, RST);
+							decoder->sdma.n_words = 5;
+							break;
+						case 1: // TILED
+							printf(", %sTILED_WRITE%s", CYAN, RST);
+							decoder->sdma.n_words = 10;
+							break;
+					}
+					break;
+				case 4: // INDIRECT
+					decoder->sdma.next_ib_state.ib_vmid = (ib >> 16) & 0xF;
+					printf(", VMID: %s%u%s", BLUE, decoder->sdma.next_ib_state.ib_vmid, RST);
+					decoder->sdma.n_words = 6;
+					break;
+				case 5: // FENCE
+					decoder->sdma.n_words = 4;
+					break;
+				case 6: // TRAP
+					decoder->sdma.n_words = 2;
+					break;
+					break;
+				case 7: // SEM
+					printf(", WRITE_ONE: %s%u%s, SIGNAL: %s%u%s, MAILBOX: %s%u%s",
+						BLUE, (unsigned)((ib >> 29) & 1), RST,
+						BLUE, (unsigned)((ib >> 30) & 1), RST,
+						BLUE, (unsigned)((ib >> 31) & 1), RST);
+					decoder->sdma.n_words = 3;
+					break;
+				case 8: // POLL_REGMEM
+					printf(", HDP_FLUSH: %s%u%s, FUNCTION: %s%u%s (%s%s%s), MEM_POLL: %s%u%s",
+						BLUE, (unsigned)((ib >> 26) & 1), RST,
+						BLUE, (unsigned)((ib >> 28) & 7), RST,
+						CYAN, poll_regmem_funcs[((ib >> 28) & 7)], RST,
+						BLUE, (unsigned)((ib >> 31) & 1), RST);
+					decoder->sdma.n_words = 6;
+					break;
+				case 9: // COND_EXE
+					decoder->sdma.n_words = 5;
+					break;
+				case 10: // ATOMIC
+					printf(", LOOP: %s%u%s, OP: %s%u%s",
+						BLUE, (unsigned)((ib >> 16) & 1), RST,
+						BLUE, (unsigned)((ib >> 25) & 0x7F), RST);
+					decoder->sdma.n_words = 8;
+					break;
+				case 11: // CONST_FILL
+					printf(", FILL_SIZE: %s%u%s", BLUE, (unsigned)(ib >> 30), RST);
+					decoder->sdma.n_words = 5;
+					break;
+				case 12: // GEN_PTEPDE
+					decoder->sdma.n_words = 10;
+					break;
+				case 13: // TIMESTAMP
+					switch (decoder->sdma.cur_sub_opcode) {
+						case 0:
+							printf(", %sTIMESTAMP_SET%s", CYAN, RST);
+							decoder->sdma.n_words = 3;
+							break;
+						case 1:
+							printf(", %sTIMESTAMP_GET%s", CYAN, RST);
+							decoder->sdma.n_words = 3;
+							break;
+						case 2:
+							printf(", %sTIMESTAMP_GET_GLOBAL%s", CYAN, RST);
+							decoder->sdma.n_words = 3;
+							break;
+					}
+					break;
+				case 14: // SRBM_WRITE
+					printf(", BYTE ENABLE: %s0x%x%s", BLUE, (unsigned)(ib >> 28), RST);
+					decoder->sdma.n_words = 3;
+					break;
+				case 15: // PRE_EXE
+					printf(", DEV_SEL: %s%u%s",
+						BLUE, (unsigned)((ib >> 16) & 0xFF), RST);
+					decoder->sdma.n_words = 2;
+					break;
+				default:
+					break; // nothing to print
+			}
+			break;
+		default:
+			parse_next_sdma_pkt(asic, decoder, ib);
+			break;
+	}
+	if (!--(decoder->sdma.n_words) ) {
+		decoder->sdma.cur_opcode = 0xFFFFFFFF;
+	}
+}
+
 void umr_print_decode(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib)
 {
 	switch (decoder->pm) {
 		case 4:
 			print_decode_pm4(asic, decoder, ib);
+			break;
+		case 3:
+			print_decode_sdma(asic, decoder, ib);
 			break;
 	}
 }

@@ -382,6 +382,26 @@ struct umr_ring_decoder {
 		} next_write_mem;
 	} pm4;
 
+	struct {
+		uint32_t
+			cur_opcode,
+			cur_sub_opcode,
+			n_words,
+			cur_word,
+			header_dw,
+			next_write_mem;
+
+		struct {
+			uint32_t
+				ib_addr_lo,
+				ib_addr_hi,
+				csa_addr_lo,
+				csa_addr_hi,
+				ib_size,
+				ib_vmid;
+		} next_ib_state;
+	} sdma;
+
 	struct umr_ring_decoder *next_ib;
 
 	// only used by tail end of ring_read ...

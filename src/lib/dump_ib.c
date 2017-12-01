@@ -51,6 +51,7 @@ void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder)
 	if (data && !umr_read_vram(asic, decoder->next_ib_info.vmid, decoder->next_ib_info.ib_addr, decoder->next_ib_info.size, data)) {
 	// dump IB
 		decoder->pm4.cur_opcode = 0xFFFFFFFF;
+		decoder->sdma.cur_opcode = 0xFFFFFFFF;
 		for (x = 0; x < decoder->next_ib_info.size/4; x++) {
 			decoder->next_ib_info.addr = x;
 			printf("IB[%s%5u%s] = %s0x%08lx%s ... ",

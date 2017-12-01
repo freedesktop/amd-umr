@@ -57,6 +57,9 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 	    !memcmp(ringname, "comp", 4)) {
 		enable_decoder = 1;
 		decoder.pm = 4;
+	} else if (!memcmp(ringname, "sdma", 4)) {
+		enable_decoder = 1;
+		decoder.pm = 3;
 	} else {
 		enable_decoder = 0;
 	}
@@ -105,6 +108,7 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 			end *= 4;
 			use_decoder = 1;
 			decoder.pm4.cur_opcode = 0xFFFFFFFF;
+			decoder.sdma.cur_opcode = 0xFFFFFFFF;
 		}
 	}
 	end %= ringsize;
@@ -125,6 +129,7 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 		if (enable_decoder && start == rptr && start != wptr) {
 			use_decoder = 1;
 			decoder.pm4.cur_opcode = 0xFFFFFFFF;
+			decoder.sdma.cur_opcode = 0xFFFFFFFF;
 		}
 		printf(" %c%c%c ",
 			(start == rptr) ? 'r' : '.',
