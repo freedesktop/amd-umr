@@ -339,7 +339,8 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 			fragment,
 			system,
 			valid,
-			prt;
+			prt,
+			further;
 	} pte_fields;
 	char buf[64];
 	unsigned char *pdst = dst;
@@ -462,9 +463,6 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 			pde_fields.cache         = (pde_entry >> 2) & 1;
 			pde_fields.pte           = (pde_entry >> 54) & 1;
 
-			// read PTE selector
-			pte_idx = (address >> 12) & ((1ULL << (9 + page_table_size)) - 1);
-
 			// AI+ supports more than 1 level of PDEs so we iterate for all of the depths
 			pde_address = page_table_base_addr & ~1ULL;
 			pde_fields.system = 0;
@@ -539,6 +537,9 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 				DEBUG("...done\n\n");
 			}
 
+			// read PTE selector
+			pte_idx = (address >> (12 + pde_fields.frag_size + page_table_size)) & ((1ULL << (9 + page_table_size - pde_fields.frag_size)) - 1);
+pte_further:
 			// now read PTE entry for this page
 			if (umr_read_vram(asic, UMR_LINEAR_HUB, pde_fields.pte_base_addr + pte_idx*8, 8, &pte_entry) < 0)
 				return -1;
@@ -550,15 +551,26 @@ pde_is_pte:
 			pte_fields.system         = (pte_entry >> 1) & 1;
 			pte_fields.valid          = pte_entry & 1;
 			pte_fields.prt            = (pte_entry >> 61) & 1;
+			pte_fields.further        = (pte_entry >> 56) & 1;
 			if (asic->options.verbose)
-				fprintf(stderr, "[VERBOSE]: %s PTE==0x%016llx, VA=0x%012llx, PBA==0x%012llx, V=%d, S=%d, P=%d\n",
+				fprintf(stderr, "[VERBOSE]: %s %s==0x%016llx, VA=0x%012llx, PBA==0x%012llx, V=%d, S=%d, P=%d\n",
 					&indentation[12-pde_cnt*3],
+					(pte_fields.further) ? "PTE-FURTHER" : "PTE",
 					(unsigned long long)pte_entry,
 					(unsigned long long)address & (((1ULL << (9 + page_table_size)) - 1) << 12),
 					(unsigned long long)pte_fields.page_base_addr,
 					(int)pte_fields.valid,
 					(int)pte_fields.system,
 					(int)pte_fields.prt);
+
+			if (pte_fields.further) {
+				// what goes into pte_idx at this point?
+				pte_idx = (address >> 12) & ((1ULL << pde_fields.frag_size) - 1);
+
+				// grab PTE base address from the PTE that has the F bit set.
+				pde_fields.pte_base_addr = pte_fields.page_base_addr;
+				goto pte_further;
+			}
 
 			if (!pte_fields.system)
 				pte_fields.page_base_addr -= vm_fb_offset;
