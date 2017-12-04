@@ -103,6 +103,14 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 	long trydid = options->forcedid;
 	int busmatch = 0, parsed_did, need_config_scan = 0;
 
+	// virtual device
+	if (options->dev_name[0] == '.') {
+		asic = umr_discover_asic_by_name(options, options->dev_name + 1);
+		if (asic)
+			asic->options = *options;
+		return asic;
+	}
+
 	// Try to map to instance if we have a specific pci device
 	if (options->pci.domain || options->pci.bus ||
 	    options->pci.slot || options->pci.func) {

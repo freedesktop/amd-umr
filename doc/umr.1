@@ -16,7 +16,10 @@ where 0 is the first card probed.
 Select a GFX INSTANCE/SH/SE bank in decimal.  Can use 'x' to denote a broadcast selection.
 .IP "--force -f <number>"
 Force a PCIE Device ID in hex or by asic name.  This is used in case the amdgpu driver
-is not yet loaded or a display is not yet attached.
+is not yet loaded or a display is not yet attached.  A '@' prefix will specify a path to
+ an NPI script, for instance, '@/home/user/device.npi'.  A '.' prefix will specify a virtual
+device which is handy for looking up register decodings for a device not present in the system,
+for instance, '.vega10'.
 .IP "--pci <device>"
 Force a specific PCI device using the domain:bus:slot.function format in hex.
 This is useful when more than one GPU is available. If the amdgpu driver is
