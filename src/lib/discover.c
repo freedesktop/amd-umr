@@ -152,7 +152,7 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 
 	snprintf(name, sizeof(name)-1, "/sys/kernel/debug/dri/%d/name", options->instance);
 	f = fopen(name, "r");
-	if (!f && !options->no_kernel && !options->use_pci) {
+	if (!f && options->instance >= 0 && !options->no_kernel && !options->use_pci) {
 		int found = 0;
 		if (!options->quiet) {
 			f = popen("lsmod | grep ^amdgpu", "r");
