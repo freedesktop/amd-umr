@@ -472,8 +472,7 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 			pde_cnt = 0;
 
 			if (memcmp(&pde_fields, &pde_array[pde_cnt], sizeof pde_fields) && asic->options.verbose)
-				fprintf(stderr, "[VERBOSE]: PDE%d=0x%016llx, VA=0x%012llx, PBA==0x%012llx, V=%d, S=%d, C=%d, P=%d\n",
-						pde_cnt,
+				fprintf(stderr, "[VERBOSE]: BASE=0x%016llx, VA=0x%012llx, PBA==0x%012llx, V=%d, S=%d, C=%d, P=%d\n",
 						(unsigned long long)pde_entry,
 						(unsigned long long)address & va_mask,
 						(unsigned long long)pde_fields.pte_base_addr,
@@ -514,7 +513,7 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 					if (memcmp(&pde_fields, &pde_array[pde_cnt], sizeof pde_fields) && asic->options.verbose)
 						fprintf(stderr, "[VERBOSE]: %s PDE%d=0x%016llx, VA=0x%012llx, PBA==0x%012llx, V=%d, S=%d, C=%d, P=%d\n",
 								&indentation[12-pde_cnt*3],
-								pde_cnt,
+								page_table_depth - pde_cnt,
 								(unsigned long long)pde_entry,
 								(unsigned long long)address & va_mask,
 								(unsigned long long)pde_fields.pte_base_addr,
