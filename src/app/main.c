@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Advanced Micro Devices, Inc.
+ * Copyright 2018 Advanced Micro Devices, Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -469,7 +469,7 @@ int main(int argc, char **argv)
 				return EXIT_FAILURE;
 			}
 		} else if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) {
-			printf("User Mode Register debugger v%s for AMDGPU devices (build: %s), Copyright (c) 2017, AMD Inc.\n"
+			printf("User Mode Register debugger v%s for AMDGPU devices (build: %s), Copyright (c) 2018, AMD Inc.\n"
 "\n\t--instance, -i <number>\n\t\tSelect a device instance to investigate. (default: 0)"
 	"\n\t\tThe instance is the directory name under /sys/kernel/debug/dri/"
 	"\n\t\tof the card you want to work with.\n"
