@@ -68,10 +68,10 @@ struct umr_asic *umr_discover_asic_by_name(struct umr_options *options, char *na
 		if (options->instance == -1) {
 			// try and discover an instance that works
 			struct umr_options tmp_opt;
-			memset(&tmp_opt, 0, sizeof(tmp_opt));
-			tmp_opt.forcedid = -1;
-			tmp_opt.quiet = 1;
-			for (x = 0; x < 10; x++) {
+			for (x = 0; x < 16; x++) {
+				memset(&tmp_opt, 0, sizeof(tmp_opt));
+				tmp_opt.quiet = 1;
+				tmp_opt.forcedid = -1;
 				tmp_opt.instance = x;
 				tmp = umr_discover_asic(&tmp_opt);
 				if (tmp) {

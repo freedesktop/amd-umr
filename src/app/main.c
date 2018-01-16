@@ -169,8 +169,8 @@ int main(int argc, char **argv)
 				if (sscanf(argv[i+1], "0x%lx", &options.forcedid) == 0) {
 					strncpy(options.dev_name, argv[i+1], sizeof(options.dev_name) - 1);
 					options.forcedid = 0;
-					options.instance = -1;
 				}
+				options.instance = -1;
 				++i;
 			} else {
 				printf("--force requires a number/name\n");

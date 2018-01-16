@@ -138,7 +138,7 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 	}
 
 	// try to scan via debugfs
-	if (!options->no_kernel) {
+	if (options->instance >= 0 && !options->no_kernel) {
 		asic = calloc(1, sizeof *asic);
 		if (asic) {
 			asic->instance = options->instance;

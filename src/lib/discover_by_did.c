@@ -230,6 +230,41 @@ static const struct {
 	{ 0x687f, &umr_create_vega10 },
 };
 
+static int find_first_did(long did)
+{
+	char name[128], device[128];
+	FILE *f, *f2;
+
+	int x;
+
+	for (x = 0; x < 16; x++) {
+		snprintf(name, sizeof(name)-1, "/sys/kernel/debug/dri/%d/name", x);
+		f = fopen(name, "r");
+		if (f) {
+			unsigned tmp_did;
+			fscanf(f, "%*s %s", name);
+			fclose(f);
+
+			// strip off dev= for kernels > 4.7
+			if (strstr(name, "dev="))
+				memmove(name, name+4, strlen(name)-3);
+
+			snprintf(device, sizeof(device)-1, "/sys/bus/pci/devices/%s/device", name);
+			f2 = fopen(device, "r");
+			if (f2) {
+				fscanf(f, "0x%04x", &tmp_did);
+				if (tmp_did == did) {
+					fclose(f2);
+					return x;
+				}
+			}
+			fclose(f2);
+		}
+	}
+	return -1;
+}
+
+
 struct umr_asic *umr_discover_asic_by_did(struct umr_options *options, long did)
 {
 	unsigned x;
@@ -242,7 +277,7 @@ struct umr_asic *umr_discover_asic_by_did(struct umr_options *options, long did)
 
 	if (asic) {
 		asic->did = did;
-		asic->instance = options->instance;
+		asic->instance = find_first_did(did);
 		umr_scan_config(asic);
 
 		// set all file handles to -1 (so a call to close_asic won't close handle 0)
