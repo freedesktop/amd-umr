@@ -56,7 +56,7 @@ The wave status command supports an alternative output format with the
 
 	umr -O bits --waves
 
-Which is output that resembles:
+Which produces output that resembles:
 
 ::
 
@@ -105,6 +105,6 @@ Which is output that resembles:
 
 This format of output is a lot more verbose but includes human readable
 bitfield decodings which may aid in debugging purposes.  Where
-possible it will also print out SGPRs and on newer plaforms (gfx9+)
+possible it will also print out SGPRs and on newer platforms (gfx9+)
 it may also include VGPRs.
 

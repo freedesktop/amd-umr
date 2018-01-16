@@ -34,7 +34,7 @@ enable the decoder between those ranges.  For instance,
 
 	umr --ring gfx[.]
 
-Might produce output similiar to:
+Might produce output similar to:
 
 ::
 
@@ -86,7 +86,7 @@ Might produce output similiar to:
 	polaris11.gfx.ring[ 523] == 0x00000020    ... \---+ PKT3 OPCODE 0x3c, word 5: POLL INTERVAL: 0x00000020
 	...<snip>...
 
-This mode useful for examing live traffic or traffic that has resulted
+This mode useful for examining live traffic or traffic that has resulted
 in a GPU hang and has yet to be fully read by the packet processor.
 
 In this output the first 32 lines only contain the ring address

@@ -30,7 +30,7 @@ The umr build depends on the following additional libraries:
     • pciaccess
     • libdrm
 
-These can both be found in Fedora and Ubuntu (as well as other linux distributions).
+These can both be found in Fedora and Ubuntu (as well as other Linux distributions).
 
 In **Fedora** they are called:
     • (pthreads is typically included with glibc)
@@ -48,7 +48,7 @@ As well as requires the following tools:
     • cmake (v3.0.1 or higher)
     • gcc
 
-Finally, umr requires typically a new linux kernel as of this writing 4.14 or higher will work.  This is because umr
+Finally, umr requires typically a new Linux kernel as of this writing 4.14 or higher will work.  This is because umr
 relies on debugfs entries that newer kernels provide.  Very limited functionality may be possible with older kernels
 but is not supported by the development team.
 
@@ -63,7 +63,7 @@ With umr cloned and the libraries installed you can build the tool with the foll
 	$ cmake .
 	$ make -j install
 
-After which you can also make umr runnable as a normal user with
+After which you can also make umr executable as a normal user with
 
 ::
 

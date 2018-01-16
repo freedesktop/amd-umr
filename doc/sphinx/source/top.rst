@@ -1,8 +1,8 @@
 ===================
-Realtime GPU Status
+Real-time GPU Status
 ===================
 
-Realtime status of various IP blocks can be read with the
+Real-time status of various IP blocks can be read with the
 '--top' command.  Which also supports the 'use_colour' option which
 is highly recommended.
 

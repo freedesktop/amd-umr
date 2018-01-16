@@ -41,12 +41,12 @@ Will decode address and present a decoding that resembles:
 for SI..VI platforms.  On AI+ platforms it will decode multiple levels
 of page tables.
 
-Based on the archictecture various VM related registers will be
+Based on the architecture various VM related registers will be
 printed out which instruct the user how the GPU has been programmed.
 
 The VA field indicates the portion of the address that is involved at
 that level of the decoding.  The PBA field indicates the 'page base
-addresss' which may point to a PDB, PTB, or page of memory.
+address' which may point to a PDB, PTB, or page of memory.
 
 The PDE entries have multiple bits that are decoded as follow:
 
@@ -128,10 +128,10 @@ alternative is a third party device such as /dev/fmem found at:
 
 	* https://github.com/NateBrune/fmem
 
-The repo is a bit out of date but is fairly trivial to fix up for
+The repository is a bit out of date but is fairly trivial to fix up for
 modern kernels.
 
-UMR will try first for /dev/fmem if availabile and then fall back to
+UMR will try first for /dev/fmem if available and then fall back to
 /dev/mem.
 
 

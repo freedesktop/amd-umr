@@ -60,7 +60,7 @@ example:
 
 	umr -O many --read *.uvd6.GATE
 
-Will read and print out any regsiter with the word 'GATE' contained
+Will read and print out any register with the word 'GATE' contained
 in the register name in the uvd6 IP block.
 
 --------------------------
@@ -68,7 +68,7 @@ Reading an entire IP block
 --------------------------
 
 At times having a snapshot of an entire IP block may be handy.  This
-is accomplihshed with the --scan command.  Some IP blocks do not
+is accomplished with the --scan command.  Some IP blocks do not
 respond well to being scanned (gfx blocks for instance) while others
 are indifferent to the behaviour.
 
@@ -90,14 +90,14 @@ banks can be selected with the --bank command:
 	umr --bank <se_bank> <sh_bank> <instance>
 
 Which mirrors the kernel\'s **amdgpu_gfx_select_se_sh()** function.
-The value of 'x' can be passed to indicate a broadcast value.
+The value 'x' can be passed to indicate a broadcast value.
 
 -------------
 Direct Access
 -------------
 
 By default, access to registers is performed via the debugfs entries
-which is ideal since certain registers require semaphore protection.
+which is ideal since certain registers require semaphore or mutex protection.
 However, at times it is ideal to access registers directly.  This
 is accomplished with the *use_pci* option.  For instance,
 

@@ -84,7 +84,7 @@ Selecting a virtual device
 There are times where you want to issue a command as if you had
 a device in your system (for instance --lookup to decode a register
 on a specific device).  This can be accomplished with the virtual
-device name specifer:
+device name specifier:
 
 ::
 
@@ -111,7 +111,7 @@ The options available are:
 +-------------+------------------------------------------------------------------------------+
 | read_smc    | Enable scanning of SMC registers when issuing a --scan command               |
 +-------------+------------------------------------------------------------------------------+
-| bits        | Enables the display of bitfields when regsiters are presented                |
+| bits        | Enables the display of bitfields when registers are presented                |
 +-------------+------------------------------------------------------------------------------+
 | bitsfull    | When printing bits use the full path to the bitfield                         |
 +-------------+------------------------------------------------------------------------------+
