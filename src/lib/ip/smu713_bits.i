@@ -3874,6 +3874,10 @@ static struct umr_bitfield ixCG_FREQ_TRAN_VOTING_7[] = {
 static struct umr_bitfield ixCG_DISPLAY_GAP_CNTL2[] = {
 	 { "VBI_PREDICTION", 0, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixPWR_SVI2_STATUS[] = {
+	 { "PLANE1_VID", 0, 7, &umr_bitfield_default },
+	 { "PLANE2_VID", 8, 15, &umr_bitfield_default },
+};
 static struct umr_bitfield ixCURRENT_PG_STATUS[] = {
 	 { "VCE_PG_STATUS", 1, 1, &umr_bitfield_default },
 	 { "UVD_PG_STATUS", 2, 2, &umr_bitfield_default },

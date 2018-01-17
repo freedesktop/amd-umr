@@ -5901,6 +5901,13 @@ static struct umr_bitfield mmDCIO_WRCMD_DELAY[] = {
 	 { "DCRXPHY_DELAY", 12, 15, &umr_bitfield_default },
 	 { "ZCAL_DELAY", 16, 19, &umr_bitfield_default },
 };
+static struct umr_bitfield mmDC_PINSTRAPS[] = {
+	 { "DC_PINSTRAPS_AUDIO", 14, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield mmCC_DC_MISC_STRAPS[] = {
+	 { "HDMI_DISABLE", 6, 6, &umr_bitfield_default },
+	 { "AUDIO_STREAM_NUMBER", 8, 10, &umr_bitfield_default },
+};
 static struct umr_bitfield mmDC_DVODATA_CONFIG[] = {
 	 { "VIP_MUX_EN", 19, 19, &umr_bitfield_default },
 	 { "VIP_ALTER_MAPPING_EN", 20, 20, &umr_bitfield_default },
