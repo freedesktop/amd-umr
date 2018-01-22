@@ -221,8 +221,15 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 						(int)pde_fields.valid);
 			memcpy(&pde_copy, &pde_fields, sizeof pde_fields);
 
-			if (!pde_fields.valid)
-				return -1;
+			if (!pde_fields.valid) {
+				if (pdst)
+					return -1;
+
+				// if we are vm-decode'ing just jump
+				// to the next page
+				start_addr = address & 0xFFF; // grab page offset so we can advance to next page
+				goto next_page;
+			}
 
 			// now read PTE entry for this page
 			if (umr_read_vram(asic, UMR_LINEAR_HUB, pde_fields.pte_base_addr + pte_idx*8 - vm_fb_base, 8, &pte_entry) < 0)
@@ -273,6 +280,7 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 			start_addr = dma_to_phys(asic, pte_fields.page_base_addr) + (address & 0xFFF);
 		}
 
+next_page:
 		// read upto 4K from it
 		if (((start_addr & 0xFFF) + size) & ~0xFFF) {
 			chunk_size = 0x1000 - (start_addr & 0xFFF);
@@ -528,8 +536,16 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 				if (!pde_fields.system)
 					pde_fields.pte_base_addr -= vm_fb_offset;
 
-				if (!pde_fields.valid)
-					return -1;
+				if (!pde_fields.valid) {
+					if (pdst)
+						return -1;
+					// jump to next page if in
+					// vm-decode mode
+					pte_fields.prt = 0;
+					pte_fields.valid = 0;
+					start_addr = address & 0xFFF; // grab page offset so we can advance to next page
+					goto next_page;
+				}
 
 				// for the next round the address we're decoding is the phys address in the currently decoded PDE
 				--current_depth;
@@ -632,6 +648,7 @@ pde_is_pte:
 			start_addr = dma_to_phys(asic, pte_fields.page_base_addr) + (address & 0xFFF);
 		}
 
+next_page:
 		// read upto 4K from it
 		// TODO: Support page sizes >4KB
 		if (((start_addr & 0xFFF) + size) & ~0xFFF) {
