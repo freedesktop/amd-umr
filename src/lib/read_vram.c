@@ -241,7 +241,7 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 					(int)pte_fields.valid,
 					(int)pte_fields.system);
 
-			if (!pte_fields.valid)
+			if (pdst && !pte_fields.valid)
 				return -1;
 
 			// compute starting address
@@ -266,7 +266,7 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 					(int)pte_fields.valid,
 					(int)pte_fields.system);
 
-			if (!pte_fields.valid)
+			if (pdst && !pte_fields.valid)
 				return -1;
 
 			// compute starting address
@@ -575,7 +575,7 @@ pde_is_pte:
 			if (!pte_fields.system)
 				pte_fields.page_base_addr -= vm_fb_offset;
 
-			if (!pte_fields.prt && !pte_fields.valid)
+			if (pdst && !pte_fields.prt && !pte_fields.valid)
 				return -1;
 
 			// compute starting address
@@ -625,7 +625,7 @@ pde_is_pte:
 					(int)pte_fields.valid,
 					(int)pte_fields.system);
 
-			if (!pte_fields.valid)
+			if (pdst && !pte_fields.valid)
 				return -1;
 
 			// compute starting address
