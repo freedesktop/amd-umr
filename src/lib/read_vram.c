@@ -136,7 +136,7 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 	unsigned char *pdst = dst;
 
 	memset(&registers, 0, sizeof registers);
-	memset(&pde_copy, 0, sizeof pde_copy);
+	memset(&pde_copy, 0xff, sizeof pde_copy);
 
 	/*
 	 * PTE format on VI:
@@ -357,7 +357,7 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 	static const char *indentation = "            \\->";
 
 	memset(&registers, 0, sizeof registers);
-	memset(&pde_array, 0, sizeof pde_array);
+	memset(&pde_array, 0xff, sizeof pde_array);
 
 	/*
 	 * PTE format on AI:
