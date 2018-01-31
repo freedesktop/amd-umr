@@ -1164,18 +1164,33 @@ static void parse_next_sdma_pkt(struct umr_asic *asic, struct umr_ring_decoder *
 			}
 			break;
 		case 8: // POLL_REGMEM
-			switch (decoder->sdma.cur_word) {
-				case 1: printf("POLL_REGMEM_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
-					if (!(decoder->sdma.header_dw & (1UL << 31))) printf("(%s)", umr_reg_name(asic, ib));
+			switch (decoder->sdma.cur_sub_opcode) {
+				case 0: // WAIT_REG_MEM
+					switch (decoder->sdma.cur_word) {
+						case 1: printf("SRC_ADDR: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							if (!(decoder->sdma.header_dw & (1UL << 31))) printf("(%s)", umr_reg_name(asic, ib));
+							break;
+						case 2: printf("DST_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							break;
+						case 3: printf("DST_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							break;
+					}
 					break;
-				case 2: printf("POLL_REGMEM_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
-					if (!(decoder->sdma.header_dw & (1UL << 31))) printf("(%s)", umr_reg_name(asic, ib));
-					break;
-				case 3: printf("POLL_REGMEM_ADDR_VALUE: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
-					break;
-				case 4: printf("POLL_REGMEM_ADDR_MASK: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
-					break;
-				case 5: printf("POLL_REGMEM_ADDR_DW5: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+				case 1: // WRITE WAIT_REG_MEM
+					switch (decoder->sdma.cur_word) {
+						case 1: printf("POLL_REGMEM_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							if (!(decoder->sdma.header_dw & (1UL << 31))) printf("(%s)", umr_reg_name(asic, ib));
+							break;
+						case 2: printf("POLL_REGMEM_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							if (!(decoder->sdma.header_dw & (1UL << 31))) printf("(%s)", umr_reg_name(asic, ib));
+							break;
+						case 3: printf("POLL_REGMEM_ADDR_VALUE: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+							break;
+						case 4: printf("POLL_REGMEM_ADDR_MASK: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+							break;
+						case 5: printf("POLL_REGMEM_ADDR_DW5: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+							break;
+					}
 					break;
 			}
 			break;
@@ -1327,7 +1342,7 @@ static void print_decode_sdma(struct umr_asic *asic, struct umr_ring_decoder *de
 						BLUE, (unsigned)((ib >> 28) & 7), RST,
 						CYAN, poll_regmem_funcs[((ib >> 28) & 7)], RST,
 						BLUE, (unsigned)((ib >> 31) & 1), RST);
-					decoder->sdma.n_words = 6;
+					decoder->sdma.n_words = decoder->sdma.cur_sub_opcode ? 4 : 6;
 					break;
 				case 9: // COND_EXE
 					decoder->sdma.n_words = 5;
