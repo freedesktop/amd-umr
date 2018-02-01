@@ -1167,17 +1167,6 @@ static void parse_next_sdma_pkt(struct umr_asic *asic, struct umr_ring_decoder *
 			switch (decoder->sdma.cur_sub_opcode) {
 				case 0: // WAIT_REG_MEM
 					switch (decoder->sdma.cur_word) {
-						case 1: printf("SRC_ADDR: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
-							if (!(decoder->sdma.header_dw & (1UL << 31))) printf("(%s)", umr_reg_name(asic, ib));
-							break;
-						case 2: printf("DST_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
-							break;
-						case 3: printf("DST_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
-							break;
-					}
-					break;
-				case 1: // WRITE WAIT_REG_MEM
-					switch (decoder->sdma.cur_word) {
 						case 1: printf("POLL_REGMEM_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 							if (!(decoder->sdma.header_dw & (1UL << 31))) printf("(%s)", umr_reg_name(asic, ib));
 							break;
@@ -1189,6 +1178,17 @@ static void parse_next_sdma_pkt(struct umr_asic *asic, struct umr_ring_decoder *
 						case 4: printf("POLL_REGMEM_ADDR_MASK: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
 							break;
 						case 5: printf("POLL_REGMEM_ADDR_DW5: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+							break;
+					}
+					break;
+				case 1: // WRITE WAIT_REG_MEM
+					switch (decoder->sdma.cur_word) {
+						case 1: printf("SRC_ADDR: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							if (!(decoder->sdma.header_dw & (1UL << 31))) printf("(%s)", umr_reg_name(asic, ib));
+							break;
+						case 2: printf("DST_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+							break;
+						case 3: printf("DST_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 							break;
 					}
 					break;
