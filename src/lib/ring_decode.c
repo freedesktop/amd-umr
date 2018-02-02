@@ -1194,6 +1194,18 @@ static void parse_next_sdma_pkt(struct umr_asic *asic, struct umr_ring_decoder *
 					break;
 			}
 			break;
+		case 9:  // COND_EXE
+			switch (decoder->sdma.cur_word) {
+				case 1: printf("ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					break;
+				case 2: printf("ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					break;
+				case 3: printf("REFERENCE: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+				case 4: printf("EXEC_COUNT: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+			}
+			break;
 		case 11: // CONST_FILL
 			switch (decoder->sdma.cur_word) {
 				case 1: printf("CONST_FILL_DST_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
