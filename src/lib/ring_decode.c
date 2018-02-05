@@ -1331,6 +1331,8 @@ static void print_decode_sdma(struct umr_asic *asic, struct umr_ring_decoder *de
 					break;
 				case 4: // INDIRECT
 					decoder->sdma.next_ib_state.ib_vmid = (ib >> 16) & 0xF;
+					if (asic->family >= FAMILY_AI)
+						decoder->sdma.next_ib_state.ib_vmid |= UMR_MM_HUB;
 					printf(", VMID: %s%u%s", BLUE, decoder->sdma.next_ib_state.ib_vmid, RST);
 					decoder->sdma.n_words = 6;
 					break;
