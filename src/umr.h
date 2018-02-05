@@ -233,7 +233,8 @@ struct umr_asic {
 		    wave,
 		    vram,
 		    gpr,
-		    iova;
+		    iova,
+		    iomem;
 	} fd;
 	struct {
 		struct pci_device *pdevice;

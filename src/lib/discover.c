@@ -232,6 +232,8 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 			asic->fd.gpr = open(fname, O_RDWR);
 			snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_iova", asic->instance);
 			asic->fd.iova = open(fname, O_RDWR);
+			snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_iomem", asic->instance);
+			asic->fd.iomem = open(fname, O_RDWR);
 			asic->fd.drm = -1; // default to closed
 			// if appending to the fd list remember to update close_asic() and discover_by_did()...
 		} else {
@@ -246,6 +248,7 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 			asic->fd.gpr = -1;
 			asic->fd.drm = -1;
 			asic->fd.iova = -1;
+			asic->fd.iomem = -1;
 		}
 
 		if (options->use_pci) {

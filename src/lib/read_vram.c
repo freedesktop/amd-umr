@@ -73,30 +73,39 @@ static void access_vram_via_mmio(struct umr_asic *asic, uint64_t address, uint32
 #define DEBUG(...)
 #endif
 
-static int umr_access_sram(uint64_t address, uint32_t size, void *dst, int write_en)
+static int umr_access_sram(struct umr_asic *asic, uint64_t address, uint32_t size, void *dst, int write_en)
 {
-	int fd;
+	int fd, need_close=0;
 
 	DEBUG("Reading physical sys addr: 0x%llx\n", (unsigned long long)address);
 
-	fd = open("/dev/fmem", O_RDWR);
-	if (fd < 0)
-		fd = open("/dev/mem", O_RDWR | O_DSYNC);
+	if (asic->fd.iomem >= 0) {
+		fd = asic->fd.iomem;
+	} else {
+		need_close = 1;
+
+		fd = open("/dev/fmem", O_RDWR);
+		if (fd < 0)
+			fd = open("/dev/mem", O_RDWR | O_DSYNC);
+	}
 	if (fd >= 0) {
 		lseek(fd, address, SEEK_SET);
 		if (write_en == 0) {
 			memset(dst, 0xFF, size);
 			if (read(fd, dst, size) != size) {
-				close(fd);
+				if (need_close)
+					close(fd);
 				return -1;
 			}
 		} else {
 			if (write(fd, dst, size) != size) {
-				close(fd);
+				if (need_close)
+					close(fd);
 				return -1;
 			}
 		}
-		close(fd);
+		if (need_close)
+			close(fd);
 		return 0;
 	}
 	return -1;
@@ -292,7 +301,7 @@ next_page:
 		// allow destination to be NULL to simply use decoder
 		if (pdst) {
 			if (pte_fields.system) {
-				if (umr_access_sram(start_addr, chunk_size, pdst, write_en) < 0) {
+				if (umr_access_sram(asic, start_addr, chunk_size, pdst, write_en) < 0) {
 					fprintf(stderr, "[ERROR]: Cannot access system ram, perhaps CONFIG_STRICT_DEVMEM is set in your kernel config?\n");
 					fprintf(stderr, "[ERROR]: Alternatively download and install /dev/fmem\n");
 					return -1;
@@ -663,7 +672,7 @@ next_page:
 		if (pte_fields.valid) {
 			if (pdst) {
 				if (pte_fields.system) {
-					if (umr_access_sram(start_addr, chunk_size, pdst, write_en) < 0) {
+					if (umr_access_sram(asic, start_addr, chunk_size, pdst, write_en) < 0) {
 						fprintf(stderr, "[ERROR]: Cannot access system ram, perhaps CONFIG_STRICT_DEVMEM is set in your kernel config?\n");
 						fprintf(stderr, "[ERROR]: Alternatively download and install /dev/fmem\n");
 						return -1;

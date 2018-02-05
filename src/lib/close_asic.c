@@ -57,6 +57,7 @@ void umr_close_asic(struct umr_asic *asic)
 		cond_close(asic->fd.gpr);
 		cond_close(asic->fd.drm);
 		cond_close(asic->fd.iova);
+		cond_close(asic->fd.iomem);
 		umr_free_asic(asic);
 	}
 }
