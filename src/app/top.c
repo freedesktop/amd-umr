@@ -289,6 +289,10 @@ static struct umr_bitfield stat_ai_sensor_bits[] = {
 	{ "GFX_MCLK", AMDGPU_PP_SENSOR_GFX_MCLK, SENSOR_D100|(SENSOR_MHZ<<4), &umr_bitfield_default },
 	{ "GPU_LOAD", AMDGPU_PP_SENSOR_GPU_LOAD, SENSOR_PERCENT<<4, &umr_bitfield_default },
 	{ "GPU_TEMP", AMDGPU_PP_SENSOR_GPU_TEMP, SENSOR_D1000|(SENSOR_TEMP<<4), &umr_bitfield_default },
+	{ "VDDC",     AMDGPU_PP_SENSOR_GPU_POWER, SENSOR_WATT|(SENSOR_POWER<<4), &umr_bitfield_default },
+	{ "VDDCI",    AMDGPU_PP_SENSOR_GPU_POWER, SENSOR_WATT|(SENSOR_POWER<<4), &umr_bitfield_default },
+	{ "MAX_GPU",  AMDGPU_PP_SENSOR_GPU_POWER, SENSOR_WATT|(SENSOR_POWER<<4), &umr_bitfield_default },
+	{ "AVG_GPU",  AMDGPU_PP_SENSOR_GPU_POWER, SENSOR_WATT|(SENSOR_POWER<<4), &umr_bitfield_default },
 	{ NULL, 0, 0, NULL },
 };
 
