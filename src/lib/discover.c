@@ -336,7 +336,7 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 		}
 	}
 
-	if (need_config_scan)
+	if (asic && need_config_scan)
 		umr_scan_config(asic);
 
 	return asic;
