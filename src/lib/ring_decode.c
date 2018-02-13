@@ -834,32 +834,34 @@ static void print_decode_pm4(struct umr_asic *asic, struct umr_ring_decoder *dec
 
 			// strip off IP name
 			name = strstr(name, ".");
-			if (name[0] == '.') ++name;
+			if (name) {
+				if (name[0] == '.') ++name;
 
-			// detect VCN/UVD IBs and chain them once all
-			// 4 pieces of information are found
-			if (strstr(name, "mmUVD_LMI_RBC_IB_VMID")) {
-				decoder->pm4.next_ib_state.ib_vmid = ib | ((asic->family <= FAMILY_VI) ? 0 : UMR_MM_HUB);
-				decoder->pm4.next_ib_state.tally |= 1;
-			} else if (strstr(name, "mmUVD_LMI_RBC_IB_64BIT_BAR_LOW")) {
-				decoder->pm4.next_ib_state.ib_addr_lo = ib;
-				decoder->pm4.next_ib_state.tally |= 2;
-			} else if (strstr(name, "mmUVD_LMI_RBC_IB_64BIT_BAR_HIGH")) {
-				decoder->pm4.next_ib_state.ib_addr_hi = ib;
-				decoder->pm4.next_ib_state.tally |= 4;
-			} else if (strstr(name, "mmUVD_RBC_IB_SIZE")) {
-				decoder->pm4.next_ib_state.ib_size = ib * 4;
-				decoder->pm4.next_ib_state.tally |= 8;
-			}
+				// detect VCN/UVD IBs and chain them once all
+				// 4 pieces of information are found
+				if (strstr(name, "mmUVD_LMI_RBC_IB_VMID")) {
+					decoder->pm4.next_ib_state.ib_vmid = ib | ((asic->family <= FAMILY_VI) ? 0 : UMR_MM_HUB);
+					decoder->pm4.next_ib_state.tally |= 1;
+				} else if (strstr(name, "mmUVD_LMI_RBC_IB_64BIT_BAR_LOW")) {
+					decoder->pm4.next_ib_state.ib_addr_lo = ib;
+					decoder->pm4.next_ib_state.tally |= 2;
+				} else if (strstr(name, "mmUVD_LMI_RBC_IB_64BIT_BAR_HIGH")) {
+					decoder->pm4.next_ib_state.ib_addr_hi = ib;
+					decoder->pm4.next_ib_state.tally |= 4;
+				} else if (strstr(name, "mmUVD_RBC_IB_SIZE")) {
+					decoder->pm4.next_ib_state.ib_size = ib * 4;
+					decoder->pm4.next_ib_state.tally |= 8;
+				}
 
-			if (decoder->pm4.next_ib_state.tally == (2|4|8)) {
-				decoder->pm4.next_ib_state.ib_vmid = 0;
-				decoder->pm4.next_ib_state.tally = 15;
-			}
+				if (decoder->pm4.next_ib_state.tally == (2|4|8)) {
+					decoder->pm4.next_ib_state.ib_vmid = 0;
+					decoder->pm4.next_ib_state.tally = 15;
+				}
 
-			if (decoder->pm4.next_ib_state.tally == 15) {
-				decoder->pm4.next_ib_state.tally = 0;
-				add_ib_pm4(decoder);
+				if (decoder->pm4.next_ib_state.tally == 15) {
+					decoder->pm4.next_ib_state.tally = 0;
+					add_ib_pm4(decoder);
+				}
 			}
 
 			decoder->pm4.next_write_mem.addr_lo++;
