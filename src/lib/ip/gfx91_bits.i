@@ -2629,12 +2629,6 @@ static struct umr_bitfield mmTA_CNTL_AUX[] = {
 static struct umr_bitfield mmTA_RESERVED_010C[] = {
 	 { "Unused", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmTA_GRAD_ADJ[] = {
-	 { "GRAD_ADJ_0", 0, 7, &umr_bitfield_default },
-	 { "GRAD_ADJ_1", 8, 15, &umr_bitfield_default },
-	 { "GRAD_ADJ_2", 16, 23, &umr_bitfield_default },
-	 { "GRAD_ADJ_3", 24, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield mmTA_STATUS[] = {
 	 { "FG_PFIFO_EMPTYB", 12, 12, &umr_bitfield_default },
 	 { "FG_LFIFO_EMPTYB", 13, 13, &umr_bitfield_default },
@@ -10485,9 +10479,6 @@ static struct umr_bitfield mmDB_DFSM_CONTROL[] = {
 	 { "POPS_DRAIN_PS_ON_OVERLAP", 2, 2, &umr_bitfield_default },
 	 { "DISALLOW_OVERFLOW", 3, 3, &umr_bitfield_default },
 };
-static struct umr_bitfield mmDB_RENDER_FILTER[] = {
-	 { "PS_INVOKE_MASK", 0, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield mmDB_Z_INFO2[] = {
 	 { "EPITCH", 0, 15, &umr_bitfield_default },
 };
@@ -10915,16 +10906,6 @@ static struct umr_bitfield mmPA_SC_HORIZ_GRID[] = {
 	 { "TOP_HALF", 8, 15, &umr_bitfield_default },
 	 { "BOT_HALF", 16, 23, &umr_bitfield_default },
 	 { "BOT_QTR", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield mmPA_SC_FOV_WINDOW_LR[] = {
-	 { "LEFT_EYE_FOV_LEFT", 0, 7, &umr_bitfield_default },
-	 { "LEFT_EYE_FOV_RIGHT", 8, 15, &umr_bitfield_default },
-	 { "RIGHT_EYE_FOV_LEFT", 16, 23, &umr_bitfield_default },
-	 { "RIGHT_EYE_FOV_RIGHT", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield mmPA_SC_FOV_WINDOW_TB[] = {
-	 { "FOV_TOP", 0, 7, &umr_bitfield_default },
-	 { "FOV_BOT", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield mmVGT_MULTI_PRIM_IB_RESET_INDX[] = {
 	 { "RESET_INDX", 0, 31, &umr_bitfield_default },
@@ -12485,9 +12466,6 @@ static struct umr_bitfield mmVGT_DRAW_PAYLOAD_CNTL[] = {
 	 { "EN_REG_RT_INDEX", 1, 1, &umr_bitfield_default },
 	 { "EN_PIPELINE_PRIMID", 2, 2, &umr_bitfield_default },
 	 { "OBJECT_ID_INST_EN", 3, 3, &umr_bitfield_default },
-};
-static struct umr_bitfield mmVGT_INDEX_PAYLOAD_CNTL[] = {
-	 { "COMPOUND_INDEX_EN", 0, 0, &umr_bitfield_default },
 };
 static struct umr_bitfield mmVGT_INSTANCE_STEP_RATE_0[] = {
 	 { "STEP_RATE", 0, 31, &umr_bitfield_default },
@@ -14359,9 +14337,6 @@ static struct umr_bitfield mmIA_MULTI_VGT_PARAM[] = {
 	 { "EN_INST_OPT_ADV", 22, 22, &umr_bitfield_default },
 	 { "HW_USE_ONLY", 23, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield mmVGT_OBJECT_ID[] = {
-	 { "REG_OBJ_ID", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield mmVGT_INSTANCE_BASE_ID[] = {
 	 { "INSTANCE_BASE_ID", 0, 31, &umr_bitfield_default },
 };
@@ -14533,12 +14508,6 @@ static struct umr_bitfield mmTA_CS_BC_BASE_ADDR[] = {
 };
 static struct umr_bitfield mmTA_CS_BC_BASE_ADDR_HI[] = {
 	 { "ADDRESS", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield mmTA_GRAD_ADJ_UCONFIG[] = {
-	 { "GRAD_ADJ_0", 0, 7, &umr_bitfield_default },
-	 { "GRAD_ADJ_1", 8, 15, &umr_bitfield_default },
-	 { "GRAD_ADJ_2", 16, 23, &umr_bitfield_default },
-	 { "GRAD_ADJ_3", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmDB_OCCLUSION_COUNT0_LOW[] = {
 	 { "COUNT_LOW", 0, 31, &umr_bitfield_default },

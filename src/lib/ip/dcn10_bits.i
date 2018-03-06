@@ -5640,10 +5640,17 @@ static struct umr_bitfield mmHUBPREQ0_DCSURF_SURFACE_CONTROL[] = {
 	 { "PRIMARY_SURFACE_TMZ", 0, 0, &umr_bitfield_default },
 	 { "PRIMARY_SURFACE_DCC_EN", 1, 1, &umr_bitfield_default },
 	 { "PRIMARY_SURFACE_DCC_IND_64B_BLK", 2, 2, &umr_bitfield_default },
+	 { "PRIMARY_SURFACE_TMZ_C", 4, 4, &umr_bitfield_default },
 	 { "PRIMARY_SURFACE_DCC_IND_64B_BLK_C", 5, 5, &umr_bitfield_default },
+	 { "SECONDARY_SURFACE_TMZ", 8, 8, &umr_bitfield_default },
 	 { "SECONDARY_SURFACE_DCC_EN", 9, 9, &umr_bitfield_default },
 	 { "SECONDARY_SURFACE_DCC_IND_64B_BLK", 10, 10, &umr_bitfield_default },
+	 { "SECONDARY_SURFACE_TMZ_C", 12, 12, &umr_bitfield_default },
 	 { "SECONDARY_SURFACE_DCC_IND_64B_BLK_C", 13, 13, &umr_bitfield_default },
+	 { "PRIMARY_META_SURFACE_TMZ", 16, 16, &umr_bitfield_default },
+	 { "PRIMARY_META_SURFACE_TMZ_C", 20, 20, &umr_bitfield_default },
+	 { "SECONDARY_META_SURFACE_TMZ", 24, 24, &umr_bitfield_default },
+	 { "SECONDARY_META_SURFACE_TMZ_C", 28, 28, &umr_bitfield_default },
 };
 static struct umr_bitfield mmHUBPREQ0_DCSURF_FLIP_CONTROL[] = {
 	 { "SURFACE_UPDATE_LOCK", 0, 0, &umr_bitfield_default },
