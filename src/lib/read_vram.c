@@ -474,7 +474,7 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 		if (page_table_depth >= 1) {
 			// decode PDE values
 			pde_fields.frag_size     = (pde_entry >> 59) & 0x1F;
-			pde_fields.pte_base_addr = pde_entry & 0xFFFFFFFFFF000ULL;
+			pde_fields.pte_base_addr = pde_entry & 0xFFFFFFFFF000ULL;
 			pde_fields.valid         = pde_entry & 1;
 			pde_fields.system        = (pde_entry >> 1) & 1;
 			pde_fields.cache         = (pde_entry >> 2) & 1;
@@ -519,7 +519,7 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 
 				// decode PDE values
 				pde_fields.frag_size     = (pde_entry >> 59) & 0x1F;
-				pde_fields.pte_base_addr = pde_entry & 0xFFFFFFFFFF000ULL;
+				pde_fields.pte_base_addr = pde_entry & 0xFFFFFFFFF000ULL;
 				pde_fields.valid         = pde_entry & 1;
 				pde_fields.system        = (pde_entry >> 1) & 1;
 				pde_fields.cache         = (pde_entry >> 2) & 1;
@@ -571,7 +571,7 @@ pte_further:
 
 			// decode PTE values
 pde_is_pte:
-			pte_fields.page_base_addr = pte_entry & 0xFFFFFFFFFF000ULL;
+			pte_fields.page_base_addr = pte_entry & 0xFFFFFFFFF000ULL;
 			pte_fields.fragment       = (pte_entry >> 7)  & 0x1F;
 			pte_fields.system         = (pte_entry >> 1) & 1;
 			pte_fields.valid          = pte_entry & 1;
@@ -612,7 +612,7 @@ pde_is_pte:
 			DEBUG("Decoding depth %u...(0x%llx)\n", (unsigned)page_table_depth, (unsigned long long)address);
 			pde_idx = 0; // unused
 			pde_fields.frag_size     = (page_table_base_addr >> 59) & 0x1F;
-			pde_fields.pte_base_addr = page_table_base_addr & 0xFFFFFFFFFF000ULL;
+			pde_fields.pte_base_addr = page_table_base_addr & 0xFFFFFFFFF000ULL;
 			pde_fields.system        = (page_table_base_addr >> 1) & 1;
 			pde_fields.valid         = page_table_base_addr & 1;
 
@@ -635,7 +635,7 @@ pde_is_pte:
 				return -1;
 
 			// decode PTE values
-			pte_fields.page_base_addr = pte_entry & 0xFFFFFFFFFF000ULL;
+			pte_fields.page_base_addr = pte_entry & 0xFFFFFFFFF000ULL;
 			pte_fields.fragment       = (pte_entry >> 7)  & 0x1F;
 			pte_fields.system         = (pte_entry >> 1) & 1;
 			pte_fields.valid          = pte_entry & 1;
