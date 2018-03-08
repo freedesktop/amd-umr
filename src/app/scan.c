@@ -87,10 +87,10 @@ int umr_scan_asic(struct umr_asic *asic, char *asicname, char *ipname, char *reg
 								goto error;
 							}
 						} else if (asic->blocks[i]->regs[j].type == REG_MMIO || asic->blocks[i]->regs[j].type == REG_SMC) {
-							if (options.use_bank && options.no_kernel)
+							if (options.use_bank)
 								umr_grbm_select_index(asic, options.se_bank, options.sh_bank, options.instance_bank);
 							asic->blocks[i]->regs[j].value = umr_read_reg(asic, asic->blocks[i]->regs[j].addr * (asic->blocks[i]->regs[j].type == REG_MMIO ? 4 : 1), asic->blocks[i]->regs[j].type);
-							if (options.use_bank && options.no_kernel)
+							if (options.use_bank)
 								umr_grbm_select_index(asic, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
 						}
 						if (regname[0]) {

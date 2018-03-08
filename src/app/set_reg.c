@@ -83,10 +83,10 @@ int umr_set_register(struct umr_asic *asic, char *regpath, char *regvalue)
 								}
 							}
 						} else if (asic->blocks[i]->regs[j].type == REG_MMIO) {
-							if (options.use_bank && options.no_kernel)
+							if (options.use_bank)
 								umr_grbm_select_index(asic, options.se_bank, options.sh_bank, options.instance_bank);
 							asic->pci.mem[asic->blocks[i]->regs[j].addr] = value;
-							if (options.use_bank && options.no_kernel)
+							if (options.use_bank)
 								umr_grbm_select_index(asic, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
 						}
 						return 0;
