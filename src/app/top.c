@@ -331,7 +331,7 @@ static volatile struct umr_bitfield *sensor_bits = NULL;
 static void *gpu_sensor_thread(void *data)
 {
 	struct umr_asic asic = *((struct umr_asic*)data);
-	int size, rem, off, x, power;
+	int size, rem, off, x;
 	char fname[128];
 	struct timespec ts;
 
@@ -343,12 +343,10 @@ static void *gpu_sensor_thread(void *data)
 	while (!sensor_thread_quit) {
 		rem = sizeof gpu_power_data;
 		off = 0;
-		power = 0;
 		for (x = 0; sensor_bits[x].regname; ) {
 			switch (sensor_bits[x].start) {
 				case AMDGPU_PP_SENSOR_GPU_POWER:
 					size = 16;
-					power = 1;
 					break;
 				default:
 					size = 4;
@@ -361,9 +359,7 @@ static void *gpu_sensor_thread(void *data)
 			x   += size / 4;
 		}
 
-		// sleep for 20ms if no GPU power sensor to rate limit things a bit
-		if (!power)
-			nanosleep(&ts, NULL);
+		nanosleep(&ts, NULL);
 	}
 	close(asic.fd.sensors);
 	return NULL;
