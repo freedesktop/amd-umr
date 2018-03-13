@@ -689,6 +689,25 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
 			break;
+		case 0x58: // ACQUIRE_MEM
+			if (asic->family < FAMILY_AI) {
+				switch(decoder->pm4.cur_word) {
+					case 0: printf("CP_COHER_CNTL: %s0x%08lx%s", BLUE, (unsigned long)ib, RST); break;
+					case 1: printf("CP_COHER_SIZE: %s0x%08lx%s", BLUE, (unsigned long)ib, RST); break;
+					case 2: printf("CP_COHER_BASE: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST); break;
+					case 3: printf("POLL_INTERVAL: %s0x%08lx%s", BLUE, (unsigned long)ib, RST); break;
+				}
+			} else {
+				switch(decoder->pm4.cur_word) {
+					case 0: printf("CP_COHER_CNTL: %s0x%08lx%s", BLUE, (unsigned long)ib, RST); break;
+					case 1: printf("CP_COHER_SIZE: %s0x%08lx%s", BLUE, (unsigned long)ib, RST); break;
+					case 2: printf("CP_COHER_SIZE_HI: %s0x%08lx%s", BLUE, (unsigned long)ib, RST); break;
+					case 3: printf("CP_COHER_BASE: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST); break;
+					case 4: printf("CP_COHER_BASE_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST); break;
+					case 5: printf("POLL_INTERVAL: %s0x%08lx%s", BLUE, (unsigned long)ib, RST); break;
+				}
+			}
+			break;
 		case 0x68: // SET_CONFIG_REG
 			switch(decoder->pm4.cur_word) {
 				case 0: decoder->pm4.next_write_mem.addr_lo = BITS(ib, 0, 16) + 0x2000;
