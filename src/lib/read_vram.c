@@ -118,7 +118,7 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 {
 	uint64_t start_addr, page_table_start_addr, page_table_base_addr,
 		 page_table_size, pte_idx, pde_idx, pte_entry, pde_entry,
-		 vm_fb_base, pde_mask, pte_mask;
+		 vm_fb_base, vm_fb_offset, pde_mask, pte_mask;
 	uint32_t chunk_size, tmp;
 	int page_table_depth;
 	struct {
@@ -139,7 +139,8 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 			mmVM_CONTEXTx_PAGE_TABLE_START_ADDR,
 			mmVM_CONTEXTx_CNTL,
 			mmVM_CONTEXTx_PAGE_TABLE_BASE_ADDR,
-			mmMC_VM_FB_LOCATION;
+			mmMC_VM_FB_LOCATION,
+			mmMC_VM_FB_OFFSET;
 	} registers;
 	char buf[64];
 	unsigned char *pdst = dst;
@@ -185,20 +186,24 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 	registers.mmMC_VM_FB_LOCATION = umr_read_reg_by_name(asic, "mmMC_VM_FB_LOCATION");
 	vm_fb_base  = ((uint64_t)registers.mmMC_VM_FB_LOCATION & 0xFFFF) << 24;
 
+	registers.mmMC_VM_FB_OFFSET = umr_read_reg_by_name(asic, "mmMC_VM_FB_OFFSET");
+	vm_fb_offset  = ((uint64_t)registers.mmMC_VM_FB_OFFSET & 0xFFFF) << 22;
 
 	if (asic->options.verbose)
 		fprintf(stderr,
 				"[VERBOSE]: mmVM_CONTEXT%d_PAGE_TABLE_START_ADDR=0x%llx\n"
 				"[VERBOSE]: mmVM_CONTEXT%d_PAGE_TABLE_BASE_ADDR=0x%llx\n"
 				"[VERBOSE]: mmVM_CONTEXT%d_CNTL=0x%llx\n"
-				"[VERBOSE]: mmMC_VM_FB_LOCATION=0x%llx\n",
+				"[VERBOSE]: mmMC_VM_FB_LOCATION=0x%llx\n"
+				"[VERBOSE]: mmMC_VM_FB_OFFSET=0x%llx\n",
 			(int)vmid ? 1 : 0,
 			(unsigned long long)registers.mmVM_CONTEXTx_PAGE_TABLE_START_ADDR,
 			(int)vmid ? 1 : 0,
 			(unsigned long long)registers.mmVM_CONTEXTx_PAGE_TABLE_BASE_ADDR,
 			(int)vmid ? 1 : 0,
 			(unsigned long long)registers.mmVM_CONTEXTx_CNTL,
-			(unsigned long long)registers.mmMC_VM_FB_LOCATION);
+			(unsigned long long)registers.mmMC_VM_FB_LOCATION,
+			(unsigned long long)registers.mmMC_VM_FB_OFFSET);
 
 	address -= page_table_start_addr;
 
@@ -262,6 +267,10 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 
 			// compute starting address
 			start_addr = dma_to_phys(asic, pte_fields.page_base_addr) + (address & 0xFFF);
+
+			if (!pte_fields.system)
+				start_addr = start_addr - vm_fb_offset;
+
 		} else {
 			// depth == 0 == PTE only
 			pte_idx = (address >> 12);
