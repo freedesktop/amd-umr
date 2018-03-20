@@ -336,7 +336,7 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 	uint64_t start_addr, page_table_start_addr, page_table_base_addr,
 		 page_table_size, pte_idx, pde_idx, pte_entry, pde_entry,
 		 pde_address, vga_base_address, vm_fb_offset, vm_fb_base,
-		 va_mask;
+		 va_mask, offset_mask;
 	uint32_t chunk_size, tmp;
 	int pde_cnt, current_depth, page_table_depth, first;
 	struct {
@@ -613,7 +613,8 @@ pde_is_pte:
 				return -1;
 
 			// compute starting address
-			start_addr = dma_to_phys(asic, pte_fields.page_base_addr) + (address & 0xFFF);
+			offset_mask = (1ULL << ((current_depth * 9) + (12 + page_table_size))) - 1;
+			start_addr = dma_to_phys(asic, pte_fields.page_base_addr) + (address & offset_mask);
 			DEBUG("phys address to read from: %llx\n\n\n", (unsigned long long)start_addr);
 		} else {
 			// in AI+ the BASE_ADDR is treated like a PDE entry...
