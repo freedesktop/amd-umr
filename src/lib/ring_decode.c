@@ -554,7 +554,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 						BLUE, op_3c_functions[BITS(ib, 0, 4)], RST);
 					break;
 				case 1: printf("POLL_ADDRESS_LO: %s0x%08lx%s, SWAP: %s%lu%s",
-						YELLOW, BITS(ib, 2, 32), RST,
+						YELLOW, BITS(ib, 2, 32) << 2, RST,
 						BLUE, BITS(ib, 0, 2), RST);
 					break;
 				case 2: printf("POLL_ADDRESS_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
