@@ -19,6 +19,7 @@ add_library(ip OBJECT
   gfx81.c
   gfx90.c
   gfx91.c
+  gfx921.c
   gmc60.c
   gmc70.c
   gmc71.c
@@ -27,6 +28,7 @@ add_library(ip OBJECT
   hdp40.c
   mmhub10.c
   mmhub91.c
+  mmhub930.c
   mp90.c
   mp100.c
   nbio61.c
@@ -35,6 +37,7 @@ add_library(ip OBJECT
   oss20.c
   oss30.c
   oss40.c
+  oss401.c
   sdma040.c
   sdma041.c
   sdma140.c

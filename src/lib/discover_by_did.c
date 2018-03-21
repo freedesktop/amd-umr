@@ -228,6 +228,11 @@ static const struct {
 	{ 0x6868, &umr_create_vega10 },
 	{ 0x686c, &umr_create_vega10 },
 	{ 0x687f, &umr_create_vega10 },
+	{ 0x69A0, &umr_create_vega12 },
+	{ 0x69A1, &umr_create_vega12 },
+	{ 0x69A2, &umr_create_vega12 },
+	{ 0x69A3, &umr_create_vega12 },
+	{ 0x69AF, &umr_create_vega12 },
 };
 
 static int find_first_did(long did)

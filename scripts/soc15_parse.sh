@@ -94,3 +94,7 @@ parse_bits ${pk}/nbio/nbio_7_0 src/lib/ip/nbio70
 parse_bits ${pk}/sdma0/sdma0_4_1 src/lib/ip/sdma041
 parse_bits ${pk}/mp/mp_10_0 src/lib/ip/mp100
 parse_bits ${pk}/gc/gc_9_1 src/lib/ip/gfx91
+
+parse_bits ${pk}/gc/gc_9_2_1 src/lib/ip/gfx921
+parse_bits ${pk}/mmhub/mmhub_9_3_0 src/lib/ip/mmhub930
+parse_bits ${pk}/oss/osssys_4_0_1 src/lib/ip/oss401
