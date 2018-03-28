@@ -22,29 +22,6 @@
  * Authors: Tom St Denis <tom.stdenis@amd.com>
  *
  */
-extern struct umr_options options;
 #include "umr.h"
 
-extern const char *libumrcore_rev;
-
-/* Application functions */
-
-/* scan functions */
-int umr_scan_asic(struct umr_asic *asic, char *asicname, char *ipname, char *regname);
-
-/* print functions */
-void umr_print_asic(struct umr_asic *asic, char *ipname);
-
-/* set register */
-int umr_set_register(struct umr_asic *asic, char *regpath, char *regvalue);
-int umr_set_register_bit(struct umr_asic *asic, char *regpath, char *regvalue);
-
-/* Read and display a ring buffer */
-void umr_read_ring(struct umr_asic *asic, char *ringpath);
-
-void umr_lookup(struct umr_asic *asic, char *address, char *value);
-void umr_scan_log(struct umr_asic *asic);
-void umr_top(struct umr_asic *asic);
-
-void umr_print_config(struct umr_asic *asic);
-void umr_print_waves(struct umr_asic *asic);
+const char *libumrcore_rev = UMR_BUILD_REV;
