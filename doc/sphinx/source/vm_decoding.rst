@@ -118,10 +118,15 @@ writes are performed linearly into VRAM.
 System Memory Access
 --------------------
 
-On common kernel configurations found in distributions the kernel
-flag STRICT_DEVMEM is set.  This restricts access to /dev/mem to
-the PCI device range which will inhibit the ability of umr to
-read memory pointed to by virtual page mappings (if the 'S' bit is set).
+On newer kernels with a amdgpu_iomem debugfs entry system memory
+access to memory mapped to the GPU has been made easier.  Additional
+modules (e.g., fmem) are no longer required.
+
+On older kernels the fmem module might be required as on common kernel
+configurations found in distributions the kernel flag STRICT_DEVMEM is
+set.  This restricts access to /dev/mem to the PCI device range which
+will inhibit the ability of umr to read memory pointed to by virtual
+page mappings (if the 'S' bit is set).
 
 Aside from rebuilding the kernel with the flag changed the other
 alternative is a third party device such as /dev/fmem found at:
