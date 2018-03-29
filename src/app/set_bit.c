@@ -68,12 +68,8 @@ int umr_set_register_bit(struct umr_asic *asic, char *regpath, char *regvalue)
 										}
 									}
 
-									if (options.use_bank && asic->blocks[i]->regs[j].type == REG_MMIO)
-										addr =
-											(1ULL << 62) |
-											(((uint64_t)options.se_bank) << 24) |
-											(((uint64_t)options.sh_bank) << 34) |
-											(((uint64_t)options.instance_bank) << 44);
+									if (asic->blocks[i]->regs[j].type == REG_MMIO)
+										addr = umr_apply_bank_selection_address(asic);
 									else
 										addr = 0;
 
@@ -87,7 +83,7 @@ int umr_set_register_bit(struct umr_asic *asic, char *regpath, char *regvalue)
 
 									lseek(fd, addr | (asic->blocks[i]->regs[j].addr<<2), SEEK_SET);
 									write(fd, &copy, 4);
-									if (!options.quiet) printf("%s <= 0x%08lx\n", regpath, (unsigned long)copy);
+									if (!asic->options.quiet) printf("%s <= 0x%08lx\n", regpath, (unsigned long)copy);
 
 									if (asic->blocks[i]->release) {
 										if (asic->blocks[i]->release(asic)) {
@@ -95,14 +91,15 @@ int umr_set_register_bit(struct umr_asic *asic, char *regpath, char *regvalue)
 										}
 									}
 								} else if (asic->blocks[i]->regs[j].type == REG_MMIO) {
-									if (options.use_bank && options.no_kernel)
-										umr_grbm_select_index(asic, options.se_bank, options.sh_bank, options.instance_bank);
+									// TODO: Add nokernel version of srbm_select
+									if (asic->options.use_bank == 1 && asic->options.no_kernel)
+										umr_grbm_select_index(asic, asic->options.bank.grbm.se, asic->options.bank.grbm.sh, asic->options.bank.grbm.instance);
 									copy = asic->pci.mem[asic->blocks[i]->regs[j].addr] & ~mask;
 									copy |= (value << asic->blocks[i]->regs[j].bits[k].start) & mask;
 									asic->pci.mem[asic->blocks[i]->regs[j].addr] = copy;
-									if (options.use_bank && options.no_kernel)
+									if (asic->options.use_bank && asic->options.no_kernel)
 										umr_grbm_select_index(asic, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
-									if (!options.quiet) printf("%s <= 0x%08lx\n", regpath, (unsigned long)copy);
+									if (!asic->options.quiet) printf("%s <= 0x%08lx\n", regpath, (unsigned long)copy);
 								}
 								return 0;
 							}

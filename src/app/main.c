@@ -150,18 +150,33 @@ int main(int argc, char **argv)
 			if (!asic)
 				asic = get_asic();
 			if (i + 3 < argc) {
-				options.se_bank = argv[i+1][0] == 'x' ? 0x3FF : atoi(argv[i+1]);
-				options.sh_bank = argv[i+2][0] == 'x' ? 0x3FF : atoi(argv[i+2]);
-				options.instance_bank = argv[i+3][0] == 'x' ? 0x3FF : atoi(argv[i+3]);
-				if ((options.se_bank != 0x3FF && options.se_bank >= asic->config.gfx.max_shader_engines) ||
-				    (options.sh_bank != 0x3FF && options.sh_bank >= asic->config.gfx.max_sh_per_se)) {
+				options.bank.grbm.se = argv[i+1][0] == 'x' ? 0x3FF : atoi(argv[i+1]);
+				options.bank.grbm.sh = argv[i+2][0] == 'x' ? 0x3FF : atoi(argv[i+2]);
+				options.bank.grbm.instance = argv[i+3][0] == 'x' ? 0x3FF : atoi(argv[i+3]);
+				if ((options.bank.grbm.se != 0x3FF && options.bank.grbm.se >= asic->config.gfx.max_shader_engines) ||
+				    (options.bank.grbm.sh != 0x3FF && options.bank.grbm.sh >= asic->config.gfx.max_sh_per_se)) {
 					printf("Invalid bank selection for specific ASIC\n");
 					return EXIT_FAILURE;
 				}
 				options.use_bank = 1;
 				i += 3;
+				asic->options = options;
 			} else {
 				printf("--bank requires three parameters\n");
+				return EXIT_FAILURE;
+			}
+		} else if (!strcmp(argv[i], "--sbank") || !strcmp(argv[i], "-sb")) {
+			if (!asic)
+				asic = get_asic();
+			if (i + 3 < argc) {
+				options.bank.srbm.me = atoi(argv[i+1]);
+				options.bank.srbm.pipe = atoi(argv[i+2]);
+				options.bank.srbm.queue = atoi(argv[i+3]);
+				options.use_bank = 2;
+				i += 3;
+				asic->options = options;
+			} else {
+				printf("--sbank requires three parameters\n");
 				return EXIT_FAILURE;
 			}
 		} else if (!strcmp(argv[i], "--force") || !strcmp(argv[i], "-f")) {
@@ -458,6 +473,8 @@ int main(int argc, char **argv)
 				printf("--option requires one parameter\n");
 				return EXIT_FAILURE;
 			}
+			if (asic)
+					asic->options = options;
 		} else if (!strcmp(argv[i], "--update") || !strcmp(argv[i], "-u")) {
 			if (!asic)
 				asic = get_asic();
@@ -473,7 +490,8 @@ int main(int argc, char **argv)
 "\n\t--instance, -i <number>\n\t\tSelect a device instance to investigate. (default: 0)"
 	"\n\t\tThe instance is the directory name under /sys/kernel/debug/dri/"
 	"\n\t\tof the card you want to work with.\n"
-"\n\t--bank, -b <se_bank> <sh_bank> <instance>\n\t\tSelect a GFX INSTANCE/SH/SE bank in decimal. Can use 'x' to denote broadcast.\n"
+"\n\t--bank, -b <se> <sh> <instance>\n\t\tSelect a GRBM se/sh/instance bank in decimal. Can use 'x' to denote broadcast.\n"
+"\n\t--sbank, -sb <me> <pipe> <queue>\n\t\tSelect a SRBM me/pipe/queue bank in decimal.\n"
 "\n\t--force, -f <number>\n\t\tForce a PCIE DID number in hex or asic name.  Useful if amdgpu is"
 	"\n\t\tnot loaded or a display is not attached.\n"
 "\n\t--pci <device>"

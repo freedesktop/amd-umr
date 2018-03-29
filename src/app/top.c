@@ -1043,8 +1043,8 @@ static void top_build_vi_program(struct umr_asic *asic)
 
 	// which SE to read ...
 	regname = calloc(1, 64);
-	if (options.use_bank)
-		snprintf(regname, 63, "mmGRBM_STATUS_SE%d", options.se_bank);
+	if (options.use_bank == 1)
+		snprintf(regname, 63, "mmGRBM_STATUS_SE%d", options.bank.grbm.se);
 	else
 		snprintf(regname, 63, "mmGRBM_STATUS");
 

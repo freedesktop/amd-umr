@@ -192,10 +192,22 @@ struct umr_options {
 	    verbose,
 	    halt_waves,
 	    no_kernel;
-	unsigned
-	    instance_bank,
-	    se_bank,
-	    sh_bank;
+
+	union {
+		struct {
+			unsigned
+				instance,
+				se,
+				sh;
+		} grbm;
+		struct {
+			unsigned
+				me,
+				queue,
+				pipe;
+		} srbm;
+	} bank;
+
 	long forcedid;
 	char
 		*scanblock,
@@ -560,6 +572,9 @@ uint32_t umr_bitslice_reg_by_name_by_ip(struct umr_asic *asic, char *ip, char *r
 uint32_t umr_bitslice_compose_value(struct umr_asic *asic, struct umr_reg *reg, char *bitname, uint32_t regvalue);
 uint32_t umr_bitslice_compose_value_by_name(struct umr_asic *asic, char *reg, char *bitname, uint32_t regvalue);
 uint32_t umr_bitslice_compose_value_by_name_by_ip(struct umr_asic *asic, char *ip, char *regname, char *bitname, uint32_t regvalue);
+
+// bank switching
+uint64_t umr_apply_bank_selection_address(struct umr_asic *asic);
 
 // select a GRBM_GFX_IDX
 int umr_grbm_select_index(struct umr_asic *asic, uint32_t se, uint32_t sh, uint32_t instance);

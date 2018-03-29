@@ -12,8 +12,10 @@ Pick a device instance to work with.  Defaults to the 0'th device.  The instance
 refers to a directory under
 .B /sys/kernel/debug/dri/
 where 0 is the first card probed.
-.IP "--bank, -b <se_bank> <sh_bank> <instance>"
-Select a GFX INSTANCE/SH/SE bank in decimal.  Can use 'x' to denote a broadcast selection.
+.IP "--bank, -b <se> <sh> <instance>"
+Select a GRBM se/sh/instance bank in decimal.  Can use 'x' to denote a broadcast selection.
+.IP "--sbank, -sb <me> <pipe> <queue>"
+Select a SRBM me/pipe/queue bank in decimal.
 .IP "--force -f <number>"
 Force a PCIE Device ID in hex or by asic name.  This is used in case the amdgpu driver
 is not yet loaded or a display is not yet attached.  A '@' prefix will specify a path to

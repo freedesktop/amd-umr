@@ -38,7 +38,7 @@ int umr_scan_asic(struct umr_asic *asic, char *asicname, char *ipname, char *reg
 				first = 1;
 				for (j = 0; j < asic->blocks[i]->no_regs; j++) {
 					if (!regname[0] || !strcmp(regname, "*") || !strcmp(regname, asic->blocks[i]->regs[j].regname) ||
-					(options.many && strstr(asic->blocks[i]->regs[j].regname, regname))) {
+					(asic->options.many && strstr(asic->blocks[i]->regs[j].regname, regname))) {
 						// only grant if any regspec matches otherwise it's a waste
 						if (first && asic->blocks[i]->grant) {
 							first = 0;
@@ -56,7 +56,7 @@ int umr_scan_asic(struct umr_asic *asic, char *asicname, char *ipname, char *reg
 							case REG_DIDT: fd = asic->fd.didt; scale = 1; break;
 							case REG_PCIE: fd = asic->fd.pcie; scale = 1; break;
 							case REG_SMC:
-								if (options.read_smc) {
+								if (asic->options.read_smc) {
 									fd = asic->fd.smc; scale = 1;
 								} else {
 									continue;
@@ -65,12 +65,8 @@ int umr_scan_asic(struct umr_asic *asic, char *asicname, char *ipname, char *reg
 							default: return -1;
 							}
 
-							if (options.use_bank && asic->blocks[i]->regs[j].type == REG_MMIO)
-								addr =
-									(1ULL << 62) |
-									(((uint64_t)options.se_bank) << 24) |
-									(((uint64_t)options.sh_bank) << 34) |
-									(((uint64_t)options.instance_bank) << 44);
+							if (asic->blocks[i]->regs[j].type == REG_MMIO)
+								addr = umr_apply_bank_selection_address(asic);
 							else
 								addr = 0;
 
@@ -87,17 +83,18 @@ int umr_scan_asic(struct umr_asic *asic, char *asicname, char *ipname, char *reg
 								goto error;
 							}
 						} else if (asic->blocks[i]->regs[j].type == REG_MMIO || asic->blocks[i]->regs[j].type == REG_SMC) {
-							if (options.use_bank)
-								umr_grbm_select_index(asic, options.se_bank, options.sh_bank, options.instance_bank);
+							// TODO: Add nokernel version of srbm select
+							if (asic->options.use_bank == 1)
+								umr_grbm_select_index(asic, asic->options.bank.grbm.se, asic->options.bank.grbm.sh, asic->options.bank.grbm.instance);
 							asic->blocks[i]->regs[j].value = umr_read_reg(asic, asic->blocks[i]->regs[j].addr * (asic->blocks[i]->regs[j].type == REG_MMIO ? 4 : 1), asic->blocks[i]->regs[j].type);
-							if (options.use_bank)
+							if (asic->options.use_bank == 1)
 								umr_grbm_select_index(asic, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
 						}
 						if (regname[0]) {
-							if (options.named)
+							if (asic->options.named)
 								printf("%s%s.%s%s => ", CYAN, asic->blocks[i]->ipname,  asic->blocks[i]->regs[j].regname, RST);
 							printf("%s0x%08lx%s\n", YELLOW, (unsigned long)asic->blocks[i]->regs[j].value, RST);
-							if (options.bitfields)
+							if (asic->options.bitfields)
 								for (k = 0; k < asic->blocks[i]->regs[j].no_bits; k++) {
 									uint32_t v;
 									v = (1UL << (asic->blocks[i]->regs[j].bits[k].stop + 1 - asic->blocks[i]->regs[j].bits[k].start)) - 1;

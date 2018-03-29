@@ -109,7 +109,7 @@ void umr_scan_log(struct umr_asic *asic)
 								asic->asicname, iplist[regno]->ipname, reglist[regno]->regname,
 								(unsigned long)delta,
 								(unsigned long)value);
-						if (options.bitfields)
+						if (asic->options.bitfields)
 							for (k = 0; k < reglist[regno]->no_bits; k++) {
 								uint32_t v;
 								v = (1UL << (reglist[regno]->bits[k].stop + 1 - reglist[regno]->bits[k].start)) - 1;
@@ -127,7 +127,7 @@ out:
 		}
 	}
 	fclose(f);
-	if (options.empty_log) {
+	if (asic->options.empty_log) {
 		f = fopen("/sys/kernel/debug/tracing/trace", "w");
 		if (f) {
 			fprintf(f, "foo\n");
