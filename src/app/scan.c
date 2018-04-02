@@ -26,10 +26,18 @@
 
 int umr_scan_asic(struct umr_asic *asic, char *asicname, char *ipname, char *regname)
 {
-	int r, fd;
-	int first, i, j, k;
+	int r, fd, many = asic->options.many, named = asic->options.named,
+	    first, i, j, k;
 	uint64_t addr, scale;
-	char buf[256];
+	char buf[256], regname_copy[256];
+
+	// does the register name contain a trailing star?
+	strcpy(regname_copy, regname);
+	if (strlen(regname) > 1 && strstr(regname, "*")) {
+		many = 1;
+		named = 1;
+		regname_copy[strlen(regname_copy)-1] = 0;
+	}
 
 	/* scan them all in order */
 	if (!asicname[0] || !strcmp(asicname, "*") || !strcmp(asicname, asic->asicname)) {
@@ -38,7 +46,7 @@ int umr_scan_asic(struct umr_asic *asic, char *asicname, char *ipname, char *reg
 				first = 1;
 				for (j = 0; j < asic->blocks[i]->no_regs; j++) {
 					if (!regname[0] || !strcmp(regname, "*") || !strcmp(regname, asic->blocks[i]->regs[j].regname) ||
-					(asic->options.many && strstr(asic->blocks[i]->regs[j].regname, regname))) {
+					(many && strstr(asic->blocks[i]->regs[j].regname, regname_copy))) {
 						// only grant if any regspec matches otherwise it's a waste
 						if (first && asic->blocks[i]->grant) {
 							first = 0;
@@ -91,7 +99,7 @@ int umr_scan_asic(struct umr_asic *asic, char *asicname, char *ipname, char *reg
 								umr_grbm_select_index(asic, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
 						}
 						if (regname[0]) {
-							if (asic->options.named)
+							if (named)
 								printf("%s%s.%s%s => ", CYAN, asic->blocks[i]->ipname,  asic->blocks[i]->regs[j].regname, RST);
 							printf("%s0x%08lx%s\n", YELLOW, (unsigned long)asic->blocks[i]->regs[j].value, RST);
 							if (asic->options.bitfields)

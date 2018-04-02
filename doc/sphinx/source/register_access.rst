@@ -63,6 +63,15 @@ example:
 Will read and print out any register with the word 'GATE' contained
 in the register name in the uvd6 IP block.
 
+This can also be accomplished by using a '*' at the end of the register
+name.  For example:
+
+::
+
+	umr --read *.uvd6.GATE*
+
+would accomplish the same as the previous example.
+
 --------------------------
 Reading an entire IP block
 --------------------------

@@ -56,7 +56,12 @@ This command uses the same syntax as the
 .B --write
 command but also allows
 .B *
-for the regname field.
+for the regname field to read an entire block.  Additionally,
+a
+.B *
+can be appended to a register name to read any register that contains
+a partial match.  For instance, "*.vcn10.ADDR*" would read any register
+from the 'VCN10' block which contains 'ADDR' in the name.
 .IP "--scan, -s <string>"
 Scan and print an IP block by name, for example,
 .B uvd6
