@@ -120,20 +120,3 @@ Bitfield Decoding
 
 The ring decoders also support decoding bitfields when register
 writes are detected.  This is enabled with the 'bits' option.
-
--------------------
-Following IB chains
--------------------
-
-By default, IB pointers are not followed when detected in packets.
-Typically, this will require some sort of access to system memory
-since often IBs are stored in system memory.  Following IB chains can
-be enabled with the 'follow_ib' option, for instance:
-
-::
-
-	umr -O follow_ib --ring gfx[.]
-
-Note that this is particularly only useful for hung GPUs as the virtual
-addresses will quickly expire on live systems.  
-

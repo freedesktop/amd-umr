@@ -105,8 +105,8 @@ static void parse_options(char *str)
 			options.read_smc = 1;
 		} else if (!strcmp(option, "quiet")) {
 			options.quiet = 1;
-		} else if (!strcmp(option, "follow_ib")) {
-			options.follow_ib = 1;
+		} else if (!strcmp(option, "no_follow_ib")) {
+			options.follow_ib = 0;
 		} else if (!strcmp(option, "verbose")) {
 			options.verbose = 1;
 		} else if (!strcmp(option, "halt_waves")) {
@@ -136,6 +136,7 @@ int main(int argc, char **argv)
 	options.need_scan = 1;
 	options.forcedid = -1;
 	options.scanblock = "";
+	options.follow_ib = 1;
 
 	for (i = 1; i < argc; i++) {
 		if (!strcmp(argv[i], "--instance") || !strcmp(argv[i], "-i")) {
@@ -539,7 +540,7 @@ int main(int argc, char **argv)
 	"\n\t\tdecodings.\n"
 "\n\t--vm-write, -vw [<vmid>@]<address> <size>"
 	"\n\t\tWrite 'size' bytes (in hex) to a given address (in hex) from stdin.\n"
-"\n\t--option -O <string>[,<string>,...]\n\t\tEnable various flags: bits, bitsfull, empty_log, follow, follow_ib, named, many,"
+"\n\t--option -O <string>[,<string>,...]\n\t\tEnable various flags: bits, bitsfull, empty_log, follow, no_follow_ib, named, many,"
 	"\n\t\tuse_pci, use_colour, read_smc, quiet, no_kernel, verbose, halt_waves.\n"
 "\n\n", UMR_BUILD_VER, UMR_BUILD_REV);
 			exit(EXIT_SUCCESS);

@@ -104,39 +104,39 @@ comma separator.
 
 The options available are:
 
-+-------------+------------------------------------------------------------------------------+
-| **Option**  | **Description**                                                              |
-+-------------+------------------------------------------------------------------------------+
-| quiet       | Disable various informative outputs that are not required for functionality. |
-+-------------+------------------------------------------------------------------------------+
-| read_smc    | Enable scanning of SMC registers when issuing a --scan command               |
-+-------------+------------------------------------------------------------------------------+
-| bits        | Enables the display of bitfields when registers are presented                |
-+-------------+------------------------------------------------------------------------------+
-| bitsfull    | When printing bits use the full path to the bitfield                         |
-+-------------+------------------------------------------------------------------------------+
-| empty_log   | Empty MMIO tracer after reading it                                           |
-+-------------+------------------------------------------------------------------------------+
-| follow      | Tells --logscan to continually read the MMIO tracer                          |
-+-------------+------------------------------------------------------------------------------+
-| follow_ib   | Instructs the --ring command to follow IBs pointed to by the ring            |
-+-------------+------------------------------------------------------------------------------+
-| named       | Tells --read to print out the register name along with the value             |
-+-------------+------------------------------------------------------------------------------+
-| many        | Allows matching of register names openly.  Used with --read and implies the  |
-|             | *named* option.  For instance: '\*.dce100.CRTC' will match any register that |
-|             | contains the fragment 'CRTC' in it.                                          |
-+-------------+------------------------------------------------------------------------------+
-| use_pci     | Enables direct PCI access bypassing the kernels debugfs entries.             |
-+-------------+------------------------------------------------------------------------------+
-| use_colour  | Enables colourful output in various commands.  Also accepts use_color        |
-+-------------+------------------------------------------------------------------------------+
-| no_kernel   | Attempts to avoid kernel access methods.  Implies *use_pci*.                 |
-+-------------+------------------------------------------------------------------------------+
-| verbose     | Enables verbose output, for instance in VM decoding                          |
-+-------------+------------------------------------------------------------------------------+
-| halt_waves  | Halt active waves while reading wave status data                             |
-+-------------+------------------------------------------------------------------------------+
++--------------+------------------------------------------------------------------------------+
+| **Option**   | **Description**                                                              |
++--------------+------------------------------------------------------------------------------+
+| quiet        | Disable various informative outputs that are not required for functionality. |
++--------------+------------------------------------------------------------------------------+
+| read_smc     | Enable scanning of SMC registers when issuing a --scan command               |
++--------------+------------------------------------------------------------------------------+
+| bits         | Enables the display of bitfields when registers are presented                |
++--------------+------------------------------------------------------------------------------+
+| bitsfull     | When printing bits use the full path to the bitfield                         |
++--------------+------------------------------------------------------------------------------+
+| empty_log    | Empty MMIO tracer after reading it                                           |
++--------------+------------------------------------------------------------------------------+
+| follow       | Tells --logscan to continually read the MMIO tracer                          |
++--------------+------------------------------------------------------------------------------+
+| no_follow_ib | Instructs the --ring command to not follow IBs pointed to by the ring        |
++--------------+------------------------------------------------------------------------------+
+| named        | Tells --read to print out the register name along with the value             |
++--------------+------------------------------------------------------------------------------+
+| many         | Allows matching of register names openly.  Used with --read and implies the  |
+|              | *named* option.  For instance: '\*.dce100.CRTC' will match any register that |
+|              | contains the fragment 'CRTC' in it.                                          |
++--------------+------------------------------------------------------------------------------+
+| use_pci      | Enables direct PCI access bypassing the kernels debugfs entries.             |
++--------------+------------------------------------------------------------------------------+
+| use_colour   | Enables colourful output in various commands.  Also accepts use_color        |
++--------------+------------------------------------------------------------------------------+
+| no_kernel    | Attempts to avoid kernel access methods.  Implies *use_pci*.                 |
++--------------+------------------------------------------------------------------------------+
+| verbose      | Enables verbose output, for instance in VM decoding                          |
++--------------+------------------------------------------------------------------------------+
+| halt_waves   | Halt active waves while reading wave status data                             |
++--------------+------------------------------------------------------------------------------+
 
 ------------------
 Device Information
