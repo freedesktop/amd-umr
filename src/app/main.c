@@ -429,7 +429,7 @@ int main(int argc, char **argv)
 				} while (size);
 				i += 2;
 			} else {
-				printf("--vram-read requires two parameters\n");
+				printf("--vm-read requires two parameters\n");
 				return EXIT_FAILURE;
 			}
 		} else if (!strcmp(argv[i], "-vw") || !strcmp(argv[i], "--vm-write")) {
@@ -463,7 +463,35 @@ int main(int argc, char **argv)
 				} while (size);
 				i += 2;
 			} else {
-				printf("--vram-write requires two parameters\n");
+				printf("--vm-write requires two parameters\n");
+				return EXIT_FAILURE;
+			}
+		} else if (!strcmp(argv[i], "-vdis") || !strcmp(argv[i], "--vm-disasm")) {
+			if (i + 2 < argc) {
+				uint64_t address;
+				uint32_t size, n, vmid;
+
+				if (!asic)
+					asic = get_asic();
+
+				// allow specifying the vmid in hex as well so
+				// people can add the HUB flags more easily
+				if ((n = sscanf(argv[i+1], "0x%"SCNx32"@%"SCNx64, &vmid, &address)) != 2)
+					if ((n = sscanf(argv[i+1], "%"SCNu32"@%"SCNx64, &vmid, &address)) != 2) {
+						sscanf(argv[i+1], "%"SCNx64, &address);
+						vmid = UMR_LINEAR_HUB;
+					}
+
+				// imply user hub if hub name specified
+				if (options.hub_name[0])
+					vmid |= UMR_USER_HUB;
+
+				sscanf(argv[i+2], "%"SCNx32, &size);
+				umr_vm_disasm(asic, vmid, address, 0, size);
+
+				i += 2;
+			} else {
+				printf("--vm-disasm requires two parameters\n");
 				return EXIT_FAILURE;
 			}
 		} else if (!strcmp(argv[i], "--option") || !strcmp(argv[i], "-O")) {
@@ -542,6 +570,8 @@ int main(int argc, char **argv)
 	"\n\t\tdecodings.\n"
 "\n\t--vm-write, -vw [<vmid>@]<address> <size>"
 	"\n\t\tWrite 'size' bytes (in hex) to a given address (in hex) from stdin.\n"
+"\n\t--vm-disasm, -vdis [<vmid>@]<address> <size>"
+	"\n\t\tDisassemble 'size' bytes (in hex) from a given address (in hex).\n"
 "\n\t--option -O <string>[,<string>,...]\n\t\tEnable various flags: bits, bitsfull, empty_log, follow, no_follow_ib, named, many,"
 	"\n\t\tuse_pci, use_colour, read_smc, quiet, no_kernel, verbose, halt_waves.\n"
 "\n\n", UMR_BUILD_VER, UMR_BUILD_REV);

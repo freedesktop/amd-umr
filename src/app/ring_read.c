@@ -146,10 +146,12 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 	free(ring_data);
 	printf("\n");
 
+	umr_dump_shaders(asic, &decoder);
 	pdecoder = decoder.next_ib;
 	while (pdecoder) {
 		if (asic->options.follow_ib) {
 			umr_dump_ib(asic, pdecoder);
+			umr_dump_shaders(asic, pdecoder);
 		}
 		ppdecoder = pdecoder->next_ib;
 		free(pdecoder);

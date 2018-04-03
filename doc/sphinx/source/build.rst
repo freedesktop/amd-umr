@@ -29,6 +29,7 @@ The umr build depends on the following additional libraries:
     • ncurses
     • pciaccess
     • libdrm
+    • llvm
 
 These can both be found in Fedora and Ubuntu (as well as other Linux distributions).
 
@@ -37,6 +38,7 @@ In **Fedora** they are called:
     • ncurses-devel
     • libpciaccess-devel
     • libdrm-devel
+    • llvm-devel
 
 In **Ubuntu** they are called:
     • (pthreads is typically included with glibc)

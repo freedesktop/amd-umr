@@ -28,8 +28,8 @@ mailing list at:
 Building
 ---------
 
-To build umr you will need pciaccess, ncurses, libdrm, and pthread
-headers and libraries.  To build umr:
+To build umr you will need pciaccess, ncurses, libdrm, llvm and
+pthread headers and libraries.  To build umr:
 
     $ mkdir build && cd build/ && cmake ../
     $ make

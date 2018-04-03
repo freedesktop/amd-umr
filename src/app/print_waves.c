@@ -33,9 +33,11 @@
 #define H(x) if (col) { printf("\n"); }; col = 0; printf("\n\n%s:\n\t", x);
 #define Hv(x, y) if (col) { printf("\n"); }; col = 0; printf("\n\n%s[%08lx]:\n\t", x, (unsigned long)y);
 
+#define NUM_OPCODE_WORDS 16
+
 void umr_print_waves(struct umr_asic *asic)
 {
-	uint32_t x, y, se, sh, cu, simd, wave, sgprs[1024], shift, opcodes[8];
+	uint32_t x, y, se, sh, cu, simd, wave, sgprs[1024], shift;
 	uint32_t vgprs[64 * 256];
 	uint32_t thread;
 	uint64_t pgm_addr;
@@ -122,14 +124,8 @@ void umr_print_waves(struct umr_asic *asic)
 							}
 						}
 
-						pgm_addr = (((uint64_t)ws.pc_hi << 32) | ws.pc_lo) - (sizeof(opcodes)/2);
-						umr_read_vram(asic, ws.hw_id.vm_id, pgm_addr, sizeof(opcodes), opcodes);
-						for (x = 0; x < sizeof(opcodes)/4; x++) {
-							printf(">pgm[%lu@%llx] = %08lx\n",
-								(unsigned long)ws.hw_id.vm_id,
-								(unsigned long long)(pgm_addr + 4 * x),
-								(unsigned long)opcodes[x]);
-						}
+						pgm_addr = (((uint64_t)ws.pc_hi << 32) | ws.pc_lo) - (NUM_OPCODE_WORDS*4)/2;
+						umr_vm_disasm(asic, ws.hw_id.vm_id, pgm_addr, (((uint64_t)ws.pc_hi << 32) | ws.pc_lo), NUM_OPCODE_WORDS*4);
 					} else {
 						first = 0;
 						printf("\n------------------------------------------------------\nse%u.sh%u.cu%u.simd%u.wave%u\n",
@@ -250,18 +246,8 @@ void umr_print_waves(struct umr_asic *asic)
 						}
 
 						printf("\n\nPGM_MEM:\n");
-						pgm_addr = (((uint64_t)ws.pc_hi << 32) | ws.pc_lo) - (sizeof(opcodes)/2);
-						umr_read_vram(asic, ws.hw_id.vm_id, pgm_addr, sizeof(opcodes), opcodes);
-						for (x = 0; x < sizeof(opcodes)/4; x++) {
-							if (x == (sizeof(opcodes)/8))
-								printf("*\t");
-							else
-								printf("\t");
-							printf("pgm[%lu@%llx] = %08lx\n",
-								(unsigned long)ws.hw_id.vm_id,
-								(unsigned long long)(pgm_addr + 4 * x),
-								(unsigned long)opcodes[x]);
-						}
+						pgm_addr = (((uint64_t)ws.pc_hi << 32) | ws.pc_lo) - (NUM_OPCODE_WORDS*4)/2;
+						umr_vm_disasm(asic, ws.hw_id.vm_id, pgm_addr, (((uint64_t)ws.pc_hi << 32) | ws.pc_lo), NUM_OPCODE_WORDS*4);
 
 						Hv("LDS_ALLOC", ws.lds_alloc.value);
 						PP(lds_alloc, lds_base);

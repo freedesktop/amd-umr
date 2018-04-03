@@ -31,10 +31,14 @@ include_directories(${PCIACCESS_INCLUDE_DIR})
 find_package(LibDRM REQUIRED)
 include_directories(${LIBDRM_INCLUDE_DIR})
 
+find_package(LLVM REQUIRED COMPONENTS all)
+include_directories(${LLVM_INCLUDE_DIR})
+
 set(REQUIRED_EXTERNAL_LIBS
   ${CURSES_LIBRARIES}
   ${PCIACCESS_LIBRARIES}
   Threads::Threads
+  ${LLVM_LIBS}
 )
 
 # Global setting: build everything position independent

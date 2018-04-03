@@ -25,6 +25,7 @@ add_library(umrcore STATIC
   transfer_soc15.c
   wave_status.c
   umr_apply_bank_address.c
+  umr_llvm_disasm.c
   update.c
   version.c
   $<TARGET_OBJECTS:asic> $<TARGET_OBJECTS:ip>

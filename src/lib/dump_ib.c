@@ -39,7 +39,7 @@ void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder)
 	if (decoder->src.ib_addr == 0)
 		printf("ring[%s%u%s]", BLUE, (unsigned)decoder->src.addr, RST);
 	else
-		printf("IB[%s%u%s] at %s%d%s:%s0x%llx%s",
+		printf("IB[%s%u%s] at %s%d%s@%s0x%llx%s",
 			BLUE, (unsigned)decoder->src.addr, RST,
 			YELLOW, (int)decoder->src.vmid, RST,
 			YELLOW, (unsigned long long)decoder->src.ib_addr, RST);
@@ -54,13 +54,33 @@ void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder)
 		decoder->sdma.cur_opcode = 0xFFFFFFFF;
 		for (x = 0; x < decoder->next_ib_info.size/4; x++) {
 			decoder->next_ib_info.addr = x;
-			printf("IB[%s%5u%s] = %s0x%08lx%s ... ",
-			BLUE, (unsigned)x, RST,
-			YELLOW, (unsigned long)data[x], RST);
-			umr_print_decode(asic, decoder, data[x]);
+			printf("IB[%s%u%s@%s0x%llx%s + %s0x%-4x%s] = %s0x%08lx%s ... ",
+				BLUE, decoder->next_ib_info.vmid, RST,
+				YELLOW, (unsigned long long)decoder->next_ib_info.ib_addr, RST,
+				YELLOW, (unsigned)x * 4, RST,
+				GREEN, (unsigned long)data[x], RST);
+				umr_print_decode(asic, decoder, data[x]);
 			printf("\n");
 		}
 	}
 	free(data);
 	printf("End of IB\n\n");
+}
+
+void umr_dump_shaders(struct umr_asic *asic, struct umr_ring_decoder *decoder)
+{
+	struct umr_shaders_pgm *shader;
+
+	shader = decoder->shader;
+	while (shader) {
+		printf("Disassembly of shader %u@0x%llx of length %u bytes from IB[%s%u%s@%s0x%llx%s + %s0x%x%s]\n",
+				shader->vmid, (unsigned long long)shader->addr,
+				shader->size,
+				BLUE, (unsigned)shader->vmid, RST,
+				YELLOW, (unsigned long long)shader->src.ib_base, RST,
+				YELLOW, (unsigned)shader->src.ib_offset * 4, RST);
+		umr_vm_disasm(asic, shader->vmid, shader->addr, 0, shader->size);
+		shader = shader->next;
+		printf("\n");
+	}
 }

@@ -361,10 +361,28 @@ struct umr_wave_status {
 	} trapsts;
 };
 
+struct umr_shaders_pgm {
+	// VMID and length in bytes
+	uint32_t
+		vmid,
+		size;
+
+	// address in VM space for this shader
+	uint64_t addr;
+
+	struct umr_shaders_pgm *next;
+
+	struct {
+		uint64_t ib_base, ib_offset;
+	} src;
+};
+
 struct umr_ring_decoder {
+	// type of ring (4==PM4, 3==SDMA)
 	int
 		pm;
 
+	// source of this IB
 	struct {
 		uint64_t
 			addr,
@@ -372,6 +390,7 @@ struct umr_ring_decoder {
 			ib_addr;
 	} src; 
 
+	// working state for the PM4 decoder
 	struct {
 		uint32_t
 			cur_opcode,
@@ -396,6 +415,7 @@ struct umr_ring_decoder {
 		} next_write_mem;
 	} pm4;
 
+	// working state of the SDMA decoder
 	struct {
 		uint32_t
 			cur_opcode,
@@ -416,16 +436,21 @@ struct umr_ring_decoder {
 		} next_ib_state;
 	} sdma;
 
+	// pointer to next IB to decode
 	struct umr_ring_decoder *next_ib;
 
 	// only used by tail end of ring_read ...
 	struct {
-		uint64_t ib_addr,
-			 vm_base_addr; // not used yet (will be used by IB parser...)
+		uint64_t
+			ib_addr,
+			vm_base_addr; // not used yet (will be used by IB parser...)
 		uint32_t vmid,
 			 size,
 			 addr;
 	} next_ib_info;
+
+	// count shaders in the IB
+	struct umr_shaders_pgm *shader;
 };
 
 /* ip block constructors for soc15 */
@@ -586,18 +611,27 @@ int umr_sq_cmd_halt_waves(struct umr_asic *asic, enum umr_sq_cmd_halt_resume mod
 /* IB/ring decoding/dumping/etc */
 void umr_print_decode(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib);
 void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder);
+void umr_dump_shaders(struct umr_asic *asic, struct umr_ring_decoder *decoder);
+
+int umr_llvm_disasm(struct umr_asic *asic,
+					uint8_t *inst, unsigned inst_bytes,
+					uint64_t PC,
+					char **disasm_text);
+uint32_t umr_compute_shader_size(struct umr_asic *asic,
+								 struct umr_shaders_pgm *shader);
+
 
 // memory access
 int umr_access_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint32_t size, void *data, int write_en);
 #define umr_read_vram(asic, vmid, address, size, dst) umr_access_vram(asic, vmid, address, size, dst, 0)
 #define umr_write_vram(asic, vmid, address, size, src) umr_access_vram(asic, vmid, address, size, src, 1)
 
-#define RED     (options.use_colour ? "\x1b[31;1m" : "")
-#define YELLOW  (options.use_colour ? "\x1b[33;1m" : "")
-#define GREEN   (options.use_colour ? "\x1b[32;1m" : "")
-#define BLUE    (options.use_colour ? "\x1b[34;1m" : "")
-#define CYAN    (options.use_colour ? "\x1b[36;1m" : "")
-#define RST     (options.use_colour ? "\x1b[0m" : "")
+#define RED     (asic->options.use_colour ? "\x1b[31;1m" : "")
+#define YELLOW  (asic->options.use_colour ? "\x1b[33;1m" : "")
+#define GREEN   (asic->options.use_colour ? "\x1b[32;1m" : "")
+#define BLUE    (asic->options.use_colour ? "\x1b[34;1m" : "")
+#define CYAN    (asic->options.use_colour ? "\x1b[36;1m" : "")
+#define RST     (asic->options.use_colour ? "\x1b[0m" : "")
 
 void umr_bitfield_default(struct umr_asic *asic, char *asicname, char *ipname, char *regname, char *bitname, int start, int stop, uint32_t value);
 int umr_scan_config(struct umr_asic *asic);

@@ -340,6 +340,36 @@ static char *vgt_event_decode(unsigned tag)
 
 #define BITS(x, a, b) (unsigned long)((x >> (a)) & ((1ULL << ((b)-(a)))-1))
 
+static void add_shader(struct umr_asic *asic, struct umr_ring_decoder *decoder)
+{
+	struct umr_shaders_pgm *pshader;
+
+	if (!decoder->shader) {
+		pshader = decoder->shader = calloc(1, sizeof *pshader);
+		if (!pshader)
+			goto error;
+	} else {
+		pshader = decoder->shader;
+		while (pshader->next)
+			pshader = pshader->next;
+
+		pshader->next = calloc(1, sizeof *pshader);
+		if (!pshader->next)
+			goto error;
+		pshader = pshader->next;
+	}
+
+	pshader->vmid = decoder->pm4.next_ib_state.ib_vmid;
+	pshader->addr = (((uint64_t)decoder->pm4.next_ib_state.ib_addr_hi << 32) |
+					 decoder->pm4.next_ib_state.ib_addr_lo) << 8;
+	pshader->size = umr_compute_shader_size(asic, pshader);
+	pshader->src.ib_offset = decoder->next_ib_info.addr;
+	pshader->src.ib_base = decoder->next_ib_info.ib_addr;
+	return;
+error:
+	fprintf(stderr, "[ERROR]: Out of memory in add_shader()\n");
+}
+
 static void add_ib_pm4(struct umr_ring_decoder *decoder)
 {
 	struct umr_ring_decoder *pdecoder;
@@ -740,8 +770,19 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 				case 0: decoder->pm4.next_write_mem.addr_lo = BITS(ib, 0, 16) + 0x2C00;
 					printf("OFFSET: %s0x%lx%s", BLUE, (unsigned long)BITS(ib, 0, 16), RST);
 					break;
-				default: printf("%s <= %s0x%08lx%s", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo++), YELLOW, (unsigned long)ib, RST);
-					print_bits(asic, decoder->pm4.next_write_mem.addr_lo - 1, ib, 0);
+				default:
+					{
+						char *tmp = umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo);
+						printf("%s <= %s0x%08lx%s", tmp, YELLOW, (unsigned long)ib, RST);
+						if (strstr(tmp, "SPI_SHADER_PGM_LO_")) {
+							decoder->pm4.next_ib_state.ib_addr_lo = ib;
+						} else if (strstr(tmp, "SPI_SHADER_PGM_HI_")) {
+							decoder->pm4.next_ib_state.ib_addr_hi = ib;
+							decoder->pm4.next_ib_state.ib_vmid = decoder->next_ib_info.vmid;
+							add_shader(asic, decoder);
+						}
+						print_bits(asic, decoder->pm4.next_write_mem.addr_lo++, ib, 0);
+					}
 					break;
 			}
 			break;

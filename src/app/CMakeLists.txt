@@ -20,6 +20,15 @@ add_library(umrapp
 add_executable(umr main.c)
 target_link_libraries(umr umrapp)
 target_link_libraries(umr umrcore)
+
+
+execute_process(COMMAND  llvm-config --libfiles
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    OUTPUT_VARIABLE  LLVM_LIBS
+)
+
+target_link_libraries(umr ${LLVM_LIBS})
 target_link_libraries(umr ${REQUIRED_EXTERNAL_LIBS})
 
 install(TARGETS umr DESTINATION bin)
