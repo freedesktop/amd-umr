@@ -54,6 +54,7 @@ static void wave_read_regs_via_mmio(struct umr_asic *asic, uint32_t simd,
 int umr_read_sgprs(struct umr_asic *asic, struct umr_wave_status *ws, uint32_t *dst)
 {
 	uint64_t addr, shift;
+	int r;
 
 	if (asic->family <= FAMILY_CIK)
 		shift = 3;  // on SI..CIK allocations were done in 8-dword blocks
@@ -72,11 +73,24 @@ int umr_read_sgprs(struct umr_asic *asic, struct umr_wave_status *ws, uint32_t *
 			(0ULL << 52); // thread_id
 
 		lseek(asic->fd.gpr, addr, SEEK_SET);
-		return read(asic->fd.gpr, dst, 4 * ((ws->gpr_alloc.sgpr_size + 1) << shift));
+		r = read(asic->fd.gpr, dst, 4 * ((ws->gpr_alloc.sgpr_size + 1) << shift));
+		if (r < 0)
+			return r;
+
+		// read trap if any
+		if (ws->wave_status.trap_en || ws->wave_status.priv) {
+			addr += 0x6C;
+			lseek(asic->fd.gpr, addr, SEEK_SET);
+			r = read(asic->fd.gpr, &dst[0x6C], 4 * 16);
+		}
+		return r;
 	} else {
 		umr_grbm_select_index(asic, ws->hw_id.se_id, ws->hw_id.sh_id, ws->hw_id.cu_id);
 		wave_read_regs_via_mmio(asic, ws->hw_id.simd_id, ws->hw_id.wave_id, 0, 0x200,
 					(ws->gpr_alloc.sgpr_size + 1) << shift, dst);
+		if (ws->wave_status.trap_en || ws->wave_status.priv)
+			wave_read_regs_via_mmio(asic, ws->hw_id.simd_id, ws->hw_id.wave_id, 0, 0x26C,
+						16, &dst[0x6C]);
 		umr_grbm_select_index(asic, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
 		return 0;
 	}

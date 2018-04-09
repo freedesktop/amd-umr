@@ -129,6 +129,7 @@ static int umr_get_wave_status_vi(struct umr_asic *asic, unsigned se, unsigned s
 	x = 1;
 	ws->wave_status.value = value = buf[x++];
 		ws->wave_status.scc = (value & 1);
+		ws->wave_status.priv = (value >> 5) & 1;
 		ws->wave_status.execz = (value >> 9) & 1;
 		ws->wave_status.vccz  = (value >> 10) & 1;
 		ws->wave_status.in_tg = (value >> 11) & 1;

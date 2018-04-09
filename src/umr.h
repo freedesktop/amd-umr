@@ -271,6 +271,7 @@ struct umr_wave_status {
 	struct {
 		uint32_t
 			value,
+			priv,
 			scc,
 			execz,
 			vccz,
