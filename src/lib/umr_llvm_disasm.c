@@ -153,18 +153,20 @@ uint32_t umr_compute_shader_size(struct umr_asic *asic,
 		}
 		y += 4;
 		if (buf[x] == S_ENDPGM || buf[x] == S_ENDINV) {
-			++x;
 			lastendpgm = y - 4;
 			++endpgm_cnt;
 			if (endpgm_cnt == 5)
 				break;
+			if (asic->options.disasm_early_term)
+				break;
 		} else {
 			endpgm_cnt = 0;
 		}
+		++x;
 	}
 	if (endpgm_cnt == 5)
 		return y - 16; // remove last 4 endpgm's
 	else
-		return lastendpgm; // assume the last endpgm seen was the end
+		return lastendpgm + 4; // assume the last endpgm seen was the end
 }
 

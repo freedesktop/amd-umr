@@ -111,6 +111,8 @@ static void parse_options(char *str)
 			options.verbose = 1;
 		} else if (!strcmp(option, "halt_waves")) {
 			options.halt_waves = 1;
+		} else if (!strcmp(option, "disasm_early_term")) {
+			options.disasm_early_term = 1;
 		} else if (!strcmp(option, "no_kernel")) {
 			options.no_kernel = 1;
 			options.use_pci = 1;
@@ -573,7 +575,7 @@ int main(int argc, char **argv)
 "\n\t--vm-disasm, -vdis [<vmid>@]<address> <size>"
 	"\n\t\tDisassemble 'size' bytes (in hex) from a given address (in hex).\n"
 "\n\t--option -O <string>[,<string>,...]\n\t\tEnable various flags: bits, bitsfull, empty_log, follow, no_follow_ib, named, many,"
-	"\n\t\tuse_pci, use_colour, read_smc, quiet, no_kernel, verbose, halt_waves.\n"
+	"\n\t\tuse_pci, use_colour, read_smc, quiet, no_kernel, verbose, halt_waves, disasm_early_term.\n"
 "\n\n", UMR_BUILD_VER, UMR_BUILD_REV);
 			exit(EXIT_SUCCESS);
 		} else {

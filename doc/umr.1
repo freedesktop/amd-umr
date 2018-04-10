@@ -179,6 +179,11 @@ separated strings.  Options should be specified before --update or --force comma
 .B halt_waves
      Halt/resume all waves while reading wave status.
 
+.B disasm_early_term
+     Terminate shader disassembly when first s_endpgm is hit.  This is required for
+     older UMDs (or non-mesa UMDs) that don't use the quintuple 0xBF9F0000 to signal the true
+     end of a shader.
+
 .SH "Notes"
 
 - The "Waves" field in the DRM section of --top only works if GFX PG has been disabled.  Otherwise,

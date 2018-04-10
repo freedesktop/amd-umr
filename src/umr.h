@@ -191,7 +191,8 @@ struct umr_options {
 	    follow_ib,
 	    verbose,
 	    halt_waves,
-	    no_kernel;
+	    no_kernel,
+	    disasm_early_term;
 
 	union {
 		struct {
