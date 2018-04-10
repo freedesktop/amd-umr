@@ -540,7 +540,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 					break;
 				case 2: printf("IB_SIZE:%s%lu%s, VMID: %s%lu%s", BLUE, BITS(ib, 0, 20), RST, BLUE, BITS(ib, 24, 32), RST);
 					decoder->pm4.next_ib_state.ib_size = BITS(ib, 0, 20) * 4;
-					decoder->pm4.next_ib_state.ib_vmid = BITS(ib, 24, 32);
+					decoder->pm4.next_ib_state.ib_vmid = decoder->next_ib_info.vmid ? decoder->next_ib_info.vmid : BITS(ib, 24, 32);
 					add_ib_pm4(decoder);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);

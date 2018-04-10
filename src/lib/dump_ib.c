@@ -39,10 +39,10 @@ void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder)
 	if (decoder->src.ib_addr == 0)
 		printf("ring[%s%u%s]", BLUE, (unsigned)decoder->src.addr, RST);
 	else
-		printf("IB[%s%u%s] at %s%d%s@%s0x%llx%s",
-			BLUE, (unsigned)decoder->src.addr, RST,
-			YELLOW, (int)decoder->src.vmid, RST,
-			YELLOW, (unsigned long long)decoder->src.ib_addr, RST);
+		printf("IB[%s%u%s@%s0x%llx%s + %s0x%x%s]",
+			BLUE, (int)decoder->src.vmid, RST,
+			YELLOW, (unsigned long long)decoder->src.ib_addr, RST,
+			YELLOW, (unsigned)decoder->src.addr * 4, RST);
 
 	printf("\n");
 
