@@ -67,7 +67,7 @@ void umr_enumerate_devices(void)
 	} while (pdevice && devices < MAX_DEV);
 
 	// now try to match devices against instances
-	for (y = 0; y < devices; y++) {
+	for (y = 0; y < MAX_DEV; y++) {
 		snprintf(path, sizeof(path)-1, "/sys/kernel/debug/dri/%d/name", y);
 		dri = fopen(path, "r");
 		if (dri) {

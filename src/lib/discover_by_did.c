@@ -235,14 +235,14 @@ static const struct {
 	{ 0x69AF, &umr_create_vega12 },
 };
 
-static int find_first_did(long did)
+static int find_first_did(long did, long start_instance)
 {
 	char name[128], device[128];
 	FILE *f, *f2;
 
 	int x;
 
-	for (x = 0; x < 16; x++) {
+	for (x = start_instance; x < 16; x++) {
 		snprintf(name, sizeof(name)-1, "/sys/kernel/debug/dri/%d/name", x);
 		f = fopen(name, "r");
 		if (f) {
@@ -282,7 +282,7 @@ struct umr_asic *umr_discover_asic_by_did(struct umr_options *options, long did)
 
 	if (asic) {
 		asic->did = did;
-		asic->instance = find_first_did(did);
+		asic->instance = find_first_did(did, options->instance);
 		umr_scan_config(asic);
 
 		// set all file handles to -1 (so a call to close_asic won't close handle 0)
