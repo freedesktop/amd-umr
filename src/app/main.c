@@ -489,6 +489,12 @@ int main(int argc, char **argv)
 					vmid |= UMR_USER_HUB;
 
 				sscanf(argv[i+2], "%"SCNx32, &size);
+				if (!size) {
+					struct umr_shaders_pgm shader;
+					shader.vmid = vmid;
+					shader.addr = address;
+					size = umr_compute_shader_size(asic, &shader);
+				}
 				umr_vm_disasm(asic, vmid, address, 0, size);
 
 				i += 2;
@@ -573,7 +579,8 @@ int main(int argc, char **argv)
 "\n\t--vm-write, -vw [<vmid>@]<address> <size>"
 	"\n\t\tWrite 'size' bytes (in hex) to a given address (in hex) from stdin.\n"
 "\n\t--vm-disasm, -vdis [<vmid>@]<address> <size>"
-	"\n\t\tDisassemble 'size' bytes (in hex) from a given address (in hex).\n"
+	"\n\t\tDisassemble 'size' bytes (in hex) from a given address (in hex).  The size can"
+	"\n\t\tbe specified as zero to have umr try and compute the shader size.\n"
 "\n\t--option -O <string>[,<string>,...]\n\t\tEnable various flags: bits, bitsfull, empty_log, follow, no_follow_ib, named, many,"
 	"\n\t\tuse_pci, use_colour, read_smc, quiet, no_kernel, verbose, halt_waves, disasm_early_term.\n"
 "\n\n", UMR_BUILD_VER, UMR_BUILD_REV);
