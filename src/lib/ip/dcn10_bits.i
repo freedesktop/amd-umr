@@ -9005,6 +9005,13 @@ static struct umr_bitfield mmCM0_CM_MEM_PWR_STATUS[] = {
 	 { "SHARED_MEM_PWR_STATE", 0, 1, &umr_bitfield_default },
 	 { "RGAM_MEM_PWR_STATE", 2, 3, &umr_bitfield_default },
 };
+static struct umr_bitfield mmCM0_CM_TEST_DEBUG_INDEX[] = {
+	 { "CM_TEST_DEBUG_INDEX", 0, 7, &umr_bitfield_default },
+	 { "CM_TEST_DEBUG_WRITE_EN", 8, 8, &umr_bitfield_default },
+};
+static struct umr_bitfield mmCM0_CM_TEST_DEBUG_DATA[] = {
+	 { "CM_TEST_DEBUG_DATA", 0, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield mmDC_PERFMON12_PERFCOUNTER_CNTL[] = {
 	 { "PERFCOUNTER_EVENT_SEL", 0, 8, &umr_bitfield_default },
 	 { "PERFCOUNTER_CVALUE_SEL", 9, 11, &umr_bitfield_default },
