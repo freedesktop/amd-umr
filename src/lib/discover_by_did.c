@@ -262,8 +262,8 @@ static int find_first_did(long did, long start_instance)
 					fclose(f2);
 					return x;
 				}
+				fclose(f2);
 			}
-			fclose(f2);
 		}
 	}
 	return -1;
