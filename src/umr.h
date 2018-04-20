@@ -362,6 +362,14 @@ struct umr_wave_status {
 	} trapsts;
 };
 
+struct umr_wave_data {
+	uint32_t vgprs[64 * 256], sgprs[1024];
+	int se, sh, cu, simd, wave, have_vgprs;
+	struct umr_wave_status ws;
+	struct umr_wave_thread *threads;
+	struct umr_wave_data *next;
+};
+
 struct umr_shaders_pgm {
 	// VMID and length in bytes
 	uint32_t
@@ -561,6 +569,7 @@ int umr_update(struct umr_asic *asic, char *script);
 
 /* lib helpers */
 int umr_get_wave_status(struct umr_asic *asic, unsigned se, unsigned sh, unsigned cu, unsigned simd, unsigned wave, struct umr_wave_status *ws);
+struct umr_wave_data *umr_scan_wave_data(struct umr_asic *asic);
 int umr_get_wave_sq_info(struct umr_asic *asic, unsigned se, unsigned sh, unsigned cu, struct umr_wave_status *ws);
 int umr_read_sgprs(struct umr_asic *asic, struct umr_wave_status *ws, uint32_t *dst);
 int umr_read_vgprs(struct umr_asic *asic, struct umr_wave_status *ws, uint32_t thread, uint32_t *dst);

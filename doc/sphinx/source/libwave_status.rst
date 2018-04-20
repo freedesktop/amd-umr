@@ -43,6 +43,34 @@ can be read with the following function:
 This will populate many of the fields of the structure 'umr_wave_status'.  An
 example of reading them can be found in src/app/print_waves.c.
 
+---------------------
+Scanning Halted Waves
+---------------------
+
+If the waves have been halted (say with the function umr_sq_cmd_halt_waves()) then
+a list of halted valid waves can be made with the following function:
+
+
+::
+
+	struct umr_wave_data *umr_scan_wave_data(struct umr_asic *asic)
+
+This will return NULL on error (or no halted waves) or a pointer
+to the following structure:
+
+::
+
+	struct umr_wave_data {
+		uint32_t vgprs[64 * 256], sgprs[1024];
+		int se, sh, cu, simd, wave, have_vgprs;
+		struct umr_wave_status ws;
+		struct umr_wave_thread *threads;
+		struct umr_wave_data *next;
+	};
+
+The list of waves are stored as a linked list terminated by the
+last node having 'next' point to NULL.
+
 ------------
 Reading GPRs
 ------------
