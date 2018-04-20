@@ -34,6 +34,20 @@ include_directories(${LIBDRM_INCLUDE_DIR})
 find_package(LLVM REQUIRED COMPONENTS all)
 include_directories(${LLVM_INCLUDE_DIR})
 
+if(LLVM_CMAKE_DIR)
+  list(APPEND CMAKE_MODULE_PATH ${LLVM_CMAKE_DIR})
+  include(AddLLVM)
+
+  LLVM_MAP_COMPONENTS_TO_LIBNAMES(LLVM_LIBS
+    AllTargetsDescs
+    AllTargetsDisassemblers
+    AllTargetsInfos
+    MC
+    Support
+  )
+endif()
+
+
 set(REQUIRED_EXTERNAL_LIBS
   ${CURSES_LIBRARIES}
   ${PCIACCESS_LIBRARIES}
