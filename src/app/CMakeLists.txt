@@ -24,4 +24,4 @@ target_link_libraries(umr umrcore)
 target_link_libraries(umr ${LLVM_LIBS})
 target_link_libraries(umr ${REQUIRED_EXTERNAL_LIBS})
 
-install(TARGETS umr DESTINATION bin)
+install(TARGETS umr DESTINATION ${CMAKE_INSTALL_BINDIR})

@@ -7,4 +7,4 @@ add_subdirectory(app)
 
 set(headers umr.h umrapp.h)
 
-install(FILES ${headers} DESTINATION include)
+install(FILES ${headers} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})

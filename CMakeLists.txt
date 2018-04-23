@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.0.1)
 
 project(umr)
 
+include(GNUInstallDirs)
+
 SET(MAJOR_VERSION 1)
 SET(MINOR_VERSION 0)
 

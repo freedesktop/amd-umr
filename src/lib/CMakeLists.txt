@@ -34,4 +34,4 @@ add_library(umrcore STATIC
 
 target_link_libraries(umrcore ${REQUIRED_EXTERNAL_LIBS})
 
-install(TARGETS umrcore DESTINATION lib)
+install(TARGETS umrcore DESTINATION ${CMAKE_INSTALL_LIBDIR})
