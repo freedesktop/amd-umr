@@ -85,10 +85,31 @@ int umr_llvm_disasm(struct umr_asic *asic,
 	return 0;
 }
 
-void umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t PC, uint32_t size)
+static struct umr_wave_data *find_wave(struct umr_wave_data *wd, unsigned vmid, uint64_t addr)
 {
-	uint32_t *opcodes, x;
+	while (wd) {
+		uint64_t PC;
+		PC = ((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo;
+		if (wd->ws.hw_id.vm_id == vmid && addr == PC)
+			break;
+		wd = wd->next;
+	}
+	return wd;
+}
+
+
+void umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t PC, uint32_t size, struct umr_wave_data *wd)
+{
+	uint32_t *opcodes, x, nwave, wavehits;
 	char **opcode_strs = NULL;
+	struct umr_wave_data *pwd;
+
+	wavehits = nwave = 0;
+	pwd = wd;
+	while (pwd) {
+		++nwave;
+		pwd = pwd->next;
+	}
 
 	opcodes = calloc(size/4, sizeof(*opcodes));
 	if (!opcodes)
@@ -106,14 +127,35 @@ void umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t
 			printf(" * ");
 		else
 			printf("   ");
-		printf("pgm[%s%lu%s@%s0x%llx%s + %s0x%-4x%s] = %s0x%08lx%s\t%s%s%s\n",
+		printf("pgm[%s%lu%s@%s0x%llx%s + %s0x%-4x%s] = %s0x%08lx%s\t%s%-60s%s\t",
 			BLUE, (unsigned long)vmid, RST,
 			YELLOW, (unsigned long long)addr, RST,
 			YELLOW, (unsigned)x * 4, RST,
 			BLUE, (unsigned long)opcodes[x], RST,
 			GREEN, opcode_strs[x], RST);
 		free(opcode_strs[x]);
+
+		if (wd) {
+			unsigned n;
+			pwd = find_wave(wd, vmid, addr + x * 4);
+			n = 0;
+			while (pwd) {
+				++n;
+				++wavehits;
+				if (asic->options.bitfields)
+					printf("[se%u.sh%u.cu%u.simd%u.wave%u] ",
+						(unsigned)pwd->se, (unsigned)pwd->sh, (unsigned)pwd->cu, (unsigned)pwd->ws.hw_id.simd_id, (unsigned)pwd->ws.hw_id.wave_id);
+				pwd = find_wave(pwd->next, vmid, addr + x * 4);
+			}
+			if (n)
+				printf("[%3u waves (%3u %%)]", n, (n * 100) / nwave);
+		}
+		printf("\n");
 	}
+	printf("End of disassembly.\n");
+
+	if (wd && wavehits)
+		printf("\t%u waves in this shader (out of %u active waves)\n", wavehits, nwave);
 
 	free(opcode_strs);
 	free(opcodes);

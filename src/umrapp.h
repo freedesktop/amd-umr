@@ -48,6 +48,4 @@ void umr_top(struct umr_asic *asic);
 
 void umr_print_config(struct umr_asic *asic);
 void umr_print_waves(struct umr_asic *asic);
-
-void umr_app_disasm(struct umr_asic *asic);
-void umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t PC, uint32_t size);
+void umr_profiler(struct umr_asic *asic, int samples, int delay);

@@ -32,6 +32,7 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 	uint32_t wptr, rptr, drv_wptr, ringsize, start, end, value,
 		 *ring_data;
 	struct umr_ring_decoder decoder, *pdecoder, *ppdecoder;
+	struct umr_wave_data *wd;
 
 	memset(ringname, 0, sizeof ringname);
 	memset(from, 0, sizeof from);
@@ -146,16 +147,23 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 	free(ring_data);
 	printf("\n");
 
-	umr_dump_shaders(asic, &decoder);
+	wd = umr_scan_wave_data(asic);
+	umr_dump_shaders(asic, &decoder, wd);
 	pdecoder = decoder.next_ib;
 	while (pdecoder) {
 		if (asic->options.follow_ib) {
 			umr_dump_ib(asic, pdecoder);
-			umr_dump_shaders(asic, pdecoder);
+			umr_dump_shaders(asic, pdecoder, wd);
 		}
 		ppdecoder = pdecoder->next_ib;
 		free(pdecoder);
 		pdecoder = ppdecoder;
+	}
+
+	while (wd) {
+		struct umr_wave_data *pwd = wd->next;
+		free(wd);
+		wd = pwd;
 	}
 
 end:

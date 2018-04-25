@@ -100,7 +100,7 @@ void umr_print_waves(struct umr_asic *asic)
 			}
 
 			pgm_addr = (((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo) - (NUM_OPCODE_WORDS*4)/2;
-			umr_vm_disasm(asic, wd->ws.hw_id.vm_id, pgm_addr, (((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo), NUM_OPCODE_WORDS*4);
+			umr_vm_disasm(asic, wd->ws.hw_id.vm_id, pgm_addr, (((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo), NUM_OPCODE_WORDS*4, NULL);
 		} else {
 			first = 0;
 			printf("\n------------------------------------------------------\nse%u.sh%u.cu%u.simd%u.wave%u\n",
@@ -222,7 +222,7 @@ void umr_print_waves(struct umr_asic *asic)
 
 			printf("\n\nPGM_MEM:\n");
 			pgm_addr = (((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo) - (NUM_OPCODE_WORDS*4)/2;
-			umr_vm_disasm(asic, wd->ws.hw_id.vm_id, pgm_addr, (((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo), NUM_OPCODE_WORDS*4);
+			umr_vm_disasm(asic, wd->ws.hw_id.vm_id, pgm_addr, (((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo), NUM_OPCODE_WORDS*4, NULL);
 
 			Hv("LDS_ALLOC", wd->ws.lds_alloc.value);
 			PP(lds_alloc, lds_base);

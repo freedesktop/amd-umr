@@ -15,6 +15,7 @@ UMR: User Mode Register Debugger
    basic
    register_access
    wave_status
+   profiler
    vm_decoding
    ring
    top

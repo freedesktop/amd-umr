@@ -118,6 +118,10 @@ from stdin.
 Disassemble 'size' bytes (in hex) from a given address (in hex).  The size can be
 specified as zero to have umr try and compute the shader size.
 
+.IP "--profiler, -prof <nsamples> <usec_delay>"
+Capture 'nsamples' samples of wave data with at least usec_delay microseconds
+between captures.
+
 .IP "--update, -u" <filename>
 Specify update file to add, change, or delete registers from the register
 database.  Useful for adding registers that are not including in the kernel headers.

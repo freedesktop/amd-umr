@@ -621,12 +621,13 @@ int umr_sq_cmd_halt_waves(struct umr_asic *asic, enum umr_sq_cmd_halt_resume mod
 /* IB/ring decoding/dumping/etc */
 void umr_print_decode(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib);
 void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder);
-void umr_dump_shaders(struct umr_asic *asic, struct umr_ring_decoder *decoder);
+void umr_dump_shaders(struct umr_asic *asic, struct umr_ring_decoder *decoder, struct umr_wave_data *wd);
 
 int umr_llvm_disasm(struct umr_asic *asic,
 					uint8_t *inst, unsigned inst_bytes,
 					uint64_t PC,
 					char **disasm_text);
+void umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t PC, uint32_t size, struct umr_wave_data *wd);
 uint32_t umr_compute_shader_size(struct umr_asic *asic,
 								 struct umr_shaders_pgm *shader);
 
