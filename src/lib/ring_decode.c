@@ -774,9 +774,9 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 					{
 						char *tmp = umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo);
 						printf("%s <= %s0x%08lx%s", tmp, YELLOW, (unsigned long)ib, RST);
-						if (strstr(tmp, "SPI_SHADER_PGM_LO_")) {
+						if (strstr(tmp, "SPI_SHADER_PGM_LO_") || strstr(tmp, "COMPUTE_PGM_LO")) {
 							decoder->pm4.next_ib_state.ib_addr_lo = ib;
-						} else if (strstr(tmp, "SPI_SHADER_PGM_HI_")) {
+						} else if (strstr(tmp, "SPI_SHADER_PGM_HI_") || strstr(tmp, "COMPUTE_PGM_HI")) {
 							decoder->pm4.next_ib_state.ib_addr_hi = ib;
 							decoder->pm4.next_ib_state.ib_vmid = decoder->next_ib_info.vmid;
 							add_shader(asic, decoder);
