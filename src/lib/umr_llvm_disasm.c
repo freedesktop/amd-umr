@@ -50,6 +50,8 @@ int umr_llvm_disasm(struct umr_asic *asic,
 		cpuname = "gfx900";
 	if (!strcmp(cpuname, "polaris12"))
 		cpuname = "polaris11";
+	if (!strcmp(cpuname, "vegam"))
+		cpuname = "polaris11";
 
 	disasm_ref = LLVMCreateDisasmCPU(
 			"amdgcn-mesa-mesa3d", cpuname,
