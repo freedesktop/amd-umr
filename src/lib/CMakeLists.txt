@@ -27,6 +27,7 @@ add_library(umrcore STATIC
   wave_status.c
   umr_apply_bank_address.c
   umr_llvm_disasm.c
+  umr_read_ring_data.c
   update.c
   version.c
   $<TARGET_OBJECTS:asic> $<TARGET_OBJECTS:ip>

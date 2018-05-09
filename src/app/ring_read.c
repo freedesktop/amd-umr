@@ -27,8 +27,8 @@
 
 void umr_read_ring(struct umr_asic *asic, char *ringpath)
 {
-	char fname[128], ringname[32], from[32], to[32];
-	int fd, use_decoder, enable_decoder;
+	char ringname[32], from[32], to[32];
+	int use_decoder, enable_decoder;
 	uint32_t wptr, rptr, drv_wptr, ringsize, start, end, value,
 		 *ring_data;
 	struct umr_ring_decoder decoder, *pdecoder, *ppdecoder;
@@ -39,13 +39,6 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 	memset(to, 0, sizeof to);
 	if (sscanf(ringpath, "%[a-z0-9._][%[.0-9]:%[.0-9]]", ringname, from, to) < 1) {
 		printf("Invalid ringpath\n");
-		return;
-	}
-
-	snprintf(fname, sizeof(fname)-1, "/sys/kernel/debug/dri/%d/amdgpu_ring_%s", asic->instance, ringname);
-	fd = open(fname, O_RDWR);
-	if (fd < 0) {
-		perror("Could not open ring debugfs file");
 		return;
 	}
 
@@ -69,18 +62,9 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 	if (asic->options.halt_waves)
 		umr_sq_cmd_halt_waves(asic, UMR_SQ_CMD_HALT);
 
-	/* determine file size */
-	ringsize = lseek(fd, 0, SEEK_END) - 12;
-	lseek(fd, 0, SEEK_SET);
-
-	ring_data = calloc(1, ringsize + 12);
-	if (!ring_data) {
-		close(fd);
-		perror("Could not allocate ring data");
+	ring_data = umr_read_ring_data(asic, ringname, &ringsize);
+	if (!ring_data)
 		goto end;
-	}
-	read(fd, ring_data, ringsize + 12);
-	close(fd);
 
 	/* read pointers */
 	rptr = ring_data[0]<<2;

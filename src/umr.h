@@ -620,6 +620,7 @@ int umr_grbm_select_index(struct umr_asic *asic, uint32_t se, uint32_t sh, uint3
 int umr_sq_cmd_halt_waves(struct umr_asic *asic, enum umr_sq_cmd_halt_resume mode);
 
 /* IB/ring decoding/dumping/etc */
+void *umr_read_ring_data(struct umr_asic *asic, char *ringname, uint32_t *ringsize);
 void umr_print_decode(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib);
 void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder);
 void umr_dump_shaders(struct umr_asic *asic, struct umr_ring_decoder *decoder, struct umr_wave_data *wd);
