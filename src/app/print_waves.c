@@ -38,12 +38,21 @@
 void umr_print_waves(struct umr_asic *asic)
 {
 	uint32_t x, y, shift, thread;
-	uint64_t pgm_addr;
+	uint64_t pgm_addr, shader_addr;
 	struct umr_wave_data *wd, *owd;
 	int first = 1, col = 0;
+	struct umr_shaders_pgm *shader = NULL;
+	struct umr_pm4_stream *stream;
 
 	if (asic->options.halt_waves)
 		umr_sq_cmd_halt_waves(asic, UMR_SQ_CMD_HALT);
+
+	// scan a ring but don't trigger the halt/resume
+	// since it would have already been done
+	x = asic->options.halt_waves;
+	asic->options.halt_waves = 0;
+	stream = umr_pm4_decode_ring(asic, asic->options.ring_name[0] ? asic->options.ring_name : "gfx");
+	asic->options.halt_waves = x;
 
 	if (asic->family <= FAMILY_CIK)
 		shift = 3;  // on SI..CIK allocations were done in 8-dword blocks
@@ -100,7 +109,7 @@ void umr_print_waves(struct umr_asic *asic)
 			}
 
 			pgm_addr = (((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo) - (NUM_OPCODE_WORDS*4)/2;
-			umr_vm_disasm(asic, wd->ws.hw_id.vm_id, pgm_addr, (((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo), NUM_OPCODE_WORDS*4, NULL);
+			umr_vm_disasm(asic, wd->ws.hw_id.vm_id, pgm_addr, (((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo), NUM_OPCODE_WORDS*4, 0, NULL);
 		} else {
 			first = 0;
 			printf("\n------------------------------------------------------\nse%u.sh%u.cu%u.simd%u.wave%u\n",
@@ -220,9 +229,30 @@ void umr_print_waves(struct umr_asic *asic)
 				}
 			}
 
-			printf("\n\nPGM_MEM:\n");
-			pgm_addr = (((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo) - (NUM_OPCODE_WORDS*4)/2;
-			umr_vm_disasm(asic, wd->ws.hw_id.vm_id, pgm_addr, (((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo), NUM_OPCODE_WORDS*4, NULL);
+			printf("\n\nPGM_MEM:");
+			pgm_addr = (((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo);
+			if (stream)
+				shader = umr_find_shader_in_stream(stream, wd->ws.hw_id.vm_id, pgm_addr);
+			if (shader) {
+				printf(" (found shader at: %s%u%s@0x%s%llx%s of %s%u%s bytes)\n",
+					BLUE, shader->vmid, RST,
+					YELLOW, (unsigned long long)shader->addr, RST,
+					BLUE, shader->size, RST);
+
+				// start decoding a bit before PC if possible
+				if (shader->addr + ((NUM_OPCODE_WORDS*4)/2) < pgm_addr)
+					pgm_addr -= (NUM_OPCODE_WORDS*4)/2;
+				else
+					pgm_addr = shader->addr;
+				shader_addr = shader->addr;
+				free(shader);
+			} else {
+				pgm_addr -= (NUM_OPCODE_WORDS*4)/2;
+				shader_addr = pgm_addr;
+				printf("\n");
+			}
+
+			umr_vm_disasm(asic, wd->ws.hw_id.vm_id, shader_addr, (((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo), NUM_OPCODE_WORDS*4, pgm_addr - shader_addr, NULL);
 
 			Hv("LDS_ALLOC", wd->ws.lds_alloc.value);
 			PP(lds_alloc, lds_base);
@@ -252,6 +282,9 @@ void umr_print_waves(struct umr_asic *asic)
 		free(wd);
 		wd = owd;
 	}
+
+	if (stream)
+		umr_free_pm4_stream(stream);
 
 	if (asic->options.halt_waves)
 		umr_sq_cmd_halt_waves(asic, UMR_SQ_CMD_RESUME);

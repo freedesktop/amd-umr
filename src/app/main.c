@@ -274,6 +274,12 @@ int main(int argc, char **argv)
 		} else if (!strcmp(argv[i], "--waves") || !strcmp(argv[i], "-wa")) {
 			if (!asic)
 				asic = get_asic();
+			if (i + 1 < argc) {
+				if (argv[i+1][0] != '-') {
+					strcpy(asic->options.ring_name, argv[i+1]);
+					++i;
+				}
+			}
 			umr_print_waves(asic);
 		} else if (!strcmp(argv[i], "--scan") || !strcmp(argv[i], "-s")) {
 			if (i + 1 < argc) {
@@ -495,7 +501,7 @@ int main(int argc, char **argv)
 					shader.addr = address;
 					size = umr_compute_shader_size(asic, &shader);
 				}
-				umr_vm_disasm(asic, vmid, address, 0, size, NULL);
+				umr_vm_disasm(asic, vmid, address, 0, size, 0, NULL);
 
 				i += 2;
 			} else {
@@ -573,9 +579,11 @@ int main(int argc, char **argv)
 	"\n\t\t'-O bits,follow,empty_log' to continually dump the trace log.)\n"
 "\n\t--top, -t\n\t\tSummarize GPU utilization.  Can select a SE block with --bank.  Can use"
 	"\n\t\toptions 'use_colour' to colourize output and 'use_pci' to improve efficiency.\n"
-"\n\t--waves, -wa\n\t\tPrint out information about any active CU waves.  Can use '-O bits'"
+"\n\t--waves, -wa <ring_name>\n\t\tPrint out information about any active CU waves.  Can use '-O bits'"
 	"\n\t\tto see decoding of various wave fields.  Can use the '-O halt_waves' option"
-	"\n\t\tto halt the SQ while reading registers.\n"
+	"\n\t\tto halt the SQ while reading registers.  An optional ring name can be specified"
+	"\n\t\twhich will then search a given ring for pointers to active shaders.  It will"
+	"\n\t\tdefault to the 'gfx' ring if nothing is specified.\n"
 "\n\t--vm-decode, -vm vmid@<address> <num_of_pages>"
 	"\n\t\tDecode page mappings at a specified address (in hex) from the VMID specified."
 	"\n\t\tThe VMID can be specified in hexadecimal (with leading '0x') or in decimal."

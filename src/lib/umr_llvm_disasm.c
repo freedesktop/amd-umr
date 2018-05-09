@@ -100,9 +100,9 @@ static struct umr_wave_data *find_wave(struct umr_wave_data *wd, unsigned vmid, 
 }
 
 
-void umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t PC, uint32_t size, struct umr_wave_data *wd)
+void umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t PC, uint32_t size, uint32_t start_offset, struct umr_wave_data *wd)
 {
-	uint32_t *opcodes, x, nwave, wavehits;
+	uint32_t *opcodes, x, y, nwave, wavehits;
 	char **opcode_strs = NULL;
 	struct umr_wave_data *pwd;
 
@@ -121,10 +121,10 @@ void umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t
 	if (!opcode_strs)
 		goto error;
 
-	umr_read_vram(asic, vmid, addr, size, (void*)opcodes);
-	umr_llvm_disasm(asic, (uint8_t *)opcodes, size, addr, &opcode_strs[0]);
+	umr_read_vram(asic, vmid, addr + start_offset, size, (void*)opcodes);
+	umr_llvm_disasm(asic, (uint8_t *)opcodes, size, addr + start_offset, &opcode_strs[0]);
 
-	for (x = 0; x < size/4; x++) {
+	for (y = 0, x = start_offset / 4; x < (start_offset + size)/4; x++, y++) {
 		if (addr + 4 * x == PC)
 			printf(" * ");
 		else
@@ -133,9 +133,9 @@ void umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t
 			BLUE, (unsigned long)vmid, RST,
 			YELLOW, (unsigned long long)addr, RST,
 			YELLOW, (unsigned)x * 4, RST,
-			BLUE, (unsigned long)opcodes[x], RST,
-			GREEN, opcode_strs[x], RST);
-		free(opcode_strs[x]);
+			BLUE, (unsigned long)opcodes[y], RST,
+			GREEN, opcode_strs[y], RST);
+		free(opcode_strs[y]);
 
 		if (wd) {
 			unsigned n;

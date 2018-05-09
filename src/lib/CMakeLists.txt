@@ -28,6 +28,7 @@ add_library(umrcore STATIC
   umr_apply_bank_address.c
   umr_llvm_disasm.c
   umr_read_ring_data.c
+  umr_read_pm4_stream.c
   update.c
   version.c
   $<TARGET_OBJECTS:asic> $<TARGET_OBJECTS:ip>

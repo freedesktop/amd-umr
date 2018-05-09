@@ -213,7 +213,8 @@ struct umr_options {
 	char
 		*scanblock,
 		dev_name[32],
-		hub_name[32];
+		hub_name[32],
+		ring_name[32];
 	struct {
 		int domain,
 		    bus,
@@ -621,7 +622,26 @@ int umr_grbm_select_index(struct umr_asic *asic, uint32_t se, uint32_t sh, uint3
 int umr_sq_cmd_halt_waves(struct umr_asic *asic, enum umr_sq_cmd_halt_resume mode);
 
 /* IB/ring decoding/dumping/etc */
+struct umr_pm4_stream {
+	uint32_t pkttype,				// packet type (0==simple write, 3 == packet)
+			 pkt0off,				// base address for PKT0 writes
+			 opcode,
+			 n_words,				// number of words ignoring header
+			 *words;				// words following header word
+
+	struct umr_pm4_stream *next,	// adjacent PM4 packet if any
+						  *ib;		// IB this packet might point to
+
+	struct umr_shaders_pgm *shader; // shader program if any
+};
+
 void *umr_read_ring_data(struct umr_asic *asic, char *ringname, uint32_t *ringsize);
+struct umr_pm4_stream *umr_pm4_decode_ring(struct umr_asic *asic, char *ringname);
+struct umr_pm4_stream *umr_pm4_decode_stream(struct umr_asic *asic, int vmid, uint32_t *stream, uint32_t nwords);
+void umr_free_pm4_stream(struct umr_pm4_stream *stream);
+struct umr_shaders_pgm *umr_find_shader_in_stream(struct umr_pm4_stream *stream, unsigned vmid, uint64_t addr);
+struct umr_shaders_pgm *umr_find_shader_in_ring(struct umr_asic *asic, char *ringname, unsigned vmid, uint64_t addr, int no_halt);
+
 void umr_print_decode(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib);
 void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder);
 void umr_dump_shaders(struct umr_asic *asic, struct umr_ring_decoder *decoder, struct umr_wave_data *wd);
@@ -630,7 +650,7 @@ int umr_llvm_disasm(struct umr_asic *asic,
 					uint8_t *inst, unsigned inst_bytes,
 					uint64_t PC,
 					char **disasm_text);
-void umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t PC, uint32_t size, struct umr_wave_data *wd);
+void umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t PC, uint32_t size, uint32_t start_offset, struct umr_wave_data *wd);
 uint32_t umr_compute_shader_size(struct umr_asic *asic,
 								 struct umr_shaders_pgm *shader);
 

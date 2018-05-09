@@ -79,7 +79,7 @@ void umr_dump_shaders(struct umr_asic *asic, struct umr_ring_decoder *decoder, s
 				BLUE, (unsigned)shader->vmid, RST,
 				YELLOW, (unsigned long long)shader->src.ib_base, RST,
 				YELLOW, (unsigned)shader->src.ib_offset * 4, RST);
-		umr_vm_disasm(asic, shader->vmid, shader->addr, 0, shader->size, wd);
+		umr_vm_disasm(asic, shader->vmid, shader->addr, 0, shader->size, 0, wd);
 		printf("\n");
 		pshader = shader->next;
 		free(shader);
