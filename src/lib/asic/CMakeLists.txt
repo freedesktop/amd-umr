@@ -22,6 +22,7 @@ add_library(asic OBJECT
   topaz.c
   vega10.c
   vega12.c
+  vega20.c
   vegam.c
   verde.c
 )

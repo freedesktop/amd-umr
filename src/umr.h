@@ -553,6 +553,7 @@ struct umr_asic *umr_create_tonga(struct umr_options *options);
 struct umr_asic *umr_create_topaz(struct umr_options *options);
 struct umr_asic *umr_create_vega10(struct umr_options *options);
 struct umr_asic *umr_create_vega12(struct umr_options *options);
+struct umr_asic *umr_create_vega20(struct umr_options *options);
 struct umr_asic *umr_create_vegam(struct umr_options *options);
 struct umr_asic *umr_create_verde(struct umr_options *options);
 
