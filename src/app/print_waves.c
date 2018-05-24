@@ -49,10 +49,7 @@ void umr_print_waves(struct umr_asic *asic)
 
 	// scan a ring but don't trigger the halt/resume
 	// since it would have already been done
-	x = asic->options.halt_waves;
-	asic->options.halt_waves = 0;
-	stream = umr_pm4_decode_ring(asic, asic->options.ring_name[0] ? asic->options.ring_name : "gfx");
-	asic->options.halt_waves = x;
+	stream = umr_pm4_decode_ring(asic, asic->options.ring_name[0] ? asic->options.ring_name : "gfx", 1);
 
 	if (asic->family <= FAMILY_CIK)
 		shift = 3;  // on SI..CIK allocations were done in 8-dword blocks

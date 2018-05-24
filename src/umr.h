@@ -636,7 +636,7 @@ struct umr_pm4_stream {
 };
 
 void *umr_read_ring_data(struct umr_asic *asic, char *ringname, uint32_t *ringsize);
-struct umr_pm4_stream *umr_pm4_decode_ring(struct umr_asic *asic, char *ringname);
+struct umr_pm4_stream *umr_pm4_decode_ring(struct umr_asic *asic, char *ringname, int no_halt);
 struct umr_pm4_stream *umr_pm4_decode_stream(struct umr_asic *asic, int vmid, uint32_t *stream, uint32_t nwords);
 void umr_free_pm4_stream(struct umr_pm4_stream *stream);
 struct umr_shaders_pgm *umr_find_shader_in_stream(struct umr_pm4_stream *stream, unsigned vmid, uint64_t addr);

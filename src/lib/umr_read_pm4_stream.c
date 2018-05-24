@@ -97,19 +97,8 @@ struct umr_shaders_pgm *umr_find_shader_in_ring(struct umr_asic *asic, char *rin
 {
 	struct umr_pm4_stream *stream;
 	void *p;
-	int t;
 
-	// optionally mute halt_waves if we are calling this from
-	// a function that has already halted the waves
-	t = asic->options.halt_waves;
-
-	if (no_halt)
-		asic->options.halt_waves = 0;
-
-	stream = umr_pm4_decode_ring(asic, ringname);
-
-	asic->options.halt_waves = t;
-
+	stream = umr_pm4_decode_ring(asic, ringname, no_halt);
 	p = umr_find_shader_in_stream(stream, vmid, addr);
 	umr_free_pm4_stream(stream);
 	return p;
@@ -207,17 +196,19 @@ struct umr_pm4_stream *umr_pm4_decode_stream(struct umr_asic *asic, int vmid, ui
 }
 
 // decode a stream of PM4 packets starting with ring
-struct umr_pm4_stream *umr_pm4_decode_ring(struct umr_asic *asic, char *ringname)
+struct umr_pm4_stream *umr_pm4_decode_ring(struct umr_asic *asic, char *ringname, int no_halt)
 {
 	void *ps;
 	uint32_t *ringdata, ringsize;
 
-	if (asic->options.halt_waves)
+	if (!no_halt && asic->options.halt_waves)
 		umr_sq_cmd_halt_waves(asic, UMR_SQ_CMD_HALT);
 
 	ringdata = umr_read_ring_data(asic, ringname, &ringsize);
+	ringsize /= 4;
 	ringdata[0] %= ringsize;
 	ringdata[1] %= ringsize;
+
 	if (ringdata[0] != ringdata[1]) { // rptr != wptr
 		uint32_t *lineardata, linearsize;
 
@@ -236,7 +227,7 @@ struct umr_pm4_stream *umr_pm4_decode_ring(struct umr_asic *asic, char *ringname
 		ps = NULL;
 	}
 
-	if (asic->options.halt_waves)
+	if (!no_halt && asic->options.halt_waves)
 		umr_sq_cmd_halt_waves(asic, UMR_SQ_CMD_RESUME);
 
 	return ps;

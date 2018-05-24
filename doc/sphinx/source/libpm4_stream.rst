@@ -13,7 +13,7 @@ To decode a ring into a stream the following function can be used:
 
 ::
 
-	struct umr_pm4_stream *umr_pm4_decode_ring(struct umr_asic *asic, char *ringname);
+	struct umr_pm4_stream *umr_pm4_decode_ring(struct umr_asic *asic, char *ringname, int no_halt);
 
 Which will decode the ring named by ringname and return a pointer to
 the following structure if successful:
@@ -38,7 +38,9 @@ the following structure if successful:
 
 Adjacent PM4 packets are pointed to by 'next' (NULL terminated) and
 any IBs or shaders that are found are pointed to by 'ib' and 'shader'
-respectively.
+respectively.  The 'no_halt' parameter controls where the "halt_waves"
+option will be ignored or not.  This is used if the waves have already
+been halted and you don't wish to resume them with this call.
 
 -------------------
 PM4 Decode a Buffer
