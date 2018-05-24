@@ -24,11 +24,11 @@
  */
 #include "umrapp.h"
 
-#define PP(x, y) if (col++ == 4) { col = 1; printf("\n\t"); } printf("%20s: %8u | ", #y, (unsigned)wd->ws.x.y);
-#define PX(x, y) if (col++ == 4) { col = 1; printf("\n\t"); } printf("%20s: %08lx | ", #y, (unsigned long)wd->ws.x.y);
+#define PP(x, y) if (col++ == 4) { col = 1; printf("\n\t"); } printf("%s%20s%s: %s%8u%s | ", GREEN, #y, RST, BLUE, (unsigned)wd->ws.x.y, RST);
+#define PX(x, y) if (col++ == 4) { col = 1; printf("\n\t"); } printf("%s%20s%s: %s%08lx%s | ", GREEN, #y, RST, BLUE, (unsigned long)wd->ws.x.y, RST);
 
-#define P(x) if (col++ == 4) { col = 1; printf("\n\t"); } printf("%20s: %8u | ", #x, (unsigned)wd->ws.x);
-#define X(x) if (col++ == 4) { col = 1; printf("\n\t"); } printf("%20s: %08lx | ", #x, (unsigned long)wd->ws.x);
+#define P(x) if (col++ == 4) { col = 1; printf("\n\t"); } printf("%s%20s%s: %s%8u%s | ", GREEN, #x, RST, BLUE, (unsigned)wd->ws.x, RST);
+#define X(x) if (col++ == 4) { col = 1; printf("\n\t"); } printf("%s%20s%s: %s%08lx%s | ", GREEN, #x, RST, BLUE, (unsigned long)wd->ws.x, RST);
 
 #define H(x) if (col) { printf("\n"); }; col = 0; printf("\n\n%s:\n\t", x);
 #define Hv(x, y) if (col) { printf("\n"); }; col = 0; printf("\n\n%s[%08lx]:\n\t", x, (unsigned long)y);
@@ -81,24 +81,24 @@ void umr_print_waves(struct umr_asic *asic)
 );
 			if (wd->ws.wave_status.halt) {
 				for (x = 0; x < ((wd->ws.gpr_alloc.sgpr_size + 1) << shift); x += 4)
-					printf(">SGPRS[%u..%u] = { %08lx, %08lx, %08lx, %08lx }\n",
-						(unsigned)(x),
-						(unsigned)(x + 3),
-						(unsigned long)wd->sgprs[x],
-						(unsigned long)wd->sgprs[x+1],
-						(unsigned long)wd->sgprs[x+2],
-						(unsigned long)wd->sgprs[x+3]);
+					printf(">SGPRS[%s%u%s..%s%u%s] = { %s%08lx%s, %s%08lx%s, %s%08lx%s, %s%08lx%s }\n",
+						YELLOW, (unsigned)(x), RST,
+						YELLOW, (unsigned)(x + 3), RST,
+						BLUE, (unsigned long)wd->sgprs[x], RST,
+						BLUE, (unsigned long)wd->sgprs[x+1], RST,
+						BLUE, (unsigned long)wd->sgprs[x+2], RST,
+						BLUE, (unsigned long)wd->sgprs[x+3], RST);
 
 				if (wd->ws.wave_status.trap_en || wd->ws.wave_status.priv) {
 					for (y = 0, x = 0x6C; x < (16 + 0x6C); x += 4) {
-						printf(">%s[%u..%u] = { %08lx, %08lx, %08lx, %08lx }\n",
+						printf(">%s[%s%u%s..%s%u%s] = { %s%08lx%s, %s%08lx%s, %s%08lx%s, %s%08lx%s }\n",
 							(x < (0x6C + 4) && asic->family <= FAMILY_VI) ? "TBA/TMA" : "TTMP",
-							(unsigned)(y),
-							(unsigned)(y + 3),
-							(unsigned long)wd->sgprs[x],
-							(unsigned long)wd->sgprs[x+1],
-							(unsigned long)wd->sgprs[x+2],
-							(unsigned long)wd->sgprs[x+3]);
+							YELLOW, (unsigned)(y), RST,
+							YELLOW, (unsigned)(y + 3), RST,
+							BLUE, (unsigned long)wd->sgprs[x], RST,
+							BLUE, (unsigned long)wd->sgprs[x+1], RST,
+							BLUE, (unsigned long)wd->sgprs[x+2], RST,
+							BLUE, (unsigned long)wd->sgprs[x+3], RST);
 
 						// restart numbering on SI..VI with TTMP0
 						y += 4;
@@ -176,13 +176,13 @@ void umr_print_waves(struct umr_asic *asic)
 			if (wd->ws.wave_status.halt) {
 				printf("\n\nSGPRS:\n");
 				for (x = 0; x < ((wd->ws.gpr_alloc.sgpr_size + 1) << shift); x += 4)
-					printf("\t[%4u..%4u] = { %08lx, %08lx, %08lx, %08lx }\n",
-						(unsigned)(x),
-						(unsigned)(x + 3),
-						(unsigned long)wd->sgprs[x],
-						(unsigned long)wd->sgprs[x+1],
-						(unsigned long)wd->sgprs[x+2],
-						(unsigned long)wd->sgprs[x+3]);
+					printf("\t[%s%4u%s..%s%4u%s] = { %s%08lx%s, %s%08lx%s, %s%08lx%s, %s%08lx%s }\n",
+						YELLOW, (unsigned)(x), RST,
+						YELLOW, (unsigned)(x + 3), RST,
+						BLUE, (unsigned long)wd->sgprs[x], RST,
+						BLUE, (unsigned long)wd->sgprs[x+1], RST,
+						BLUE, (unsigned long)wd->sgprs[x+2], RST,
+						BLUE, (unsigned long)wd->sgprs[x+3], RST);
 
 				if (wd->ws.wave_status.trap_en || wd->ws.wave_status.priv) {
 					for (y  = 0, x = 0x6C; x < (16 + 0x6C); x += 4) {
@@ -190,13 +190,13 @@ void umr_print_waves(struct umr_asic *asic)
 						if ((asic->family <= FAMILY_VI && x < 0x6C + 8) ||
 							(asic->family > FAMILY_VI && x < 0x6C + 4))
 							printf("\n%s:\n", (x < 0x6C + 4 && asic->family <= FAMILY_VI) ? "TBA/TMA" : "TTMP");
-						printf("\t[%4u..%4u] = { %08lx, %08lx, %08lx, %08lx }\n",
-							(unsigned)(y),
-							(unsigned)(y + 3),
-							(unsigned long)wd->sgprs[x],
-							(unsigned long)wd->sgprs[x+1],
-							(unsigned long)wd->sgprs[x+2],
-							(unsigned long)wd->sgprs[x+3]);
+						printf("\t[%s%4u%s..%s%4u%s] = { %s%08lx%s, %s%08lx%s, %s%08lx%s, %s%08lx%s }\n",
+							YELLOW, (unsigned)(y), RST,
+							YELLOW, (unsigned)(y + 3), RST,
+							BLUE, (unsigned long)wd->sgprs[x], RST,
+							BLUE, (unsigned long)wd->sgprs[x+1], RST,
+							BLUE, (unsigned long)wd->sgprs[x+2], RST,
+							BLUE, (unsigned long)wd->sgprs[x+3], RST);
 
 						// reset count on SI..VI
 						y += 4;
@@ -222,9 +222,9 @@ void umr_print_waves(struct umr_asic *asic)
 						printf("\n");
 					}
 
-					printf("    [%3u] = {", x);
+					printf("    [%s%3u%s] = {", YELLOW, x, RST);
 					for (thread = 0; thread < 64; ++thread)
-						printf(" %08x", wd->vgprs[thread * 256 + x]);
+						printf(" %s%08x%s", BLUE, wd->vgprs[thread * 256 + x], RST);
 					printf(" }\n");
 				}
 			}
