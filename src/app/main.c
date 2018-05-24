@@ -510,10 +510,15 @@ int main(int argc, char **argv)
 			}
 		} else if (!strcmp(argv[i], "-prof") || !strcmp(argv[i], "--profiler")) {
 			if (i + 2 < argc) {
+				int n = 0;
 				if (!asic)
 					asic = get_asic();
+				if (i + 3 < argc && argv[i+3][0] != '-') {
+					n = 1;
+					strcpy(asic->options.ring_name, argv[i+3]);
+				}
 				umr_profiler(asic, atoi(argv[i+1]), atoi(argv[i+2]));
-				i += 2;
+				i += 2 + n;
 			} else {
 				printf("--profiler requires two parameters\n");
 				return EXIT_FAILURE;

@@ -28,10 +28,12 @@ struct umr_profiler_hit {
 	uint32_t
 		vmid,
 		inst_dw0,
-		inst_dw1;
+		inst_dw1,
+		shader_size;
 
 	uint64_t
-		pc;
+		pc,
+		base_addr;
 };
 
 struct umr_profiler_rle {
@@ -55,11 +57,16 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 	struct umr_profiler_hit *ophit, *phit;
 	struct umr_profiler_rle *prle;
 	struct umr_wave_data *owd, *wd;
+	struct umr_pm4_stream *stream;
+	struct umr_shaders_pgm *shader;
 	unsigned nitems, nmax, x, y, z;
 
 	nmax = samples;
 	nitems = 0;
 	ophit = phit = calloc(nmax, sizeof *phit);
+
+	if (!asic->mmio_accel.reglist)
+		umr_create_mmio_accel(asic);
 
 	while (samples--) {
 		fprintf(stderr, "%5u samples left\r", samples);
@@ -70,10 +77,23 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 				usleep(delay);
 			umr_sq_cmd_halt_waves(asic, UMR_SQ_CMD_HALT);
 			wd = umr_scan_wave_data(asic);
+			if (wd)
+				stream = umr_pm4_decode_ring(asic, asic->options.ring_name[0] ? asic->options.ring_name : "gfx", 1);
 		} while (!wd);
 
 		// loop through data ...
 		while (wd) {
+			shader = NULL;
+			if (stream)
+				shader = umr_find_shader_in_stream(stream, wd->ws.hw_id.vm_id, ((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo);
+			if (shader) {
+				phit[nitems].base_addr = shader->addr;
+				phit[nitems].shader_size = shader->size;
+				free(shader);
+			} else {
+				phit[nitems].base_addr = 0;
+				phit[nitems].shader_size = 0;
+			}
 			phit[nitems].vmid = wd->ws.hw_id.vm_id;
 			phit[nitems].inst_dw0 = wd->ws.wave_inst_dw0;
 			phit[nitems].inst_dw1 = wd->ws.wave_inst_dw1;
@@ -89,6 +109,9 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 			free(wd);
 			wd = owd;
 		}
+
+		if (stream)
+			umr_free_pm4_stream(stream);
 	}
 	umr_sq_cmd_halt_waves(asic, UMR_SQ_CMD_RESUME);
 
@@ -112,11 +135,12 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 		memcpy(buf + 4, &prle[x].data.inst_dw1, 4);
 		umr_llvm_disasm(asic, buf, 8, 0, &str[0]);
 
-		printf("%5u hits (%2u %%)\t%u@0x%llx\t 0x%08lx 0x%08lx\t%s\n",
+		printf("%5u hits (%2u %%)\t%u@[0x%llx + 0x%04llx]\t 0x%08lx 0x%08lx\t%s\n",
 			prle[x].cnt,
 			(prle[x].cnt * 100) / nitems,
 			(unsigned)prle[x].data.vmid,
-			(unsigned long long)prle[x].data.pc,
+			(unsigned long long)prle[x].data.base_addr,
+			(unsigned long long)prle[x].data.pc - prle[x].data.base_addr,
 			(unsigned long)prle[x].data.inst_dw0,
 			(unsigned long)prle[x].data.inst_dw1, str[0]);
 		free(str[0]);
