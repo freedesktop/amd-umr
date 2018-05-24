@@ -46,12 +46,14 @@ int umr_llvm_disasm(struct umr_asic *asic,
 
 	// cpuname based on mesa usage
 	cpuname = asic->asicname;
-	if (asic->family > FAMILY_VI)
+	if (asic->family == FAMILY_RV)
+		cpuname = "gfx902";
+	else if (asic->family > FAMILY_VI)
 		cpuname = "gfx900";
-	if (!strcmp(cpuname, "polaris12"))
+	else if (!strcmp(cpuname, "polaris12") || !strcmp(cpuname, "vegam"))
 		cpuname = "polaris11";
-	if (!strcmp(cpuname, "vegam"))
-		cpuname = "polaris11";
+	else if (!strcmp(cpuname, "vega12"))
+		cpuname = "gfx902";
 
 	disasm_ref = LLVMCreateDisasmCPU(
 			"amdgcn-mesa-mesa3d", cpuname,
