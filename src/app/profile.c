@@ -41,25 +41,31 @@ struct umr_profiler_rle {
 	uint32_t cnt;
 };
 
+struct umr_profiler_shaders {
+	uint32_t total_cnt, nhits;
+	struct umr_profiler_rle *hits;
+};
+
 static int comp_hits(const void *A, const void *B)
 {
 	return memcmp(A, B, sizeof(struct umr_profiler_hit));
 }
 
-static int comp_rle(const void *A, const void *B)
+static int comp_shaders(const void *A, const void *B)
 {
-	const struct umr_profiler_rle *a = A, *b = B;
-	return b->cnt - a->cnt;
+	const struct umr_profiler_shaders *a = A, *b = B;
+	return b->total_cnt - a->total_cnt;
 }
 
 void umr_profiler(struct umr_asic *asic, int samples, int delay)
 {
 	struct umr_profiler_hit *ophit, *phit;
 	struct umr_profiler_rle *prle;
+	struct umr_profiler_shaders *shaders;
 	struct umr_wave_data *owd, *wd;
 	struct umr_pm4_stream *stream;
 	struct umr_shaders_pgm *shader;
-	unsigned nitems, nmax, x, y, z;
+	unsigned nitems, nmax, nshaders, x, y, z, found;
 
 	nmax = samples;
 	nitems = 0;
@@ -115,6 +121,9 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 	}
 	umr_sq_cmd_halt_waves(asic, UMR_SQ_CMD_RESUME);
 
+	// sort all hits by address/size/etc so we can
+	// RLE compress them.  The compression tells us how often
+	// a particular 'hit' occurs.
 	qsort(phit, nitems, sizeof(*phit), comp_hits);
 	prle = calloc(nitems, sizeof *prle);
 	for (z = y = 0, x = 1; x < nitems; x++) {
@@ -125,28 +134,90 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 		}
 	}
 
-	qsort(prle, z, sizeof(*prle), comp_rle);
-	for (x = 0; x < z; x++) {
-		char *str[2];
-		unsigned char buf[8];
+	// group RLE hits by what shader they belong to
+	shaders = calloc(z, sizeof(shaders[0]));
+	for (nshaders = x = 0; x < z; x++) {
+		found = 0;
 
-		memset(str, 0, sizeof(str));
-		memcpy(buf, &prle[x].data.inst_dw0, 4);
-		memcpy(buf + 4, &prle[x].data.inst_dw1, 4);
-		umr_llvm_disasm(asic, buf, 8, 0, &str[0]);
+		// find a home for this RLE hit
+		for (y = 0; y < nshaders; y++) {
+			if (shaders[y].hits) {
+				if (shaders[y].hits[0].data.vmid == prle[x].data.vmid &&
+				    shaders[y].hits[0].data.base_addr == prle[x].data.base_addr &&
+				    shaders[y].hits[0].data.shader_size == prle[x].data.shader_size) {
+						// this is a match so append to end of list
+						shaders[y].hits[shaders[y].nhits++] = prle[x];
+						shaders[y].total_cnt += prle[x].cnt;
+						found = 1;
+						break; // don't need to compare any more
+					}
+			}
+		}
 
-		printf("%5u hits (%2u %%)\t%u@[0x%llx + 0x%04llx]\t 0x%08lx 0x%08lx\t%s\n",
-			prle[x].cnt,
-			(prle[x].cnt * 100) / nitems,
-			(unsigned)prle[x].data.vmid,
-			(unsigned long long)prle[x].data.base_addr,
-			(unsigned long long)prle[x].data.pc - prle[x].data.base_addr,
-			(unsigned long)prle[x].data.inst_dw0,
-			(unsigned long)prle[x].data.inst_dw1, str[0]);
-		free(str[0]);
-		free(str[1]);
+		if (!found) {
+			shaders[nshaders].hits = calloc(z, sizeof(shaders[nshaders].hits[0]));
+			shaders[nshaders].hits[shaders[nshaders].nhits++] = prle[x];
+			shaders[nshaders++].total_cnt = prle[x].cnt;
+		}
 	}
 
+	// sort shaders so the busiest are first
+	qsort(shaders, nshaders, sizeof(shaders[0]), comp_shaders);
+	for (x = 0; x < nshaders; x++) {
+		if (shaders[x].hits) {
+			char **strs;
+			uint32_t *data;
+
+			printf("\n\nShader %u@0x%llx (%lu bytes): total hits: %lu\n",
+				shaders[x].hits[0].data.vmid,
+				(unsigned long long)shaders[x].hits[0].data.base_addr,
+				(unsigned long)shaders[x].hits[0].data.shader_size,
+				(unsigned long)shaders[x].total_cnt);
+
+			// disasm shader
+			strs = calloc(shaders[x].hits[0].data.shader_size/4, sizeof(strs[0]));
+			data = calloc(1, shaders[x].hits[0].data.shader_size);
+			umr_read_vram(asic, shaders[x].hits[0].data.vmid, shaders[x].hits[0].data.base_addr, shaders[x].hits[0].data.shader_size, data);
+			umr_llvm_disasm(asic, (uint8_t *)data, shaders[x].hits[0].data.shader_size, 0xFFFFFFFF, strs);
+
+			for (z = 0; z < shaders[x].hits[0].data.shader_size; z += 4) {
+				unsigned cnt=0, pct;
+
+				for (y = 0; y < shaders[x].nhits; y++) {
+					if (shaders[x].hits[y].data.pc == (shaders[x].hits[0].data.base_addr + z)) {
+						cnt = shaders[x].hits[y].cnt;
+						break;
+					}
+				}
+
+				pct = (100 * cnt) / shaders[x].total_cnt;
+				if (pct >= 30)
+					printf(RED);
+				else if (pct >= 20)
+					printf(YELLOW);
+				else if (pct >= 10)
+					printf(GREEN);
+
+				printf("\tshader[0x%llx + 0x%04llx] = 0x%08lx %-60s ",
+					(unsigned long long)shaders[x].hits[0].data.base_addr,
+					(unsigned long long)z,
+					(unsigned long)data[z/4],
+					strs[z/4]);
+				free(strs[z/4]);
+
+				if (cnt)
+					printf("(%5u hits, %3u %%)", cnt, pct);
+
+				printf("\n%s", RST);
+			}
+			free(strs);
+			free(data);
+		}
+	}
+
+	for (x = 0; x < nshaders; x++)
+		free(shaders[x].hits);
+	free(shaders);
 	free(prle);
 	free(phit);
 }
