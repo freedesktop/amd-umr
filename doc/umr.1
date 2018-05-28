@@ -120,9 +120,10 @@ from stdin.
 Disassemble 'size' bytes (in hex) from a given address (in hex).  The size can be
 specified as zero to have umr try and compute the shader size.
 
-.IP "--profiler, -prof <nsamples> <usec_delay>"
+.IP "--profiler, -prof <nsamples> <usec_delay> [ring]"
 Capture 'nsamples' samples of wave data with at least usec_delay microseconds
-between captures.
+between captures.  Optionally specify a ring to use when searching for IBs
+that point to shaders.  Defaults to 'gfx'.
 
 .IP "--update, -u" <filename>
 Specify update file to add, change, or delete registers from the register

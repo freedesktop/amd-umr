@@ -604,9 +604,10 @@ int main(int argc, char **argv)
 "\n\t--vm-disasm, -vdis [<vmid>@]<address> <size>"
 	"\n\t\tDisassemble 'size' bytes (in hex) from a given address (in hex).  The size can"
 	"\n\t\tbe specified as zero to have umr try and compute the shader size.\n"
-"\n\t--profiler, -prof <nsamples> <usec_delay>"
+"\n\t--profiler, -prof <nsamples> <usec_delay> [ring]"
 	"\n\t\tCapture 'nsamples' samples of wave data with at least usec_delay"
-	"\n\t\tmicroseconds between captures.\n"
+	"\n\t\tmicroseconds between captures.  Optionally specify a ring to search"
+	"\n\t\tfor IBs that point to shaders.  Defaults to 'gfx'.\n"
 "\n\t--option -O <string>[,<string>,...]\n\t\tEnable various flags: bits, bitsfull, empty_log, follow, no_follow_ib, named, many,"
 	"\n\t\tuse_pci, use_colour, read_smc, quiet, no_kernel, verbose, halt_waves, disasm_early_term.\n"
 "\n\n", UMR_BUILD_VER, UMR_BUILD_REV);
