@@ -85,8 +85,10 @@ static void parse_pm4(struct umr_asic *asic, int vmid, struct umr_pm4_stream *ps
 			if (!tvmid)
 				tvmid = vmid;
 			buf = calloc(1, size);
-			umr_read_vram(asic, tvmid, addr, size, buf);
-			ps->ib = umr_pm4_decode_stream(asic, tvmid, buf, size / 4);
+			if (umr_read_vram(asic, tvmid, addr, size, buf) < 0)
+				fprintf(stderr, "[ERROR]: Could not read IB at %u:0x%llx\n", (unsigned)tvmid, (unsigned long long)addr);
+			else
+				ps->ib = umr_pm4_decode_stream(asic, tvmid, buf, size / 4);
 			free(buf);
 			break;
 	}

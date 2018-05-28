@@ -83,32 +83,55 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 				usleep(delay);
 			umr_sq_cmd_halt_waves(asic, UMR_SQ_CMD_HALT);
 			wd = umr_scan_wave_data(asic);
-			if (wd)
-				stream = umr_pm4_decode_ring(asic, asic->options.ring_name[0] ? asic->options.ring_name : "gfx", 1);
 		} while (!wd);
+
+		// grab PM4 stream for these halted waves
+		// in theory if waves are halted the packet
+		// processor is also halted so we can grab the
+		// stream.  This isn't 100% though it seems so race
+		// conditions might occur.
+		stream = umr_pm4_decode_ring(asic, asic->options.ring_name[0] ? asic->options.ring_name : "gfx", 1);
 
 		// loop through data ...
 		while (wd) {
+			phit[nitems].vmid = wd->ws.hw_id.vm_id;
+			phit[nitems].pc = ((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo;
+			phit[nitems].inst_dw0 = wd->ws.wave_inst_dw0;
+			phit[nitems].inst_dw1 = wd->ws.wave_inst_dw1;
+
+			// try to find shader in PM4 stream
 			shader = NULL;
 			if (stream)
-				shader = umr_find_shader_in_stream(stream, wd->ws.hw_id.vm_id, ((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo);
+				shader = umr_find_shader_in_stream(stream, phit[nitems].vmid, phit[nitems].pc);
 			if (shader) {
+				uint32_t inst[2];
+
+				// grab info about shader including the opcodes
+				// since the WAVE_STATUS INST_DWx registers might
+				// suffer from race conditions
 				phit[nitems].base_addr = shader->addr;
 				phit[nitems].shader_size = shader->size;
+				if (umr_read_vram(asic, shader->vmid, phit[nitems].pc, 8, &inst[0]) < 0) {
+					fprintf(stderr, "[ERROR]: Could not read shader at address %u:0x%llx\n", (unsigned)shader->vmid, (unsigned long long)phit[nitems].pc);
+				} else {
+					phit[nitems].inst_dw0 = inst[0];
+					phit[nitems].inst_dw1 = inst[1];
+				}
+
+				// shader is a copy of the shader data from the stream
 				free(shader);
 			} else {
 				phit[nitems].base_addr = 0;
 				phit[nitems].shader_size = 0;
 			}
-			phit[nitems].vmid = wd->ws.hw_id.vm_id;
-			phit[nitems].inst_dw0 = wd->ws.wave_inst_dw0;
-			phit[nitems].inst_dw1 = wd->ws.wave_inst_dw1;
-			phit[nitems++].pc = ((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo;
+			++nitems;
 
+			// grow the hit array as needed by steps of 1000 entries
 			if (nitems == nmax) {
 				nmax += 1000;
 				ophit = realloc(phit, nmax * sizeof(*phit));
 				phit = ophit;
+				memset(&phit[nitems], 0, (nmax - nitems) * sizeof(phit[0]));
 			}
 
 			owd = wd->next;
@@ -164,6 +187,7 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 	// sort shaders so the busiest are first
 	qsort(shaders, nshaders, sizeof(shaders[0]), comp_shaders);
 	for (x = 0; x < nshaders; x++) {
+		uint32_t sum = 0;
 		if (shaders[x].hits) {
 			char **strs;
 			uint32_t *data;
@@ -177,12 +201,18 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 			// disasm shader
 			strs = calloc(shaders[x].hits[0].data.shader_size/4, sizeof(strs[0]));
 			data = calloc(1, shaders[x].hits[0].data.shader_size);
-			umr_read_vram(asic, shaders[x].hits[0].data.vmid, shaders[x].hits[0].data.base_addr, shaders[x].hits[0].data.shader_size, data);
+			if (umr_read_vram(asic, shaders[x].hits[0].data.vmid, shaders[x].hits[0].data.base_addr, shaders[x].hits[0].data.shader_size, data) < 0) {
+				fprintf(stderr, "[ERROR]: Cannot read shader at %u:0x%llx\n", (unsigned)shaders[x].hits[0].data.vmid, (unsigned long long)shaders[x].hits[0].data.base_addr);
+				free(strs);
+				free(data);
+				continue;
+			}
 			umr_llvm_disasm(asic, (uint8_t *)data, shaders[x].hits[0].data.shader_size, 0xFFFFFFFF, strs);
 
 			for (z = 0; z < shaders[x].hits[0].data.shader_size; z += 4) {
 				unsigned cnt=0, pct;
 
+				// find this offset in the hits so we know the hit count
 				for (y = 0; y < shaders[x].nhits; y++) {
 					if (shaders[x].hits[y].data.pc == (shaders[x].hits[0].data.base_addr + z)) {
 						cnt = shaders[x].hits[y].cnt;
@@ -190,6 +220,8 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 					}
 				}
 
+				// compute percentage for this address and then
+				// colour code the line
 				pct = (100 * cnt) / shaders[x].total_cnt;
 				if (pct >= 30)
 					printf(RED);
@@ -207,9 +239,12 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 
 				if (cnt)
 					printf("(%5u hits, %3u %%)", cnt, pct);
+				sum += cnt;
 
 				printf("\n%s", RST);
 			}
+			if (sum != shaders[x].total_cnt)
+				printf("Sum mismatch: %lu != %lu\n", (unsigned long)sum, (unsigned long)shaders[x].total_cnt);
 			free(strs);
 			free(data);
 		}
