@@ -46,6 +46,16 @@ struct umr_profiler_shaders {
 	struct umr_profiler_rle *hits;
 };
 
+struct umr_profiler_text {
+	uint32_t
+		vmid,
+		size;
+	uint64_t
+		addr;
+	void *text;
+	struct umr_profiler_text *next;
+};
+
 static int comp_hits(const void *A, const void *B)
 {
 	return memcmp(A, B, sizeof(struct umr_profiler_hit));
@@ -62,6 +72,7 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 	struct umr_profiler_hit *ophit, *phit;
 	struct umr_profiler_rle *prle;
 	struct umr_profiler_shaders *shaders;
+	struct umr_profiler_text *texts, *otext;
 	struct umr_wave_data *owd, *wd;
 	struct umr_pm4_stream *stream;
 	struct umr_shaders_pgm *shader;
@@ -70,6 +81,8 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 	nmax = samples;
 	nitems = 0;
 	ophit = phit = calloc(nmax, sizeof *phit);
+
+	otext = texts = calloc(1, sizeof *texts);
 
 	if (!asic->mmio_accel.reglist)
 		umr_create_mmio_accel(asic);
@@ -104,18 +117,51 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 			if (stream)
 				shader = umr_find_shader_in_stream(stream, phit[nitems].vmid, phit[nitems].pc);
 			if (shader) {
-				uint32_t inst[2];
+				struct umr_profiler_text *shader_text;
+
+				// capture shader text, first see if we can find it
+				texts = otext;
+				shader_text = NULL;
+				while (texts) {
+					if (texts->vmid == shader->vmid &&
+						texts->size == shader->size &&
+						texts->addr == shader->addr) {
+							shader_text = texts;
+							break;
+						}
+					if (texts->next)
+						texts = texts->next;
+					else
+						break;
+				}
+
+				if (!shader_text) {
+					void *data = calloc(1, shader->size);
+					if (umr_read_vram(asic, shader->vmid, shader->addr, shader->size, data) < 0) {
+						fprintf(stderr, "[ERROR]: Could not read shader text at address %u:0x%llx\n", (unsigned)shader->vmid, (unsigned long long)shader->addr);
+						free(data);
+					} else {
+						texts->next = calloc(1, sizeof *texts);
+						// only move to next if we're not adding the first shader
+						if (texts != otext)
+							texts = texts->next;
+						texts->vmid = shader->vmid;
+						texts->size = shader->size;
+						texts->addr = shader->addr;
+						texts->text = data;
+						shader_text = texts;
+					}
+				}
 
 				// grab info about shader including the opcodes
 				// since the WAVE_STATUS INST_DWx registers might
 				// suffer from race conditions
 				phit[nitems].base_addr = shader->addr;
 				phit[nitems].shader_size = shader->size;
-				if (umr_read_vram(asic, shader->vmid, phit[nitems].pc, 8, &inst[0]) < 0) {
-					fprintf(stderr, "[ERROR]: Could not read shader at address %u:0x%llx\n", (unsigned)shader->vmid, (unsigned long long)phit[nitems].pc);
-				} else {
-					phit[nitems].inst_dw0 = inst[0];
-					phit[nitems].inst_dw1 = inst[1];
+				if (shader_text && shader_text->text) {
+					uint32_t *data = shader_text->text;
+					phit[nitems].inst_dw0 = data[(phit[nitems].pc - shader_text->addr) / 4];
+					phit[nitems].inst_dw1 = data[((phit[nitems].pc - shader_text->addr) / 4) + 1];
 				}
 
 				// shader is a copy of the shader data from the stream
@@ -142,6 +188,11 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 		if (stream)
 			umr_free_pm4_stream(stream);
 	}
+
+	// we're done scanning so resume the values
+	// at this point the jobs could in theory be terminated
+	// and the shaders unmapped which is why we captured
+	// them in the 'texts' list
 	umr_sq_cmd_halt_waves(asic, UMR_SQ_CMD_RESUME);
 
 	// sort all hits by address/size/etc so we can
@@ -192,6 +243,20 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 			char **strs;
 			uint32_t *data;
 
+			// try to find shader
+			texts = otext;
+			while (texts) {
+				if (texts->vmid == shaders[x].hits[0].data.vmid &&
+					texts->size == shaders[x].hits[0].data.shader_size &&
+					texts->addr == shaders[x].hits[0].data.base_addr)
+					break;
+				texts = texts->next;
+			}
+
+			// shader not found so skip
+			if (!texts)
+				continue;
+
 			printf("\n\nShader %u@0x%llx (%lu bytes): total hits: %lu\n",
 				shaders[x].hits[0].data.vmid,
 				(unsigned long long)shaders[x].hits[0].data.base_addr,
@@ -199,15 +264,9 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 				(unsigned long)shaders[x].total_cnt);
 
 			// disasm shader
-			strs = calloc(shaders[x].hits[0].data.shader_size/4, sizeof(strs[0]));
-			data = calloc(1, shaders[x].hits[0].data.shader_size);
-			if (umr_read_vram(asic, shaders[x].hits[0].data.vmid, shaders[x].hits[0].data.base_addr, shaders[x].hits[0].data.shader_size, data) < 0) {
-				fprintf(stderr, "[ERROR]: Cannot read shader at %u:0x%llx\n", (unsigned)shaders[x].hits[0].data.vmid, (unsigned long long)shaders[x].hits[0].data.base_addr);
-				free(strs);
-				free(data);
-				continue;
-			}
-			umr_llvm_disasm(asic, (uint8_t *)data, shaders[x].hits[0].data.shader_size, 0xFFFFFFFF, strs);
+			strs = calloc(texts->size/4, sizeof(strs[0]));
+			data = texts->text;
+			umr_llvm_disasm(asic, (uint8_t *)data, texts->size, 0xFFFFFFFF, strs);
 
 			for (z = 0; z < shaders[x].hits[0].data.shader_size; z += 4) {
 				unsigned cnt=0, pct;
@@ -222,12 +281,12 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 
 				// compute percentage for this address and then
 				// colour code the line
-				pct = (100 * cnt) / shaders[x].total_cnt;
-				if (pct >= 30)
+				pct = (1000 * cnt) / shaders[x].total_cnt;
+				if (pct >= 300)
 					printf(RED);
-				else if (pct >= 20)
+				else if (pct >= 200)
 					printf(YELLOW);
-				else if (pct >= 10)
+				else if (pct >= 100)
 					printf(GREEN);
 
 				printf("\tshader[0x%llx + 0x%04llx] = 0x%08lx %-60s ",
@@ -238,7 +297,7 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 				free(strs[z/4]);
 
 				if (cnt)
-					printf("(%5u hits, %3u %%)", cnt, pct);
+					printf("(%5u hits, %3u.%01u %%)", cnt, pct/10, pct%10);
 				sum += cnt;
 
 				printf("\n%s", RST);
@@ -246,8 +305,15 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 			if (sum != shaders[x].total_cnt)
 				printf("Sum mismatch: %lu != %lu\n", (unsigned long)sum, (unsigned long)shaders[x].total_cnt);
 			free(strs);
-			free(data);
 		}
+	}
+
+	texts = otext;
+	while (texts) {
+		otext = texts->next;
+		free(texts->text);
+		free(texts);
+		texts = otext;
 	}
 
 	for (x = 0; x < nshaders; x++)
