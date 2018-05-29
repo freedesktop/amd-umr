@@ -189,7 +189,7 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 			umr_free_pm4_stream(stream);
 	}
 
-	// we're done scanning so resume the values
+	// we're done scanning so resume the waves
 	// at this point the jobs could in theory be terminated
 	// and the shaders unmapped which is why we captured
 	// them in the 'texts' list
