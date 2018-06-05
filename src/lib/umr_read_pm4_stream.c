@@ -161,12 +161,22 @@ void umr_free_pm4_stream(struct umr_pm4_stream *stream)
 struct umr_pm4_stream *umr_pm4_decode_stream(struct umr_asic *asic, int vmid, uint32_t *stream, uint32_t nwords)
 {
 	struct umr_pm4_stream *ops, *ps;
+	struct {
+		int n;
+		uint32_t
+			size,
+			vmid;
+		uint64_t
+			addr;
+	} uvd_ib;
 
 	ps = ops = calloc(1, sizeof *ops);
 	if (!ps) {
 		fprintf(stderr, "[ERROR]: Out of memory\n");
 		return NULL;
 	}
+
+	memset(&uvd_ib, 0, sizeof uvd_ib);
 
 	while (nwords) {
 		// fetch basics out of header
@@ -184,8 +194,45 @@ struct umr_pm4_stream *umr_pm4_decode_stream(struct umr_asic *asic, int vmid, ui
 		memcpy(ps->words, &stream[1], ps->n_words * sizeof(stream[0]));
 
 		// decode specific packets
-		if (ps->pkttype == 3)
+		if (ps->pkttype == 3) {
 			parse_pm4(asic, vmid, ps);
+		} else {
+			char *name;
+			name = umr_reg_name(asic, ps->pkt0off);
+
+			// look for UVD IBs
+			if (strstr(name, "mmUVD_LMI_RBC_IB_VMID")) {
+				uvd_ib.vmid = ps->words[0] | ((asic->family <= FAMILY_VI) ? 0 : UMR_MM_HUB);
+				uvd_ib.n |= 1;
+			} else if (strstr(name, "mmUVD_LMI_RBC_IB_64BIT_BAR_LOW")) {
+				uvd_ib.addr |= ps->words[0];
+				uvd_ib.n |= 2;
+			} else if (strstr(name, "mmUVD_LMI_RBC_IB_64BIT_BAR_HIGH")) {
+				uvd_ib.addr |= (uint64_t)ps->words[0] << 32;
+				uvd_ib.n |= 4;
+			} else if (strstr(name, "mmUVD_RBC_IB_SIZE")) {
+				uvd_ib.size = ps->words[0] * 4;
+				uvd_ib.n |= 8;
+			}
+
+			// if we have everything but the VMID assume vmid 0
+			if (uvd_ib.n == (2|4|8)) {
+				uvd_ib.vmid = 0;
+				uvd_ib.n = 15;
+			}
+
+			// we have everything we need to point to an IB
+			if (uvd_ib.n == 15) {
+				void *buf;
+				buf = calloc(1, uvd_ib.size);
+				if (umr_read_vram(asic, uvd_ib.vmid, uvd_ib.addr, uvd_ib.size, buf) < 0)
+					fprintf(stderr, "[ERROR]: Could not read IB at %u:0x%llx\n", (unsigned)uvd_ib.vmid, (unsigned long long)uvd_ib.addr);
+				else
+					ps->ib = umr_pm4_decode_stream(asic, uvd_ib.vmid, buf, uvd_ib.size / 4);
+				free(buf);
+				memset(&uvd_ib, 0, sizeof uvd_ib);
+			}
+		}
 
 		// advance stream
 		nwords -= 1 + ps->n_words;
