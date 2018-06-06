@@ -26,22 +26,6 @@
 
 struct umr_pm4_stream *umr_pm4_decode_stream(struct umr_asic *asic, int vmid, uint32_t *stream, uint32_t nwords);
 
-// TODO: make this a library function
-static char *umr_reg_name(struct umr_asic *asic, uint64_t addr)
-{
-	struct umr_reg *reg;
-	struct umr_ip_block *ip;
-	static char name[512];
-
-	reg = umr_find_reg_by_addr(asic, addr, &ip);
-	if (ip && reg) {
-		sprintf(name, "%s%s.%s%s", RED, ip->ipname, reg->regname, RST);
-		return name;
-	} else {
-		return "<unknown>";
-	}
-}
-
 // process a packet for IB pointers or shader writes
 static void parse_pm4(struct umr_asic *asic, int vmid, struct umr_pm4_stream *ps)
 {

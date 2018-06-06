@@ -585,6 +585,9 @@ int umr_create_mmio_accel(struct umr_asic *asic);
 // find the word address of a register
 uint32_t umr_find_reg(struct umr_asic *asic, char *regname);
 
+// find a register and return a printable name (used for human readable output)
+char *umr_reg_name(struct umr_asic *asic, uint64_t addr);
+
 // find the register data for a register
 struct umr_reg *umr_find_reg_data_by_ip(struct umr_asic *asic, char *ip, char *regname);
 struct umr_reg *umr_find_reg_data(struct umr_asic *asic, char *regname);

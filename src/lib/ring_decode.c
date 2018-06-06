@@ -420,21 +420,6 @@ static void add_ib_pm3(struct umr_ring_decoder *decoder)
 	memset(&decoder->sdma.next_ib_state, 0, sizeof(decoder->sdma.next_ib_state));
 }
 
-static char *umr_reg_name(struct umr_asic *asic, uint64_t addr)
-{
-	struct umr_reg *reg;
-	struct umr_ip_block *ip;
-	static char name[512];
-
-	reg = umr_find_reg_by_addr(asic, addr, &ip);
-	if (ip && reg) {
-		sprintf(name, "%s%s.%s%s", RED, ip->ipname, reg->regname, RST);
-		return name;
-	} else {
-		return "<unknown>";
-	}
-}
-
 static void print_bits(struct umr_asic *asic, uint32_t regno, uint32_t value, int tabs)
 {
 	struct umr_ip_block *ip;
