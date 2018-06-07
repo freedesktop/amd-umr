@@ -25,6 +25,12 @@
 #include "umrapp.h"
 #include <inttypes.h>
 
+/**
+ * umr_dump_ib - Decode an IB and print the contents to stdout
+ *
+ * @asic:  The ASIC device the IB belongs to
+ * @decoder:  Contains informationa about the state of the decoding
+ */
 void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder)
 {
 	uint32_t *data = NULL, x;
@@ -59,7 +65,7 @@ void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder)
 				YELLOW, (unsigned long long)decoder->next_ib_info.ib_addr, RST,
 				YELLOW, (unsigned)x * 4, RST,
 				GREEN, (unsigned long)data[x], RST);
-				umr_print_decode(asic, decoder, data[x]);
+			umr_print_decode(asic, decoder, data[x]);
 			printf("\n");
 		}
 	}

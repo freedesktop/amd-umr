@@ -26,6 +26,9 @@
 
 #define cond_close(x) do { if ((x) >= 0) close((x)); } while(0);
 
+/**
+ * umr_free_asic - Free memory associated with an asic device
+ */
 void umr_free_asic(struct umr_asic *asic)
 {
 	int x;
@@ -44,6 +47,9 @@ void umr_free_asic(struct umr_asic *asic)
 	free(asic);
 }
 
+/**
+ * umr_close_asic - Close an asic device and free memory
+ */
 void umr_close_asic(struct umr_asic *asic)
 {
 	if (asic) {

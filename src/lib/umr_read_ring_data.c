@@ -24,6 +24,14 @@
  */
 #include "umr.h"
 
+/**
+ * umr_read_ring_data - Read the entire contents of a ring
+ *
+ * @ringname:  Common name for the ring, e.g., 'gfx' or 'comp_1.0.0'
+ * @ringsize:  Receives the size of the ring in bytes (exluding the 12 byte header)
+ *
+ * Returns a buffer which contains the ring contents.
+ */
 void *umr_read_ring_data(struct umr_asic *asic, char *ringname, uint32_t *ringsize)
 {
 	int fd;

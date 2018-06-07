@@ -33,6 +33,11 @@
 #define DRM_IOCTL_BASE                  'd'
 #define DRM_COMMAND_BASE                0x40
 
+/**
+ * umr_query_drm - Perform a DRM IOCTL for AMDGPU_INFO data
+ *
+ * @field - The field to retrieve via IOCTL
+ */
 int umr_query_drm(struct umr_asic *asic, int field, void *ret, int size)
 {
 	struct drm_amdgpu_info inf;

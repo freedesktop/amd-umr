@@ -305,6 +305,13 @@ static int umr_get_wave_status_ai(struct umr_asic *asic, unsigned se, unsigned s
 	return 0;
 }
 
+/**
+ * umr_get_wave_status - Read the SQ wave status (et al.) data
+ *
+ * @se, @sh, @cu, @simd, @wave - Identification of the specific wave to read
+ *
+ * Stores the wave data in @ws if successful.
+ */
 int umr_get_wave_status(struct umr_asic *asic, unsigned se, unsigned sh, unsigned cu, unsigned simd, unsigned wave, struct umr_wave_status *ws)
 {
 	if (asic->family == FAMILY_AI || asic->family == FAMILY_RV)

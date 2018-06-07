@@ -24,6 +24,12 @@
  */
 #include "umr.h"
 
+/**
+ * umr_sq_cmd_halt_waves - Attempt to halt or resume waves
+ *
+ * @mode:	Use UMR_SQ_CMD_HALT to halt waves and
+ * 			UMR_SQ_CMD_RESUME to resume waves.
+ */
 int umr_sq_cmd_halt_waves(struct umr_asic *asic, enum umr_sq_cmd_halt_resume mode)
 {
 	struct umr_reg *reg;

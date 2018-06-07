@@ -277,7 +277,17 @@ static int find_first_did(long did, long start_instance)
 	return -1;
 }
 
-
+/**
+ * umr_discover_asic_by_did - Find an ASIC device by the PCI DID
+ *
+ * @options: Options to bind to device
+ * @did: The PCI Device ID to search for
+ *
+ * This will search the DID table for a specified ASIC that matches
+ * the given @did and then search the DRI entries for the first
+ * instance that matches.  Optionally @options->instance can be set
+ * to indicate which device you want to look for.
+ */
 struct umr_asic *umr_discover_asic_by_did(struct umr_options *options, long did)
 {
 	unsigned x;

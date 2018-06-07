@@ -24,6 +24,11 @@
  */
 #include "umr.h"
 
+/**
+ * umr_find_reg - Find a register by name
+ *
+ * Returns the offset of the register if found or 0xFFFFFFFF if not.
+ */
 uint32_t umr_find_reg(struct umr_asic *asic, char *regname)
 {
 	int i, j;
@@ -36,6 +41,13 @@ uint32_t umr_find_reg(struct umr_asic *asic, char *regname)
 	return 0xFFFFFFFF;
 }
 
+/**
+ * umr_find_reg_data_by_ip - Find a register by name for a given IP
+ *
+ * Returns the umr_reg structure for a register for a given IP block
+ * with a specific name.  The IP block is optional (can be NULL) and
+ * is only compared as a prefix (e.g., "gfx" will match "gfx90").
+ */
 struct umr_reg *umr_find_reg_data_by_ip(struct umr_asic *asic, char *ip, char *regname)
 {
 	int i, j;
@@ -50,11 +62,24 @@ struct umr_reg *umr_find_reg_data_by_ip(struct umr_asic *asic, char *ip, char *r
 	return NULL;
 }
 
+/**
+ * umr_find_reg_data - Find a register by name
+ *
+ * Returns the umr_reg structure for a register with a specific name
+ * in the first IP block that contains it.
+ */
 struct umr_reg *umr_find_reg_data(struct umr_asic *asic, char *regname)
 {
 	return umr_find_reg_data_by_ip(asic, NULL, regname);
 }
 
+/**
+ * umr_find_reg_by_addr - Find a register by addressable offset
+ *
+ * Returns the umr_reg structure (if found) for a register at a
+ * given address.  If @ip is not NULL it will also store the IP block
+ * pointer for the register as well.
+ */
 struct umr_reg *umr_find_reg_by_addr(struct umr_asic *asic, uint64_t addr, struct umr_ip_block **ip)
 {
 	int i, j;
@@ -75,6 +100,12 @@ struct umr_reg *umr_find_reg_by_addr(struct umr_asic *asic, uint64_t addr, struc
 	return NULL;
 }
 
+/**
+ * umr_reg_name - Construct a human readable name for a register
+ *
+ * Returns a human readable name including IP and register name
+ * to the caller based on the address specified.
+ */
 char *umr_reg_name(struct umr_asic *asic, uint64_t addr)
 {
 	struct umr_reg *reg;

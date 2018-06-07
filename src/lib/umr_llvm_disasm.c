@@ -26,10 +26,15 @@
 #include <llvm-c/Disassembler.h>
 #include <llvm-c/Target.h>
 
-// assumes an instruction is at least 4 bytes long
-// assumes we print 4 bytes per line so that a complete
-// instruction might span more than 1 line
-
+/**
+ * umr_llvm_disasm - Diassemble a shader
+ *
+ * @inst:  Shader program
+ * @inst_bytes: number of bytes in shader
+ * @PC:  Shader address in virtual memory
+ * @disasm_text:	array of pointers that are assigned pointers
+ *					to disassembled shader.
+ */
 int umr_llvm_disasm(struct umr_asic *asic,
 					uint8_t *inst, unsigned inst_bytes,
 					uint64_t PC,
@@ -101,7 +106,16 @@ static struct umr_wave_data *find_wave(struct umr_wave_data *wd, unsigned vmid, 
 	return wd;
 }
 
-
+/**
+ * umr_vm_disasm - Disassemble shader programs in GPU mapped memory
+ *
+ * @vmid: VMID of shader
+ * @addr: Address of shader
+ * @PC: Known wave PC address if any
+ * @size: Shader size in bytes
+ * @start_offset:  Offset of disassembly starting address from @addr
+ * @wd: Wave scan data (or NULL) used to track activity in this shader
+ */
 void umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t PC, uint32_t size, uint32_t start_offset, struct umr_wave_data *wd)
 {
 	uint32_t *opcodes, x, y, nwave, wavehits;
@@ -173,6 +187,14 @@ error:
 #define S_ENDPGM 0xbf810000
 #define S_ENDINV 0xbf9f0000
 
+/**
+ * umr_compute_shader_size - Compute the size of a shader
+ *
+ * Compute the size in bytes of a shader program.  Ideally,
+ * looking for a quintuple of 0xBF9F0000 opcodes but will also
+ * resort to using the last 's_endpgm' if the shader vm mappings
+ * run out.
+ */
 uint32_t umr_compute_shader_size(struct umr_asic *asic,
 								 struct umr_shaders_pgm *shader)
 {

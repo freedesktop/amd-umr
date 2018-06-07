@@ -38,6 +38,9 @@ static uint64_t dma_to_phys(struct umr_asic *asic, uint64_t dma_addr)
 	return phys;
 }
 
+/**
+ * access_vram_via_mmio - Access VRAM via direct MMIO control
+ */
 static void access_vram_via_mmio(struct umr_asic *asic, uint64_t address, uint32_t size, void *dst, int write_en)
 {
 	uint32_t MM_INDEX, MM_INDEX_HI, MM_DATA;
@@ -73,21 +76,28 @@ static void access_vram_via_mmio(struct umr_asic *asic, uint64_t address, uint32
 #define DEBUG(...)
 #endif
 
+/**
+ * umr_access_sram - Access system memory
+ */
 static int umr_access_sram(struct umr_asic *asic, uint64_t address, uint32_t size, void *dst, int write_en)
 {
 	int fd, need_close=0;
 
 	DEBUG("Reading physical sys addr: 0x%llx\n", (unsigned long long)address);
 
+	// check if we have access to the amdgpu_iomem debugfs entry
 	if (asic->fd.iomem >= 0) {
 		fd = asic->fd.iomem;
 	} else {
+		// if not try to read system memory directly
 		need_close = 1;
 
+		// try /dev/fmem first
 		fd = open("/dev/fmem", O_RDWR);
 		if (fd < 0)
 			fd = open("/dev/mem", O_RDWR | O_DSYNC);
 	}
+
 	if (fd >= 0) {
 		lseek(fd, address, SEEK_SET);
 		if (write_en == 0) {
@@ -111,7 +121,9 @@ static int umr_access_sram(struct umr_asic *asic, uint64_t address, uint32_t siz
 	return -1;
 }
 
-
+/**
+ * umr_access_vram_vi - Access GPU mapped memory for SI .. VI platforms
+ */
 static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 			      uint64_t address, uint32_t size,
 			      void *dst, int write_en)
@@ -329,6 +341,9 @@ next_page:
 	return 0;
 }
 
+/**
+ * umr_access_vram_ai - Access GPU mapped memory for AI..RV platforms
+ */
 static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 			      uint64_t address, uint32_t size,
 			      void *dst, int write_en)
@@ -708,6 +723,25 @@ next_page:
 	return 0;
 }
 
+/**
+ * umr_access_vram - Access GPU mapped memory
+ *
+ * @vmid:	The VMID that the address belongs to.  The bits 8:15
+ * 			indicate which hub the memory belongs to:
+ *
+ * 				UMR_LINEAR_HUB: The memory is a physical address in the VRAM
+ * 				UMR_GFX_HUB: The memory is a virtual address controlled by the GFX hub
+ * 				UMR_MM_HUB: The memory is a virtual address controlled by the MM hub
+ *
+ *			The bits 0:7 indicate which VM to access (if any).
+ *
+ * @address: The address of the memory to access must be word aligned
+ * @size:  The number of bytes to read
+ * @data:  The buffer to read from/write to
+ * @write_en:  Set to 0 to read, non-zero to write
+ *
+ * Returns -1 on error.
+ */
 int umr_access_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint32_t size, void *data, int write_en)
 {
 	// only aligned reads

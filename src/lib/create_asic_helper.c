@@ -25,6 +25,16 @@
 #include "umr.h"
 #include <stdarg.h>
 
+/**
+ * umr_create_asic_helper - Create an asic device from a VA list of
+ * 							IP blocks
+ *
+ * @name - Name of device
+ * @family - Family of ASIC
+ *
+ * This will create an ASIC device from a NULL terminated VA list
+ * of IP blocks.  Used by asic library functions to create devices.
+ */
 struct umr_asic *umr_create_asic_helper(char *name, int family, ...)
 {
 	struct umr_asic *asic;

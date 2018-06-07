@@ -24,6 +24,18 @@
  */
 #include "umr.h"
 
+/**
+ * umr_bitfield_default - Default helper to print out a bitfield
+ *
+ * @asic - The device associated with the bitfield
+ * @asicname, @ipname, @regname, @bitname - The path to the bitfield
+ * @start, @stop - The alignment of the bitfield in the word
+ * @value - The shifted and masked value to print
+ *
+ * This default helper simply prints out the value in decimal and
+ * hexadecimal.  The callback is meant to allow for custom printing
+ * of bitfields for more complicated registers.
+ */
 void umr_bitfield_default(struct umr_asic *asic, char *asicname, char *ipname, char *regname, char *bitname, int start, int stop, uint32_t value)
 {
 	char buf[256], fpath[256];

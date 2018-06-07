@@ -50,7 +50,9 @@ static void wave_read_regs_via_mmio(struct umr_asic *asic, uint32_t simd,
 	}
 }
 
-
+/**
+ * umr_read_sgprs - Read SGPR registers for a specific wave
+ */
 int umr_read_sgprs(struct umr_asic *asic, struct umr_wave_status *ws, uint32_t *dst)
 {
 	uint64_t addr, shift;
@@ -96,11 +98,14 @@ int umr_read_sgprs(struct umr_asic *asic, struct umr_wave_status *ws, uint32_t *
 	}
 }
 
-
+/**
+ * umr_read_vgprs - Read VGPR registers for a specific wave and thread
+ */
 int umr_read_vgprs(struct umr_asic *asic, struct umr_wave_status *ws, uint32_t thread, uint32_t *dst)
 {
 	uint64_t addr;
 
+	// reading VGPR is not supported on pre GFX9 devices
 	if (asic->family < FAMILY_AI)
 		return -1;
 

@@ -24,6 +24,12 @@
  */
 #include "umr.h"
 
+/**
+ * umr_apply_bank_selection_address - Add bank selection offset
+ *
+ * Common function used to add on GRBM or SBRM bank selection
+ * to an MMIO access via debugfs.
+ */
 uint64_t umr_apply_bank_selection_address(struct umr_asic *asic)
 {
 	if (asic->options.use_bank == 1) {

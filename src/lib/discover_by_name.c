@@ -53,6 +53,18 @@ static const struct {
 	{ "raven1", &umr_create_raven1 },
 };
 
+/**
+ * umr_discover_asic_by_name - Discover an ASIC by common name
+ *
+ * @options:  The options to bind to the ASIC
+ * @name: Name of the ASIC to look for
+ *
+ * If the @name begins with an '@' then the device is created on
+ * they fly from an NPI script specified in the name.
+ *
+ * Otherwise, the first instance of a device that matches the name
+ * specified is found and returned.
+ */
 struct umr_asic *umr_discover_asic_by_name(struct umr_options *options, char *name)
 {
 	unsigned x;

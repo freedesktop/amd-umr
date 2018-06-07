@@ -77,6 +77,9 @@ static void parse_rev3(struct umr_asic *asic, uint32_t *data, int *r)
 	asic->config.pci.subsystem_vendor = data[(*r)++];
 }
 
+/**
+ * umr_scan_config - Scan the debugfs confiruration data
+ */
 int umr_scan_config(struct umr_asic *asic)
 {
 	uint32_t data[512];

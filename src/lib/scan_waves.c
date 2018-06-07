@@ -24,6 +24,11 @@
  */
 #include "umr.h"
 
+/**
+ * umr_scan_wave_data - Scan for any halted valid waves
+ *
+ * Returns NULL on error (or no waves found).
+ */
 struct umr_wave_data *umr_scan_wave_data(struct umr_asic *asic)
 {
 	uint32_t se, sh, cu, simd, wave, thread;

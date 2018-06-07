@@ -280,6 +280,14 @@ error:
 	return -1;
 }
 
+/**
+ * umr_create_asic_from_script - Create an asic device from an npi script
+ *
+ * @options - The options to bind to the asic
+ * @name - The path to the NPI script file
+ *
+ * Returns an asic device on success or NULL if failure
+ */
 struct umr_asic *umr_create_asic_from_script(struct umr_options *options, char *name)
 {
 	struct umr_asic *asic;

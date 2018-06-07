@@ -24,6 +24,14 @@
  */
 #include "umr.h"
 
+/**
+ * umr_transfer_soc15_to_reg - Compute register offset
+ *
+ * For AI+ hardware the SOC15 interface offsets registers by
+ * potentially relocating IP blocks in the address map.  This will
+ * apply an offset table to an array of registers and assign them to an
+ * IP block.
+ */
 int umr_transfer_soc15_to_reg(struct umr_options *options, struct umr_ip_offsets_soc15 *ip, char *ipname, const struct umr_reg_soc15 *regs, struct umr_ip_block *dst)
 {
 	int x, y;

@@ -24,6 +24,9 @@
  */
 #include "umr.h"
 
+/**
+ * umr_read_sensor - Read a powerplay sensor via debugfs
+ */
 int umr_read_sensor(struct umr_asic *asic, int sensor, void *dst, int *size)
 {
 	int r;

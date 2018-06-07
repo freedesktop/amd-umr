@@ -391,6 +391,13 @@ static int do_del(char **ptr, struct umr_asic *asic)
 	return 0;
 }
 
+/**
+ * umr_update - Update an ASIC device from script
+ *
+ * This allows for the update of an existing ASIC device
+ * with new content.  Useful for instance, for adding NDA
+ * content that cannot be shared publicly.
+ */
 int umr_update(struct umr_asic *asic, char *script)
 {
 	int fd;

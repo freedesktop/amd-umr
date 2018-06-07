@@ -26,7 +26,9 @@
 
 struct umr_pm4_stream *umr_pm4_decode_stream(struct umr_asic *asic, int vmid, uint32_t *stream, uint32_t nwords);
 
-// process a packet for IB pointers or shader writes
+/**
+ * parse_pm4 - Parse a PM4 packet looking for pointers to shaders or IBs
+ */
 static void parse_pm4(struct umr_asic *asic, int vmid, struct umr_pm4_stream *ps)
 {
 	uint64_t addr;
@@ -78,7 +80,17 @@ static void parse_pm4(struct umr_asic *asic, int vmid, struct umr_pm4_stream *ps
 	}
 }
 
-// search for a shader in a ring
+/**
+ * umr_find_shader_in_ring - Look for a shader in a GPU ring
+ *
+ * @ringname - The short name of the ring, e.g. 'gfx' or 'comp_1.0.0'
+ * @vmid - The VMID of the shader to find
+ * @addr - The address (inside the shader) to match for
+ * @no_halt - Set to not issue a SQ_CMD to halt waves
+ *
+ * Returns a pointer to a copy of a shader object if found or NULL
+ * if not.
+ */
 struct umr_shaders_pgm *umr_find_shader_in_ring(struct umr_asic *asic, char *ringname, unsigned vmid, uint64_t addr, int no_halt)
 {
 	struct umr_pm4_stream *stream;
@@ -91,7 +103,16 @@ struct umr_shaders_pgm *umr_find_shader_in_ring(struct umr_asic *asic, char *rin
 }
 
 
-// return a copy of a shader object found in a stream
+/**
+ * umr_find_shader_in_stream - Find a shader in a PM4 stream
+ *
+ * @stream: A previously captured PM4 stream from a ring
+ * @vmid:  The VMID of the shader to look for
+ * @addr: An address inside the shader to match
+ *
+ * Returns a pointer to a copy of a shader object if found or
+ * NULL if not.
+ */
 struct umr_shaders_pgm *umr_find_shader_in_stream(
 	struct umr_pm4_stream *stream, unsigned vmid, uint64_t addr)
 {
@@ -126,7 +147,9 @@ struct umr_shaders_pgm *umr_find_shader_in_stream(
 	return NULL;
 }
 
-
+/**
+ * umr_free_pm4_stream - Free a PM4 stream object
+ */
 void umr_free_pm4_stream(struct umr_pm4_stream *stream)
 {
 	while (stream) {
@@ -141,7 +164,15 @@ void umr_free_pm4_stream(struct umr_pm4_stream *stream)
 	}
 }
 
-// decode a stream of packets into a linked list of packets
+/**
+ * umr_pm4_decode_stream - Decode an array of PM4 packets into a PM4 stream
+ *
+ * @vmid:  The VMID (or zero) that this array comes from (if say an IB)
+ * @stream: An array of DWORDS which contain the PM4 packets
+ * @nwords:  The number of words in the stream
+ *
+ * Returns a PM4 stream if successfully decoded.
+ */
 struct umr_pm4_stream *umr_pm4_decode_stream(struct umr_asic *asic, int vmid, uint32_t *stream, uint32_t nwords)
 {
 	struct umr_pm4_stream *ops, *ps;
@@ -228,7 +259,14 @@ struct umr_pm4_stream *umr_pm4_decode_stream(struct umr_asic *asic, int vmid, ui
 	return ops;
 }
 
-// decode a stream of PM4 packets starting with ring
+/**
+ * umr_pm4_decode_ring - Read a GPU ring and decode into a PM4 stream
+ *
+ * @ringname - Common name of the ring, e.g., 'gfx' or 'comp_1.0.0'
+ * @no_halt - Set to 0 to issue an SQ_CMD halt command
+ *
+ * Return a PM4 stream if successful.
+ */
 struct umr_pm4_stream *umr_pm4_decode_ring(struct umr_asic *asic, char *ringname, int no_halt)
 {
 	void *ps;

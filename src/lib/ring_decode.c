@@ -1466,6 +1466,9 @@ static void print_decode_sdma(struct umr_asic *asic, struct umr_ring_decoder *de
 	}
 }
 
+/**
+ * umr_print_decode - Print the next word of an IB
+ */
 void umr_print_decode(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib)
 {
 	switch (decoder->pm) {

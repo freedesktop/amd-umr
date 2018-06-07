@@ -26,6 +26,15 @@
 
 #define LIST_SIZE (1UL << 18)
 
+/**
+ * umr_create_mmio_accel - Create MMIO accelerator table
+ *
+ * @asic:  Device to create accelerator for
+ *
+ * This function creates lookup tables that quickly convert
+ * an offsetted MMIO address into a pointer to register and ip
+ * block structures.
+ */
 int umr_create_mmio_accel(struct umr_asic *asic)
 {
 	int i, j;
