@@ -252,8 +252,10 @@ struct umr_pm4_stream *umr_pm4_decode_stream(struct umr_asic *asic, int vmid, ui
 		// advance stream
 		nwords -= 1 + ps->n_words;
 		stream += 1 + ps->n_words;
-		ps->next = calloc(1, sizeof(*ps));
-		ps = ps->next;
+		if (nwords) {
+			ps->next = calloc(1, sizeof(*ps));
+			ps = ps->next;
+		}
 	}
 
 	return ops;
