@@ -653,7 +653,7 @@ int umr_llvm_disasm(struct umr_asic *asic,
 					uint8_t *inst, unsigned inst_bytes,
 					uint64_t PC,
 					char **disasm_text);
-void umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t PC, uint32_t size, uint32_t start_offset, struct umr_wave_data *wd);
+int umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t PC, uint32_t size, uint32_t start_offset, struct umr_wave_data *wd);
 uint32_t umr_compute_shader_size(struct umr_asic *asic,
 								 struct umr_shaders_pgm *shader);
 

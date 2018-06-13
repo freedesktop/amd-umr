@@ -116,11 +116,12 @@ static struct umr_wave_data *find_wave(struct umr_wave_data *wd, unsigned vmid, 
  * @start_offset:  Offset of disassembly starting address from @addr
  * @wd: Wave scan data (or NULL) used to track activity in this shader
  */
-void umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t PC, uint32_t size, uint32_t start_offset, struct umr_wave_data *wd)
+int umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t PC, uint32_t size, uint32_t start_offset, struct umr_wave_data *wd)
 {
-	uint32_t *opcodes, x, y, nwave, wavehits;
+	uint32_t *opcodes = NULL, x, y, nwave, wavehits;
 	char **opcode_strs = NULL;
 	struct umr_wave_data *pwd;
+	int r = 0;
 
 	wavehits = nwave = 0;
 	pwd = wd;
@@ -130,14 +131,22 @@ void umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t
 	}
 
 	opcodes = calloc(size/4, sizeof(*opcodes));
-	if (!opcodes)
+	if (!opcodes) {
+		fprintf(stderr, "[ERROR]: Out of memory\n");
+		r = -1;
 		goto error;
+	}
 
 	opcode_strs = calloc(size/4, sizeof(opcode_strs[0]));
-	if (!opcode_strs)
+	if (!opcode_strs) {
+		fprintf(stderr, "[ERROR]: Out of memory\n");
+		r = -1;
+		goto error;
+	}
+
+	if (umr_read_vram(asic, vmid, addr + start_offset, size, (void*)opcodes))
 		goto error;
 
-	umr_read_vram(asic, vmid, addr + start_offset, size, (void*)opcodes);
 	umr_llvm_disasm(asic, (uint8_t *)opcodes, size, addr + start_offset, &opcode_strs[0]);
 
 	for (y = 0, x = start_offset / 4; x < (start_offset + size)/4; x++, y++) {
@@ -175,12 +184,10 @@ void umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t
 	if (wd && wavehits)
 		printf("\t%u waves in this shader (out of %u active waves)\n", wavehits, nwave);
 
-	free(opcode_strs);
-	free(opcodes);
-	return;
 error:
 	free(opcode_strs);
-	fprintf(stderr, "[ERROR]: Out of memory\n");
+	free(opcodes);
+	return r;
 }
 
 // compute shader by looking for 5 s_endpgm opcodes in a row

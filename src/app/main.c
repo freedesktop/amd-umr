@@ -308,7 +308,7 @@ int main(int argc, char **argv)
 					printf("0x%08lx\n", (unsigned long)reg);
 				} else {
 					str = strstr(argv[i+1], ".");
-					str2 = strstr(str+1, ".");
+					str2 = str ? strstr(str+1, ".") : NULL;
 					if (str && str2) {
 						memset(asicname, 0, sizeof asicname);
 						memset(ipname, 0, sizeof ipname);
@@ -430,7 +430,8 @@ int main(int argc, char **argv)
 				sscanf(argv[i+2], "%"SCNx32, &size);
 				do {
 					n = size > sizeof(buf) ? sizeof(buf) : size;
-					umr_read_vram(asic, vmid, address, n, buf);
+					if (umr_read_vram(asic, vmid, address, n, buf))
+						return EXIT_FAILURE;
 					fwrite(buf, 1, n, stdout);
 					size -= n;
 					address += n;
@@ -465,7 +466,8 @@ int main(int argc, char **argv)
 				do {
 					n = size > sizeof(buf) ? sizeof(buf) : size;
 					fread(buf, 1, n, stdin);
-					umr_write_vram(asic, vmid, address, n, buf);
+					if (umr_write_vram(asic, vmid, address, n, buf))
+						return EXIT_FAILURE;
 					size -= n;
 					address += n;
 				} while (size);

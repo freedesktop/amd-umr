@@ -27,7 +27,7 @@
 int umr_scan_asic(struct umr_asic *asic, char *asicname, char *ipname, char *regname)
 {
 	int r, fd, many = asic->options.many, named = asic->options.named,
-	    first, i, j, k;
+	    first, i, j, k, count = 0;
 	uint64_t addr, scale;
 	char buf[256], regname_copy[256];
 
@@ -47,6 +47,8 @@ int umr_scan_asic(struct umr_asic *asic, char *asicname, char *ipname, char *reg
 				for (j = 0; j < asic->blocks[i]->no_regs; j++) {
 					if (!regname[0] || !strcmp(regname, "*") || !strcmp(regname, asic->blocks[i]->regs[j].regname) ||
 					(many && strstr(asic->blocks[i]->regs[j].regname, regname_copy))) {
+						++ count;
+
 						// only grant if any regspec matches otherwise it's a waste
 						if (first && asic->blocks[i]->grant) {
 							first = 0;
@@ -121,6 +123,9 @@ int umr_scan_asic(struct umr_asic *asic, char *asicname, char *ipname, char *reg
 			}
 		}
 	}
+
+	if (count == 0)
+		fprintf(stderr, "[ERROR]: Path <%s.%s.%s> not found on this ASIC\n", asicname, ipname, regname);
 
 	r = 0;
 error:

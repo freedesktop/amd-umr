@@ -249,7 +249,7 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 
 			if (!pde_fields.valid) {
 				if (pdst)
-					return -1;
+					goto invalid_page;
 
 				// if we are vm-decode'ing just jump
 				// to the next page
@@ -275,7 +275,7 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 					(int)pte_fields.system);
 
 			if (pdst && !pte_fields.valid)
-				return -1;
+				goto invalid_page;
 
 			// compute starting address
 			start_addr = dma_to_phys(asic, pte_fields.page_base_addr) + (address & 0xFFF);
@@ -304,7 +304,7 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 					(int)pte_fields.system);
 
 			if (pdst && !pte_fields.valid)
-				return -1;
+				goto invalid_page;
 
 			// compute starting address
 			start_addr = dma_to_phys(asic, pte_fields.page_base_addr) + (address & 0xFFF);
@@ -339,6 +339,10 @@ next_page:
 		address += chunk_size;
 	} while (size);
 	return 0;
+
+invalid_page:
+	fprintf(stderr, "[ERROR]: No valid mapping for %u@%" PRIx64 "\n", vmid, address);
+	return -1;
 }
 
 /**
@@ -571,7 +575,7 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 
 				if (!pde_fields.valid) {
 					if (pdst)
-						return -1;
+						goto invalid_page;
 					// jump to next page if in
 					// vm-decode mode
 					pte_fields.prt = 0;
@@ -625,7 +629,7 @@ pde_is_pte:
 				pte_fields.page_base_addr -= vm_fb_offset;
 
 			if (pdst && !pte_fields.prt && !pte_fields.valid)
-				return -1;
+				goto invalid_page;
 
 			// compute starting address
 			offset_mask = (1ULL << ((current_depth * 9) + (12 + page_table_size))) - 1;
@@ -676,7 +680,7 @@ pde_is_pte:
 					(int)pte_fields.system);
 
 			if (pdst && !pte_fields.valid)
-				return -1;
+				goto invalid_page;
 
 			// compute starting address
 			start_addr = dma_to_phys(asic, pte_fields.page_base_addr) + (address & 0xFFF);
@@ -721,6 +725,10 @@ next_page:
 		address += chunk_size;
 	} while (size);
 	return 0;
+
+invalid_page:
+	fprintf(stderr, "[ERROR]: No valid mapping for %u@%" PRIx64 "\n", vmid, address);
+	return -1;
 }
 
 /**
