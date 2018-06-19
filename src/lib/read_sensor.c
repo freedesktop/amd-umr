@@ -30,6 +30,8 @@
 int umr_read_sensor(struct umr_asic *asic, int sensor, void *dst, int *size)
 {
 	int r;
+
+	// multiply sensor index by 4 to get byte address
 	lseek(asic->fd.sensors, sensor*4, SEEK_SET);
 	r = read(asic->fd.sensors, dst, *size);
 	if (r != *size) {

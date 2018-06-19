@@ -30,7 +30,11 @@
  * @ringname:  Common name for the ring, e.g., 'gfx' or 'comp_1.0.0'
  * @ringsize:  Receives the size of the ring in bytes (exluding the 12 byte header)
  *
- * Returns a buffer which contains the ring contents.
+ * Returns a buffer which contains the ring contents.  The first three
+ * words of the buffer are the read, write, and devices write pointer
+ * respectively.  The next @ringsize - 12 bytes are the words
+ * of the ring.  Note that the ring buffer can wrap around
+ * so you need to reduce your indecies modulo (@ringsize / 4).
  */
 void *umr_read_ring_data(struct umr_asic *asic, char *ringname, uint32_t *ringsize)
 {

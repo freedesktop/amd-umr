@@ -45,6 +45,7 @@ int umr_llvm_disasm(struct umr_asic *asic,
 	size_t n;
 	char tmp[256], *cpuname;
 
+	// initialize LLVM
 	LLVMInitializeAllTargetInfos();
 	LLVMInitializeAllTargetMCs();
 	LLVMInitializeAllDisassemblers();
@@ -94,6 +95,14 @@ int umr_llvm_disasm(struct umr_asic *asic,
 	return 0;
 }
 
+/**
+ * find_wave - Find a wave by VMID@PC inside an array of wave data
+ *
+ * @wd: Linked list of captured wave data
+ * @vmid, @addr: the VMID and PC of the wave to search for
+ *
+ * Returns a wave data pointer if found or NULL if not.
+ */
 static struct umr_wave_data *find_wave(struct umr_wave_data *wd, unsigned vmid, uint64_t addr)
 {
 	while (wd) {
@@ -123,6 +132,8 @@ int umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t 
 	struct umr_wave_data *pwd;
 	int r = 0;
 
+	// count captured halted and valid waves so we can display
+	// relative counts
 	wavehits = nwave = 0;
 	pwd = wd;
 	while (pwd) {
@@ -144,6 +155,8 @@ int umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t 
 		goto error;
 	}
 
+	// read the shader from an offset.  This allows us to know
+	// where the shader starts but only read/display a portion of it
 	if (umr_read_vram(asic, vmid, addr + start_offset, size, (void*)opcodes))
 		goto error;
 
@@ -162,10 +175,15 @@ int umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t 
 			GREEN, opcode_strs[y], RST);
 		free(opcode_strs[y]);
 
+		// if we have wave data see if we can find a wave at this
+		// PC and then print out the stats for it
 		if (wd) {
 			unsigned n;
 			pwd = find_wave(wd, vmid, addr + x * 4);
 			n = 0;
+
+			// repeatedly search for waves at this PC and tally them
+			// up.  Optionally print out the complex that is used.
 			while (pwd) {
 				++n;
 				++wavehits;

@@ -28,6 +28,13 @@ struct umr_pm4_stream *umr_pm4_decode_stream(struct umr_asic *asic, int vmid, ui
 
 /**
  * parse_pm4 - Parse a PM4 packet looking for pointers to shaders or IBs
+ *
+ * @vmid:  The known VMID this packet belongs to (or 0 if from a ring)
+ * @ps: The PM4 packet to parse
+ *
+ * This function looks for shaders that are indicated by a single
+ * SET_SH_REG packet or further IBs indicated by INDIRECT_BUFFER
+ * packets.
  */
 static void parse_pm4(struct umr_asic *asic, int vmid, struct umr_pm4_stream *ps)
 {
@@ -215,7 +222,10 @@ struct umr_pm4_stream *umr_pm4_decode_stream(struct umr_asic *asic, int vmid, ui
 			char *name;
 			name = umr_reg_name(asic, ps->pkt0off);
 
-			// look for UVD IBs
+			// look for UVD IBs which are marked by 3-4 distinct
+			// register writes.  They can occur in any order
+			// except for the SIZE so we use a bitfield to keep
+			// track of them
 			if (strstr(name, "mmUVD_LMI_RBC_IB_VMID")) {
 				uvd_ib.vmid = ps->words[0] | ((asic->family <= FAMILY_VI) ? 0 : UMR_MM_HUB);
 				uvd_ib.n |= 1;
@@ -277,11 +287,16 @@ struct umr_pm4_stream *umr_pm4_decode_ring(struct umr_asic *asic, char *ringname
 	if (!no_halt && asic->options.halt_waves)
 		umr_sq_cmd_halt_waves(asic, UMR_SQ_CMD_HALT);
 
+	// read ring data and reduce indeices modulo ring size
+	// since the kernel returned values might be unwrapped.
 	ringdata = umr_read_ring_data(asic, ringname, &ringsize);
 	ringsize /= 4;
 	ringdata[0] %= ringsize;
 	ringdata[1] %= ringsize;
 
+	// only proceed if there is data to read
+	// and then linearize it so that the stream
+	// decoder can do it's thing
 	if (ringdata[0] != ringdata[1]) { // rptr != wptr
 		uint32_t *lineardata, linearsize;
 

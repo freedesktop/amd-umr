@@ -340,6 +340,9 @@ static char *vgt_event_decode(unsigned tag)
 
 #define BITS(x, a, b) (unsigned long)((x >> (a)) & ((1ULL << ((b)-(a)))-1))
 
+/**
+ * add_shader - Add a shader to the list of shaders found
+ */
 static void add_shader(struct umr_asic *asic, struct umr_ring_decoder *decoder)
 {
 	struct umr_shaders_pgm *pshader;
@@ -370,6 +373,9 @@ error:
 	fprintf(stderr, "[ERROR]: Out of memory in add_shader()\n");
 }
 
+/**
+ * add_ib_pm4 - Add an indirect buffer to the links list of buffers
+ */
 static void add_ib_pm4(struct umr_ring_decoder *decoder)
 {
 	struct umr_ring_decoder *pdecoder;
@@ -395,6 +401,9 @@ static void add_ib_pm4(struct umr_ring_decoder *decoder)
 	memset(&decoder->pm4.next_ib_state, 0, sizeof(decoder->pm4.next_ib_state));
 }
 
+/**
+ * add_ib_pm3 - Add an SDMA indirect buffer to the linked list
+ */
 static void add_ib_pm3(struct umr_ring_decoder *decoder)
 {
 	struct umr_ring_decoder *pdecoder;
@@ -420,6 +429,9 @@ static void add_ib_pm3(struct umr_ring_decoder *decoder)
 	memset(&decoder->sdma.next_ib_state, 0, sizeof(decoder->sdma.next_ib_state));
 }
 
+/**
+ * print_bits - Print the bitfields of a register nicely indented.
+ */
 static void print_bits(struct umr_asic *asic, uint32_t regno, uint32_t value, int tabs)
 {
 	struct umr_ip_block *ip;
@@ -441,6 +453,9 @@ static void print_bits(struct umr_asic *asic, uint32_t regno, uint32_t value, in
 	}
 }
 
+/**
+ * print_decode_pm4_pkt3 - Print out the decoding of a PKT3 packet
+ */
 static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib)
 {
 	static const char *op_3c_functions[] = { "true", "<", "<=", "==", "!=", ">=", ">", "reserved" };
@@ -852,6 +867,12 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 	}
 }
 
+/**
+ * print_decode_pm4 - Handle the FSM when decoding PM4 packets
+ *
+ * This function handles a stream of PM4 words and farms them
+ * off to the correct decoders based on the current state.
+ */
 static void print_decode_pm4(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib)
 {
 	char *name;
@@ -876,6 +897,8 @@ static void print_decode_pm4(struct umr_asic *asic, struct umr_ring_decoder *dec
 			if (!decoder->pm4.n_words)
 				decoder->pm4.cur_opcode = 0xFFFFFFFF;
 			return;
+
+		// PKT0 type, simple register writes
 		case 0x80000000:
 			name = umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo);
 			printf("   word (%lu): %s(%s0x%lx%s) <= %s0x%lx%s",
@@ -918,6 +941,8 @@ static void print_decode_pm4(struct umr_asic *asic, struct umr_ring_decoder *dec
 
 			decoder->pm4.next_write_mem.addr_lo++;
 			break;
+
+		// default means a PKT3 opcode
 		default:
 			print_decode_pm4_pkt3(asic, decoder, ib);
 			++(decoder->pm4.cur_word);

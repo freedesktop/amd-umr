@@ -25,6 +25,12 @@
 #include "umr.h"
 #include <inttypes.h>
 
+/**
+ * parse_rev0 - Parse initial form of config data
+ *
+ * As fields are added to the configuration data we nest the format
+ * to append more fields.
+ */
 static void parse_rev0(struct umr_asic *asic, uint32_t *data, int *r)
 {
 	*r = 1;
