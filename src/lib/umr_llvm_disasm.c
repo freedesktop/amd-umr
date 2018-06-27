@@ -167,11 +167,11 @@ int umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t 
 			printf(" * ");
 		else
 			printf("   ");
-		printf("pgm[%s%lu%s@%s0x%llx%s + %s0x%-4x%s] = %s0x%08lx%s\t%s%-60s%s\t",
-			BLUE, (unsigned long)vmid, RST,
-			YELLOW, (unsigned long long)addr, RST,
+		printf("pgm[%s%u%s@%s0x%" PRIx64 "%s + %s0x%-4x%s] = %s0x%08" PRIx32 "%s\t%s%-60s%s\t",
+			BLUE, (unsigned)vmid, RST,
+			YELLOW, addr, RST,
 			YELLOW, (unsigned)x * 4, RST,
-			BLUE, (unsigned long)opcodes[y], RST,
+			BLUE, opcodes[y], RST,
 			GREEN, opcode_strs[y], RST);
 		free(opcode_strs[y]);
 

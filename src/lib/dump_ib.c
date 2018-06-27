@@ -36,18 +36,18 @@ void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder)
 	uint32_t *data = NULL, x;
 	static const char *hubs[] = { "gfxhub", "mmhub" };
 
-	printf("Dumping IB at (%s%s%s) VMID:%u 0x%llx of %u words from ",
+	printf("Dumping IB at (%s%s%s) VMID:%u 0x%" PRIx64 " of %u words from ",
 		GREEN, hubs[decoder->next_ib_info.vmid >> 8], RST,
 		(unsigned)decoder->next_ib_info.vmid & 0xFF,
-		(unsigned long long)decoder->next_ib_info.ib_addr,
+		decoder->next_ib_info.ib_addr,
 		(unsigned)decoder->next_ib_info.size/4);
 
 	if (decoder->src.ib_addr == 0)
 		printf("ring[%s%u%s]", BLUE, (unsigned)decoder->src.addr, RST);
 	else
-		printf("IB[%s%u%s@%s0x%llx%s + %s0x%x%s]",
+		printf("IB[%s%u%s@%s0x%" PRIx64 "%s + %s0x%x%s]",
 			BLUE, (int)decoder->src.vmid, RST,
-			YELLOW, (unsigned long long)decoder->src.ib_addr, RST,
+			YELLOW, decoder->src.ib_addr, RST,
 			YELLOW, (unsigned)decoder->src.addr * 4, RST);
 
 	printf("\n");
@@ -60,9 +60,9 @@ void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder)
 		decoder->sdma.cur_opcode = 0xFFFFFFFF;
 		for (x = 0; x < decoder->next_ib_info.size/4; x++) {
 			decoder->next_ib_info.addr = x;
-			printf("IB[%s%u%s@%s0x%llx%s + %s0x%-4x%s] = %s0x%08lx%s ... ",
+			printf("IB[%s%u%s@%s0x%" PRIx64 "%s + %s0x%-4x%s] = %s0x%08lx%s ... ",
 				BLUE, decoder->next_ib_info.vmid, RST,
-				YELLOW, (unsigned long long)decoder->next_ib_info.ib_addr, RST,
+				YELLOW, decoder->next_ib_info.ib_addr, RST,
 				YELLOW, (unsigned)x * 4, RST,
 				GREEN, (unsigned long)data[x], RST);
 			umr_print_decode(asic, decoder, data[x]);
@@ -79,11 +79,11 @@ void umr_dump_shaders(struct umr_asic *asic, struct umr_ring_decoder *decoder, s
 
 	shader = decoder->shader;
 	while (shader) {
-		printf("Disassembly of shader %u@0x%llx of length %u bytes from IB[%s%u%s@%s0x%llx%s + %s0x%x%s]\n",
-				shader->vmid, (unsigned long long)shader->addr,
+		printf("Disassembly of shader %u@0x%" PRIx64 " of length %u bytes from IB[%s%u%s@%s0x%" PRIx64 "%s + %s0x%x%s]\n",
+				shader->vmid, shader->addr,
 				shader->size,
 				BLUE, (unsigned)shader->vmid, RST,
-				YELLOW, (unsigned long long)shader->src.ib_base, RST,
+				YELLOW, shader->src.ib_base, RST,
 				YELLOW, (unsigned)shader->src.ib_offset * 4, RST);
 		umr_vm_disasm(asic, shader->vmid, shader->addr, 0, shader->size, 0, wd);
 		printf("\n");
