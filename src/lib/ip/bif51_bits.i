@@ -1,18 +1,12 @@
-static struct umr_bitfield ixD2F1_PCIEP_RESERVED[] = {
-	 { "PCIEP_RESERVED", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield mmVENDOR_ID[] = {
-	 { "VENDOR_ID", 0, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield mmMM_INDEX[] = {
 	 { "MM_OFFSET", 0, 30, &umr_bitfield_default },
 	 { "MM_APER", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_PCIEP_SCRATCH[] = {
-	 { "PCIEP_SCRATCH", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmVENDOR_ID[] = {
+	 { "VENDOR_ID", 0, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield mmMM_DATA[] = {
-	 { "MM_DATA", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixD2F1_PCIEP_RESERVED[] = {
+	 { "PCIEP_RESERVED", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmSTATUS[] = {
 	 { "INT_STATUS", 3, 3, &umr_bitfield_default },
@@ -26,6 +20,12 @@ static struct umr_bitfield mmSTATUS[] = {
 	 { "RECEIVED_MASTER_ABORT", 13, 13, &umr_bitfield_default },
 	 { "SIGNALED_SYSTEM_ERROR", 14, 14, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 15, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield mmMM_DATA[] = {
+	 { "MM_DATA", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_PCIEP_SCRATCH[] = {
+	 { "PCIEP_SCRATCH", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PCIEP_PORT_CNTL[] = {
 	 { "SLV_PORT_REQ_EN", 0, 0, &umr_bitfield_default },
@@ -5318,10 +5318,6 @@ static struct umr_bitfield ixPSX81_WRP_DTM_DENTIST_GATE_TIMING_FI_clkGskt[] = {
 	 { "DentistGate_dropoutTime_FI_clkGskt", 8, 15, &umr_bitfield_default },
 	 { "DentistGate_stopTime_FI_clkGskt", 16, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPMI_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield mmPMI_CAP[] = {
 	 { "VERSION", 0, 2, &umr_bitfield_default },
 	 { "PME_CLOCK", 3, 3, &umr_bitfield_default },
@@ -5331,35 +5327,21 @@ static struct umr_bitfield mmPMI_CAP[] = {
 	 { "D2_SUPPORT", 10, 10, &umr_bitfield_default },
 	 { "PME_SUPPORT", 11, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_RESERVED[] = {
-	 { "PCIE_RESERVED", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmPMI_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_RESERVED[] = {
 	 { "PCIE_RESERVED", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_SCRATCH[] = {
-	 { "PCIE_SCRATCH", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_RESERVED[] = {
+	 { "PCIE_RESERVED", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_SCRATCH[] = {
 	 { "PCIE_SCRATCH", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_HW_DEBUG[] = {
-	 { "HW_00_DEBUG", 0, 0, &umr_bitfield_default },
-	 { "HW_01_DEBUG", 1, 1, &umr_bitfield_default },
-	 { "HW_02_DEBUG", 2, 2, &umr_bitfield_default },
-	 { "HW_03_DEBUG", 3, 3, &umr_bitfield_default },
-	 { "HW_04_DEBUG", 4, 4, &umr_bitfield_default },
-	 { "HW_05_DEBUG", 5, 5, &umr_bitfield_default },
-	 { "HW_06_DEBUG", 6, 6, &umr_bitfield_default },
-	 { "HW_07_DEBUG", 7, 7, &umr_bitfield_default },
-	 { "HW_08_DEBUG", 8, 8, &umr_bitfield_default },
-	 { "HW_09_DEBUG", 9, 9, &umr_bitfield_default },
-	 { "HW_10_DEBUG", 10, 10, &umr_bitfield_default },
-	 { "HW_11_DEBUG", 11, 11, &umr_bitfield_default },
-	 { "HW_12_DEBUG", 12, 12, &umr_bitfield_default },
-	 { "HW_13_DEBUG", 13, 13, &umr_bitfield_default },
-	 { "HW_14_DEBUG", 14, 14, &umr_bitfield_default },
-	 { "HW_15_DEBUG", 15, 15, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_SCRATCH[] = {
+	 { "PCIE_SCRATCH", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_HW_DEBUG[] = {
 	 { "HW_00_DEBUG", 0, 0, &umr_bitfield_default },
@@ -5379,37 +5361,35 @@ static struct umr_bitfield ixPCIE_HW_DEBUG[] = {
 	 { "HW_14_DEBUG", 14, 14, &umr_bitfield_default },
 	 { "HW_15_DEBUG", 15, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_RX_NUM_NAK[] = {
-	 { "RX_NUM_NAK", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_HW_DEBUG[] = {
+	 { "HW_00_DEBUG", 0, 0, &umr_bitfield_default },
+	 { "HW_01_DEBUG", 1, 1, &umr_bitfield_default },
+	 { "HW_02_DEBUG", 2, 2, &umr_bitfield_default },
+	 { "HW_03_DEBUG", 3, 3, &umr_bitfield_default },
+	 { "HW_04_DEBUG", 4, 4, &umr_bitfield_default },
+	 { "HW_05_DEBUG", 5, 5, &umr_bitfield_default },
+	 { "HW_06_DEBUG", 6, 6, &umr_bitfield_default },
+	 { "HW_07_DEBUG", 7, 7, &umr_bitfield_default },
+	 { "HW_08_DEBUG", 8, 8, &umr_bitfield_default },
+	 { "HW_09_DEBUG", 9, 9, &umr_bitfield_default },
+	 { "HW_10_DEBUG", 10, 10, &umr_bitfield_default },
+	 { "HW_11_DEBUG", 11, 11, &umr_bitfield_default },
+	 { "HW_12_DEBUG", 12, 12, &umr_bitfield_default },
+	 { "HW_13_DEBUG", 13, 13, &umr_bitfield_default },
+	 { "HW_14_DEBUG", 14, 14, &umr_bitfield_default },
+	 { "HW_15_DEBUG", 15, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_RX_NUM_NAK[] = {
 	 { "RX_NUM_NAK", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_RX_NUM_NAK_GENERATED[] = {
-	 { "RX_NUM_NAK_GENERATED", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_RX_NUM_NAK[] = {
+	 { "RX_NUM_NAK", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_RX_NUM_NAK_GENERATED[] = {
 	 { "RX_NUM_NAK_GENERATED", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_CNTL[] = {
-	 { "HWINIT_WR_LOCK", 0, 0, &umr_bitfield_default },
-	 { "LC_HOT_PLUG_DELAY_SEL", 1, 3, &umr_bitfield_default },
-	 { "UR_ERR_REPORT_DIS", 7, 7, &umr_bitfield_default },
-	 { "PCIE_MALFORM_ATOMIC_OPS", 8, 8, &umr_bitfield_default },
-	 { "PCIE_HT_NP_MEM_WRITE", 9, 9, &umr_bitfield_default },
-	 { "RX_SB_ADJ_PAYLOAD_SIZE", 10, 12, &umr_bitfield_default },
-	 { "RX_RCB_ATS_UC_DIS", 15, 15, &umr_bitfield_default },
-	 { "RX_RCB_REORDER_EN", 16, 16, &umr_bitfield_default },
-	 { "RX_RCB_INVALID_SIZE_DIS", 17, 17, &umr_bitfield_default },
-	 { "RX_RCB_UNEXP_CPL_DIS", 18, 18, &umr_bitfield_default },
-	 { "RX_RCB_CPL_TIMEOUT_TEST_MODE", 19, 19, &umr_bitfield_default },
-	 { "RX_RCB_WRONG_PREFIX_DIS", 20, 20, &umr_bitfield_default },
-	 { "RX_RCB_WRONG_ATTR_DIS", 21, 21, &umr_bitfield_default },
-	 { "RX_RCB_WRONG_FUNCNUM_DIS", 22, 22, &umr_bitfield_default },
-	 { "RX_ATS_TRAN_CPL_SPLIT_DIS", 23, 23, &umr_bitfield_default },
-	 { "TX_CPL_DEBUG", 24, 29, &umr_bitfield_default },
-	 { "RX_IGNORE_LTR_MSG_UR", 30, 30, &umr_bitfield_default },
-	 { "RX_CPL_POSTED_REQ_ORD_EN", 31, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_RX_NUM_NAK_GENERATED[] = {
+	 { "RX_NUM_NAK_GENERATED", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_CNTL[] = {
 	 { "HWINIT_WR_LOCK", 0, 0, &umr_bitfield_default },
@@ -5431,14 +5411,25 @@ static struct umr_bitfield ixPCIE_CNTL[] = {
 	 { "RX_IGNORE_LTR_MSG_UR", 30, 30, &umr_bitfield_default },
 	 { "RX_CPL_POSTED_REQ_ORD_EN", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_CONFIG_CNTL[] = {
-	 { "DYN_CLK_LATENCY", 0, 3, &umr_bitfield_default },
-	 { "CI_MAX_PAYLOAD_SIZE_MODE", 16, 16, &umr_bitfield_default },
-	 { "CI_PRIV_MAX_PAYLOAD_SIZE", 17, 19, &umr_bitfield_default },
-	 { "CI_MAX_READ_REQUEST_SIZE_MODE", 20, 20, &umr_bitfield_default },
-	 { "CI_PRIV_MAX_READ_REQUEST_SIZE", 21, 23, &umr_bitfield_default },
-	 { "CI_MAX_READ_SAFE_MODE", 24, 24, &umr_bitfield_default },
-	 { "CI_EXTENDED_TAG_EN_OVERRIDE", 25, 26, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_CNTL[] = {
+	 { "HWINIT_WR_LOCK", 0, 0, &umr_bitfield_default },
+	 { "LC_HOT_PLUG_DELAY_SEL", 1, 3, &umr_bitfield_default },
+	 { "UR_ERR_REPORT_DIS", 7, 7, &umr_bitfield_default },
+	 { "PCIE_MALFORM_ATOMIC_OPS", 8, 8, &umr_bitfield_default },
+	 { "PCIE_HT_NP_MEM_WRITE", 9, 9, &umr_bitfield_default },
+	 { "RX_SB_ADJ_PAYLOAD_SIZE", 10, 12, &umr_bitfield_default },
+	 { "RX_RCB_ATS_UC_DIS", 15, 15, &umr_bitfield_default },
+	 { "RX_RCB_REORDER_EN", 16, 16, &umr_bitfield_default },
+	 { "RX_RCB_INVALID_SIZE_DIS", 17, 17, &umr_bitfield_default },
+	 { "RX_RCB_UNEXP_CPL_DIS", 18, 18, &umr_bitfield_default },
+	 { "RX_RCB_CPL_TIMEOUT_TEST_MODE", 19, 19, &umr_bitfield_default },
+	 { "RX_RCB_WRONG_PREFIX_DIS", 20, 20, &umr_bitfield_default },
+	 { "RX_RCB_WRONG_ATTR_DIS", 21, 21, &umr_bitfield_default },
+	 { "RX_RCB_WRONG_FUNCNUM_DIS", 22, 22, &umr_bitfield_default },
+	 { "RX_ATS_TRAN_CPL_SPLIT_DIS", 23, 23, &umr_bitfield_default },
+	 { "TX_CPL_DEBUG", 24, 29, &umr_bitfield_default },
+	 { "RX_IGNORE_LTR_MSG_UR", 30, 30, &umr_bitfield_default },
+	 { "RX_CPL_POSTED_REQ_ORD_EN", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_CONFIG_CNTL[] = {
 	 { "DYN_CLK_LATENCY", 0, 3, &umr_bitfield_default },
@@ -5449,12 +5440,21 @@ static struct umr_bitfield ixPCIE_CONFIG_CNTL[] = {
 	 { "CI_MAX_READ_SAFE_MODE", 24, 24, &umr_bitfield_default },
 	 { "CI_EXTENDED_TAG_EN_OVERRIDE", 25, 26, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_DEBUG_CNTL[] = {
+static struct umr_bitfield ixPSX80_BIF_PCIE_CONFIG_CNTL[] = {
+	 { "DYN_CLK_LATENCY", 0, 3, &umr_bitfield_default },
+	 { "CI_MAX_PAYLOAD_SIZE_MODE", 16, 16, &umr_bitfield_default },
+	 { "CI_PRIV_MAX_PAYLOAD_SIZE", 17, 19, &umr_bitfield_default },
+	 { "CI_MAX_READ_REQUEST_SIZE_MODE", 20, 20, &umr_bitfield_default },
+	 { "CI_PRIV_MAX_READ_REQUEST_SIZE", 21, 23, &umr_bitfield_default },
+	 { "CI_MAX_READ_SAFE_MODE", 24, 24, &umr_bitfield_default },
+	 { "CI_EXTENDED_TAG_EN_OVERRIDE", 25, 26, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPCIE_DEBUG_CNTL[] = {
 	 { "DEBUG_PORT_EN", 0, 7, &umr_bitfield_default },
 	 { "DEBUG_SELECT", 8, 8, &umr_bitfield_default },
 	 { "DEBUG_LANE_EN", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPCIE_DEBUG_CNTL[] = {
+static struct umr_bitfield ixPSX80_BIF_PCIE_DEBUG_CNTL[] = {
 	 { "DEBUG_PORT_EN", 0, 7, &umr_bitfield_default },
 	 { "DEBUG_SELECT", 8, 8, &umr_bitfield_default },
 	 { "DEBUG_LANE_EN", 16, 31, &umr_bitfield_default },
@@ -5479,6 +5479,21 @@ static struct umr_bitfield ixPCIE_INT_STATUS[] = {
 	 { "LINK_BW_INT_STATUS", 7, 7, &umr_bitfield_default },
 	 { "QUIESCE_RCVD_INT_STATUS", 8, 8, &umr_bitfield_default },
 };
+static struct umr_bitfield ixPCIE_CNTL2[] = {
+	 { "TX_ARB_ROUND_ROBIN_EN", 0, 0, &umr_bitfield_default },
+	 { "TX_ARB_SLV_LIMIT", 1, 5, &umr_bitfield_default },
+	 { "TX_ARB_MST_LIMIT", 6, 10, &umr_bitfield_default },
+	 { "TX_BLOCK_TLP_ON_PM_DIS", 11, 11, &umr_bitfield_default },
+	 { "SLV_MEM_LS_EN", 16, 16, &umr_bitfield_default },
+	 { "SLV_MEM_AGGRESSIVE_LS_EN", 17, 17, &umr_bitfield_default },
+	 { "MST_MEM_LS_EN", 18, 18, &umr_bitfield_default },
+	 { "REPLAY_MEM_LS_EN", 19, 19, &umr_bitfield_default },
+	 { "SLV_MEM_SD_EN", 20, 20, &umr_bitfield_default },
+	 { "SLV_MEM_AGGRESSIVE_SD_EN", 21, 21, &umr_bitfield_default },
+	 { "MST_MEM_SD_EN", 22, 22, &umr_bitfield_default },
+	 { "REPLAY_MEM_SD_EN", 23, 23, &umr_bitfield_default },
+	 { "RX_NP_MEM_WRITE_ENCODING", 24, 28, &umr_bitfield_default },
+};
 static struct umr_bitfield ixPSX80_BIF_PCIE_CNTL2[] = {
 	 { "TX_ARB_ROUND_ROBIN_EN", 0, 0, &umr_bitfield_default },
 	 { "TX_ARB_SLV_LIMIT", 1, 5, &umr_bitfield_default },
@@ -5500,20 +5515,16 @@ static struct umr_bitfield ixPSX80_BIF_PCIE_CNTL2[] = {
 	 { "MST_MEM_DS_EN", 30, 30, &umr_bitfield_default },
 	 { "REPLAY_MEM_DS_EN", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPCIE_CNTL2[] = {
-	 { "TX_ARB_ROUND_ROBIN_EN", 0, 0, &umr_bitfield_default },
-	 { "TX_ARB_SLV_LIMIT", 1, 5, &umr_bitfield_default },
-	 { "TX_ARB_MST_LIMIT", 6, 10, &umr_bitfield_default },
-	 { "TX_BLOCK_TLP_ON_PM_DIS", 11, 11, &umr_bitfield_default },
-	 { "SLV_MEM_LS_EN", 16, 16, &umr_bitfield_default },
-	 { "SLV_MEM_AGGRESSIVE_LS_EN", 17, 17, &umr_bitfield_default },
-	 { "MST_MEM_LS_EN", 18, 18, &umr_bitfield_default },
-	 { "REPLAY_MEM_LS_EN", 19, 19, &umr_bitfield_default },
-	 { "SLV_MEM_SD_EN", 20, 20, &umr_bitfield_default },
-	 { "SLV_MEM_AGGRESSIVE_SD_EN", 21, 21, &umr_bitfield_default },
-	 { "MST_MEM_SD_EN", 22, 22, &umr_bitfield_default },
-	 { "REPLAY_MEM_SD_EN", 23, 23, &umr_bitfield_default },
-	 { "RX_NP_MEM_WRITE_ENCODING", 24, 28, &umr_bitfield_default },
+static struct umr_bitfield ixPCIE_RX_CNTL2[] = {
+	 { "RX_IGNORE_EP_INVALIDPASID_UR", 0, 0, &umr_bitfield_default },
+	 { "RX_IGNORE_EP_TRANSMRD_UR", 1, 1, &umr_bitfield_default },
+	 { "RX_IGNORE_EP_TRANSMWR_UR", 2, 2, &umr_bitfield_default },
+	 { "RX_IGNORE_EP_ATSTRANSREQ_UR", 3, 3, &umr_bitfield_default },
+	 { "RX_IGNORE_EP_PAGEREQMSG_UR", 4, 4, &umr_bitfield_default },
+	 { "RX_IGNORE_EP_INVCPL_UR", 5, 5, &umr_bitfield_default },
+	 { "RX_RCB_LATENCY_EN", 8, 8, &umr_bitfield_default },
+	 { "RX_RCB_LATENCY_SCALE", 9, 11, &umr_bitfield_default },
+	 { "RX_RCB_LATENCY_MAX_COUNT", 16, 25, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPSX80_BIF_PCIE_RX_CNTL2[] = {
 	 { "RX_IGNORE_EP_INVALIDPASID_UR", 0, 0, &umr_bitfield_default },
@@ -5530,18 +5541,7 @@ static struct umr_bitfield ixPSX80_BIF_PCIE_RX_CNTL2[] = {
 	 { "RX_RCB_LATENCY_MAX_COUNT", 16, 25, &umr_bitfield_default },
 	 { "FLR_EXTEND_MODE", 28, 30, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPCIE_RX_CNTL2[] = {
-	 { "RX_IGNORE_EP_INVALIDPASID_UR", 0, 0, &umr_bitfield_default },
-	 { "RX_IGNORE_EP_TRANSMRD_UR", 1, 1, &umr_bitfield_default },
-	 { "RX_IGNORE_EP_TRANSMWR_UR", 2, 2, &umr_bitfield_default },
-	 { "RX_IGNORE_EP_ATSTRANSREQ_UR", 3, 3, &umr_bitfield_default },
-	 { "RX_IGNORE_EP_PAGEREQMSG_UR", 4, 4, &umr_bitfield_default },
-	 { "RX_IGNORE_EP_INVCPL_UR", 5, 5, &umr_bitfield_default },
-	 { "RX_RCB_LATENCY_EN", 8, 8, &umr_bitfield_default },
-	 { "RX_RCB_LATENCY_SCALE", 9, 11, &umr_bitfield_default },
-	 { "RX_RCB_LATENCY_MAX_COUNT", 16, 25, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPSX80_BIF_PCIE_TX_F0_ATTR_CNTL[] = {
+static struct umr_bitfield ixPCIE_TX_F0_ATTR_CNTL[] = {
 	 { "TX_F0_IDO_OVERRIDE_P", 0, 1, &umr_bitfield_default },
 	 { "TX_F0_IDO_OVERRIDE_NP", 2, 3, &umr_bitfield_default },
 	 { "TX_F0_IDO_OVERRIDE_CPL", 4, 5, &umr_bitfield_default },
@@ -5550,7 +5550,7 @@ static struct umr_bitfield ixPSX80_BIF_PCIE_TX_F0_ATTR_CNTL[] = {
 	 { "TX_F0_SNR_OVERRIDE_P", 10, 11, &umr_bitfield_default },
 	 { "TX_F0_SNR_OVERRIDE_NP", 12, 13, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPCIE_TX_F0_ATTR_CNTL[] = {
+static struct umr_bitfield ixPSX80_BIF_PCIE_TX_F0_ATTR_CNTL[] = {
 	 { "TX_F0_IDO_OVERRIDE_P", 0, 1, &umr_bitfield_default },
 	 { "TX_F0_IDO_OVERRIDE_NP", 2, 3, &umr_bitfield_default },
 	 { "TX_F0_IDO_OVERRIDE_CPL", 4, 5, &umr_bitfield_default },
@@ -5575,17 +5575,6 @@ static struct umr_bitfield ixPCIE_TX_F1_F2_ATTR_CNTL[] = {
 	 { "TX_F2_SNR_OVERRIDE_P", 26, 27, &umr_bitfield_default },
 	 { "TX_F2_SNR_OVERRIDE_NP", 28, 29, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_CI_CNTL[] = {
-	 { "CI_SLAVE_SPLIT_MODE", 2, 2, &umr_bitfield_default },
-	 { "CI_SLAVE_GEN_USR_DIS", 3, 3, &umr_bitfield_default },
-	 { "CI_MST_CMPL_DUMMY_DATA", 4, 4, &umr_bitfield_default },
-	 { "CI_SLV_RC_RD_REQ_SIZE", 6, 7, &umr_bitfield_default },
-	 { "CI_SLV_ORDERING_DIS", 8, 8, &umr_bitfield_default },
-	 { "CI_RC_ORDERING_DIS", 9, 9, &umr_bitfield_default },
-	 { "CI_SLV_CPL_ALLOC_DIS", 10, 10, &umr_bitfield_default },
-	 { "CI_SLV_CPL_ALLOC_MODE", 11, 11, &umr_bitfield_default },
-	 { "CI_SLV_CPL_ALLOC_SOR", 12, 12, &umr_bitfield_default },
-};
 static struct umr_bitfield ixPCIE_CI_CNTL[] = {
 	 { "CI_SLAVE_SPLIT_MODE", 2, 2, &umr_bitfield_default },
 	 { "CI_SLAVE_GEN_USR_DIS", 3, 3, &umr_bitfield_default },
@@ -5598,21 +5587,26 @@ static struct umr_bitfield ixPCIE_CI_CNTL[] = {
 	 { "CI_SLV_CPL_ALLOC_SOR", 12, 12, &umr_bitfield_default },
 	 { "CI_MST_IGNORE_PAGE_ALIGNED_REQUEST", 13, 13, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_BUS_CNTL[] = {
-	 { "PMI_INT_DIS", 6, 6, &umr_bitfield_default },
-	 { "IMMEDIATE_PMI_DIS", 7, 7, &umr_bitfield_default },
-	 { "TRUE_PM_STATUS_EN", 12, 12, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_CI_CNTL[] = {
+	 { "CI_SLAVE_SPLIT_MODE", 2, 2, &umr_bitfield_default },
+	 { "CI_SLAVE_GEN_USR_DIS", 3, 3, &umr_bitfield_default },
+	 { "CI_MST_CMPL_DUMMY_DATA", 4, 4, &umr_bitfield_default },
+	 { "CI_SLV_RC_RD_REQ_SIZE", 6, 7, &umr_bitfield_default },
+	 { "CI_SLV_ORDERING_DIS", 8, 8, &umr_bitfield_default },
+	 { "CI_RC_ORDERING_DIS", 9, 9, &umr_bitfield_default },
+	 { "CI_SLV_CPL_ALLOC_DIS", 10, 10, &umr_bitfield_default },
+	 { "CI_SLV_CPL_ALLOC_MODE", 11, 11, &umr_bitfield_default },
+	 { "CI_SLV_CPL_ALLOC_SOR", 12, 12, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_BUS_CNTL[] = {
 	 { "PMI_INT_DIS", 6, 6, &umr_bitfield_default },
 	 { "IMMEDIATE_PMI_DIS", 7, 7, &umr_bitfield_default },
 	 { "TRUE_PM_STATUS_EN", 12, 12, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_LC_STATE6[] = {
-	 { "LC_PREV_STATE24", 0, 5, &umr_bitfield_default },
-	 { "LC_PREV_STATE25", 8, 13, &umr_bitfield_default },
-	 { "LC_PREV_STATE26", 16, 21, &umr_bitfield_default },
-	 { "LC_PREV_STATE27", 24, 29, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_BUS_CNTL[] = {
+	 { "PMI_INT_DIS", 6, 6, &umr_bitfield_default },
+	 { "IMMEDIATE_PMI_DIS", 7, 7, &umr_bitfield_default },
+	 { "TRUE_PM_STATUS_EN", 12, 12, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_LC_STATE6[] = {
 	 { "LC_PREV_STATE24", 0, 5, &umr_bitfield_default },
@@ -5620,11 +5614,11 @@ static struct umr_bitfield ixPCIE_LC_STATE6[] = {
 	 { "LC_PREV_STATE26", 16, 21, &umr_bitfield_default },
 	 { "LC_PREV_STATE27", 24, 29, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_LC_STATE7[] = {
-	 { "LC_PREV_STATE28", 0, 5, &umr_bitfield_default },
-	 { "LC_PREV_STATE29", 8, 13, &umr_bitfield_default },
-	 { "LC_PREV_STATE30", 16, 21, &umr_bitfield_default },
-	 { "LC_PREV_STATE31", 24, 29, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_LC_STATE6[] = {
+	 { "LC_PREV_STATE24", 0, 5, &umr_bitfield_default },
+	 { "LC_PREV_STATE25", 8, 13, &umr_bitfield_default },
+	 { "LC_PREV_STATE26", 16, 21, &umr_bitfield_default },
+	 { "LC_PREV_STATE27", 24, 29, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_LC_STATE7[] = {
 	 { "LC_PREV_STATE28", 0, 5, &umr_bitfield_default },
@@ -5632,11 +5626,11 @@ static struct umr_bitfield ixPCIE_LC_STATE7[] = {
 	 { "LC_PREV_STATE30", 16, 21, &umr_bitfield_default },
 	 { "LC_PREV_STATE31", 24, 29, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_LC_STATE8[] = {
-	 { "LC_PREV_STATE32", 0, 5, &umr_bitfield_default },
-	 { "LC_PREV_STATE33", 8, 13, &umr_bitfield_default },
-	 { "LC_PREV_STATE34", 16, 21, &umr_bitfield_default },
-	 { "LC_PREV_STATE35", 24, 29, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_LC_STATE7[] = {
+	 { "LC_PREV_STATE28", 0, 5, &umr_bitfield_default },
+	 { "LC_PREV_STATE29", 8, 13, &umr_bitfield_default },
+	 { "LC_PREV_STATE30", 16, 21, &umr_bitfield_default },
+	 { "LC_PREV_STATE31", 24, 29, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_LC_STATE8[] = {
 	 { "LC_PREV_STATE32", 0, 5, &umr_bitfield_default },
@@ -5644,11 +5638,11 @@ static struct umr_bitfield ixPCIE_LC_STATE8[] = {
 	 { "LC_PREV_STATE34", 16, 21, &umr_bitfield_default },
 	 { "LC_PREV_STATE35", 24, 29, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_LC_STATE9[] = {
-	 { "LC_PREV_STATE36", 0, 5, &umr_bitfield_default },
-	 { "LC_PREV_STATE37", 8, 13, &umr_bitfield_default },
-	 { "LC_PREV_STATE38", 16, 21, &umr_bitfield_default },
-	 { "LC_PREV_STATE39", 24, 29, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_LC_STATE8[] = {
+	 { "LC_PREV_STATE32", 0, 5, &umr_bitfield_default },
+	 { "LC_PREV_STATE33", 8, 13, &umr_bitfield_default },
+	 { "LC_PREV_STATE34", 16, 21, &umr_bitfield_default },
+	 { "LC_PREV_STATE35", 24, 29, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_LC_STATE9[] = {
 	 { "LC_PREV_STATE36", 0, 5, &umr_bitfield_default },
@@ -5656,11 +5650,11 @@ static struct umr_bitfield ixPCIE_LC_STATE9[] = {
 	 { "LC_PREV_STATE38", 16, 21, &umr_bitfield_default },
 	 { "LC_PREV_STATE39", 24, 29, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_LC_STATE10[] = {
-	 { "LC_PREV_STATE40", 0, 5, &umr_bitfield_default },
-	 { "LC_PREV_STATE41", 8, 13, &umr_bitfield_default },
-	 { "LC_PREV_STATE42", 16, 21, &umr_bitfield_default },
-	 { "LC_PREV_STATE43", 24, 29, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_LC_STATE9[] = {
+	 { "LC_PREV_STATE36", 0, 5, &umr_bitfield_default },
+	 { "LC_PREV_STATE37", 8, 13, &umr_bitfield_default },
+	 { "LC_PREV_STATE38", 16, 21, &umr_bitfield_default },
+	 { "LC_PREV_STATE39", 24, 29, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_LC_STATE10[] = {
 	 { "LC_PREV_STATE40", 0, 5, &umr_bitfield_default },
@@ -5668,11 +5662,11 @@ static struct umr_bitfield ixPCIE_LC_STATE10[] = {
 	 { "LC_PREV_STATE42", 16, 21, &umr_bitfield_default },
 	 { "LC_PREV_STATE43", 24, 29, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_LC_STATE11[] = {
-	 { "LC_PREV_STATE44", 0, 5, &umr_bitfield_default },
-	 { "LC_PREV_STATE45", 8, 13, &umr_bitfield_default },
-	 { "LC_PREV_STATE46", 16, 21, &umr_bitfield_default },
-	 { "LC_PREV_STATE47", 24, 29, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_LC_STATE10[] = {
+	 { "LC_PREV_STATE40", 0, 5, &umr_bitfield_default },
+	 { "LC_PREV_STATE41", 8, 13, &umr_bitfield_default },
+	 { "LC_PREV_STATE42", 16, 21, &umr_bitfield_default },
+	 { "LC_PREV_STATE43", 24, 29, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_LC_STATE11[] = {
 	 { "LC_PREV_STATE44", 0, 5, &umr_bitfield_default },
@@ -5680,11 +5674,11 @@ static struct umr_bitfield ixPCIE_LC_STATE11[] = {
 	 { "LC_PREV_STATE46", 16, 21, &umr_bitfield_default },
 	 { "LC_PREV_STATE47", 24, 29, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_LC_STATUS1[] = {
-	 { "LC_REVERSE_RCVR", 0, 0, &umr_bitfield_default },
-	 { "LC_REVERSE_XMIT", 1, 1, &umr_bitfield_default },
-	 { "LC_OPERATING_LINK_WIDTH", 2, 4, &umr_bitfield_default },
-	 { "LC_DETECTED_LINK_WIDTH", 5, 7, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_LC_STATE11[] = {
+	 { "LC_PREV_STATE44", 0, 5, &umr_bitfield_default },
+	 { "LC_PREV_STATE45", 8, 13, &umr_bitfield_default },
+	 { "LC_PREV_STATE46", 16, 21, &umr_bitfield_default },
+	 { "LC_PREV_STATE47", 24, 29, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_LC_STATUS1[] = {
 	 { "LC_REVERSE_RCVR", 0, 0, &umr_bitfield_default },
@@ -5692,22 +5686,19 @@ static struct umr_bitfield ixPCIE_LC_STATUS1[] = {
 	 { "LC_OPERATING_LINK_WIDTH", 2, 4, &umr_bitfield_default },
 	 { "LC_DETECTED_LINK_WIDTH", 5, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_LC_STATUS2[] = {
-	 { "LC_TOTAL_INACTIVE_LANES", 0, 15, &umr_bitfield_default },
-	 { "LC_TURN_ON_LANE", 16, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_LC_STATUS1[] = {
+	 { "LC_REVERSE_RCVR", 0, 0, &umr_bitfield_default },
+	 { "LC_REVERSE_XMIT", 1, 1, &umr_bitfield_default },
+	 { "LC_OPERATING_LINK_WIDTH", 2, 4, &umr_bitfield_default },
+	 { "LC_DETECTED_LINK_WIDTH", 5, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_LC_STATUS2[] = {
 	 { "LC_TOTAL_INACTIVE_LANES", 0, 15, &umr_bitfield_default },
 	 { "LC_TURN_ON_LANE", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_WPR_CNTL[] = {
-	 { "WPR_RESET_HOT_RST_EN", 0, 0, &umr_bitfield_default },
-	 { "WPR_RESET_LNK_DWN_EN", 1, 1, &umr_bitfield_default },
-	 { "WPR_RESET_LNK_DIS_EN", 2, 2, &umr_bitfield_default },
-	 { "WPR_RESET_COR_EN", 3, 3, &umr_bitfield_default },
-	 { "WPR_RESET_REG_EN", 4, 4, &umr_bitfield_default },
-	 { "WPR_RESET_STY_EN", 5, 5, &umr_bitfield_default },
-	 { "WPR_RESET_PHY_EN", 6, 6, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_LC_STATUS2[] = {
+	 { "LC_TOTAL_INACTIVE_LANES", 0, 15, &umr_bitfield_default },
+	 { "LC_TURN_ON_LANE", 16, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_WPR_CNTL[] = {
 	 { "WPR_RESET_HOT_RST_EN", 0, 0, &umr_bitfield_default },
@@ -5718,93 +5709,87 @@ static struct umr_bitfield ixPCIE_WPR_CNTL[] = {
 	 { "WPR_RESET_STY_EN", 5, 5, &umr_bitfield_default },
 	 { "WPR_RESET_PHY_EN", 6, 6, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_RX_LAST_TLP0[] = {
-	 { "RX_LAST_TLP0", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_WPR_CNTL[] = {
+	 { "WPR_RESET_HOT_RST_EN", 0, 0, &umr_bitfield_default },
+	 { "WPR_RESET_LNK_DWN_EN", 1, 1, &umr_bitfield_default },
+	 { "WPR_RESET_LNK_DIS_EN", 2, 2, &umr_bitfield_default },
+	 { "WPR_RESET_COR_EN", 3, 3, &umr_bitfield_default },
+	 { "WPR_RESET_REG_EN", 4, 4, &umr_bitfield_default },
+	 { "WPR_RESET_STY_EN", 5, 5, &umr_bitfield_default },
+	 { "WPR_RESET_PHY_EN", 6, 6, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_RX_LAST_TLP0[] = {
 	 { "RX_LAST_TLP0", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_RX_LAST_TLP1[] = {
-	 { "RX_LAST_TLP1", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_RX_LAST_TLP0[] = {
+	 { "RX_LAST_TLP0", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_RX_LAST_TLP1[] = {
 	 { "RX_LAST_TLP1", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_RX_LAST_TLP2[] = {
-	 { "RX_LAST_TLP2", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_RX_LAST_TLP1[] = {
+	 { "RX_LAST_TLP1", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_RX_LAST_TLP2[] = {
 	 { "RX_LAST_TLP2", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_RX_LAST_TLP3[] = {
-	 { "RX_LAST_TLP3", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_RX_LAST_TLP2[] = {
+	 { "RX_LAST_TLP2", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_RX_LAST_TLP3[] = {
 	 { "RX_LAST_TLP3", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_TX_LAST_TLP0[] = {
-	 { "TX_LAST_TLP0", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_RX_LAST_TLP3[] = {
+	 { "RX_LAST_TLP3", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_TX_LAST_TLP0[] = {
 	 { "TX_LAST_TLP0", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_TX_LAST_TLP1[] = {
-	 { "TX_LAST_TLP1", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_TX_LAST_TLP0[] = {
+	 { "TX_LAST_TLP0", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_TX_LAST_TLP1[] = {
 	 { "TX_LAST_TLP1", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_TX_LAST_TLP2[] = {
-	 { "TX_LAST_TLP2", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_TX_LAST_TLP1[] = {
+	 { "TX_LAST_TLP1", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_TX_LAST_TLP2[] = {
 	 { "TX_LAST_TLP2", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_TX_LAST_TLP3[] = {
-	 { "TX_LAST_TLP3", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_TX_LAST_TLP2[] = {
+	 { "TX_LAST_TLP2", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_TX_LAST_TLP3[] = {
 	 { "TX_LAST_TLP3", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_I2C_REG_ADDR_EXPAND[] = {
-	 { "I2C_REG_ADDR", 0, 16, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_TX_LAST_TLP3[] = {
+	 { "TX_LAST_TLP3", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_I2C_REG_ADDR_EXPAND[] = {
 	 { "I2C_REG_ADDR", 0, 16, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_I2C_REG_DATA[] = {
-	 { "I2C_REG_DATA", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_I2C_REG_ADDR_EXPAND[] = {
+	 { "I2C_REG_ADDR", 0, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_I2C_REG_DATA[] = {
 	 { "I2C_REG_DATA", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_CFG_CNTL[] = {
-	 { "CFG_EN_DEC_TO_HIDDEN_REG", 0, 0, &umr_bitfield_default },
-	 { "CFG_EN_DEC_TO_GEN2_HIDDEN_REG", 1, 1, &umr_bitfield_default },
-	 { "CFG_EN_DEC_TO_GEN3_HIDDEN_REG", 2, 2, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_I2C_REG_DATA[] = {
+	 { "I2C_REG_DATA", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_CFG_CNTL[] = {
 	 { "CFG_EN_DEC_TO_HIDDEN_REG", 0, 0, &umr_bitfield_default },
 	 { "CFG_EN_DEC_TO_GEN2_HIDDEN_REG", 1, 1, &umr_bitfield_default },
 	 { "CFG_EN_DEC_TO_GEN3_HIDDEN_REG", 2, 2, &umr_bitfield_default },
 };
+static struct umr_bitfield ixPSX80_BIF_PCIE_CFG_CNTL[] = {
+	 { "CFG_EN_DEC_TO_HIDDEN_REG", 0, 0, &umr_bitfield_default },
+	 { "CFG_EN_DEC_TO_GEN2_HIDDEN_REG", 1, 1, &umr_bitfield_default },
+	 { "CFG_EN_DEC_TO_GEN3_HIDDEN_REG", 2, 2, &umr_bitfield_default },
+};
 static struct umr_bitfield ixPSX80_BIF_PCIE_LC_PM_CNTL[] = {
 	 { "LC_L1_POWER_GATING_EN", 0, 0, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPSX80_BIF_PCIE_P_CNTL[] = {
-	 { "P_PWRDN_EN", 0, 0, &umr_bitfield_default },
-	 { "P_SYMALIGN_MODE", 1, 1, &umr_bitfield_default },
-	 { "P_SYMALIGN_HW_DEBUG", 2, 2, &umr_bitfield_default },
-	 { "P_ELASTDESKEW_HW_DEBUG", 3, 3, &umr_bitfield_default },
-	 { "P_IGNORE_CRC_ERR", 4, 4, &umr_bitfield_default },
-	 { "P_IGNORE_LEN_ERR", 5, 5, &umr_bitfield_default },
-	 { "P_IGNORE_EDB_ERR", 6, 6, &umr_bitfield_default },
-	 { "P_IGNORE_IDL_ERR", 7, 7, &umr_bitfield_default },
-	 { "P_IGNORE_TOK_ERR", 8, 8, &umr_bitfield_default },
-	 { "P_BLK_LOCK_MODE", 12, 12, &umr_bitfield_default },
-	 { "P_ALWAYS_USE_FAST_TXCLK", 13, 13, &umr_bitfield_default },
-	 { "P_ELEC_IDLE_MODE", 14, 15, &umr_bitfield_default },
-	 { "DLP_IGNORE_IN_L1_EN", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_P_CNTL[] = {
 	 { "P_PWRDN_EN", 0, 0, &umr_bitfield_default },
@@ -5821,33 +5806,48 @@ static struct umr_bitfield ixPCIE_P_CNTL[] = {
 	 { "P_ELEC_IDLE_MODE", 14, 15, &umr_bitfield_default },
 	 { "DLP_IGNORE_IN_L1_EN", 16, 16, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_P_BUF_STATUS[] = {
-	 { "P_OVERFLOW_ERR", 0, 15, &umr_bitfield_default },
-	 { "P_UNDERFLOW_ERR", 16, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_P_CNTL[] = {
+	 { "P_PWRDN_EN", 0, 0, &umr_bitfield_default },
+	 { "P_SYMALIGN_MODE", 1, 1, &umr_bitfield_default },
+	 { "P_SYMALIGN_HW_DEBUG", 2, 2, &umr_bitfield_default },
+	 { "P_ELASTDESKEW_HW_DEBUG", 3, 3, &umr_bitfield_default },
+	 { "P_IGNORE_CRC_ERR", 4, 4, &umr_bitfield_default },
+	 { "P_IGNORE_LEN_ERR", 5, 5, &umr_bitfield_default },
+	 { "P_IGNORE_EDB_ERR", 6, 6, &umr_bitfield_default },
+	 { "P_IGNORE_IDL_ERR", 7, 7, &umr_bitfield_default },
+	 { "P_IGNORE_TOK_ERR", 8, 8, &umr_bitfield_default },
+	 { "P_BLK_LOCK_MODE", 12, 12, &umr_bitfield_default },
+	 { "P_ALWAYS_USE_FAST_TXCLK", 13, 13, &umr_bitfield_default },
+	 { "P_ELEC_IDLE_MODE", 14, 15, &umr_bitfield_default },
+	 { "DLP_IGNORE_IN_L1_EN", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_P_BUF_STATUS[] = {
 	 { "P_OVERFLOW_ERR", 0, 15, &umr_bitfield_default },
 	 { "P_UNDERFLOW_ERR", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_P_DECODER_STATUS[] = {
-	 { "P_DECODE_ERR", 0, 15, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_P_BUF_STATUS[] = {
+	 { "P_OVERFLOW_ERR", 0, 15, &umr_bitfield_default },
+	 { "P_UNDERFLOW_ERR", 16, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_P_DECODER_STATUS[] = {
 	 { "P_DECODE_ERR", 0, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_P_MISC_STATUS[] = {
-	 { "P_DESKEW_ERR", 0, 7, &umr_bitfield_default },
-	 { "P_SYMUNLOCK_ERR", 16, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_P_DECODER_STATUS[] = {
+	 { "P_DECODE_ERR", 0, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_P_MISC_STATUS[] = {
 	 { "P_DESKEW_ERR", 0, 7, &umr_bitfield_default },
 	 { "P_SYMUNLOCK_ERR", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_P_RCV_L0S_FTS_DET[] = {
+static struct umr_bitfield ixPSX80_BIF_PCIE_P_MISC_STATUS[] = {
+	 { "P_DESKEW_ERR", 0, 7, &umr_bitfield_default },
+	 { "P_SYMUNLOCK_ERR", 16, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPCIE_P_RCV_L0S_FTS_DET[] = {
 	 { "P_RCV_L0S_FTS_DET_MIN", 0, 7, &umr_bitfield_default },
 	 { "P_RCV_L0S_FTS_DET_MAX", 8, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPCIE_P_RCV_L0S_FTS_DET[] = {
+static struct umr_bitfield ixPSX80_BIF_PCIE_P_RCV_L0S_FTS_DET[] = {
 	 { "P_RCV_L0S_FTS_DET_MIN", 0, 7, &umr_bitfield_default },
 	 { "P_RCV_L0S_FTS_DET_MAX", 8, 15, &umr_bitfield_default },
 };
@@ -5874,21 +5874,15 @@ static struct umr_bitfield ixPCIE_OBFF_CNTL[] = {
 	 { "TX_OBFF_ANY_MSG_TO_ACTIVE", 18, 18, &umr_bitfield_default },
 	 { "TX_OBFF_PENDING_REQ_TO_ACTIVE", 20, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT_CNTL[] = {
-	 { "GLOBAL_COUNT_EN", 0, 0, &umr_bitfield_default },
-	 { "GLOBAL_SHADOW_WR", 1, 1, &umr_bitfield_default },
-	 { "GLOBAL_COUNT_RESET", 2, 2, &umr_bitfield_default },
-};
 static struct umr_bitfield ixPCIE_PERF_COUNT_CNTL[] = {
 	 { "GLOBAL_COUNT_EN", 0, 0, &umr_bitfield_default },
 	 { "GLOBAL_SHADOW_WR", 1, 1, &umr_bitfield_default },
 	 { "GLOBAL_COUNT_RESET", 2, 2, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_CNTL_TXCLK[] = {
-	 { "EVENT0_SEL", 0, 7, &umr_bitfield_default },
-	 { "EVENT1_SEL", 8, 15, &umr_bitfield_default },
-	 { "COUNTER0_UPPER", 16, 23, &umr_bitfield_default },
-	 { "COUNTER1_UPPER", 24, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT_CNTL[] = {
+	 { "GLOBAL_COUNT_EN", 0, 0, &umr_bitfield_default },
+	 { "GLOBAL_SHADOW_WR", 1, 1, &umr_bitfield_default },
+	 { "GLOBAL_COUNT_RESET", 2, 2, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PERF_CNTL_TXCLK[] = {
 	 { "EVENT0_SEL", 0, 7, &umr_bitfield_default },
@@ -5896,23 +5890,23 @@ static struct umr_bitfield ixPCIE_PERF_CNTL_TXCLK[] = {
 	 { "COUNTER0_UPPER", 16, 23, &umr_bitfield_default },
 	 { "COUNTER1_UPPER", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT0_TXCLK[] = {
-	 { "COUNTER0", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPCIE_PERF_COUNT0_TXCLK[] = {
-	 { "COUNTER0", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT1_TXCLK[] = {
-	 { "COUNTER1", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPCIE_PERF_COUNT1_TXCLK[] = {
-	 { "COUNTER1", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_CNTL_MST_R_CLK[] = {
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_CNTL_TXCLK[] = {
 	 { "EVENT0_SEL", 0, 7, &umr_bitfield_default },
 	 { "EVENT1_SEL", 8, 15, &umr_bitfield_default },
 	 { "COUNTER0_UPPER", 16, 23, &umr_bitfield_default },
 	 { "COUNTER1_UPPER", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPCIE_PERF_COUNT0_TXCLK[] = {
+	 { "COUNTER0", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT0_TXCLK[] = {
+	 { "COUNTER0", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPCIE_PERF_COUNT1_TXCLK[] = {
+	 { "COUNTER1", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT1_TXCLK[] = {
+	 { "COUNTER1", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PERF_CNTL_MST_R_CLK[] = {
 	 { "EVENT0_SEL", 0, 7, &umr_bitfield_default },
@@ -5920,23 +5914,23 @@ static struct umr_bitfield ixPCIE_PERF_CNTL_MST_R_CLK[] = {
 	 { "COUNTER0_UPPER", 16, 23, &umr_bitfield_default },
 	 { "COUNTER1_UPPER", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT0_MST_R_CLK[] = {
-	 { "COUNTER0", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPCIE_PERF_COUNT0_MST_R_CLK[] = {
-	 { "COUNTER0", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT1_MST_R_CLK[] = {
-	 { "COUNTER1", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPCIE_PERF_COUNT1_MST_R_CLK[] = {
-	 { "COUNTER1", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_CNTL_MST_C_CLK[] = {
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_CNTL_MST_R_CLK[] = {
 	 { "EVENT0_SEL", 0, 7, &umr_bitfield_default },
 	 { "EVENT1_SEL", 8, 15, &umr_bitfield_default },
 	 { "COUNTER0_UPPER", 16, 23, &umr_bitfield_default },
 	 { "COUNTER1_UPPER", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPCIE_PERF_COUNT0_MST_R_CLK[] = {
+	 { "COUNTER0", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT0_MST_R_CLK[] = {
+	 { "COUNTER0", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPCIE_PERF_COUNT1_MST_R_CLK[] = {
+	 { "COUNTER1", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT1_MST_R_CLK[] = {
+	 { "COUNTER1", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PERF_CNTL_MST_C_CLK[] = {
 	 { "EVENT0_SEL", 0, 7, &umr_bitfield_default },
@@ -5944,23 +5938,23 @@ static struct umr_bitfield ixPCIE_PERF_CNTL_MST_C_CLK[] = {
 	 { "COUNTER0_UPPER", 16, 23, &umr_bitfield_default },
 	 { "COUNTER1_UPPER", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT0_MST_C_CLK[] = {
-	 { "COUNTER0", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPCIE_PERF_COUNT0_MST_C_CLK[] = {
-	 { "COUNTER0", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT1_MST_C_CLK[] = {
-	 { "COUNTER1", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPCIE_PERF_COUNT1_MST_C_CLK[] = {
-	 { "COUNTER1", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_CNTL_SLV_R_CLK[] = {
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_CNTL_MST_C_CLK[] = {
 	 { "EVENT0_SEL", 0, 7, &umr_bitfield_default },
 	 { "EVENT1_SEL", 8, 15, &umr_bitfield_default },
 	 { "COUNTER0_UPPER", 16, 23, &umr_bitfield_default },
 	 { "COUNTER1_UPPER", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPCIE_PERF_COUNT0_MST_C_CLK[] = {
+	 { "COUNTER0", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT0_MST_C_CLK[] = {
+	 { "COUNTER0", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPCIE_PERF_COUNT1_MST_C_CLK[] = {
+	 { "COUNTER1", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT1_MST_C_CLK[] = {
+	 { "COUNTER1", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PERF_CNTL_SLV_R_CLK[] = {
 	 { "EVENT0_SEL", 0, 7, &umr_bitfield_default },
@@ -5968,23 +5962,23 @@ static struct umr_bitfield ixPCIE_PERF_CNTL_SLV_R_CLK[] = {
 	 { "COUNTER0_UPPER", 16, 23, &umr_bitfield_default },
 	 { "COUNTER1_UPPER", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT0_SLV_R_CLK[] = {
-	 { "COUNTER0", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPCIE_PERF_COUNT0_SLV_R_CLK[] = {
-	 { "COUNTER0", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT1_SLV_R_CLK[] = {
-	 { "COUNTER1", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPCIE_PERF_COUNT1_SLV_R_CLK[] = {
-	 { "COUNTER1", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_CNTL_SLV_S_C_CLK[] = {
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_CNTL_SLV_R_CLK[] = {
 	 { "EVENT0_SEL", 0, 7, &umr_bitfield_default },
 	 { "EVENT1_SEL", 8, 15, &umr_bitfield_default },
 	 { "COUNTER0_UPPER", 16, 23, &umr_bitfield_default },
 	 { "COUNTER1_UPPER", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPCIE_PERF_COUNT0_SLV_R_CLK[] = {
+	 { "COUNTER0", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT0_SLV_R_CLK[] = {
+	 { "COUNTER0", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPCIE_PERF_COUNT1_SLV_R_CLK[] = {
+	 { "COUNTER1", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT1_SLV_R_CLK[] = {
+	 { "COUNTER1", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PERF_CNTL_SLV_S_C_CLK[] = {
 	 { "EVENT0_SEL", 0, 7, &umr_bitfield_default },
@@ -5992,23 +5986,23 @@ static struct umr_bitfield ixPCIE_PERF_CNTL_SLV_S_C_CLK[] = {
 	 { "COUNTER0_UPPER", 16, 23, &umr_bitfield_default },
 	 { "COUNTER1_UPPER", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT0_SLV_S_C_CLK[] = {
-	 { "COUNTER0", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPCIE_PERF_COUNT0_SLV_S_C_CLK[] = {
-	 { "COUNTER0", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT1_SLV_S_C_CLK[] = {
-	 { "COUNTER1", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPCIE_PERF_COUNT1_SLV_S_C_CLK[] = {
-	 { "COUNTER1", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_CNTL_SLV_NS_C_CLK[] = {
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_CNTL_SLV_S_C_CLK[] = {
 	 { "EVENT0_SEL", 0, 7, &umr_bitfield_default },
 	 { "EVENT1_SEL", 8, 15, &umr_bitfield_default },
 	 { "COUNTER0_UPPER", 16, 23, &umr_bitfield_default },
 	 { "COUNTER1_UPPER", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPCIE_PERF_COUNT0_SLV_S_C_CLK[] = {
+	 { "COUNTER0", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT0_SLV_S_C_CLK[] = {
+	 { "COUNTER0", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPCIE_PERF_COUNT1_SLV_S_C_CLK[] = {
+	 { "COUNTER1", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT1_SLV_S_C_CLK[] = {
+	 { "COUNTER1", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PERF_CNTL_SLV_NS_C_CLK[] = {
 	 { "EVENT0_SEL", 0, 7, &umr_bitfield_default },
@@ -6016,26 +6010,23 @@ static struct umr_bitfield ixPCIE_PERF_CNTL_SLV_NS_C_CLK[] = {
 	 { "COUNTER0_UPPER", 16, 23, &umr_bitfield_default },
 	 { "COUNTER1_UPPER", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT0_SLV_NS_C_CLK[] = {
-	 { "COUNTER0", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_CNTL_SLV_NS_C_CLK[] = {
+	 { "EVENT0_SEL", 0, 7, &umr_bitfield_default },
+	 { "EVENT1_SEL", 8, 15, &umr_bitfield_default },
+	 { "COUNTER0_UPPER", 16, 23, &umr_bitfield_default },
+	 { "COUNTER1_UPPER", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PERF_COUNT0_SLV_NS_C_CLK[] = {
 	 { "COUNTER0", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT1_SLV_NS_C_CLK[] = {
-	 { "COUNTER1", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT0_SLV_NS_C_CLK[] = {
+	 { "COUNTER0", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PERF_COUNT1_SLV_NS_C_CLK[] = {
 	 { "COUNTER1", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_CNTL_EVENT0_PORT_SEL[] = {
-	 { "PERF0_PORT_SEL_TXCLK", 0, 3, &umr_bitfield_default },
-	 { "PERF0_PORT_SEL_MST_R_CLK", 4, 7, &umr_bitfield_default },
-	 { "PERF0_PORT_SEL_MST_C_CLK", 8, 11, &umr_bitfield_default },
-	 { "PERF0_PORT_SEL_SLV_R_CLK", 12, 15, &umr_bitfield_default },
-	 { "PERF0_PORT_SEL_SLV_S_C_CLK", 16, 19, &umr_bitfield_default },
-	 { "PERF0_PORT_SEL_SLV_NS_C_CLK", 20, 23, &umr_bitfield_default },
-	 { "PERF0_PORT_SEL_TXCLK2", 24, 27, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT1_SLV_NS_C_CLK[] = {
+	 { "COUNTER1", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PERF_CNTL_EVENT0_PORT_SEL[] = {
 	 { "PERF0_PORT_SEL_TXCLK", 0, 3, &umr_bitfield_default },
@@ -6046,14 +6037,14 @@ static struct umr_bitfield ixPCIE_PERF_CNTL_EVENT0_PORT_SEL[] = {
 	 { "PERF0_PORT_SEL_SLV_NS_C_CLK", 20, 23, &umr_bitfield_default },
 	 { "PERF0_PORT_SEL_TXCLK2", 24, 27, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_CNTL_EVENT1_PORT_SEL[] = {
-	 { "PERF1_PORT_SEL_TXCLK", 0, 3, &umr_bitfield_default },
-	 { "PERF1_PORT_SEL_MST_R_CLK", 4, 7, &umr_bitfield_default },
-	 { "PERF1_PORT_SEL_MST_C_CLK", 8, 11, &umr_bitfield_default },
-	 { "PERF1_PORT_SEL_SLV_R_CLK", 12, 15, &umr_bitfield_default },
-	 { "PERF1_PORT_SEL_SLV_S_C_CLK", 16, 19, &umr_bitfield_default },
-	 { "PERF1_PORT_SEL_SLV_NS_C_CLK", 20, 23, &umr_bitfield_default },
-	 { "PERF1_PORT_SEL_TXCLK2", 24, 27, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_CNTL_EVENT0_PORT_SEL[] = {
+	 { "PERF0_PORT_SEL_TXCLK", 0, 3, &umr_bitfield_default },
+	 { "PERF0_PORT_SEL_MST_R_CLK", 4, 7, &umr_bitfield_default },
+	 { "PERF0_PORT_SEL_MST_C_CLK", 8, 11, &umr_bitfield_default },
+	 { "PERF0_PORT_SEL_SLV_R_CLK", 12, 15, &umr_bitfield_default },
+	 { "PERF0_PORT_SEL_SLV_S_C_CLK", 16, 19, &umr_bitfield_default },
+	 { "PERF0_PORT_SEL_SLV_NS_C_CLK", 20, 23, &umr_bitfield_default },
+	 { "PERF0_PORT_SEL_TXCLK2", 24, 27, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PERF_CNTL_EVENT1_PORT_SEL[] = {
 	 { "PERF1_PORT_SEL_TXCLK", 0, 3, &umr_bitfield_default },
@@ -6064,11 +6055,14 @@ static struct umr_bitfield ixPCIE_PERF_CNTL_EVENT1_PORT_SEL[] = {
 	 { "PERF1_PORT_SEL_SLV_NS_C_CLK", 20, 23, &umr_bitfield_default },
 	 { "PERF1_PORT_SEL_TXCLK2", 24, 27, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_CNTL_TXCLK2[] = {
-	 { "EVENT0_SEL", 0, 7, &umr_bitfield_default },
-	 { "EVENT1_SEL", 8, 15, &umr_bitfield_default },
-	 { "COUNTER0_UPPER", 16, 23, &umr_bitfield_default },
-	 { "COUNTER1_UPPER", 24, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_CNTL_EVENT1_PORT_SEL[] = {
+	 { "PERF1_PORT_SEL_TXCLK", 0, 3, &umr_bitfield_default },
+	 { "PERF1_PORT_SEL_MST_R_CLK", 4, 7, &umr_bitfield_default },
+	 { "PERF1_PORT_SEL_MST_C_CLK", 8, 11, &umr_bitfield_default },
+	 { "PERF1_PORT_SEL_SLV_R_CLK", 12, 15, &umr_bitfield_default },
+	 { "PERF1_PORT_SEL_SLV_S_C_CLK", 16, 19, &umr_bitfield_default },
+	 { "PERF1_PORT_SEL_SLV_NS_C_CLK", 20, 23, &umr_bitfield_default },
+	 { "PERF1_PORT_SEL_TXCLK2", 24, 27, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PERF_CNTL_TXCLK2[] = {
 	 { "EVENT0_SEL", 0, 7, &umr_bitfield_default },
@@ -6076,17 +6070,43 @@ static struct umr_bitfield ixPCIE_PERF_CNTL_TXCLK2[] = {
 	 { "COUNTER0_UPPER", 16, 23, &umr_bitfield_default },
 	 { "COUNTER1_UPPER", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT0_TXCLK2[] = {
-	 { "COUNTER0", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_CNTL_TXCLK2[] = {
+	 { "EVENT0_SEL", 0, 7, &umr_bitfield_default },
+	 { "EVENT1_SEL", 8, 15, &umr_bitfield_default },
+	 { "COUNTER0_UPPER", 16, 23, &umr_bitfield_default },
+	 { "COUNTER1_UPPER", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PERF_COUNT0_TXCLK2[] = {
 	 { "COUNTER0", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT1_TXCLK2[] = {
-	 { "COUNTER1", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT0_TXCLK2[] = {
+	 { "COUNTER0", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PERF_COUNT1_TXCLK2[] = {
 	 { "COUNTER1", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPSX80_BIF_PCIE_PERF_COUNT1_TXCLK2[] = {
+	 { "COUNTER1", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPCIE_STRAP_F0[] = {
+	 { "STRAP_F0_EN", 0, 0, &umr_bitfield_default },
+	 { "STRAP_F0_LEGACY_DEVICE_TYPE_EN", 1, 1, &umr_bitfield_default },
+	 { "STRAP_F0_MSI_EN", 2, 2, &umr_bitfield_default },
+	 { "STRAP_F0_VC_EN", 3, 3, &umr_bitfield_default },
+	 { "STRAP_F0_DSN_EN", 4, 4, &umr_bitfield_default },
+	 { "STRAP_F0_AER_EN", 5, 5, &umr_bitfield_default },
+	 { "STRAP_F0_ACS_EN", 6, 6, &umr_bitfield_default },
+	 { "STRAP_F0_BAR_EN", 7, 7, &umr_bitfield_default },
+	 { "STRAP_F0_PWR_EN", 8, 8, &umr_bitfield_default },
+	 { "STRAP_F0_DPA_EN", 9, 9, &umr_bitfield_default },
+	 { "STRAP_F0_ATS_EN", 10, 10, &umr_bitfield_default },
+	 { "STRAP_F0_PAGE_REQ_EN", 11, 11, &umr_bitfield_default },
+	 { "STRAP_F0_PASID_EN", 12, 12, &umr_bitfield_default },
+	 { "STRAP_F0_ECRC_CHECK_EN", 13, 13, &umr_bitfield_default },
+	 { "STRAP_F0_ECRC_GEN_EN", 14, 14, &umr_bitfield_default },
+	 { "STRAP_F0_CPL_ABORT_ERR_EN", 15, 15, &umr_bitfield_default },
+	 { "STRAP_F0_POISONED_ADVISORY_NONFATAL", 16, 16, &umr_bitfield_default },
+	 { "STRAP_F0_MC_EN", 17, 17, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPSX80_BIF_PCIE_STRAP_F0[] = {
 	 { "STRAP_F0_EN", 0, 0, &umr_bitfield_default },
@@ -6116,26 +6136,6 @@ static struct umr_bitfield ixPSX80_BIF_PCIE_STRAP_F0[] = {
 	 { "STRAP_F0_NO_RO_ENABLED_P2P_PASSING", 28, 28, &umr_bitfield_default },
 	 { "STRAP_F0_ARI_EN", 29, 29, &umr_bitfield_default },
 	 { "STRAP_F0_SRIOV_EN", 30, 30, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPCIE_STRAP_F0[] = {
-	 { "STRAP_F0_EN", 0, 0, &umr_bitfield_default },
-	 { "STRAP_F0_LEGACY_DEVICE_TYPE_EN", 1, 1, &umr_bitfield_default },
-	 { "STRAP_F0_MSI_EN", 2, 2, &umr_bitfield_default },
-	 { "STRAP_F0_VC_EN", 3, 3, &umr_bitfield_default },
-	 { "STRAP_F0_DSN_EN", 4, 4, &umr_bitfield_default },
-	 { "STRAP_F0_AER_EN", 5, 5, &umr_bitfield_default },
-	 { "STRAP_F0_ACS_EN", 6, 6, &umr_bitfield_default },
-	 { "STRAP_F0_BAR_EN", 7, 7, &umr_bitfield_default },
-	 { "STRAP_F0_PWR_EN", 8, 8, &umr_bitfield_default },
-	 { "STRAP_F0_DPA_EN", 9, 9, &umr_bitfield_default },
-	 { "STRAP_F0_ATS_EN", 10, 10, &umr_bitfield_default },
-	 { "STRAP_F0_PAGE_REQ_EN", 11, 11, &umr_bitfield_default },
-	 { "STRAP_F0_PASID_EN", 12, 12, &umr_bitfield_default },
-	 { "STRAP_F0_ECRC_CHECK_EN", 13, 13, &umr_bitfield_default },
-	 { "STRAP_F0_ECRC_GEN_EN", 14, 14, &umr_bitfield_default },
-	 { "STRAP_F0_CPL_ABORT_ERR_EN", 15, 15, &umr_bitfield_default },
-	 { "STRAP_F0_POISONED_ADVISORY_NONFATAL", 16, 16, &umr_bitfield_default },
-	 { "STRAP_F0_MC_EN", 17, 17, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_STRAP_F1[] = {
 	 { "STRAP_F1_EN", 0, 0, &umr_bitfield_default },
@@ -6190,16 +6190,6 @@ static struct umr_bitfield ixPCIE_STRAP_F6[] = {
 static struct umr_bitfield ixPCIE_STRAP_F7[] = {
 	 { "RESERVED", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_STRAP_MISC[] = {
-	 { "STRAP_TL_ALT_BUF_EN", 4, 4, &umr_bitfield_default },
-	 { "STRAP_CLK_PM_EN", 24, 24, &umr_bitfield_default },
-	 { "STRAP_ECN1P1_EN", 25, 25, &umr_bitfield_default },
-	 { "STRAP_EXT_VC_COUNT", 26, 26, &umr_bitfield_default },
-	 { "STRAP_REVERSE_ALL", 28, 28, &umr_bitfield_default },
-	 { "STRAP_MST_ADR64_EN", 29, 29, &umr_bitfield_default },
-	 { "STRAP_FLR_EN", 30, 30, &umr_bitfield_default },
-	 { "STRAP_INTERNAL_ERR_EN", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixPCIE_STRAP_MISC[] = {
 	 { "STRAP_LINK_CONFIG", 0, 3, &umr_bitfield_default },
 	 { "STRAP_TL_ALT_BUF_EN", 4, 4, &umr_bitfield_default },
@@ -6215,12 +6205,15 @@ static struct umr_bitfield ixPCIE_STRAP_MISC[] = {
 	 { "STRAP_FLR_EN", 30, 30, &umr_bitfield_default },
 	 { "STRAP_INTERNAL_ERR_EN", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_STRAP_MISC2[] = {
-	 { "STRAP_LINK_BW_NOTIFICATION_CAP_EN", 0, 0, &umr_bitfield_default },
-	 { "STRAP_GEN2_COMPLIANCE", 1, 1, &umr_bitfield_default },
-	 { "STRAP_MSTCPL_TIMEOUT_EN", 2, 2, &umr_bitfield_default },
-	 { "STRAP_GEN3_COMPLIANCE", 3, 3, &umr_bitfield_default },
-	 { "STRAP_TPH_SUPPORTED", 4, 4, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_STRAP_MISC[] = {
+	 { "STRAP_TL_ALT_BUF_EN", 4, 4, &umr_bitfield_default },
+	 { "STRAP_CLK_PM_EN", 24, 24, &umr_bitfield_default },
+	 { "STRAP_ECN1P1_EN", 25, 25, &umr_bitfield_default },
+	 { "STRAP_EXT_VC_COUNT", 26, 26, &umr_bitfield_default },
+	 { "STRAP_REVERSE_ALL", 28, 28, &umr_bitfield_default },
+	 { "STRAP_MST_ADR64_EN", 29, 29, &umr_bitfield_default },
+	 { "STRAP_FLR_EN", 30, 30, &umr_bitfield_default },
+	 { "STRAP_INTERNAL_ERR_EN", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_STRAP_MISC2[] = {
 	 { "STRAP_GEN2_COMPLIANCE", 1, 1, &umr_bitfield_default },
@@ -6228,62 +6221,59 @@ static struct umr_bitfield ixPCIE_STRAP_MISC2[] = {
 	 { "STRAP_GEN3_COMPLIANCE", 3, 3, &umr_bitfield_default },
 	 { "STRAP_TPH_SUPPORTED", 4, 4, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_STRAP_PI[] = {
-	 { "STRAP_QUICKSIM_START", 0, 0, &umr_bitfield_default },
-	 { "STRAP_TEST_TOGGLE_PATTERN", 28, 28, &umr_bitfield_default },
-	 { "STRAP_TEST_TOGGLE_MODE", 29, 29, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_STRAP_MISC2[] = {
+	 { "STRAP_LINK_BW_NOTIFICATION_CAP_EN", 0, 0, &umr_bitfield_default },
+	 { "STRAP_GEN2_COMPLIANCE", 1, 1, &umr_bitfield_default },
+	 { "STRAP_MSTCPL_TIMEOUT_EN", 2, 2, &umr_bitfield_default },
+	 { "STRAP_GEN3_COMPLIANCE", 3, 3, &umr_bitfield_default },
+	 { "STRAP_TPH_SUPPORTED", 4, 4, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_STRAP_PI[] = {
 	 { "STRAP_QUICKSIM_START", 0, 0, &umr_bitfield_default },
 	 { "STRAP_TEST_TOGGLE_PATTERN", 28, 28, &umr_bitfield_default },
 	 { "STRAP_TEST_TOGGLE_MODE", 29, 29, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_STRAP_I2C_BD[] = {
-	 { "STRAP_BIF_I2C_SLV_ADR", 0, 6, &umr_bitfield_default },
-	 { "STRAP_BIF_DBG_I2C_EN", 7, 7, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_STRAP_PI[] = {
+	 { "STRAP_QUICKSIM_START", 0, 0, &umr_bitfield_default },
+	 { "STRAP_TEST_TOGGLE_PATTERN", 28, 28, &umr_bitfield_default },
+	 { "STRAP_TEST_TOGGLE_MODE", 29, 29, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_STRAP_I2C_BD[] = {
 	 { "STRAP_BIF_I2C_SLV_ADR", 0, 6, &umr_bitfield_default },
 	 { "STRAP_BIF_DBG_I2C_EN", 7, 7, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPSX80_BIF_PCIE_STRAP_I2C_BD[] = {
+	 { "STRAP_BIF_I2C_SLV_ADR", 0, 6, &umr_bitfield_default },
+	 { "STRAP_BIF_DBG_I2C_EN", 7, 7, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPCIE_PRBS_CLR[] = {
+	 { "PRBS_CLR", 0, 15, &umr_bitfield_default },
+	 { "PRBS_CHECKER_DEBUG_BUS_SELECT", 16, 19, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_CLR[] = {
 	 { "PRBS_CLR", 0, 15, &umr_bitfield_default },
 	 { "PRBS_CHECKER_DEBUG_BUS_SELECT", 16, 19, &umr_bitfield_default },
 	 { "PRBS_POLARITY_EN", 24, 24, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPCIE_PRBS_CLR[] = {
-	 { "PRBS_CLR", 0, 15, &umr_bitfield_default },
-	 { "PRBS_CHECKER_DEBUG_BUS_SELECT", 16, 19, &umr_bitfield_default },
+static struct umr_bitfield ixPCIE_PRBS_STATUS1[] = {
+	 { "PRBS_ERRSTAT", 0, 15, &umr_bitfield_default },
+	 { "PRBS_LOCKED", 16, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_STATUS1[] = {
 	 { "PRBS_ERRSTAT", 0, 15, &umr_bitfield_default },
 	 { "PRBS_LOCKED", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPCIE_PRBS_STATUS1[] = {
-	 { "PRBS_ERRSTAT", 0, 15, &umr_bitfield_default },
-	 { "PRBS_LOCKED", 16, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPCIE_PRBS_STATUS2[] = {
+	 { "PRBS_BITCNT_DONE", 0, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_STATUS2[] = {
 	 { "PRBS_BITCNT_DONE", 0, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPCIE_PRBS_STATUS2[] = {
-	 { "PRBS_BITCNT_DONE", 0, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_FREERUN[] = {
-	 { "PRBS_FREERUN", 0, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixPCIE_PRBS_FREERUN[] = {
 	 { "PRBS_FREERUN", 0, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_MISC[] = {
-	 { "PRBS_EN", 0, 0, &umr_bitfield_default },
-	 { "PRBS_TEST_MODE", 1, 3, &umr_bitfield_default },
-	 { "PRBS_USER_PATTERN_TOGGLE", 4, 4, &umr_bitfield_default },
-	 { "PRBS_8BIT_SEL", 5, 5, &umr_bitfield_default },
-	 { "PRBS_COMMA_NUM", 6, 7, &umr_bitfield_default },
-	 { "PRBS_LOCK_CNT", 8, 12, &umr_bitfield_default },
-	 { "PRBS_DATA_RATE", 14, 15, &umr_bitfield_default },
-	 { "PRBS_CHK_ERR_MASK", 16, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_FREERUN[] = {
+	 { "PRBS_FREERUN", 0, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PRBS_MISC[] = {
 	 { "PRBS_EN", 0, 0, &umr_bitfield_default },
@@ -6295,118 +6285,128 @@ static struct umr_bitfield ixPCIE_PRBS_MISC[] = {
 	 { "PRBS_DATA_RATE", 14, 15, &umr_bitfield_default },
 	 { "PRBS_CHK_ERR_MASK", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_USER_PATTERN[] = {
-	 { "PRBS_USER_PATTERN", 0, 29, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_MISC[] = {
+	 { "PRBS_EN", 0, 0, &umr_bitfield_default },
+	 { "PRBS_TEST_MODE", 1, 3, &umr_bitfield_default },
+	 { "PRBS_USER_PATTERN_TOGGLE", 4, 4, &umr_bitfield_default },
+	 { "PRBS_8BIT_SEL", 5, 5, &umr_bitfield_default },
+	 { "PRBS_COMMA_NUM", 6, 7, &umr_bitfield_default },
+	 { "PRBS_LOCK_CNT", 8, 12, &umr_bitfield_default },
+	 { "PRBS_DATA_RATE", 14, 15, &umr_bitfield_default },
+	 { "PRBS_CHK_ERR_MASK", 16, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PRBS_USER_PATTERN[] = {
 	 { "PRBS_USER_PATTERN", 0, 29, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_LO_BITCNT[] = {
-	 { "PRBS_LO_BITCNT", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_USER_PATTERN[] = {
+	 { "PRBS_USER_PATTERN", 0, 29, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PRBS_LO_BITCNT[] = {
 	 { "PRBS_LO_BITCNT", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_HI_BITCNT[] = {
-	 { "PRBS_HI_BITCNT", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_LO_BITCNT[] = {
+	 { "PRBS_LO_BITCNT", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PRBS_HI_BITCNT[] = {
 	 { "PRBS_HI_BITCNT", 0, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_0[] = {
-	 { "PRBS_ERRCNT_0", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_HI_BITCNT[] = {
+	 { "PRBS_HI_BITCNT", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PRBS_ERRCNT_0[] = {
 	 { "PRBS_ERRCNT_0", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_1[] = {
-	 { "PRBS_ERRCNT_1", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_0[] = {
+	 { "PRBS_ERRCNT_0", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PRBS_ERRCNT_1[] = {
 	 { "PRBS_ERRCNT_1", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_2[] = {
-	 { "PRBS_ERRCNT_2", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_1[] = {
+	 { "PRBS_ERRCNT_1", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PRBS_ERRCNT_2[] = {
 	 { "PRBS_ERRCNT_2", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_3[] = {
-	 { "PRBS_ERRCNT_3", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_2[] = {
+	 { "PRBS_ERRCNT_2", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PRBS_ERRCNT_3[] = {
 	 { "PRBS_ERRCNT_3", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_4[] = {
-	 { "PRBS_ERRCNT_4", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_3[] = {
+	 { "PRBS_ERRCNT_3", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PRBS_ERRCNT_4[] = {
 	 { "PRBS_ERRCNT_4", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_5[] = {
-	 { "PRBS_ERRCNT_5", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_4[] = {
+	 { "PRBS_ERRCNT_4", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PRBS_ERRCNT_5[] = {
 	 { "PRBS_ERRCNT_5", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_6[] = {
-	 { "PRBS_ERRCNT_6", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_5[] = {
+	 { "PRBS_ERRCNT_5", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PRBS_ERRCNT_6[] = {
 	 { "PRBS_ERRCNT_6", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_7[] = {
-	 { "PRBS_ERRCNT_7", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_6[] = {
+	 { "PRBS_ERRCNT_6", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PRBS_ERRCNT_7[] = {
 	 { "PRBS_ERRCNT_7", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_8[] = {
-	 { "PRBS_ERRCNT_8", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_7[] = {
+	 { "PRBS_ERRCNT_7", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PRBS_ERRCNT_8[] = {
 	 { "PRBS_ERRCNT_8", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_9[] = {
-	 { "PRBS_ERRCNT_9", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_8[] = {
+	 { "PRBS_ERRCNT_8", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PRBS_ERRCNT_9[] = {
 	 { "PRBS_ERRCNT_9", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_10[] = {
-	 { "PRBS_ERRCNT_10", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_9[] = {
+	 { "PRBS_ERRCNT_9", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PRBS_ERRCNT_10[] = {
 	 { "PRBS_ERRCNT_10", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_11[] = {
-	 { "PRBS_ERRCNT_11", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_10[] = {
+	 { "PRBS_ERRCNT_10", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PRBS_ERRCNT_11[] = {
 	 { "PRBS_ERRCNT_11", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_12[] = {
-	 { "PRBS_ERRCNT_12", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_11[] = {
+	 { "PRBS_ERRCNT_11", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PRBS_ERRCNT_12[] = {
 	 { "PRBS_ERRCNT_12", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_13[] = {
-	 { "PRBS_ERRCNT_13", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_12[] = {
+	 { "PRBS_ERRCNT_12", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PRBS_ERRCNT_13[] = {
 	 { "PRBS_ERRCNT_13", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_14[] = {
-	 { "PRBS_ERRCNT_14", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_13[] = {
+	 { "PRBS_ERRCNT_13", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PRBS_ERRCNT_14[] = {
 	 { "PRBS_ERRCNT_14", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_15[] = {
-	 { "PRBS_ERRCNT_15", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_14[] = {
+	 { "PRBS_ERRCNT_14", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_PRBS_ERRCNT_15[] = {
+	 { "PRBS_ERRCNT_15", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPSX80_BIF_PCIE_PRBS_ERRCNT_15[] = {
 	 { "PRBS_ERRCNT_15", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixPCIE_F0_DPA_CAP[] = {
@@ -9095,15 +9095,15 @@ static struct umr_bitfield mmPEER_REG_RANGE1[] = {
 	 { "START_ADDR", 0, 15, &umr_bitfield_default },
 	 { "END_ADDR", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPCIE_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield mmPCIE_CAP[] = {
 	 { "VERSION", 0, 3, &umr_bitfield_default },
 	 { "DEVICE_TYPE", 4, 7, &umr_bitfield_default },
 	 { "SLOT_IMPLEMENTED", 8, 8, &umr_bitfield_default },
 	 { "INT_MESSAGE_NUM", 9, 13, &umr_bitfield_default },
+};
+static struct umr_bitfield mmPCIE_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield mmDEVICE_CAP[] = {
 	 { "MAX_PAYLOAD_SUPPORT", 0, 2, &umr_bitfield_default },
@@ -9115,14 +9115,6 @@ static struct umr_bitfield mmDEVICE_CAP[] = {
 	 { "CAPTURED_SLOT_POWER_LIMIT", 18, 25, &umr_bitfield_default },
 	 { "CAPTURED_SLOT_POWER_SCALE", 26, 27, &umr_bitfield_default },
 	 { "FLR_CAPABLE", 28, 28, &umr_bitfield_default },
-};
-static struct umr_bitfield mmDEVICE_STATUS[] = {
-	 { "CORR_ERR", 0, 0, &umr_bitfield_default },
-	 { "NON_FATAL_ERR", 1, 1, &umr_bitfield_default },
-	 { "FATAL_ERR", 2, 2, &umr_bitfield_default },
-	 { "USR_DETECTED", 3, 3, &umr_bitfield_default },
-	 { "AUX_PWR", 4, 4, &umr_bitfield_default },
-	 { "TRANSACTIONS_PEND", 5, 5, &umr_bitfield_default },
 };
 static struct umr_bitfield mmDEVICE_CNTL[] = {
 	 { "CORR_ERR_EN", 0, 0, &umr_bitfield_default },
@@ -9138,6 +9130,14 @@ static struct umr_bitfield mmDEVICE_CNTL[] = {
 	 { "MAX_READ_REQUEST_SIZE", 12, 14, &umr_bitfield_default },
 	 { "INITIATE_FLR", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield mmDEVICE_STATUS[] = {
+	 { "CORR_ERR", 0, 0, &umr_bitfield_default },
+	 { "NON_FATAL_ERR", 1, 1, &umr_bitfield_default },
+	 { "FATAL_ERR", 2, 2, &umr_bitfield_default },
+	 { "USR_DETECTED", 3, 3, &umr_bitfield_default },
+	 { "AUX_PWR", 4, 4, &umr_bitfield_default },
+	 { "TRANSACTIONS_PEND", 5, 5, &umr_bitfield_default },
+};
 static struct umr_bitfield mmLINK_CAP[] = {
 	 { "LINK_SPEED", 0, 3, &umr_bitfield_default },
 	 { "LINK_WIDTH", 4, 9, &umr_bitfield_default },
@@ -9151,15 +9151,6 @@ static struct umr_bitfield mmLINK_CAP[] = {
 	 { "ASPM_OPTIONALITY_COMPLIANCE", 22, 22, &umr_bitfield_default },
 	 { "PORT_NUMBER", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmLINK_STATUS[] = {
-	 { "CURRENT_LINK_SPEED", 0, 3, &umr_bitfield_default },
-	 { "NEGOTIATED_LINK_WIDTH", 4, 9, &umr_bitfield_default },
-	 { "LINK_TRAINING", 11, 11, &umr_bitfield_default },
-	 { "SLOT_CLOCK_CFG", 12, 12, &umr_bitfield_default },
-	 { "DL_ACTIVE", 13, 13, &umr_bitfield_default },
-	 { "LINK_BW_MANAGEMENT_STATUS", 14, 14, &umr_bitfield_default },
-	 { "LINK_AUTONOMOUS_BW_STATUS", 15, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield mmLINK_CNTL[] = {
 	 { "PM_CONTROL", 0, 1, &umr_bitfield_default },
 	 { "READ_CPL_BOUNDARY", 3, 3, &umr_bitfield_default },
@@ -9172,6 +9163,15 @@ static struct umr_bitfield mmLINK_CNTL[] = {
 	 { "LINK_BW_MANAGEMENT_INT_EN", 10, 10, &umr_bitfield_default },
 	 { "LINK_AUTONOMOUS_BW_INT_EN", 11, 11, &umr_bitfield_default },
 };
+static struct umr_bitfield mmLINK_STATUS[] = {
+	 { "CURRENT_LINK_SPEED", 0, 3, &umr_bitfield_default },
+	 { "NEGOTIATED_LINK_WIDTH", 4, 9, &umr_bitfield_default },
+	 { "LINK_TRAINING", 11, 11, &umr_bitfield_default },
+	 { "SLOT_CLOCK_CFG", 12, 12, &umr_bitfield_default },
+	 { "DL_ACTIVE", 13, 13, &umr_bitfield_default },
+	 { "LINK_BW_MANAGEMENT_STATUS", 14, 14, &umr_bitfield_default },
+	 { "LINK_AUTONOMOUS_BW_STATUS", 15, 15, &umr_bitfield_default },
+};
 static struct umr_bitfield mmDEVICE_CAP2[] = {
 	 { "CPL_TIMEOUT_RANGE_SUPPORTED", 0, 3, &umr_bitfield_default },
 	 { "CPL_TIMEOUT_DIS_SUPPORTED", 4, 4, &umr_bitfield_default },
@@ -9183,6 +9183,19 @@ static struct umr_bitfield mmDEVICE_CAP2[] = {
 	 { "EXTENDED_FMT_FIELD_SUPPORTED", 20, 20, &umr_bitfield_default },
 	 { "END_END_TLP_PREFIX_SUPPORTED", 21, 21, &umr_bitfield_default },
 	 { "MAX_END_END_TLP_PREFIXES", 22, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield mmSUB_CLASS[] = {
+	 { "SUB_CLASS", 0, 7, &umr_bitfield_default },
+};
+static struct umr_bitfield mmBASE_CLASS[] = {
+	 { "BASE_CLASS", 0, 7, &umr_bitfield_default },
+};
+static struct umr_bitfield mmREVISION_ID[] = {
+	 { "MINOR_REV_ID", 0, 3, &umr_bitfield_default },
+	 { "MAJOR_REV_ID", 4, 7, &umr_bitfield_default },
+};
+static struct umr_bitfield mmPROG_INTERFACE[] = {
+	 { "PROG_INTERFACE", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PCIEP_HW_DEBUG[] = {
 	 { "HW_00_DEBUG", 0, 0, &umr_bitfield_default },
@@ -9202,18 +9215,18 @@ static struct umr_bitfield ixD2F1_PCIEP_HW_DEBUG[] = {
 	 { "HW_14_DEBUG", 14, 14, &umr_bitfield_default },
 	 { "HW_15_DEBUG", 15, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPROG_INTERFACE[] = {
-	 { "PROG_INTERFACE", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield mmDEVICE_CNTL2[] = {
+	 { "CPL_TIMEOUT_VALUE", 0, 3, &umr_bitfield_default },
+	 { "CPL_TIMEOUT_DIS", 4, 4, &umr_bitfield_default },
+	 { "ARI_FORWARDING_EN", 5, 5, &umr_bitfield_default },
+	 { "IDO_REQUEST_ENABLE", 8, 8, &umr_bitfield_default },
+	 { "IDO_COMPLETION_ENABLE", 9, 9, &umr_bitfield_default },
+	 { "LTR_EN", 10, 10, &umr_bitfield_default },
+	 { "OBFF_EN", 13, 14, &umr_bitfield_default },
+	 { "END_END_TLP_PREFIX_BLOCKING", 15, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield mmREVISION_ID[] = {
-	 { "MINOR_REV_ID", 0, 3, &umr_bitfield_default },
-	 { "MAJOR_REV_ID", 4, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield mmBASE_CLASS[] = {
-	 { "BASE_CLASS", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield mmSUB_CLASS[] = {
-	 { "SUB_CLASS", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield mmDEVICE_STATUS2[] = {
+	 { "RESERVED", 0, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PCIE_TX_CNTL[] = {
 	 { "TX_SNR_OVERRIDE", 10, 11, &umr_bitfield_default },
@@ -9225,34 +9238,8 @@ static struct umr_bitfield ixD2F1_PCIE_TX_CNTL[] = {
 	 { "TX_CLEAR_EXTRA_PM_REQS", 22, 22, &umr_bitfield_default },
 	 { "TX_FC_UPDATE_TIMEOUT_DIS", 23, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield mmDEVICE_STATUS2[] = {
-	 { "RESERVED", 0, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield mmDEVICE_CNTL2[] = {
-	 { "CPL_TIMEOUT_VALUE", 0, 3, &umr_bitfield_default },
-	 { "CPL_TIMEOUT_DIS", 4, 4, &umr_bitfield_default },
-	 { "ARI_FORWARDING_EN", 5, 5, &umr_bitfield_default },
-	 { "IDO_REQUEST_ENABLE", 8, 8, &umr_bitfield_default },
-	 { "IDO_COMPLETION_ENABLE", 9, 9, &umr_bitfield_default },
-	 { "LTR_EN", 10, 10, &umr_bitfield_default },
-	 { "OBFF_EN", 13, 14, &umr_bitfield_default },
-	 { "END_END_TLP_PREFIX_BLOCKING", 15, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F1_VENDOR_ID[] = {
 	 { "VENDOR_ID", 0, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F1_COMMAND[] = {
-	 { "IO_ACCESS_EN", 0, 0, &umr_bitfield_default },
-	 { "MEM_ACCESS_EN", 1, 1, &umr_bitfield_default },
-	 { "BUS_MASTER_EN", 2, 2, &umr_bitfield_default },
-	 { "SPECIAL_CYCLE_EN", 3, 3, &umr_bitfield_default },
-	 { "MEM_WRITE_INVALIDATE_EN", 4, 4, &umr_bitfield_default },
-	 { "PAL_SNOOP_EN", 5, 5, &umr_bitfield_default },
-	 { "PARITY_ERROR_RESPONSE", 6, 6, &umr_bitfield_default },
-	 { "AD_STEPPING", 7, 7, &umr_bitfield_default },
-	 { "SERR_EN", 8, 8, &umr_bitfield_default },
-	 { "FAST_B2B_EN", 9, 9, &umr_bitfield_default },
-	 { "INT_DIS", 10, 10, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_STATUS[] = {
 	 { "INT_STATUS", 19, 19, &umr_bitfield_default },
@@ -9267,39 +9254,58 @@ static struct umr_bitfield ixD2F1_STATUS[] = {
 	 { "SIGNALED_SYSTEM_ERROR", 30, 30, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_PROG_INTERFACE[] = {
-	 { "PROG_INTERFACE", 8, 15, &umr_bitfield_default },
+static struct umr_bitfield ixD2F1_COMMAND[] = {
+	 { "IO_ACCESS_EN", 0, 0, &umr_bitfield_default },
+	 { "MEM_ACCESS_EN", 1, 1, &umr_bitfield_default },
+	 { "BUS_MASTER_EN", 2, 2, &umr_bitfield_default },
+	 { "SPECIAL_CYCLE_EN", 3, 3, &umr_bitfield_default },
+	 { "MEM_WRITE_INVALIDATE_EN", 4, 4, &umr_bitfield_default },
+	 { "PAL_SNOOP_EN", 5, 5, &umr_bitfield_default },
+	 { "PARITY_ERROR_RESPONSE", 6, 6, &umr_bitfield_default },
+	 { "AD_STEPPING", 7, 7, &umr_bitfield_default },
+	 { "SERR_EN", 8, 8, &umr_bitfield_default },
+	 { "FAST_B2B_EN", 9, 9, &umr_bitfield_default },
+	 { "INT_DIS", 10, 10, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_SUB_CLASS[] = {
+	 { "SUB_CLASS", 16, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_BASE_CLASS[] = {
+	 { "BASE_CLASS", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_REVISION_ID[] = {
 	 { "MINOR_REV_ID", 0, 3, &umr_bitfield_default },
 	 { "MAJOR_REV_ID", 4, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_BASE_CLASS[] = {
-	 { "BASE_CLASS", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F1_SUB_CLASS[] = {
-	 { "SUB_CLASS", 16, 23, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F1_CACHE_LINE[] = {
-	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F1_LATENCY[] = {
-	 { "LATENCY_TIMER", 8, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F1_HEADER[] = {
-	 { "HEADER_TYPE", 16, 22, &umr_bitfield_default },
-	 { "DEVICE_TYPE", 23, 23, &umr_bitfield_default },
+static struct umr_bitfield ixD2F1_PROG_INTERFACE[] = {
+	 { "PROG_INTERFACE", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_BIST[] = {
 	 { "BIST_COMP", 24, 27, &umr_bitfield_default },
 	 { "BIST_STRT", 30, 30, &umr_bitfield_default },
 	 { "BIST_CAP", 31, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F1_HEADER[] = {
+	 { "HEADER_TYPE", 16, 22, &umr_bitfield_default },
+	 { "DEVICE_TYPE", 23, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_LATENCY[] = {
+	 { "LATENCY_TIMER", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_CACHE_LINE[] = {
+	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F1_SUB_BUS_NUMBER_LATENCY[] = {
 	 { "PRIMARY_BUS", 0, 7, &umr_bitfield_default },
 	 { "SECONDARY_BUS", 8, 15, &umr_bitfield_default },
 	 { "SUB_BUS_NUM", 16, 23, &umr_bitfield_default },
 	 { "SECONDARY_LATENCY_TIMER", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_IO_BASE_LIMIT[] = {
+	 { "IO_BASE_TYPE", 0, 3, &umr_bitfield_default },
+	 { "IO_BASE", 4, 7, &umr_bitfield_default },
+	 { "IO_LIMIT_TYPE", 8, 11, &umr_bitfield_default },
+	 { "IO_LIMIT", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_SECONDARY_STATUS[] = {
 	 { "CAP_LIST", 20, 20, &umr_bitfield_default },
@@ -9312,12 +9318,6 @@ static struct umr_bitfield ixD2F1_SECONDARY_STATUS[] = {
 	 { "RECEIVED_MASTER_ABORT", 29, 29, &umr_bitfield_default },
 	 { "RECEIVED_SYSTEM_ERROR", 30, 30, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 31, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F1_IO_BASE_LIMIT[] = {
-	 { "IO_BASE_TYPE", 0, 3, &umr_bitfield_default },
-	 { "IO_BASE", 4, 7, &umr_bitfield_default },
-	 { "IO_LIMIT_TYPE", 8, 11, &umr_bitfield_default },
-	 { "IO_LIMIT", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_MEM_BASE_LIMIT[] = {
 	 { "MEM_BASE_TYPE", 0, 3, &umr_bitfield_default },
@@ -9344,6 +9344,12 @@ static struct umr_bitfield ixD2F1_IO_BASE_LIMIT_HI[] = {
 static struct umr_bitfield ixD2F1_CAP_PTR[] = {
 	 { "CAP_PTR", 0, 7, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F1_INTERRUPT_PIN[] = {
+	 { "INTERRUPT_PIN", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_INTERRUPT_LINE[] = {
+	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F1_IRQ_BRIDGE_CNTL[] = {
 	 { "PARITY_RESPONSE_EN", 16, 16, &umr_bitfield_default },
 	 { "SERR_EN", 17, 17, &umr_bitfield_default },
@@ -9354,18 +9360,8 @@ static struct umr_bitfield ixD2F1_IRQ_BRIDGE_CNTL[] = {
 	 { "SECONDARY_BUS_RESET", 22, 22, &umr_bitfield_default },
 	 { "FAST_B2B_EN", 23, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_INTERRUPT_LINE[] = {
-	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F1_INTERRUPT_PIN[] = {
-	 { "INTERRUPT_PIN", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F1_EXT_BRIDGE_CNTL[] = {
 	 { "IO_PORT_80_EN", 0, 0, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F1_PMI_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PMI_CAP[] = {
 	 { "VERSION", 16, 18, &umr_bitfield_default },
@@ -9375,6 +9371,10 @@ static struct umr_bitfield ixD2F1_PMI_CAP[] = {
 	 { "D1_SUPPORT", 25, 25, &umr_bitfield_default },
 	 { "D2_SUPPORT", 26, 26, &umr_bitfield_default },
 	 { "PME_SUPPORT", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_PMI_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PMI_STATUS_CNTL[] = {
 	 { "POWER_STATE", 0, 1, &umr_bitfield_default },
@@ -9387,15 +9387,15 @@ static struct umr_bitfield ixD2F1_PMI_STATUS_CNTL[] = {
 	 { "BUS_PWR_EN", 23, 23, &umr_bitfield_default },
 	 { "PMI_DATA", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_PCIE_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F1_PCIE_CAP[] = {
 	 { "VERSION", 16, 19, &umr_bitfield_default },
 	 { "DEVICE_TYPE", 20, 23, &umr_bitfield_default },
 	 { "SLOT_IMPLEMENTED", 24, 24, &umr_bitfield_default },
 	 { "INT_MESSAGE_NUM", 25, 29, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_PCIE_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_DEVICE_CAP[] = {
 	 { "MAX_PAYLOAD_SUPPORT", 0, 2, &umr_bitfield_default },
@@ -9407,14 +9407,6 @@ static struct umr_bitfield ixD2F1_DEVICE_CAP[] = {
 	 { "CAPTURED_SLOT_POWER_LIMIT", 18, 25, &umr_bitfield_default },
 	 { "CAPTURED_SLOT_POWER_SCALE", 26, 27, &umr_bitfield_default },
 	 { "FLR_CAPABLE", 28, 28, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F1_DEVICE_STATUS[] = {
-	 { "CORR_ERR", 16, 16, &umr_bitfield_default },
-	 { "NON_FATAL_ERR", 17, 17, &umr_bitfield_default },
-	 { "FATAL_ERR", 18, 18, &umr_bitfield_default },
-	 { "USR_DETECTED", 19, 19, &umr_bitfield_default },
-	 { "AUX_PWR", 20, 20, &umr_bitfield_default },
-	 { "TRANSACTIONS_PEND", 21, 21, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_DEVICE_CNTL[] = {
 	 { "CORR_ERR_EN", 0, 0, &umr_bitfield_default },
@@ -9430,6 +9422,14 @@ static struct umr_bitfield ixD2F1_DEVICE_CNTL[] = {
 	 { "MAX_READ_REQUEST_SIZE", 12, 14, &umr_bitfield_default },
 	 { "BRIDGE_CFG_RETRY_EN", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F1_DEVICE_STATUS[] = {
+	 { "CORR_ERR", 16, 16, &umr_bitfield_default },
+	 { "NON_FATAL_ERR", 17, 17, &umr_bitfield_default },
+	 { "FATAL_ERR", 18, 18, &umr_bitfield_default },
+	 { "USR_DETECTED", 19, 19, &umr_bitfield_default },
+	 { "AUX_PWR", 20, 20, &umr_bitfield_default },
+	 { "TRANSACTIONS_PEND", 21, 21, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F1_LINK_CAP[] = {
 	 { "LINK_SPEED", 0, 3, &umr_bitfield_default },
 	 { "LINK_WIDTH", 4, 9, &umr_bitfield_default },
@@ -9443,15 +9443,6 @@ static struct umr_bitfield ixD2F1_LINK_CAP[] = {
 	 { "ASPM_OPTIONALITY_COMPLIANCE", 22, 22, &umr_bitfield_default },
 	 { "PORT_NUMBER", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_LINK_STATUS[] = {
-	 { "CURRENT_LINK_SPEED", 16, 19, &umr_bitfield_default },
-	 { "NEGOTIATED_LINK_WIDTH", 20, 25, &umr_bitfield_default },
-	 { "LINK_TRAINING", 27, 27, &umr_bitfield_default },
-	 { "SLOT_CLOCK_CFG", 28, 28, &umr_bitfield_default },
-	 { "DL_ACTIVE", 29, 29, &umr_bitfield_default },
-	 { "LINK_BW_MANAGEMENT_STATUS", 30, 30, &umr_bitfield_default },
-	 { "LINK_AUTONOMOUS_BW_STATUS", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F1_LINK_CNTL[] = {
 	 { "PM_CONTROL", 0, 1, &umr_bitfield_default },
 	 { "READ_CPL_BOUNDARY", 3, 3, &umr_bitfield_default },
@@ -9463,6 +9454,15 @@ static struct umr_bitfield ixD2F1_LINK_CNTL[] = {
 	 { "HW_AUTONOMOUS_WIDTH_DISABLE", 9, 9, &umr_bitfield_default },
 	 { "LINK_BW_MANAGEMENT_INT_EN", 10, 10, &umr_bitfield_default },
 	 { "LINK_AUTONOMOUS_BW_INT_EN", 11, 11, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_LINK_STATUS[] = {
+	 { "CURRENT_LINK_SPEED", 16, 19, &umr_bitfield_default },
+	 { "NEGOTIATED_LINK_WIDTH", 20, 25, &umr_bitfield_default },
+	 { "LINK_TRAINING", 27, 27, &umr_bitfield_default },
+	 { "SLOT_CLOCK_CFG", 28, 28, &umr_bitfield_default },
+	 { "DL_ACTIVE", 29, 29, &umr_bitfield_default },
+	 { "LINK_BW_MANAGEMENT_STATUS", 30, 30, &umr_bitfield_default },
+	 { "LINK_AUTONOMOUS_BW_STATUS", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_SLOT_CAP[] = {
 	 { "ATTN_BUTTON_PRESENT", 0, 0, &umr_bitfield_default },
@@ -9478,17 +9478,6 @@ static struct umr_bitfield ixD2F1_SLOT_CAP[] = {
 	 { "NO_COMMAND_COMPLETED_SUPPORTED", 18, 18, &umr_bitfield_default },
 	 { "PHYSICAL_SLOT_NUM", 19, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_SLOT_STATUS[] = {
-	 { "ATTN_BUTTON_PRESSED", 16, 16, &umr_bitfield_default },
-	 { "PWR_FAULT_DETECTED", 17, 17, &umr_bitfield_default },
-	 { "MRL_SENSOR_CHANGED", 18, 18, &umr_bitfield_default },
-	 { "PRESENCE_DETECT_CHANGED", 19, 19, &umr_bitfield_default },
-	 { "COMMAND_COMPLETED", 20, 20, &umr_bitfield_default },
-	 { "MRL_SENSOR_STATE", 21, 21, &umr_bitfield_default },
-	 { "PRESENCE_DETECT_STATE", 22, 22, &umr_bitfield_default },
-	 { "ELECTROMECH_INTERLOCK_STATUS", 23, 23, &umr_bitfield_default },
-	 { "DL_STATE_CHANGED", 24, 24, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F1_SLOT_CNTL[] = {
 	 { "ATTN_BUTTON_PRESSED_EN", 0, 0, &umr_bitfield_default },
 	 { "PWR_FAULT_DETECTED_EN", 1, 1, &umr_bitfield_default },
@@ -9502,15 +9491,26 @@ static struct umr_bitfield ixD2F1_SLOT_CNTL[] = {
 	 { "ELECTROMECH_INTERLOCK_CNTL", 11, 11, &umr_bitfield_default },
 	 { "DL_STATE_CHANGED_EN", 12, 12, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F1_SLOT_STATUS[] = {
+	 { "ATTN_BUTTON_PRESSED", 16, 16, &umr_bitfield_default },
+	 { "PWR_FAULT_DETECTED", 17, 17, &umr_bitfield_default },
+	 { "MRL_SENSOR_CHANGED", 18, 18, &umr_bitfield_default },
+	 { "PRESENCE_DETECT_CHANGED", 19, 19, &umr_bitfield_default },
+	 { "COMMAND_COMPLETED", 20, 20, &umr_bitfield_default },
+	 { "MRL_SENSOR_STATE", 21, 21, &umr_bitfield_default },
+	 { "PRESENCE_DETECT_STATE", 22, 22, &umr_bitfield_default },
+	 { "ELECTROMECH_INTERLOCK_STATUS", 23, 23, &umr_bitfield_default },
+	 { "DL_STATE_CHANGED", 24, 24, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_ROOT_CAP[] = {
+	 { "CRS_SOFTWARE_VISIBILITY", 16, 16, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F1_ROOT_CNTL[] = {
 	 { "SERR_ON_CORR_ERR_EN", 0, 0, &umr_bitfield_default },
 	 { "SERR_ON_NONFATAL_ERR_EN", 1, 1, &umr_bitfield_default },
 	 { "SERR_ON_FATAL_ERR_EN", 2, 2, &umr_bitfield_default },
 	 { "PM_INTERRUPT_EN", 3, 3, &umr_bitfield_default },
 	 { "CRS_SOFTWARE_VISIBILITY_EN", 4, 4, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F1_ROOT_CAP[] = {
-	 { "CRS_SOFTWARE_VISIBILITY", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_ROOT_STATUS[] = {
 	 { "PME_REQUESTOR_ID", 0, 15, &umr_bitfield_default },
@@ -9533,9 +9533,6 @@ static struct umr_bitfield ixD2F1_DEVICE_CAP2[] = {
 	 { "END_END_TLP_PREFIX_SUPPORTED", 21, 21, &umr_bitfield_default },
 	 { "MAX_END_END_TLP_PREFIXES", 22, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_DEVICE_STATUS2[] = {
-	 { "RESERVED", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F1_DEVICE_CNTL2[] = {
 	 { "CPL_TIMEOUT_VALUE", 0, 3, &umr_bitfield_default },
 	 { "CPL_TIMEOUT_DIS", 4, 4, &umr_bitfield_default },
@@ -9548,18 +9545,13 @@ static struct umr_bitfield ixD2F1_DEVICE_CNTL2[] = {
 	 { "OBFF_EN", 13, 14, &umr_bitfield_default },
 	 { "END_END_TLP_PREFIX_BLOCKING", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F1_DEVICE_STATUS2[] = {
+	 { "RESERVED", 16, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F1_LINK_CAP2[] = {
 	 { "SUPPORTED_LINK_SPEED", 1, 7, &umr_bitfield_default },
 	 { "CROSSLINK_SUPPORTED", 8, 8, &umr_bitfield_default },
 	 { "RESERVED", 9, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F1_LINK_STATUS2[] = {
-	 { "CUR_DEEMPHASIS_LEVEL", 16, 16, &umr_bitfield_default },
-	 { "EQUALIZATION_COMPLETE", 17, 17, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE1_SUCCESS", 18, 18, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE2_SUCCESS", 19, 19, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE3_SUCCESS", 20, 20, &umr_bitfield_default },
-	 { "LINK_EQUALIZATION_REQUEST", 21, 21, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_LINK_CNTL2[] = {
 	 { "TARGET_LINK_SPEED", 0, 3, &umr_bitfield_default },
@@ -9571,14 +9563,22 @@ static struct umr_bitfield ixD2F1_LINK_CNTL2[] = {
 	 { "COMPLIANCE_SOS", 11, 11, &umr_bitfield_default },
 	 { "COMPLIANCE_DEEMPHASIS", 12, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F1_LINK_STATUS2[] = {
+	 { "CUR_DEEMPHASIS_LEVEL", 16, 16, &umr_bitfield_default },
+	 { "EQUALIZATION_COMPLETE", 17, 17, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE1_SUCCESS", 18, 18, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE2_SUCCESS", 19, 19, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE3_SUCCESS", 20, 20, &umr_bitfield_default },
+	 { "LINK_EQUALIZATION_REQUEST", 21, 21, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F1_SLOT_CAP2[] = {
 	 { "RESERVED", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_SLOT_STATUS2[] = {
-	 { "RESERVED", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F1_SLOT_CNTL2[] = {
 	 { "RESERVED", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_SLOT_STATUS2[] = {
+	 { "RESERVED", 16, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_MSI_CAP_LIST[] = {
 	 { "CAP_ID", 0, 7, &umr_bitfield_default },
@@ -9587,11 +9587,11 @@ static struct umr_bitfield ixD2F1_MSI_CAP_LIST[] = {
 static struct umr_bitfield ixD2F1_MSI_MSG_ADDR_LO[] = {
 	 { "MSI_MSG_ADDR_LO", 2, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_MSI_MSG_ADDR_HI[] = {
-	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F1_MSI_MSG_DATA[] = {
 	 { "MSI_DATA", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_MSI_MSG_ADDR_HI[] = {
+	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_MSI_MSG_DATA_64[] = {
 	 { "MSI_DATA_64", 0, 15, &umr_bitfield_default },
@@ -9604,14 +9604,14 @@ static struct umr_bitfield ixD2F1_SSID_CAP[] = {
 	 { "SUBSYSTEM_VENDOR_ID", 0, 15, &umr_bitfield_default },
 	 { "SUBSYSTEM_ID", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_MSI_MAP_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F1_MSI_MAP_CAP[] = {
 	 { "EN", 16, 16, &umr_bitfield_default },
 	 { "FIXD", 17, 17, &umr_bitfield_default },
 	 { "CAP_TYPE", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_MSI_MAP_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_MSI_MAP_ADDR_LO[] = {
 	 { "MSI_MAP_ADDR_LO", 20, 31, &umr_bitfield_default },
@@ -9656,12 +9656,12 @@ static struct umr_bitfield ixD2F1_PCIE_PORT_VC_CAP_REG2[] = {
 	 { "VC_ARB_CAP", 0, 7, &umr_bitfield_default },
 	 { "VC_ARB_TABLE_OFFSET", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_PCIE_PORT_VC_STATUS[] = {
-	 { "VC_ARB_TABLE_STATUS", 16, 16, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F1_PCIE_PORT_VC_CNTL[] = {
 	 { "LOAD_VC_ARB_TABLE", 0, 0, &umr_bitfield_default },
 	 { "VC_ARB_SELECT", 1, 3, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_PCIE_PORT_VC_STATUS[] = {
+	 { "VC_ARB_TABLE_STATUS", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PCIE_VC0_RESOURCE_CAP[] = {
 	 { "PORT_ARB_CAP", 0, 7, &umr_bitfield_default },
@@ -9917,15 +9917,6 @@ static struct umr_bitfield ixD2F1_PCIE_ACS_ENH_CAP_LIST[] = {
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_PCIE_ACS_CNTL[] = {
-	 { "SOURCE_VALIDATION_EN", 16, 16, &umr_bitfield_default },
-	 { "TRANSLATION_BLOCKING_EN", 17, 17, &umr_bitfield_default },
-	 { "P2P_REQUEST_REDIRECT_EN", 18, 18, &umr_bitfield_default },
-	 { "P2P_COMPLETION_REDIRECT_EN", 19, 19, &umr_bitfield_default },
-	 { "UPSTREAM_FORWARDING_EN", 20, 20, &umr_bitfield_default },
-	 { "P2P_EGRESS_CONTROL_EN", 21, 21, &umr_bitfield_default },
-	 { "DIRECT_TRANSLATED_P2P_EN", 22, 22, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F1_PCIE_ACS_CAP[] = {
 	 { "SOURCE_VALIDATION", 0, 0, &umr_bitfield_default },
 	 { "TRANSLATION_BLOCKING", 1, 1, &umr_bitfield_default },
@@ -9936,18 +9927,27 @@ static struct umr_bitfield ixD2F1_PCIE_ACS_CAP[] = {
 	 { "DIRECT_TRANSLATED_P2P", 6, 6, &umr_bitfield_default },
 	 { "EGRESS_CONTROL_VECTOR_SIZE", 8, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F1_PCIE_ACS_CNTL[] = {
+	 { "SOURCE_VALIDATION_EN", 16, 16, &umr_bitfield_default },
+	 { "TRANSLATION_BLOCKING_EN", 17, 17, &umr_bitfield_default },
+	 { "P2P_REQUEST_REDIRECT_EN", 18, 18, &umr_bitfield_default },
+	 { "P2P_COMPLETION_REDIRECT_EN", 19, 19, &umr_bitfield_default },
+	 { "UPSTREAM_FORWARDING_EN", 20, 20, &umr_bitfield_default },
+	 { "P2P_EGRESS_CONTROL_EN", 21, 21, &umr_bitfield_default },
+	 { "DIRECT_TRANSLATED_P2P_EN", 22, 22, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F1_PCIE_MC_ENH_CAP_LIST[] = {
 	 { "CAP_ID", 0, 15, &umr_bitfield_default },
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_PCIE_MC_CNTL[] = {
-	 { "MC_NUM_GROUP", 16, 21, &umr_bitfield_default },
-	 { "MC_ENABLE", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F1_PCIE_MC_CAP[] = {
 	 { "MC_MAX_GROUP", 0, 5, &umr_bitfield_default },
 	 { "MC_ECRC_REGEN_SUPP", 15, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_PCIE_MC_CNTL[] = {
+	 { "MC_NUM_GROUP", 16, 21, &umr_bitfield_default },
+	 { "MC_ENABLE", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PCIE_MC_ADDR0[] = {
 	 { "MC_INDEX_POS", 0, 5, &umr_bitfield_default },
@@ -9981,26 +9981,15 @@ static struct umr_bitfield ixD2F1_PCIE_MC_OVERLAY_BAR0[] = {
 static struct umr_bitfield ixD2F1_PCIE_MC_OVERLAY_BAR1[] = {
 	 { "MC_OVERLAY_BAR_1", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_PCIE_TX_REQUESTER_ID[] = {
-	 { "TX_REQUESTER_ID_FUNCTION", 0, 2, &umr_bitfield_default },
-	 { "TX_REQUESTER_ID_DEVICE", 3, 7, &umr_bitfield_default },
-	 { "TX_REQUESTER_ID_BUS", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield mmLINK_CAP2[] = {
 	 { "SUPPORTED_LINK_SPEED", 1, 7, &umr_bitfield_default },
 	 { "CROSSLINK_SUPPORTED", 8, 8, &umr_bitfield_default },
 	 { "RESERVED", 9, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_PCIE_TX_VENDOR_SPECIFIC[] = {
-	 { "TX_VENDOR_DATA", 0, 23, &umr_bitfield_default },
-};
-static struct umr_bitfield mmLINK_STATUS2[] = {
-	 { "CUR_DEEMPHASIS_LEVEL", 0, 0, &umr_bitfield_default },
-	 { "EQUALIZATION_COMPLETE", 1, 1, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE1_SUCCESS", 2, 2, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE2_SUCCESS", 3, 3, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE3_SUCCESS", 4, 4, &umr_bitfield_default },
-	 { "LINK_EQUALIZATION_REQUEST", 5, 5, &umr_bitfield_default },
+static struct umr_bitfield ixD2F1_PCIE_TX_REQUESTER_ID[] = {
+	 { "TX_REQUESTER_ID_FUNCTION", 0, 2, &umr_bitfield_default },
+	 { "TX_REQUESTER_ID_DEVICE", 3, 7, &umr_bitfield_default },
+	 { "TX_REQUESTER_ID_BUS", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield mmLINK_CNTL2[] = {
 	 { "TARGET_LINK_SPEED", 0, 3, &umr_bitfield_default },
@@ -10011,6 +10000,17 @@ static struct umr_bitfield mmLINK_CNTL2[] = {
 	 { "ENTER_MOD_COMPLIANCE", 10, 10, &umr_bitfield_default },
 	 { "COMPLIANCE_SOS", 11, 11, &umr_bitfield_default },
 	 { "COMPLIANCE_DEEMPHASIS", 12, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield mmLINK_STATUS2[] = {
+	 { "CUR_DEEMPHASIS_LEVEL", 0, 0, &umr_bitfield_default },
+	 { "EQUALIZATION_COMPLETE", 1, 1, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE1_SUCCESS", 2, 2, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE2_SUCCESS", 3, 3, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE3_SUCCESS", 4, 4, &umr_bitfield_default },
+	 { "LINK_EQUALIZATION_REQUEST", 5, 5, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_PCIE_TX_VENDOR_SPECIFIC[] = {
+	 { "TX_VENDOR_DATA", 0, 23, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PCIE_TX_REQUEST_NUM_CNTL[] = {
 	 { "TX_NUM_OUTSTANDING_NP", 24, 29, &umr_bitfield_default },
@@ -10038,35 +10038,35 @@ static struct umr_bitfield mmMSI_CAP_LIST[] = {
 	 { "CAP_ID", 0, 7, &umr_bitfield_default },
 	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield mmMSI_MSG_ADDR_LO[] = {
-	 { "MSI_MSG_ADDR_LO", 2, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield mmC_PCIE_DATA[] = {
 	 { "PCIE_DATA", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmMSI_MSG_ADDR_HI[] = {
-	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmMSI_MSG_ADDR_LO[] = {
+	 { "MSI_MSG_ADDR_LO", 2, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmMSI_MSG_DATA[] = {
 	 { "MSI_DATA", 0, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield mmMSI_MSG_ADDR_HI[] = {
+	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield mmMSI_MSG_DATA_64[] = {
 	 { "MSI_DATA_64", 0, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield mmCACHE_LINE[] = {
-	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield mmLATENCY[] = {
-	 { "LATENCY_TIMER", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield mmHEADER[] = {
-	 { "HEADER_TYPE", 0, 6, &umr_bitfield_default },
-	 { "DEVICE_TYPE", 7, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield mmBIST[] = {
 	 { "BIST_COMP", 0, 3, &umr_bitfield_default },
 	 { "BIST_STRT", 6, 6, &umr_bitfield_default },
 	 { "BIST_CAP", 7, 7, &umr_bitfield_default },
+};
+static struct umr_bitfield mmHEADER[] = {
+	 { "HEADER_TYPE", 0, 6, &umr_bitfield_default },
+	 { "DEVICE_TYPE", 7, 7, &umr_bitfield_default },
+};
+static struct umr_bitfield mmLATENCY[] = {
+	 { "LATENCY_TIMER", 0, 7, &umr_bitfield_default },
+};
+static struct umr_bitfield mmCACHE_LINE[] = {
+	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PCIE_TX_CREDITS_ADVT_P[] = {
 	 { "TX_CREDITS_ADVT_PD", 0, 11, &umr_bitfield_default },
@@ -10074,19 +10074,6 @@ static struct umr_bitfield ixD2F1_PCIE_TX_CREDITS_ADVT_P[] = {
 };
 static struct umr_bitfield ixD2F2_VENDOR_ID[] = {
 	 { "VENDOR_ID", 0, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F2_COMMAND[] = {
-	 { "IO_ACCESS_EN", 0, 0, &umr_bitfield_default },
-	 { "MEM_ACCESS_EN", 1, 1, &umr_bitfield_default },
-	 { "BUS_MASTER_EN", 2, 2, &umr_bitfield_default },
-	 { "SPECIAL_CYCLE_EN", 3, 3, &umr_bitfield_default },
-	 { "MEM_WRITE_INVALIDATE_EN", 4, 4, &umr_bitfield_default },
-	 { "PAL_SNOOP_EN", 5, 5, &umr_bitfield_default },
-	 { "PARITY_ERROR_RESPONSE", 6, 6, &umr_bitfield_default },
-	 { "AD_STEPPING", 7, 7, &umr_bitfield_default },
-	 { "SERR_EN", 8, 8, &umr_bitfield_default },
-	 { "FAST_B2B_EN", 9, 9, &umr_bitfield_default },
-	 { "INT_DIS", 10, 10, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F2_STATUS[] = {
 	 { "INT_STATUS", 19, 19, &umr_bitfield_default },
@@ -10101,39 +10088,58 @@ static struct umr_bitfield ixD2F2_STATUS[] = {
 	 { "SIGNALED_SYSTEM_ERROR", 30, 30, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F2_PROG_INTERFACE[] = {
-	 { "PROG_INTERFACE", 8, 15, &umr_bitfield_default },
+static struct umr_bitfield ixD2F2_COMMAND[] = {
+	 { "IO_ACCESS_EN", 0, 0, &umr_bitfield_default },
+	 { "MEM_ACCESS_EN", 1, 1, &umr_bitfield_default },
+	 { "BUS_MASTER_EN", 2, 2, &umr_bitfield_default },
+	 { "SPECIAL_CYCLE_EN", 3, 3, &umr_bitfield_default },
+	 { "MEM_WRITE_INVALIDATE_EN", 4, 4, &umr_bitfield_default },
+	 { "PAL_SNOOP_EN", 5, 5, &umr_bitfield_default },
+	 { "PARITY_ERROR_RESPONSE", 6, 6, &umr_bitfield_default },
+	 { "AD_STEPPING", 7, 7, &umr_bitfield_default },
+	 { "SERR_EN", 8, 8, &umr_bitfield_default },
+	 { "FAST_B2B_EN", 9, 9, &umr_bitfield_default },
+	 { "INT_DIS", 10, 10, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F2_SUB_CLASS[] = {
+	 { "SUB_CLASS", 16, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F2_BASE_CLASS[] = {
+	 { "BASE_CLASS", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F2_REVISION_ID[] = {
 	 { "MINOR_REV_ID", 0, 3, &umr_bitfield_default },
 	 { "MAJOR_REV_ID", 4, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F2_BASE_CLASS[] = {
-	 { "BASE_CLASS", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F2_SUB_CLASS[] = {
-	 { "SUB_CLASS", 16, 23, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F2_CACHE_LINE[] = {
-	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F2_LATENCY[] = {
-	 { "LATENCY_TIMER", 8, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F2_HEADER[] = {
-	 { "HEADER_TYPE", 16, 22, &umr_bitfield_default },
-	 { "DEVICE_TYPE", 23, 23, &umr_bitfield_default },
+static struct umr_bitfield ixD2F2_PROG_INTERFACE[] = {
+	 { "PROG_INTERFACE", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F2_BIST[] = {
 	 { "BIST_COMP", 24, 27, &umr_bitfield_default },
 	 { "BIST_STRT", 30, 30, &umr_bitfield_default },
 	 { "BIST_CAP", 31, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F2_HEADER[] = {
+	 { "HEADER_TYPE", 16, 22, &umr_bitfield_default },
+	 { "DEVICE_TYPE", 23, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F2_LATENCY[] = {
+	 { "LATENCY_TIMER", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F2_CACHE_LINE[] = {
+	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F2_SUB_BUS_NUMBER_LATENCY[] = {
 	 { "PRIMARY_BUS", 0, 7, &umr_bitfield_default },
 	 { "SECONDARY_BUS", 8, 15, &umr_bitfield_default },
 	 { "SUB_BUS_NUM", 16, 23, &umr_bitfield_default },
 	 { "SECONDARY_LATENCY_TIMER", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F2_IO_BASE_LIMIT[] = {
+	 { "IO_BASE_TYPE", 0, 3, &umr_bitfield_default },
+	 { "IO_BASE", 4, 7, &umr_bitfield_default },
+	 { "IO_LIMIT_TYPE", 8, 11, &umr_bitfield_default },
+	 { "IO_LIMIT", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F2_SECONDARY_STATUS[] = {
 	 { "CAP_LIST", 20, 20, &umr_bitfield_default },
@@ -10146,12 +10152,6 @@ static struct umr_bitfield ixD2F2_SECONDARY_STATUS[] = {
 	 { "RECEIVED_MASTER_ABORT", 29, 29, &umr_bitfield_default },
 	 { "RECEIVED_SYSTEM_ERROR", 30, 30, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 31, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F2_IO_BASE_LIMIT[] = {
-	 { "IO_BASE_TYPE", 0, 3, &umr_bitfield_default },
-	 { "IO_BASE", 4, 7, &umr_bitfield_default },
-	 { "IO_LIMIT_TYPE", 8, 11, &umr_bitfield_default },
-	 { "IO_LIMIT", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F2_MEM_BASE_LIMIT[] = {
 	 { "MEM_BASE_TYPE", 0, 3, &umr_bitfield_default },
@@ -10178,6 +10178,12 @@ static struct umr_bitfield ixD2F2_IO_BASE_LIMIT_HI[] = {
 static struct umr_bitfield ixD2F2_CAP_PTR[] = {
 	 { "CAP_PTR", 0, 7, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F2_INTERRUPT_PIN[] = {
+	 { "INTERRUPT_PIN", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F2_INTERRUPT_LINE[] = {
+	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F2_IRQ_BRIDGE_CNTL[] = {
 	 { "PARITY_RESPONSE_EN", 16, 16, &umr_bitfield_default },
 	 { "SERR_EN", 17, 17, &umr_bitfield_default },
@@ -10188,18 +10194,8 @@ static struct umr_bitfield ixD2F2_IRQ_BRIDGE_CNTL[] = {
 	 { "SECONDARY_BUS_RESET", 22, 22, &umr_bitfield_default },
 	 { "FAST_B2B_EN", 23, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F2_INTERRUPT_LINE[] = {
-	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F2_INTERRUPT_PIN[] = {
-	 { "INTERRUPT_PIN", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F2_EXT_BRIDGE_CNTL[] = {
 	 { "IO_PORT_80_EN", 0, 0, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F2_PMI_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F2_PMI_CAP[] = {
 	 { "VERSION", 16, 18, &umr_bitfield_default },
@@ -10209,6 +10205,10 @@ static struct umr_bitfield ixD2F2_PMI_CAP[] = {
 	 { "D1_SUPPORT", 25, 25, &umr_bitfield_default },
 	 { "D2_SUPPORT", 26, 26, &umr_bitfield_default },
 	 { "PME_SUPPORT", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F2_PMI_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F2_PMI_STATUS_CNTL[] = {
 	 { "POWER_STATE", 0, 1, &umr_bitfield_default },
@@ -10221,15 +10221,15 @@ static struct umr_bitfield ixD2F2_PMI_STATUS_CNTL[] = {
 	 { "BUS_PWR_EN", 23, 23, &umr_bitfield_default },
 	 { "PMI_DATA", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F2_PCIE_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F2_PCIE_CAP[] = {
 	 { "VERSION", 16, 19, &umr_bitfield_default },
 	 { "DEVICE_TYPE", 20, 23, &umr_bitfield_default },
 	 { "SLOT_IMPLEMENTED", 24, 24, &umr_bitfield_default },
 	 { "INT_MESSAGE_NUM", 25, 29, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F2_PCIE_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F2_DEVICE_CAP[] = {
 	 { "MAX_PAYLOAD_SUPPORT", 0, 2, &umr_bitfield_default },
@@ -10241,14 +10241,6 @@ static struct umr_bitfield ixD2F2_DEVICE_CAP[] = {
 	 { "CAPTURED_SLOT_POWER_LIMIT", 18, 25, &umr_bitfield_default },
 	 { "CAPTURED_SLOT_POWER_SCALE", 26, 27, &umr_bitfield_default },
 	 { "FLR_CAPABLE", 28, 28, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F2_DEVICE_STATUS[] = {
-	 { "CORR_ERR", 16, 16, &umr_bitfield_default },
-	 { "NON_FATAL_ERR", 17, 17, &umr_bitfield_default },
-	 { "FATAL_ERR", 18, 18, &umr_bitfield_default },
-	 { "USR_DETECTED", 19, 19, &umr_bitfield_default },
-	 { "AUX_PWR", 20, 20, &umr_bitfield_default },
-	 { "TRANSACTIONS_PEND", 21, 21, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F2_DEVICE_CNTL[] = {
 	 { "CORR_ERR_EN", 0, 0, &umr_bitfield_default },
@@ -10264,6 +10256,14 @@ static struct umr_bitfield ixD2F2_DEVICE_CNTL[] = {
 	 { "MAX_READ_REQUEST_SIZE", 12, 14, &umr_bitfield_default },
 	 { "BRIDGE_CFG_RETRY_EN", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F2_DEVICE_STATUS[] = {
+	 { "CORR_ERR", 16, 16, &umr_bitfield_default },
+	 { "NON_FATAL_ERR", 17, 17, &umr_bitfield_default },
+	 { "FATAL_ERR", 18, 18, &umr_bitfield_default },
+	 { "USR_DETECTED", 19, 19, &umr_bitfield_default },
+	 { "AUX_PWR", 20, 20, &umr_bitfield_default },
+	 { "TRANSACTIONS_PEND", 21, 21, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F2_LINK_CAP[] = {
 	 { "LINK_SPEED", 0, 3, &umr_bitfield_default },
 	 { "LINK_WIDTH", 4, 9, &umr_bitfield_default },
@@ -10277,15 +10277,6 @@ static struct umr_bitfield ixD2F2_LINK_CAP[] = {
 	 { "ASPM_OPTIONALITY_COMPLIANCE", 22, 22, &umr_bitfield_default },
 	 { "PORT_NUMBER", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F2_LINK_STATUS[] = {
-	 { "CURRENT_LINK_SPEED", 16, 19, &umr_bitfield_default },
-	 { "NEGOTIATED_LINK_WIDTH", 20, 25, &umr_bitfield_default },
-	 { "LINK_TRAINING", 27, 27, &umr_bitfield_default },
-	 { "SLOT_CLOCK_CFG", 28, 28, &umr_bitfield_default },
-	 { "DL_ACTIVE", 29, 29, &umr_bitfield_default },
-	 { "LINK_BW_MANAGEMENT_STATUS", 30, 30, &umr_bitfield_default },
-	 { "LINK_AUTONOMOUS_BW_STATUS", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F2_LINK_CNTL[] = {
 	 { "PM_CONTROL", 0, 1, &umr_bitfield_default },
 	 { "READ_CPL_BOUNDARY", 3, 3, &umr_bitfield_default },
@@ -10297,6 +10288,15 @@ static struct umr_bitfield ixD2F2_LINK_CNTL[] = {
 	 { "HW_AUTONOMOUS_WIDTH_DISABLE", 9, 9, &umr_bitfield_default },
 	 { "LINK_BW_MANAGEMENT_INT_EN", 10, 10, &umr_bitfield_default },
 	 { "LINK_AUTONOMOUS_BW_INT_EN", 11, 11, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F2_LINK_STATUS[] = {
+	 { "CURRENT_LINK_SPEED", 16, 19, &umr_bitfield_default },
+	 { "NEGOTIATED_LINK_WIDTH", 20, 25, &umr_bitfield_default },
+	 { "LINK_TRAINING", 27, 27, &umr_bitfield_default },
+	 { "SLOT_CLOCK_CFG", 28, 28, &umr_bitfield_default },
+	 { "DL_ACTIVE", 29, 29, &umr_bitfield_default },
+	 { "LINK_BW_MANAGEMENT_STATUS", 30, 30, &umr_bitfield_default },
+	 { "LINK_AUTONOMOUS_BW_STATUS", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F2_SLOT_CAP[] = {
 	 { "ATTN_BUTTON_PRESENT", 0, 0, &umr_bitfield_default },
@@ -10312,17 +10312,6 @@ static struct umr_bitfield ixD2F2_SLOT_CAP[] = {
 	 { "NO_COMMAND_COMPLETED_SUPPORTED", 18, 18, &umr_bitfield_default },
 	 { "PHYSICAL_SLOT_NUM", 19, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F2_SLOT_STATUS[] = {
-	 { "ATTN_BUTTON_PRESSED", 16, 16, &umr_bitfield_default },
-	 { "PWR_FAULT_DETECTED", 17, 17, &umr_bitfield_default },
-	 { "MRL_SENSOR_CHANGED", 18, 18, &umr_bitfield_default },
-	 { "PRESENCE_DETECT_CHANGED", 19, 19, &umr_bitfield_default },
-	 { "COMMAND_COMPLETED", 20, 20, &umr_bitfield_default },
-	 { "MRL_SENSOR_STATE", 21, 21, &umr_bitfield_default },
-	 { "PRESENCE_DETECT_STATE", 22, 22, &umr_bitfield_default },
-	 { "ELECTROMECH_INTERLOCK_STATUS", 23, 23, &umr_bitfield_default },
-	 { "DL_STATE_CHANGED", 24, 24, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F2_SLOT_CNTL[] = {
 	 { "ATTN_BUTTON_PRESSED_EN", 0, 0, &umr_bitfield_default },
 	 { "PWR_FAULT_DETECTED_EN", 1, 1, &umr_bitfield_default },
@@ -10336,15 +10325,26 @@ static struct umr_bitfield ixD2F2_SLOT_CNTL[] = {
 	 { "ELECTROMECH_INTERLOCK_CNTL", 11, 11, &umr_bitfield_default },
 	 { "DL_STATE_CHANGED_EN", 12, 12, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F2_SLOT_STATUS[] = {
+	 { "ATTN_BUTTON_PRESSED", 16, 16, &umr_bitfield_default },
+	 { "PWR_FAULT_DETECTED", 17, 17, &umr_bitfield_default },
+	 { "MRL_SENSOR_CHANGED", 18, 18, &umr_bitfield_default },
+	 { "PRESENCE_DETECT_CHANGED", 19, 19, &umr_bitfield_default },
+	 { "COMMAND_COMPLETED", 20, 20, &umr_bitfield_default },
+	 { "MRL_SENSOR_STATE", 21, 21, &umr_bitfield_default },
+	 { "PRESENCE_DETECT_STATE", 22, 22, &umr_bitfield_default },
+	 { "ELECTROMECH_INTERLOCK_STATUS", 23, 23, &umr_bitfield_default },
+	 { "DL_STATE_CHANGED", 24, 24, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F2_ROOT_CAP[] = {
+	 { "CRS_SOFTWARE_VISIBILITY", 16, 16, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F2_ROOT_CNTL[] = {
 	 { "SERR_ON_CORR_ERR_EN", 0, 0, &umr_bitfield_default },
 	 { "SERR_ON_NONFATAL_ERR_EN", 1, 1, &umr_bitfield_default },
 	 { "SERR_ON_FATAL_ERR_EN", 2, 2, &umr_bitfield_default },
 	 { "PM_INTERRUPT_EN", 3, 3, &umr_bitfield_default },
 	 { "CRS_SOFTWARE_VISIBILITY_EN", 4, 4, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F2_ROOT_CAP[] = {
-	 { "CRS_SOFTWARE_VISIBILITY", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F2_ROOT_STATUS[] = {
 	 { "PME_REQUESTOR_ID", 0, 15, &umr_bitfield_default },
@@ -10367,9 +10367,6 @@ static struct umr_bitfield ixD2F2_DEVICE_CAP2[] = {
 	 { "END_END_TLP_PREFIX_SUPPORTED", 21, 21, &umr_bitfield_default },
 	 { "MAX_END_END_TLP_PREFIXES", 22, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F2_DEVICE_STATUS2[] = {
-	 { "RESERVED", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F2_DEVICE_CNTL2[] = {
 	 { "CPL_TIMEOUT_VALUE", 0, 3, &umr_bitfield_default },
 	 { "CPL_TIMEOUT_DIS", 4, 4, &umr_bitfield_default },
@@ -10382,18 +10379,13 @@ static struct umr_bitfield ixD2F2_DEVICE_CNTL2[] = {
 	 { "OBFF_EN", 13, 14, &umr_bitfield_default },
 	 { "END_END_TLP_PREFIX_BLOCKING", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F2_DEVICE_STATUS2[] = {
+	 { "RESERVED", 16, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F2_LINK_CAP2[] = {
 	 { "SUPPORTED_LINK_SPEED", 1, 7, &umr_bitfield_default },
 	 { "CROSSLINK_SUPPORTED", 8, 8, &umr_bitfield_default },
 	 { "RESERVED", 9, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F2_LINK_STATUS2[] = {
-	 { "CUR_DEEMPHASIS_LEVEL", 16, 16, &umr_bitfield_default },
-	 { "EQUALIZATION_COMPLETE", 17, 17, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE1_SUCCESS", 18, 18, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE2_SUCCESS", 19, 19, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE3_SUCCESS", 20, 20, &umr_bitfield_default },
-	 { "LINK_EQUALIZATION_REQUEST", 21, 21, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F2_LINK_CNTL2[] = {
 	 { "TARGET_LINK_SPEED", 0, 3, &umr_bitfield_default },
@@ -10405,14 +10397,22 @@ static struct umr_bitfield ixD2F2_LINK_CNTL2[] = {
 	 { "COMPLIANCE_SOS", 11, 11, &umr_bitfield_default },
 	 { "COMPLIANCE_DEEMPHASIS", 12, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F2_LINK_STATUS2[] = {
+	 { "CUR_DEEMPHASIS_LEVEL", 16, 16, &umr_bitfield_default },
+	 { "EQUALIZATION_COMPLETE", 17, 17, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE1_SUCCESS", 18, 18, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE2_SUCCESS", 19, 19, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE3_SUCCESS", 20, 20, &umr_bitfield_default },
+	 { "LINK_EQUALIZATION_REQUEST", 21, 21, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F2_SLOT_CAP2[] = {
 	 { "RESERVED", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F2_SLOT_STATUS2[] = {
-	 { "RESERVED", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F2_SLOT_CNTL2[] = {
 	 { "RESERVED", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F2_SLOT_STATUS2[] = {
+	 { "RESERVED", 16, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F2_MSI_CAP_LIST[] = {
 	 { "CAP_ID", 0, 7, &umr_bitfield_default },
@@ -10421,11 +10421,11 @@ static struct umr_bitfield ixD2F2_MSI_CAP_LIST[] = {
 static struct umr_bitfield ixD2F2_MSI_MSG_ADDR_LO[] = {
 	 { "MSI_MSG_ADDR_LO", 2, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F2_MSI_MSG_ADDR_HI[] = {
-	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F2_MSI_MSG_DATA[] = {
 	 { "MSI_DATA", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F2_MSI_MSG_ADDR_HI[] = {
+	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F2_MSI_MSG_DATA_64[] = {
 	 { "MSI_DATA_64", 0, 15, &umr_bitfield_default },
@@ -10438,14 +10438,14 @@ static struct umr_bitfield ixD2F2_SSID_CAP[] = {
 	 { "SUBSYSTEM_VENDOR_ID", 0, 15, &umr_bitfield_default },
 	 { "SUBSYSTEM_ID", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F2_MSI_MAP_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F2_MSI_MAP_CAP[] = {
 	 { "EN", 16, 16, &umr_bitfield_default },
 	 { "FIXD", 17, 17, &umr_bitfield_default },
 	 { "CAP_TYPE", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F2_MSI_MAP_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F2_MSI_MAP_ADDR_LO[] = {
 	 { "MSI_MAP_ADDR_LO", 20, 31, &umr_bitfield_default },
@@ -10490,12 +10490,12 @@ static struct umr_bitfield ixD2F2_PCIE_PORT_VC_CAP_REG2[] = {
 	 { "VC_ARB_CAP", 0, 7, &umr_bitfield_default },
 	 { "VC_ARB_TABLE_OFFSET", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F2_PCIE_PORT_VC_STATUS[] = {
-	 { "VC_ARB_TABLE_STATUS", 16, 16, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F2_PCIE_PORT_VC_CNTL[] = {
 	 { "LOAD_VC_ARB_TABLE", 0, 0, &umr_bitfield_default },
 	 { "VC_ARB_SELECT", 1, 3, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F2_PCIE_PORT_VC_STATUS[] = {
+	 { "VC_ARB_TABLE_STATUS", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F2_PCIE_VC0_RESOURCE_CAP[] = {
 	 { "PORT_ARB_CAP", 0, 7, &umr_bitfield_default },
@@ -10751,15 +10751,6 @@ static struct umr_bitfield ixD2F2_PCIE_ACS_ENH_CAP_LIST[] = {
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F2_PCIE_ACS_CNTL[] = {
-	 { "SOURCE_VALIDATION_EN", 16, 16, &umr_bitfield_default },
-	 { "TRANSLATION_BLOCKING_EN", 17, 17, &umr_bitfield_default },
-	 { "P2P_REQUEST_REDIRECT_EN", 18, 18, &umr_bitfield_default },
-	 { "P2P_COMPLETION_REDIRECT_EN", 19, 19, &umr_bitfield_default },
-	 { "UPSTREAM_FORWARDING_EN", 20, 20, &umr_bitfield_default },
-	 { "P2P_EGRESS_CONTROL_EN", 21, 21, &umr_bitfield_default },
-	 { "DIRECT_TRANSLATED_P2P_EN", 22, 22, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F2_PCIE_ACS_CAP[] = {
 	 { "SOURCE_VALIDATION", 0, 0, &umr_bitfield_default },
 	 { "TRANSLATION_BLOCKING", 1, 1, &umr_bitfield_default },
@@ -10770,18 +10761,27 @@ static struct umr_bitfield ixD2F2_PCIE_ACS_CAP[] = {
 	 { "DIRECT_TRANSLATED_P2P", 6, 6, &umr_bitfield_default },
 	 { "EGRESS_CONTROL_VECTOR_SIZE", 8, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F2_PCIE_ACS_CNTL[] = {
+	 { "SOURCE_VALIDATION_EN", 16, 16, &umr_bitfield_default },
+	 { "TRANSLATION_BLOCKING_EN", 17, 17, &umr_bitfield_default },
+	 { "P2P_REQUEST_REDIRECT_EN", 18, 18, &umr_bitfield_default },
+	 { "P2P_COMPLETION_REDIRECT_EN", 19, 19, &umr_bitfield_default },
+	 { "UPSTREAM_FORWARDING_EN", 20, 20, &umr_bitfield_default },
+	 { "P2P_EGRESS_CONTROL_EN", 21, 21, &umr_bitfield_default },
+	 { "DIRECT_TRANSLATED_P2P_EN", 22, 22, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F2_PCIE_MC_ENH_CAP_LIST[] = {
 	 { "CAP_ID", 0, 15, &umr_bitfield_default },
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F2_PCIE_MC_CNTL[] = {
-	 { "MC_NUM_GROUP", 16, 21, &umr_bitfield_default },
-	 { "MC_ENABLE", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F2_PCIE_MC_CAP[] = {
 	 { "MC_MAX_GROUP", 0, 5, &umr_bitfield_default },
 	 { "MC_ECRC_REGEN_SUPP", 15, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F2_PCIE_MC_CNTL[] = {
+	 { "MC_NUM_GROUP", 16, 21, &umr_bitfield_default },
+	 { "MC_ENABLE", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F2_PCIE_MC_ADDR0[] = {
 	 { "MC_INDEX_POS", 0, 5, &umr_bitfield_default },
@@ -10827,21 +10827,21 @@ static struct umr_bitfield ixD2F1_PCIE_TX_CREDITS_INIT_P[] = {
 	 { "TX_CREDITS_INIT_PD", 0, 11, &umr_bitfield_default },
 	 { "TX_CREDITS_INIT_PH", 16, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_PCIE_TX_CREDITS_INIT_NP[] = {
-	 { "TX_CREDITS_INIT_NPD", 0, 11, &umr_bitfield_default },
-	 { "TX_CREDITS_INIT_NPH", 16, 23, &umr_bitfield_default },
-};
 static struct umr_bitfield mmNB_GBIF_INDEX[] = {
 	 { "NB_GBIF_IND_ADDR", 0, 31, &umr_bitfield_default },
 	 { "NB_GBIF_IND_ADDR", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_PCIE_TX_CREDITS_INIT_CPL[] = {
-	 { "TX_CREDITS_INIT_CPLD", 0, 11, &umr_bitfield_default },
-	 { "TX_CREDITS_INIT_CPLH", 16, 23, &umr_bitfield_default },
+static struct umr_bitfield ixD2F1_PCIE_TX_CREDITS_INIT_NP[] = {
+	 { "TX_CREDITS_INIT_NPD", 0, 11, &umr_bitfield_default },
+	 { "TX_CREDITS_INIT_NPH", 16, 23, &umr_bitfield_default },
 };
 static struct umr_bitfield mmNB_GBIF_DATA[] = {
 	 { "NB_GBIF_DATA", 0, 31, &umr_bitfield_default },
 	 { "NB_GBIF_DATA", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_PCIE_TX_CREDITS_INIT_CPL[] = {
+	 { "TX_CREDITS_INIT_CPLD", 0, 11, &umr_bitfield_default },
+	 { "TX_CREDITS_INIT_CPLH", 16, 23, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PCIE_TX_CREDITS_STATUS[] = {
 	 { "TX_CREDITS_ERR_PD", 0, 0, &umr_bitfield_default },
@@ -10882,19 +10882,6 @@ static struct umr_bitfield mmPCIE_VENDOR_SPECIFIC_ENH_CAP_LIST[] = {
 static struct umr_bitfield ixD2F3_VENDOR_ID[] = {
 	 { "VENDOR_ID", 0, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F3_COMMAND[] = {
-	 { "IO_ACCESS_EN", 0, 0, &umr_bitfield_default },
-	 { "MEM_ACCESS_EN", 1, 1, &umr_bitfield_default },
-	 { "BUS_MASTER_EN", 2, 2, &umr_bitfield_default },
-	 { "SPECIAL_CYCLE_EN", 3, 3, &umr_bitfield_default },
-	 { "MEM_WRITE_INVALIDATE_EN", 4, 4, &umr_bitfield_default },
-	 { "PAL_SNOOP_EN", 5, 5, &umr_bitfield_default },
-	 { "PARITY_ERROR_RESPONSE", 6, 6, &umr_bitfield_default },
-	 { "AD_STEPPING", 7, 7, &umr_bitfield_default },
-	 { "SERR_EN", 8, 8, &umr_bitfield_default },
-	 { "FAST_B2B_EN", 9, 9, &umr_bitfield_default },
-	 { "INT_DIS", 10, 10, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F3_STATUS[] = {
 	 { "INT_STATUS", 19, 19, &umr_bitfield_default },
 	 { "CAP_LIST", 20, 20, &umr_bitfield_default },
@@ -10908,39 +10895,58 @@ static struct umr_bitfield ixD2F3_STATUS[] = {
 	 { "SIGNALED_SYSTEM_ERROR", 30, 30, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F3_PROG_INTERFACE[] = {
-	 { "PROG_INTERFACE", 8, 15, &umr_bitfield_default },
+static struct umr_bitfield ixD2F3_COMMAND[] = {
+	 { "IO_ACCESS_EN", 0, 0, &umr_bitfield_default },
+	 { "MEM_ACCESS_EN", 1, 1, &umr_bitfield_default },
+	 { "BUS_MASTER_EN", 2, 2, &umr_bitfield_default },
+	 { "SPECIAL_CYCLE_EN", 3, 3, &umr_bitfield_default },
+	 { "MEM_WRITE_INVALIDATE_EN", 4, 4, &umr_bitfield_default },
+	 { "PAL_SNOOP_EN", 5, 5, &umr_bitfield_default },
+	 { "PARITY_ERROR_RESPONSE", 6, 6, &umr_bitfield_default },
+	 { "AD_STEPPING", 7, 7, &umr_bitfield_default },
+	 { "SERR_EN", 8, 8, &umr_bitfield_default },
+	 { "FAST_B2B_EN", 9, 9, &umr_bitfield_default },
+	 { "INT_DIS", 10, 10, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F3_SUB_CLASS[] = {
+	 { "SUB_CLASS", 16, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F3_BASE_CLASS[] = {
+	 { "BASE_CLASS", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F3_REVISION_ID[] = {
 	 { "MINOR_REV_ID", 0, 3, &umr_bitfield_default },
 	 { "MAJOR_REV_ID", 4, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F3_BASE_CLASS[] = {
-	 { "BASE_CLASS", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F3_SUB_CLASS[] = {
-	 { "SUB_CLASS", 16, 23, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F3_CACHE_LINE[] = {
-	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F3_LATENCY[] = {
-	 { "LATENCY_TIMER", 8, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F3_HEADER[] = {
-	 { "HEADER_TYPE", 16, 22, &umr_bitfield_default },
-	 { "DEVICE_TYPE", 23, 23, &umr_bitfield_default },
+static struct umr_bitfield ixD2F3_PROG_INTERFACE[] = {
+	 { "PROG_INTERFACE", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F3_BIST[] = {
 	 { "BIST_COMP", 24, 27, &umr_bitfield_default },
 	 { "BIST_STRT", 30, 30, &umr_bitfield_default },
 	 { "BIST_CAP", 31, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F3_HEADER[] = {
+	 { "HEADER_TYPE", 16, 22, &umr_bitfield_default },
+	 { "DEVICE_TYPE", 23, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F3_LATENCY[] = {
+	 { "LATENCY_TIMER", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F3_CACHE_LINE[] = {
+	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F3_SUB_BUS_NUMBER_LATENCY[] = {
 	 { "PRIMARY_BUS", 0, 7, &umr_bitfield_default },
 	 { "SECONDARY_BUS", 8, 15, &umr_bitfield_default },
 	 { "SUB_BUS_NUM", 16, 23, &umr_bitfield_default },
 	 { "SECONDARY_LATENCY_TIMER", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F3_IO_BASE_LIMIT[] = {
+	 { "IO_BASE_TYPE", 0, 3, &umr_bitfield_default },
+	 { "IO_BASE", 4, 7, &umr_bitfield_default },
+	 { "IO_LIMIT_TYPE", 8, 11, &umr_bitfield_default },
+	 { "IO_LIMIT", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F3_SECONDARY_STATUS[] = {
 	 { "CAP_LIST", 20, 20, &umr_bitfield_default },
@@ -10953,12 +10959,6 @@ static struct umr_bitfield ixD2F3_SECONDARY_STATUS[] = {
 	 { "RECEIVED_MASTER_ABORT", 29, 29, &umr_bitfield_default },
 	 { "RECEIVED_SYSTEM_ERROR", 30, 30, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 31, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F3_IO_BASE_LIMIT[] = {
-	 { "IO_BASE_TYPE", 0, 3, &umr_bitfield_default },
-	 { "IO_BASE", 4, 7, &umr_bitfield_default },
-	 { "IO_LIMIT_TYPE", 8, 11, &umr_bitfield_default },
-	 { "IO_LIMIT", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F3_MEM_BASE_LIMIT[] = {
 	 { "MEM_BASE_TYPE", 0, 3, &umr_bitfield_default },
@@ -10985,6 +10985,12 @@ static struct umr_bitfield ixD2F3_IO_BASE_LIMIT_HI[] = {
 static struct umr_bitfield ixD2F3_CAP_PTR[] = {
 	 { "CAP_PTR", 0, 7, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F3_INTERRUPT_PIN[] = {
+	 { "INTERRUPT_PIN", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F3_INTERRUPT_LINE[] = {
+	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F3_IRQ_BRIDGE_CNTL[] = {
 	 { "PARITY_RESPONSE_EN", 16, 16, &umr_bitfield_default },
 	 { "SERR_EN", 17, 17, &umr_bitfield_default },
@@ -10995,18 +11001,8 @@ static struct umr_bitfield ixD2F3_IRQ_BRIDGE_CNTL[] = {
 	 { "SECONDARY_BUS_RESET", 22, 22, &umr_bitfield_default },
 	 { "FAST_B2B_EN", 23, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F3_INTERRUPT_LINE[] = {
-	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F3_INTERRUPT_PIN[] = {
-	 { "INTERRUPT_PIN", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F3_EXT_BRIDGE_CNTL[] = {
 	 { "IO_PORT_80_EN", 0, 0, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F3_PMI_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F3_PMI_CAP[] = {
 	 { "VERSION", 16, 18, &umr_bitfield_default },
@@ -11016,6 +11012,10 @@ static struct umr_bitfield ixD2F3_PMI_CAP[] = {
 	 { "D1_SUPPORT", 25, 25, &umr_bitfield_default },
 	 { "D2_SUPPORT", 26, 26, &umr_bitfield_default },
 	 { "PME_SUPPORT", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F3_PMI_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F3_PMI_STATUS_CNTL[] = {
 	 { "POWER_STATE", 0, 1, &umr_bitfield_default },
@@ -11028,15 +11028,15 @@ static struct umr_bitfield ixD2F3_PMI_STATUS_CNTL[] = {
 	 { "BUS_PWR_EN", 23, 23, &umr_bitfield_default },
 	 { "PMI_DATA", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F3_PCIE_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F3_PCIE_CAP[] = {
 	 { "VERSION", 16, 19, &umr_bitfield_default },
 	 { "DEVICE_TYPE", 20, 23, &umr_bitfield_default },
 	 { "SLOT_IMPLEMENTED", 24, 24, &umr_bitfield_default },
 	 { "INT_MESSAGE_NUM", 25, 29, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F3_PCIE_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F3_DEVICE_CAP[] = {
 	 { "MAX_PAYLOAD_SUPPORT", 0, 2, &umr_bitfield_default },
@@ -11048,14 +11048,6 @@ static struct umr_bitfield ixD2F3_DEVICE_CAP[] = {
 	 { "CAPTURED_SLOT_POWER_LIMIT", 18, 25, &umr_bitfield_default },
 	 { "CAPTURED_SLOT_POWER_SCALE", 26, 27, &umr_bitfield_default },
 	 { "FLR_CAPABLE", 28, 28, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F3_DEVICE_STATUS[] = {
-	 { "CORR_ERR", 16, 16, &umr_bitfield_default },
-	 { "NON_FATAL_ERR", 17, 17, &umr_bitfield_default },
-	 { "FATAL_ERR", 18, 18, &umr_bitfield_default },
-	 { "USR_DETECTED", 19, 19, &umr_bitfield_default },
-	 { "AUX_PWR", 20, 20, &umr_bitfield_default },
-	 { "TRANSACTIONS_PEND", 21, 21, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F3_DEVICE_CNTL[] = {
 	 { "CORR_ERR_EN", 0, 0, &umr_bitfield_default },
@@ -11071,6 +11063,14 @@ static struct umr_bitfield ixD2F3_DEVICE_CNTL[] = {
 	 { "MAX_READ_REQUEST_SIZE", 12, 14, &umr_bitfield_default },
 	 { "BRIDGE_CFG_RETRY_EN", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F3_DEVICE_STATUS[] = {
+	 { "CORR_ERR", 16, 16, &umr_bitfield_default },
+	 { "NON_FATAL_ERR", 17, 17, &umr_bitfield_default },
+	 { "FATAL_ERR", 18, 18, &umr_bitfield_default },
+	 { "USR_DETECTED", 19, 19, &umr_bitfield_default },
+	 { "AUX_PWR", 20, 20, &umr_bitfield_default },
+	 { "TRANSACTIONS_PEND", 21, 21, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F3_LINK_CAP[] = {
 	 { "LINK_SPEED", 0, 3, &umr_bitfield_default },
 	 { "LINK_WIDTH", 4, 9, &umr_bitfield_default },
@@ -11084,15 +11084,6 @@ static struct umr_bitfield ixD2F3_LINK_CAP[] = {
 	 { "ASPM_OPTIONALITY_COMPLIANCE", 22, 22, &umr_bitfield_default },
 	 { "PORT_NUMBER", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F3_LINK_STATUS[] = {
-	 { "CURRENT_LINK_SPEED", 16, 19, &umr_bitfield_default },
-	 { "NEGOTIATED_LINK_WIDTH", 20, 25, &umr_bitfield_default },
-	 { "LINK_TRAINING", 27, 27, &umr_bitfield_default },
-	 { "SLOT_CLOCK_CFG", 28, 28, &umr_bitfield_default },
-	 { "DL_ACTIVE", 29, 29, &umr_bitfield_default },
-	 { "LINK_BW_MANAGEMENT_STATUS", 30, 30, &umr_bitfield_default },
-	 { "LINK_AUTONOMOUS_BW_STATUS", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F3_LINK_CNTL[] = {
 	 { "PM_CONTROL", 0, 1, &umr_bitfield_default },
 	 { "READ_CPL_BOUNDARY", 3, 3, &umr_bitfield_default },
@@ -11104,6 +11095,15 @@ static struct umr_bitfield ixD2F3_LINK_CNTL[] = {
 	 { "HW_AUTONOMOUS_WIDTH_DISABLE", 9, 9, &umr_bitfield_default },
 	 { "LINK_BW_MANAGEMENT_INT_EN", 10, 10, &umr_bitfield_default },
 	 { "LINK_AUTONOMOUS_BW_INT_EN", 11, 11, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F3_LINK_STATUS[] = {
+	 { "CURRENT_LINK_SPEED", 16, 19, &umr_bitfield_default },
+	 { "NEGOTIATED_LINK_WIDTH", 20, 25, &umr_bitfield_default },
+	 { "LINK_TRAINING", 27, 27, &umr_bitfield_default },
+	 { "SLOT_CLOCK_CFG", 28, 28, &umr_bitfield_default },
+	 { "DL_ACTIVE", 29, 29, &umr_bitfield_default },
+	 { "LINK_BW_MANAGEMENT_STATUS", 30, 30, &umr_bitfield_default },
+	 { "LINK_AUTONOMOUS_BW_STATUS", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F3_SLOT_CAP[] = {
 	 { "ATTN_BUTTON_PRESENT", 0, 0, &umr_bitfield_default },
@@ -11119,17 +11119,6 @@ static struct umr_bitfield ixD2F3_SLOT_CAP[] = {
 	 { "NO_COMMAND_COMPLETED_SUPPORTED", 18, 18, &umr_bitfield_default },
 	 { "PHYSICAL_SLOT_NUM", 19, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F3_SLOT_STATUS[] = {
-	 { "ATTN_BUTTON_PRESSED", 16, 16, &umr_bitfield_default },
-	 { "PWR_FAULT_DETECTED", 17, 17, &umr_bitfield_default },
-	 { "MRL_SENSOR_CHANGED", 18, 18, &umr_bitfield_default },
-	 { "PRESENCE_DETECT_CHANGED", 19, 19, &umr_bitfield_default },
-	 { "COMMAND_COMPLETED", 20, 20, &umr_bitfield_default },
-	 { "MRL_SENSOR_STATE", 21, 21, &umr_bitfield_default },
-	 { "PRESENCE_DETECT_STATE", 22, 22, &umr_bitfield_default },
-	 { "ELECTROMECH_INTERLOCK_STATUS", 23, 23, &umr_bitfield_default },
-	 { "DL_STATE_CHANGED", 24, 24, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F3_SLOT_CNTL[] = {
 	 { "ATTN_BUTTON_PRESSED_EN", 0, 0, &umr_bitfield_default },
 	 { "PWR_FAULT_DETECTED_EN", 1, 1, &umr_bitfield_default },
@@ -11143,15 +11132,26 @@ static struct umr_bitfield ixD2F3_SLOT_CNTL[] = {
 	 { "ELECTROMECH_INTERLOCK_CNTL", 11, 11, &umr_bitfield_default },
 	 { "DL_STATE_CHANGED_EN", 12, 12, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F3_SLOT_STATUS[] = {
+	 { "ATTN_BUTTON_PRESSED", 16, 16, &umr_bitfield_default },
+	 { "PWR_FAULT_DETECTED", 17, 17, &umr_bitfield_default },
+	 { "MRL_SENSOR_CHANGED", 18, 18, &umr_bitfield_default },
+	 { "PRESENCE_DETECT_CHANGED", 19, 19, &umr_bitfield_default },
+	 { "COMMAND_COMPLETED", 20, 20, &umr_bitfield_default },
+	 { "MRL_SENSOR_STATE", 21, 21, &umr_bitfield_default },
+	 { "PRESENCE_DETECT_STATE", 22, 22, &umr_bitfield_default },
+	 { "ELECTROMECH_INTERLOCK_STATUS", 23, 23, &umr_bitfield_default },
+	 { "DL_STATE_CHANGED", 24, 24, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F3_ROOT_CAP[] = {
+	 { "CRS_SOFTWARE_VISIBILITY", 16, 16, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F3_ROOT_CNTL[] = {
 	 { "SERR_ON_CORR_ERR_EN", 0, 0, &umr_bitfield_default },
 	 { "SERR_ON_NONFATAL_ERR_EN", 1, 1, &umr_bitfield_default },
 	 { "SERR_ON_FATAL_ERR_EN", 2, 2, &umr_bitfield_default },
 	 { "PM_INTERRUPT_EN", 3, 3, &umr_bitfield_default },
 	 { "CRS_SOFTWARE_VISIBILITY_EN", 4, 4, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F3_ROOT_CAP[] = {
-	 { "CRS_SOFTWARE_VISIBILITY", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F3_ROOT_STATUS[] = {
 	 { "PME_REQUESTOR_ID", 0, 15, &umr_bitfield_default },
@@ -11174,9 +11174,6 @@ static struct umr_bitfield ixD2F3_DEVICE_CAP2[] = {
 	 { "END_END_TLP_PREFIX_SUPPORTED", 21, 21, &umr_bitfield_default },
 	 { "MAX_END_END_TLP_PREFIXES", 22, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F3_DEVICE_STATUS2[] = {
-	 { "RESERVED", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F3_DEVICE_CNTL2[] = {
 	 { "CPL_TIMEOUT_VALUE", 0, 3, &umr_bitfield_default },
 	 { "CPL_TIMEOUT_DIS", 4, 4, &umr_bitfield_default },
@@ -11189,18 +11186,13 @@ static struct umr_bitfield ixD2F3_DEVICE_CNTL2[] = {
 	 { "OBFF_EN", 13, 14, &umr_bitfield_default },
 	 { "END_END_TLP_PREFIX_BLOCKING", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F3_DEVICE_STATUS2[] = {
+	 { "RESERVED", 16, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F3_LINK_CAP2[] = {
 	 { "SUPPORTED_LINK_SPEED", 1, 7, &umr_bitfield_default },
 	 { "CROSSLINK_SUPPORTED", 8, 8, &umr_bitfield_default },
 	 { "RESERVED", 9, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F3_LINK_STATUS2[] = {
-	 { "CUR_DEEMPHASIS_LEVEL", 16, 16, &umr_bitfield_default },
-	 { "EQUALIZATION_COMPLETE", 17, 17, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE1_SUCCESS", 18, 18, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE2_SUCCESS", 19, 19, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE3_SUCCESS", 20, 20, &umr_bitfield_default },
-	 { "LINK_EQUALIZATION_REQUEST", 21, 21, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F3_LINK_CNTL2[] = {
 	 { "TARGET_LINK_SPEED", 0, 3, &umr_bitfield_default },
@@ -11212,14 +11204,22 @@ static struct umr_bitfield ixD2F3_LINK_CNTL2[] = {
 	 { "COMPLIANCE_SOS", 11, 11, &umr_bitfield_default },
 	 { "COMPLIANCE_DEEMPHASIS", 12, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F3_LINK_STATUS2[] = {
+	 { "CUR_DEEMPHASIS_LEVEL", 16, 16, &umr_bitfield_default },
+	 { "EQUALIZATION_COMPLETE", 17, 17, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE1_SUCCESS", 18, 18, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE2_SUCCESS", 19, 19, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE3_SUCCESS", 20, 20, &umr_bitfield_default },
+	 { "LINK_EQUALIZATION_REQUEST", 21, 21, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F3_SLOT_CAP2[] = {
 	 { "RESERVED", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F3_SLOT_STATUS2[] = {
-	 { "RESERVED", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F3_SLOT_CNTL2[] = {
 	 { "RESERVED", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F3_SLOT_STATUS2[] = {
+	 { "RESERVED", 16, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F3_MSI_CAP_LIST[] = {
 	 { "CAP_ID", 0, 7, &umr_bitfield_default },
@@ -11228,11 +11228,11 @@ static struct umr_bitfield ixD2F3_MSI_CAP_LIST[] = {
 static struct umr_bitfield ixD2F3_MSI_MSG_ADDR_LO[] = {
 	 { "MSI_MSG_ADDR_LO", 2, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F3_MSI_MSG_ADDR_HI[] = {
-	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F3_MSI_MSG_DATA[] = {
 	 { "MSI_DATA", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F3_MSI_MSG_ADDR_HI[] = {
+	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F3_MSI_MSG_DATA_64[] = {
 	 { "MSI_DATA_64", 0, 15, &umr_bitfield_default },
@@ -11245,14 +11245,14 @@ static struct umr_bitfield ixD2F3_SSID_CAP[] = {
 	 { "SUBSYSTEM_VENDOR_ID", 0, 15, &umr_bitfield_default },
 	 { "SUBSYSTEM_ID", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F3_MSI_MAP_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F3_MSI_MAP_CAP[] = {
 	 { "EN", 16, 16, &umr_bitfield_default },
 	 { "FIXD", 17, 17, &umr_bitfield_default },
 	 { "CAP_TYPE", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F3_MSI_MAP_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F3_MSI_MAP_ADDR_LO[] = {
 	 { "MSI_MAP_ADDR_LO", 20, 31, &umr_bitfield_default },
@@ -11297,12 +11297,12 @@ static struct umr_bitfield ixD2F3_PCIE_PORT_VC_CAP_REG2[] = {
 	 { "VC_ARB_CAP", 0, 7, &umr_bitfield_default },
 	 { "VC_ARB_TABLE_OFFSET", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F3_PCIE_PORT_VC_STATUS[] = {
-	 { "VC_ARB_TABLE_STATUS", 16, 16, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F3_PCIE_PORT_VC_CNTL[] = {
 	 { "LOAD_VC_ARB_TABLE", 0, 0, &umr_bitfield_default },
 	 { "VC_ARB_SELECT", 1, 3, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F3_PCIE_PORT_VC_STATUS[] = {
+	 { "VC_ARB_TABLE_STATUS", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F3_PCIE_VC0_RESOURCE_CAP[] = {
 	 { "PORT_ARB_CAP", 0, 7, &umr_bitfield_default },
@@ -11558,15 +11558,6 @@ static struct umr_bitfield ixD2F3_PCIE_ACS_ENH_CAP_LIST[] = {
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F3_PCIE_ACS_CNTL[] = {
-	 { "SOURCE_VALIDATION_EN", 16, 16, &umr_bitfield_default },
-	 { "TRANSLATION_BLOCKING_EN", 17, 17, &umr_bitfield_default },
-	 { "P2P_REQUEST_REDIRECT_EN", 18, 18, &umr_bitfield_default },
-	 { "P2P_COMPLETION_REDIRECT_EN", 19, 19, &umr_bitfield_default },
-	 { "UPSTREAM_FORWARDING_EN", 20, 20, &umr_bitfield_default },
-	 { "P2P_EGRESS_CONTROL_EN", 21, 21, &umr_bitfield_default },
-	 { "DIRECT_TRANSLATED_P2P_EN", 22, 22, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F3_PCIE_ACS_CAP[] = {
 	 { "SOURCE_VALIDATION", 0, 0, &umr_bitfield_default },
 	 { "TRANSLATION_BLOCKING", 1, 1, &umr_bitfield_default },
@@ -11577,18 +11568,27 @@ static struct umr_bitfield ixD2F3_PCIE_ACS_CAP[] = {
 	 { "DIRECT_TRANSLATED_P2P", 6, 6, &umr_bitfield_default },
 	 { "EGRESS_CONTROL_VECTOR_SIZE", 8, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F3_PCIE_ACS_CNTL[] = {
+	 { "SOURCE_VALIDATION_EN", 16, 16, &umr_bitfield_default },
+	 { "TRANSLATION_BLOCKING_EN", 17, 17, &umr_bitfield_default },
+	 { "P2P_REQUEST_REDIRECT_EN", 18, 18, &umr_bitfield_default },
+	 { "P2P_COMPLETION_REDIRECT_EN", 19, 19, &umr_bitfield_default },
+	 { "UPSTREAM_FORWARDING_EN", 20, 20, &umr_bitfield_default },
+	 { "P2P_EGRESS_CONTROL_EN", 21, 21, &umr_bitfield_default },
+	 { "DIRECT_TRANSLATED_P2P_EN", 22, 22, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F3_PCIE_MC_ENH_CAP_LIST[] = {
 	 { "CAP_ID", 0, 15, &umr_bitfield_default },
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F3_PCIE_MC_CNTL[] = {
-	 { "MC_NUM_GROUP", 16, 21, &umr_bitfield_default },
-	 { "MC_ENABLE", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F3_PCIE_MC_CAP[] = {
 	 { "MC_MAX_GROUP", 0, 5, &umr_bitfield_default },
 	 { "MC_ECRC_REGEN_SUPP", 15, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F3_PCIE_MC_CNTL[] = {
+	 { "MC_NUM_GROUP", 16, 21, &umr_bitfield_default },
+	 { "MC_ENABLE", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F3_PCIE_MC_ADDR0[] = {
 	 { "MC_INDEX_POS", 0, 5, &umr_bitfield_default },
@@ -11648,12 +11648,12 @@ static struct umr_bitfield mmPCIE_PORT_VC_CAP_REG2[] = {
 	 { "VC_ARB_CAP", 0, 7, &umr_bitfield_default },
 	 { "VC_ARB_TABLE_OFFSET", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPCIE_PORT_VC_STATUS[] = {
-	 { "VC_ARB_TABLE_STATUS", 0, 0, &umr_bitfield_default },
-};
 static struct umr_bitfield mmPCIE_PORT_VC_CNTL[] = {
 	 { "LOAD_VC_ARB_TABLE", 0, 0, &umr_bitfield_default },
 	 { "VC_ARB_SELECT", 1, 3, &umr_bitfield_default },
+};
+static struct umr_bitfield mmPCIE_PORT_VC_STATUS[] = {
+	 { "VC_ARB_TABLE_STATUS", 0, 0, &umr_bitfield_default },
 };
 static struct umr_bitfield mmPCIE_VC0_RESOURCE_CAP[] = {
 	 { "PORT_ARB_CAP", 0, 7, &umr_bitfield_default },
@@ -11694,30 +11694,17 @@ static struct umr_bitfield mmPCIE_VC1_RESOURCE_STATUS[] = {
 static struct umr_bitfield mmBASE_ADDR_2[] = {
 	 { "BASE_ADDR", 0, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F1_PCIE_P_PORT_LANE_STATUS[] = {
+	 { "PORT_LANE_REVERSAL", 0, 0, &umr_bitfield_default },
+	 { "PHY_LINK_WIDTH", 1, 6, &umr_bitfield_default },
+};
 static struct umr_bitfield mmPCIE_DEV_SERIAL_NUM_ENH_CAP_LIST[] = {
 	 { "CAP_ID", 0, 15, &umr_bitfield_default },
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_PCIE_P_PORT_LANE_STATUS[] = {
-	 { "PORT_LANE_REVERSAL", 0, 0, &umr_bitfield_default },
-	 { "PHY_LINK_WIDTH", 1, 6, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F4_VENDOR_ID[] = {
 	 { "VENDOR_ID", 0, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F4_COMMAND[] = {
-	 { "IO_ACCESS_EN", 0, 0, &umr_bitfield_default },
-	 { "MEM_ACCESS_EN", 1, 1, &umr_bitfield_default },
-	 { "BUS_MASTER_EN", 2, 2, &umr_bitfield_default },
-	 { "SPECIAL_CYCLE_EN", 3, 3, &umr_bitfield_default },
-	 { "MEM_WRITE_INVALIDATE_EN", 4, 4, &umr_bitfield_default },
-	 { "PAL_SNOOP_EN", 5, 5, &umr_bitfield_default },
-	 { "PARITY_ERROR_RESPONSE", 6, 6, &umr_bitfield_default },
-	 { "AD_STEPPING", 7, 7, &umr_bitfield_default },
-	 { "SERR_EN", 8, 8, &umr_bitfield_default },
-	 { "FAST_B2B_EN", 9, 9, &umr_bitfield_default },
-	 { "INT_DIS", 10, 10, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F4_STATUS[] = {
 	 { "INT_STATUS", 19, 19, &umr_bitfield_default },
@@ -11732,39 +11719,58 @@ static struct umr_bitfield ixD2F4_STATUS[] = {
 	 { "SIGNALED_SYSTEM_ERROR", 30, 30, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F4_PROG_INTERFACE[] = {
-	 { "PROG_INTERFACE", 8, 15, &umr_bitfield_default },
+static struct umr_bitfield ixD2F4_COMMAND[] = {
+	 { "IO_ACCESS_EN", 0, 0, &umr_bitfield_default },
+	 { "MEM_ACCESS_EN", 1, 1, &umr_bitfield_default },
+	 { "BUS_MASTER_EN", 2, 2, &umr_bitfield_default },
+	 { "SPECIAL_CYCLE_EN", 3, 3, &umr_bitfield_default },
+	 { "MEM_WRITE_INVALIDATE_EN", 4, 4, &umr_bitfield_default },
+	 { "PAL_SNOOP_EN", 5, 5, &umr_bitfield_default },
+	 { "PARITY_ERROR_RESPONSE", 6, 6, &umr_bitfield_default },
+	 { "AD_STEPPING", 7, 7, &umr_bitfield_default },
+	 { "SERR_EN", 8, 8, &umr_bitfield_default },
+	 { "FAST_B2B_EN", 9, 9, &umr_bitfield_default },
+	 { "INT_DIS", 10, 10, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F4_SUB_CLASS[] = {
+	 { "SUB_CLASS", 16, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F4_BASE_CLASS[] = {
+	 { "BASE_CLASS", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F4_REVISION_ID[] = {
 	 { "MINOR_REV_ID", 0, 3, &umr_bitfield_default },
 	 { "MAJOR_REV_ID", 4, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F4_BASE_CLASS[] = {
-	 { "BASE_CLASS", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F4_SUB_CLASS[] = {
-	 { "SUB_CLASS", 16, 23, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F4_CACHE_LINE[] = {
-	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F4_LATENCY[] = {
-	 { "LATENCY_TIMER", 8, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F4_HEADER[] = {
-	 { "HEADER_TYPE", 16, 22, &umr_bitfield_default },
-	 { "DEVICE_TYPE", 23, 23, &umr_bitfield_default },
+static struct umr_bitfield ixD2F4_PROG_INTERFACE[] = {
+	 { "PROG_INTERFACE", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F4_BIST[] = {
 	 { "BIST_COMP", 24, 27, &umr_bitfield_default },
 	 { "BIST_STRT", 30, 30, &umr_bitfield_default },
 	 { "BIST_CAP", 31, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F4_HEADER[] = {
+	 { "HEADER_TYPE", 16, 22, &umr_bitfield_default },
+	 { "DEVICE_TYPE", 23, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F4_LATENCY[] = {
+	 { "LATENCY_TIMER", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F4_CACHE_LINE[] = {
+	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F4_SUB_BUS_NUMBER_LATENCY[] = {
 	 { "PRIMARY_BUS", 0, 7, &umr_bitfield_default },
 	 { "SECONDARY_BUS", 8, 15, &umr_bitfield_default },
 	 { "SUB_BUS_NUM", 16, 23, &umr_bitfield_default },
 	 { "SECONDARY_LATENCY_TIMER", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F4_IO_BASE_LIMIT[] = {
+	 { "IO_BASE_TYPE", 0, 3, &umr_bitfield_default },
+	 { "IO_BASE", 4, 7, &umr_bitfield_default },
+	 { "IO_LIMIT_TYPE", 8, 11, &umr_bitfield_default },
+	 { "IO_LIMIT", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F4_SECONDARY_STATUS[] = {
 	 { "CAP_LIST", 20, 20, &umr_bitfield_default },
@@ -11777,12 +11783,6 @@ static struct umr_bitfield ixD2F4_SECONDARY_STATUS[] = {
 	 { "RECEIVED_MASTER_ABORT", 29, 29, &umr_bitfield_default },
 	 { "RECEIVED_SYSTEM_ERROR", 30, 30, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 31, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F4_IO_BASE_LIMIT[] = {
-	 { "IO_BASE_TYPE", 0, 3, &umr_bitfield_default },
-	 { "IO_BASE", 4, 7, &umr_bitfield_default },
-	 { "IO_LIMIT_TYPE", 8, 11, &umr_bitfield_default },
-	 { "IO_LIMIT", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F4_MEM_BASE_LIMIT[] = {
 	 { "MEM_BASE_TYPE", 0, 3, &umr_bitfield_default },
@@ -11809,6 +11809,12 @@ static struct umr_bitfield ixD2F4_IO_BASE_LIMIT_HI[] = {
 static struct umr_bitfield ixD2F4_CAP_PTR[] = {
 	 { "CAP_PTR", 0, 7, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F4_INTERRUPT_PIN[] = {
+	 { "INTERRUPT_PIN", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F4_INTERRUPT_LINE[] = {
+	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F4_IRQ_BRIDGE_CNTL[] = {
 	 { "PARITY_RESPONSE_EN", 16, 16, &umr_bitfield_default },
 	 { "SERR_EN", 17, 17, &umr_bitfield_default },
@@ -11819,18 +11825,8 @@ static struct umr_bitfield ixD2F4_IRQ_BRIDGE_CNTL[] = {
 	 { "SECONDARY_BUS_RESET", 22, 22, &umr_bitfield_default },
 	 { "FAST_B2B_EN", 23, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F4_INTERRUPT_LINE[] = {
-	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F4_INTERRUPT_PIN[] = {
-	 { "INTERRUPT_PIN", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F4_EXT_BRIDGE_CNTL[] = {
 	 { "IO_PORT_80_EN", 0, 0, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F4_PMI_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F4_PMI_CAP[] = {
 	 { "VERSION", 16, 18, &umr_bitfield_default },
@@ -11840,6 +11836,10 @@ static struct umr_bitfield ixD2F4_PMI_CAP[] = {
 	 { "D1_SUPPORT", 25, 25, &umr_bitfield_default },
 	 { "D2_SUPPORT", 26, 26, &umr_bitfield_default },
 	 { "PME_SUPPORT", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F4_PMI_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F4_PMI_STATUS_CNTL[] = {
 	 { "POWER_STATE", 0, 1, &umr_bitfield_default },
@@ -11852,15 +11852,15 @@ static struct umr_bitfield ixD2F4_PMI_STATUS_CNTL[] = {
 	 { "BUS_PWR_EN", 23, 23, &umr_bitfield_default },
 	 { "PMI_DATA", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F4_PCIE_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F4_PCIE_CAP[] = {
 	 { "VERSION", 16, 19, &umr_bitfield_default },
 	 { "DEVICE_TYPE", 20, 23, &umr_bitfield_default },
 	 { "SLOT_IMPLEMENTED", 24, 24, &umr_bitfield_default },
 	 { "INT_MESSAGE_NUM", 25, 29, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F4_PCIE_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F4_DEVICE_CAP[] = {
 	 { "MAX_PAYLOAD_SUPPORT", 0, 2, &umr_bitfield_default },
@@ -11872,14 +11872,6 @@ static struct umr_bitfield ixD2F4_DEVICE_CAP[] = {
 	 { "CAPTURED_SLOT_POWER_LIMIT", 18, 25, &umr_bitfield_default },
 	 { "CAPTURED_SLOT_POWER_SCALE", 26, 27, &umr_bitfield_default },
 	 { "FLR_CAPABLE", 28, 28, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F4_DEVICE_STATUS[] = {
-	 { "CORR_ERR", 16, 16, &umr_bitfield_default },
-	 { "NON_FATAL_ERR", 17, 17, &umr_bitfield_default },
-	 { "FATAL_ERR", 18, 18, &umr_bitfield_default },
-	 { "USR_DETECTED", 19, 19, &umr_bitfield_default },
-	 { "AUX_PWR", 20, 20, &umr_bitfield_default },
-	 { "TRANSACTIONS_PEND", 21, 21, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F4_DEVICE_CNTL[] = {
 	 { "CORR_ERR_EN", 0, 0, &umr_bitfield_default },
@@ -11895,6 +11887,14 @@ static struct umr_bitfield ixD2F4_DEVICE_CNTL[] = {
 	 { "MAX_READ_REQUEST_SIZE", 12, 14, &umr_bitfield_default },
 	 { "BRIDGE_CFG_RETRY_EN", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F4_DEVICE_STATUS[] = {
+	 { "CORR_ERR", 16, 16, &umr_bitfield_default },
+	 { "NON_FATAL_ERR", 17, 17, &umr_bitfield_default },
+	 { "FATAL_ERR", 18, 18, &umr_bitfield_default },
+	 { "USR_DETECTED", 19, 19, &umr_bitfield_default },
+	 { "AUX_PWR", 20, 20, &umr_bitfield_default },
+	 { "TRANSACTIONS_PEND", 21, 21, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F4_LINK_CAP[] = {
 	 { "LINK_SPEED", 0, 3, &umr_bitfield_default },
 	 { "LINK_WIDTH", 4, 9, &umr_bitfield_default },
@@ -11908,15 +11908,6 @@ static struct umr_bitfield ixD2F4_LINK_CAP[] = {
 	 { "ASPM_OPTIONALITY_COMPLIANCE", 22, 22, &umr_bitfield_default },
 	 { "PORT_NUMBER", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F4_LINK_STATUS[] = {
-	 { "CURRENT_LINK_SPEED", 16, 19, &umr_bitfield_default },
-	 { "NEGOTIATED_LINK_WIDTH", 20, 25, &umr_bitfield_default },
-	 { "LINK_TRAINING", 27, 27, &umr_bitfield_default },
-	 { "SLOT_CLOCK_CFG", 28, 28, &umr_bitfield_default },
-	 { "DL_ACTIVE", 29, 29, &umr_bitfield_default },
-	 { "LINK_BW_MANAGEMENT_STATUS", 30, 30, &umr_bitfield_default },
-	 { "LINK_AUTONOMOUS_BW_STATUS", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F4_LINK_CNTL[] = {
 	 { "PM_CONTROL", 0, 1, &umr_bitfield_default },
 	 { "READ_CPL_BOUNDARY", 3, 3, &umr_bitfield_default },
@@ -11928,6 +11919,15 @@ static struct umr_bitfield ixD2F4_LINK_CNTL[] = {
 	 { "HW_AUTONOMOUS_WIDTH_DISABLE", 9, 9, &umr_bitfield_default },
 	 { "LINK_BW_MANAGEMENT_INT_EN", 10, 10, &umr_bitfield_default },
 	 { "LINK_AUTONOMOUS_BW_INT_EN", 11, 11, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F4_LINK_STATUS[] = {
+	 { "CURRENT_LINK_SPEED", 16, 19, &umr_bitfield_default },
+	 { "NEGOTIATED_LINK_WIDTH", 20, 25, &umr_bitfield_default },
+	 { "LINK_TRAINING", 27, 27, &umr_bitfield_default },
+	 { "SLOT_CLOCK_CFG", 28, 28, &umr_bitfield_default },
+	 { "DL_ACTIVE", 29, 29, &umr_bitfield_default },
+	 { "LINK_BW_MANAGEMENT_STATUS", 30, 30, &umr_bitfield_default },
+	 { "LINK_AUTONOMOUS_BW_STATUS", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F4_SLOT_CAP[] = {
 	 { "ATTN_BUTTON_PRESENT", 0, 0, &umr_bitfield_default },
@@ -11943,17 +11943,6 @@ static struct umr_bitfield ixD2F4_SLOT_CAP[] = {
 	 { "NO_COMMAND_COMPLETED_SUPPORTED", 18, 18, &umr_bitfield_default },
 	 { "PHYSICAL_SLOT_NUM", 19, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F4_SLOT_STATUS[] = {
-	 { "ATTN_BUTTON_PRESSED", 16, 16, &umr_bitfield_default },
-	 { "PWR_FAULT_DETECTED", 17, 17, &umr_bitfield_default },
-	 { "MRL_SENSOR_CHANGED", 18, 18, &umr_bitfield_default },
-	 { "PRESENCE_DETECT_CHANGED", 19, 19, &umr_bitfield_default },
-	 { "COMMAND_COMPLETED", 20, 20, &umr_bitfield_default },
-	 { "MRL_SENSOR_STATE", 21, 21, &umr_bitfield_default },
-	 { "PRESENCE_DETECT_STATE", 22, 22, &umr_bitfield_default },
-	 { "ELECTROMECH_INTERLOCK_STATUS", 23, 23, &umr_bitfield_default },
-	 { "DL_STATE_CHANGED", 24, 24, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F4_SLOT_CNTL[] = {
 	 { "ATTN_BUTTON_PRESSED_EN", 0, 0, &umr_bitfield_default },
 	 { "PWR_FAULT_DETECTED_EN", 1, 1, &umr_bitfield_default },
@@ -11967,15 +11956,26 @@ static struct umr_bitfield ixD2F4_SLOT_CNTL[] = {
 	 { "ELECTROMECH_INTERLOCK_CNTL", 11, 11, &umr_bitfield_default },
 	 { "DL_STATE_CHANGED_EN", 12, 12, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F4_SLOT_STATUS[] = {
+	 { "ATTN_BUTTON_PRESSED", 16, 16, &umr_bitfield_default },
+	 { "PWR_FAULT_DETECTED", 17, 17, &umr_bitfield_default },
+	 { "MRL_SENSOR_CHANGED", 18, 18, &umr_bitfield_default },
+	 { "PRESENCE_DETECT_CHANGED", 19, 19, &umr_bitfield_default },
+	 { "COMMAND_COMPLETED", 20, 20, &umr_bitfield_default },
+	 { "MRL_SENSOR_STATE", 21, 21, &umr_bitfield_default },
+	 { "PRESENCE_DETECT_STATE", 22, 22, &umr_bitfield_default },
+	 { "ELECTROMECH_INTERLOCK_STATUS", 23, 23, &umr_bitfield_default },
+	 { "DL_STATE_CHANGED", 24, 24, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F4_ROOT_CAP[] = {
+	 { "CRS_SOFTWARE_VISIBILITY", 16, 16, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F4_ROOT_CNTL[] = {
 	 { "SERR_ON_CORR_ERR_EN", 0, 0, &umr_bitfield_default },
 	 { "SERR_ON_NONFATAL_ERR_EN", 1, 1, &umr_bitfield_default },
 	 { "SERR_ON_FATAL_ERR_EN", 2, 2, &umr_bitfield_default },
 	 { "PM_INTERRUPT_EN", 3, 3, &umr_bitfield_default },
 	 { "CRS_SOFTWARE_VISIBILITY_EN", 4, 4, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F4_ROOT_CAP[] = {
-	 { "CRS_SOFTWARE_VISIBILITY", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F4_ROOT_STATUS[] = {
 	 { "PME_REQUESTOR_ID", 0, 15, &umr_bitfield_default },
@@ -11998,9 +11998,6 @@ static struct umr_bitfield ixD2F4_DEVICE_CAP2[] = {
 	 { "END_END_TLP_PREFIX_SUPPORTED", 21, 21, &umr_bitfield_default },
 	 { "MAX_END_END_TLP_PREFIXES", 22, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F4_DEVICE_STATUS2[] = {
-	 { "RESERVED", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F4_DEVICE_CNTL2[] = {
 	 { "CPL_TIMEOUT_VALUE", 0, 3, &umr_bitfield_default },
 	 { "CPL_TIMEOUT_DIS", 4, 4, &umr_bitfield_default },
@@ -12013,18 +12010,13 @@ static struct umr_bitfield ixD2F4_DEVICE_CNTL2[] = {
 	 { "OBFF_EN", 13, 14, &umr_bitfield_default },
 	 { "END_END_TLP_PREFIX_BLOCKING", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F4_DEVICE_STATUS2[] = {
+	 { "RESERVED", 16, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F4_LINK_CAP2[] = {
 	 { "SUPPORTED_LINK_SPEED", 1, 7, &umr_bitfield_default },
 	 { "CROSSLINK_SUPPORTED", 8, 8, &umr_bitfield_default },
 	 { "RESERVED", 9, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F4_LINK_STATUS2[] = {
-	 { "CUR_DEEMPHASIS_LEVEL", 16, 16, &umr_bitfield_default },
-	 { "EQUALIZATION_COMPLETE", 17, 17, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE1_SUCCESS", 18, 18, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE2_SUCCESS", 19, 19, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE3_SUCCESS", 20, 20, &umr_bitfield_default },
-	 { "LINK_EQUALIZATION_REQUEST", 21, 21, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F4_LINK_CNTL2[] = {
 	 { "TARGET_LINK_SPEED", 0, 3, &umr_bitfield_default },
@@ -12036,14 +12028,22 @@ static struct umr_bitfield ixD2F4_LINK_CNTL2[] = {
 	 { "COMPLIANCE_SOS", 11, 11, &umr_bitfield_default },
 	 { "COMPLIANCE_DEEMPHASIS", 12, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F4_LINK_STATUS2[] = {
+	 { "CUR_DEEMPHASIS_LEVEL", 16, 16, &umr_bitfield_default },
+	 { "EQUALIZATION_COMPLETE", 17, 17, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE1_SUCCESS", 18, 18, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE2_SUCCESS", 19, 19, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE3_SUCCESS", 20, 20, &umr_bitfield_default },
+	 { "LINK_EQUALIZATION_REQUEST", 21, 21, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F4_SLOT_CAP2[] = {
 	 { "RESERVED", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F4_SLOT_STATUS2[] = {
-	 { "RESERVED", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F4_SLOT_CNTL2[] = {
 	 { "RESERVED", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F4_SLOT_STATUS2[] = {
+	 { "RESERVED", 16, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F4_MSI_CAP_LIST[] = {
 	 { "CAP_ID", 0, 7, &umr_bitfield_default },
@@ -12052,11 +12052,11 @@ static struct umr_bitfield ixD2F4_MSI_CAP_LIST[] = {
 static struct umr_bitfield ixD2F4_MSI_MSG_ADDR_LO[] = {
 	 { "MSI_MSG_ADDR_LO", 2, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F4_MSI_MSG_ADDR_HI[] = {
-	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F4_MSI_MSG_DATA[] = {
 	 { "MSI_DATA", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F4_MSI_MSG_ADDR_HI[] = {
+	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F4_MSI_MSG_DATA_64[] = {
 	 { "MSI_DATA_64", 0, 15, &umr_bitfield_default },
@@ -12069,14 +12069,14 @@ static struct umr_bitfield ixD2F4_SSID_CAP[] = {
 	 { "SUBSYSTEM_VENDOR_ID", 0, 15, &umr_bitfield_default },
 	 { "SUBSYSTEM_ID", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F4_MSI_MAP_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F4_MSI_MAP_CAP[] = {
 	 { "EN", 16, 16, &umr_bitfield_default },
 	 { "FIXD", 17, 17, &umr_bitfield_default },
 	 { "CAP_TYPE", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F4_MSI_MAP_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F4_MSI_MAP_ADDR_LO[] = {
 	 { "MSI_MAP_ADDR_LO", 20, 31, &umr_bitfield_default },
@@ -12121,12 +12121,12 @@ static struct umr_bitfield ixD2F4_PCIE_PORT_VC_CAP_REG2[] = {
 	 { "VC_ARB_CAP", 0, 7, &umr_bitfield_default },
 	 { "VC_ARB_TABLE_OFFSET", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F4_PCIE_PORT_VC_STATUS[] = {
-	 { "VC_ARB_TABLE_STATUS", 16, 16, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F4_PCIE_PORT_VC_CNTL[] = {
 	 { "LOAD_VC_ARB_TABLE", 0, 0, &umr_bitfield_default },
 	 { "VC_ARB_SELECT", 1, 3, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F4_PCIE_PORT_VC_STATUS[] = {
+	 { "VC_ARB_TABLE_STATUS", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F4_PCIE_VC0_RESOURCE_CAP[] = {
 	 { "PORT_ARB_CAP", 0, 7, &umr_bitfield_default },
@@ -12382,15 +12382,6 @@ static struct umr_bitfield ixD2F4_PCIE_ACS_ENH_CAP_LIST[] = {
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F4_PCIE_ACS_CNTL[] = {
-	 { "SOURCE_VALIDATION_EN", 16, 16, &umr_bitfield_default },
-	 { "TRANSLATION_BLOCKING_EN", 17, 17, &umr_bitfield_default },
-	 { "P2P_REQUEST_REDIRECT_EN", 18, 18, &umr_bitfield_default },
-	 { "P2P_COMPLETION_REDIRECT_EN", 19, 19, &umr_bitfield_default },
-	 { "UPSTREAM_FORWARDING_EN", 20, 20, &umr_bitfield_default },
-	 { "P2P_EGRESS_CONTROL_EN", 21, 21, &umr_bitfield_default },
-	 { "DIRECT_TRANSLATED_P2P_EN", 22, 22, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F4_PCIE_ACS_CAP[] = {
 	 { "SOURCE_VALIDATION", 0, 0, &umr_bitfield_default },
 	 { "TRANSLATION_BLOCKING", 1, 1, &umr_bitfield_default },
@@ -12401,18 +12392,27 @@ static struct umr_bitfield ixD2F4_PCIE_ACS_CAP[] = {
 	 { "DIRECT_TRANSLATED_P2P", 6, 6, &umr_bitfield_default },
 	 { "EGRESS_CONTROL_VECTOR_SIZE", 8, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F4_PCIE_ACS_CNTL[] = {
+	 { "SOURCE_VALIDATION_EN", 16, 16, &umr_bitfield_default },
+	 { "TRANSLATION_BLOCKING_EN", 17, 17, &umr_bitfield_default },
+	 { "P2P_REQUEST_REDIRECT_EN", 18, 18, &umr_bitfield_default },
+	 { "P2P_COMPLETION_REDIRECT_EN", 19, 19, &umr_bitfield_default },
+	 { "UPSTREAM_FORWARDING_EN", 20, 20, &umr_bitfield_default },
+	 { "P2P_EGRESS_CONTROL_EN", 21, 21, &umr_bitfield_default },
+	 { "DIRECT_TRANSLATED_P2P_EN", 22, 22, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F4_PCIE_MC_ENH_CAP_LIST[] = {
 	 { "CAP_ID", 0, 15, &umr_bitfield_default },
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F4_PCIE_MC_CNTL[] = {
-	 { "MC_NUM_GROUP", 16, 21, &umr_bitfield_default },
-	 { "MC_ENABLE", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F4_PCIE_MC_CAP[] = {
 	 { "MC_MAX_GROUP", 0, 5, &umr_bitfield_default },
 	 { "MC_ECRC_REGEN_SUPP", 15, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F4_PCIE_MC_CNTL[] = {
+	 { "MC_NUM_GROUP", 16, 21, &umr_bitfield_default },
+	 { "MC_ENABLE", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F4_PCIE_MC_ADDR0[] = {
 	 { "MC_INDEX_POS", 0, 5, &umr_bitfield_default },
@@ -12611,19 +12611,6 @@ static struct umr_bitfield ixD2F1_PCIE_FC_P[] = {
 static struct umr_bitfield ixD2F5_VENDOR_ID[] = {
 	 { "VENDOR_ID", 0, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F5_COMMAND[] = {
-	 { "IO_ACCESS_EN", 0, 0, &umr_bitfield_default },
-	 { "MEM_ACCESS_EN", 1, 1, &umr_bitfield_default },
-	 { "BUS_MASTER_EN", 2, 2, &umr_bitfield_default },
-	 { "SPECIAL_CYCLE_EN", 3, 3, &umr_bitfield_default },
-	 { "MEM_WRITE_INVALIDATE_EN", 4, 4, &umr_bitfield_default },
-	 { "PAL_SNOOP_EN", 5, 5, &umr_bitfield_default },
-	 { "PARITY_ERROR_RESPONSE", 6, 6, &umr_bitfield_default },
-	 { "AD_STEPPING", 7, 7, &umr_bitfield_default },
-	 { "SERR_EN", 8, 8, &umr_bitfield_default },
-	 { "FAST_B2B_EN", 9, 9, &umr_bitfield_default },
-	 { "INT_DIS", 10, 10, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F5_STATUS[] = {
 	 { "INT_STATUS", 19, 19, &umr_bitfield_default },
 	 { "CAP_LIST", 20, 20, &umr_bitfield_default },
@@ -12637,39 +12624,58 @@ static struct umr_bitfield ixD2F5_STATUS[] = {
 	 { "SIGNALED_SYSTEM_ERROR", 30, 30, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F5_PROG_INTERFACE[] = {
-	 { "PROG_INTERFACE", 8, 15, &umr_bitfield_default },
+static struct umr_bitfield ixD2F5_COMMAND[] = {
+	 { "IO_ACCESS_EN", 0, 0, &umr_bitfield_default },
+	 { "MEM_ACCESS_EN", 1, 1, &umr_bitfield_default },
+	 { "BUS_MASTER_EN", 2, 2, &umr_bitfield_default },
+	 { "SPECIAL_CYCLE_EN", 3, 3, &umr_bitfield_default },
+	 { "MEM_WRITE_INVALIDATE_EN", 4, 4, &umr_bitfield_default },
+	 { "PAL_SNOOP_EN", 5, 5, &umr_bitfield_default },
+	 { "PARITY_ERROR_RESPONSE", 6, 6, &umr_bitfield_default },
+	 { "AD_STEPPING", 7, 7, &umr_bitfield_default },
+	 { "SERR_EN", 8, 8, &umr_bitfield_default },
+	 { "FAST_B2B_EN", 9, 9, &umr_bitfield_default },
+	 { "INT_DIS", 10, 10, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F5_SUB_CLASS[] = {
+	 { "SUB_CLASS", 16, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F5_BASE_CLASS[] = {
+	 { "BASE_CLASS", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F5_REVISION_ID[] = {
 	 { "MINOR_REV_ID", 0, 3, &umr_bitfield_default },
 	 { "MAJOR_REV_ID", 4, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F5_BASE_CLASS[] = {
-	 { "BASE_CLASS", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F5_SUB_CLASS[] = {
-	 { "SUB_CLASS", 16, 23, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F5_CACHE_LINE[] = {
-	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F5_LATENCY[] = {
-	 { "LATENCY_TIMER", 8, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F5_HEADER[] = {
-	 { "HEADER_TYPE", 16, 22, &umr_bitfield_default },
-	 { "DEVICE_TYPE", 23, 23, &umr_bitfield_default },
+static struct umr_bitfield ixD2F5_PROG_INTERFACE[] = {
+	 { "PROG_INTERFACE", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F5_BIST[] = {
 	 { "BIST_COMP", 24, 27, &umr_bitfield_default },
 	 { "BIST_STRT", 30, 30, &umr_bitfield_default },
 	 { "BIST_CAP", 31, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F5_HEADER[] = {
+	 { "HEADER_TYPE", 16, 22, &umr_bitfield_default },
+	 { "DEVICE_TYPE", 23, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F5_LATENCY[] = {
+	 { "LATENCY_TIMER", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F5_CACHE_LINE[] = {
+	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F5_SUB_BUS_NUMBER_LATENCY[] = {
 	 { "PRIMARY_BUS", 0, 7, &umr_bitfield_default },
 	 { "SECONDARY_BUS", 8, 15, &umr_bitfield_default },
 	 { "SUB_BUS_NUM", 16, 23, &umr_bitfield_default },
 	 { "SECONDARY_LATENCY_TIMER", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F5_IO_BASE_LIMIT[] = {
+	 { "IO_BASE_TYPE", 0, 3, &umr_bitfield_default },
+	 { "IO_BASE", 4, 7, &umr_bitfield_default },
+	 { "IO_LIMIT_TYPE", 8, 11, &umr_bitfield_default },
+	 { "IO_LIMIT", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F5_SECONDARY_STATUS[] = {
 	 { "CAP_LIST", 20, 20, &umr_bitfield_default },
@@ -12682,12 +12688,6 @@ static struct umr_bitfield ixD2F5_SECONDARY_STATUS[] = {
 	 { "RECEIVED_MASTER_ABORT", 29, 29, &umr_bitfield_default },
 	 { "RECEIVED_SYSTEM_ERROR", 30, 30, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 31, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F5_IO_BASE_LIMIT[] = {
-	 { "IO_BASE_TYPE", 0, 3, &umr_bitfield_default },
-	 { "IO_BASE", 4, 7, &umr_bitfield_default },
-	 { "IO_LIMIT_TYPE", 8, 11, &umr_bitfield_default },
-	 { "IO_LIMIT", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F5_MEM_BASE_LIMIT[] = {
 	 { "MEM_BASE_TYPE", 0, 3, &umr_bitfield_default },
@@ -12714,6 +12714,12 @@ static struct umr_bitfield ixD2F5_IO_BASE_LIMIT_HI[] = {
 static struct umr_bitfield ixD2F5_CAP_PTR[] = {
 	 { "CAP_PTR", 0, 7, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F5_INTERRUPT_PIN[] = {
+	 { "INTERRUPT_PIN", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F5_INTERRUPT_LINE[] = {
+	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F5_IRQ_BRIDGE_CNTL[] = {
 	 { "PARITY_RESPONSE_EN", 16, 16, &umr_bitfield_default },
 	 { "SERR_EN", 17, 17, &umr_bitfield_default },
@@ -12724,18 +12730,8 @@ static struct umr_bitfield ixD2F5_IRQ_BRIDGE_CNTL[] = {
 	 { "SECONDARY_BUS_RESET", 22, 22, &umr_bitfield_default },
 	 { "FAST_B2B_EN", 23, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F5_INTERRUPT_LINE[] = {
-	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F5_INTERRUPT_PIN[] = {
-	 { "INTERRUPT_PIN", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F5_EXT_BRIDGE_CNTL[] = {
 	 { "IO_PORT_80_EN", 0, 0, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F5_PMI_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F5_PMI_CAP[] = {
 	 { "VERSION", 16, 18, &umr_bitfield_default },
@@ -12745,6 +12741,10 @@ static struct umr_bitfield ixD2F5_PMI_CAP[] = {
 	 { "D1_SUPPORT", 25, 25, &umr_bitfield_default },
 	 { "D2_SUPPORT", 26, 26, &umr_bitfield_default },
 	 { "PME_SUPPORT", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F5_PMI_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F5_PMI_STATUS_CNTL[] = {
 	 { "POWER_STATE", 0, 1, &umr_bitfield_default },
@@ -12757,15 +12757,15 @@ static struct umr_bitfield ixD2F5_PMI_STATUS_CNTL[] = {
 	 { "BUS_PWR_EN", 23, 23, &umr_bitfield_default },
 	 { "PMI_DATA", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F5_PCIE_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F5_PCIE_CAP[] = {
 	 { "VERSION", 16, 19, &umr_bitfield_default },
 	 { "DEVICE_TYPE", 20, 23, &umr_bitfield_default },
 	 { "SLOT_IMPLEMENTED", 24, 24, &umr_bitfield_default },
 	 { "INT_MESSAGE_NUM", 25, 29, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F5_PCIE_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F5_DEVICE_CAP[] = {
 	 { "MAX_PAYLOAD_SUPPORT", 0, 2, &umr_bitfield_default },
@@ -12777,14 +12777,6 @@ static struct umr_bitfield ixD2F5_DEVICE_CAP[] = {
 	 { "CAPTURED_SLOT_POWER_LIMIT", 18, 25, &umr_bitfield_default },
 	 { "CAPTURED_SLOT_POWER_SCALE", 26, 27, &umr_bitfield_default },
 	 { "FLR_CAPABLE", 28, 28, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F5_DEVICE_STATUS[] = {
-	 { "CORR_ERR", 16, 16, &umr_bitfield_default },
-	 { "NON_FATAL_ERR", 17, 17, &umr_bitfield_default },
-	 { "FATAL_ERR", 18, 18, &umr_bitfield_default },
-	 { "USR_DETECTED", 19, 19, &umr_bitfield_default },
-	 { "AUX_PWR", 20, 20, &umr_bitfield_default },
-	 { "TRANSACTIONS_PEND", 21, 21, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F5_DEVICE_CNTL[] = {
 	 { "CORR_ERR_EN", 0, 0, &umr_bitfield_default },
@@ -12800,6 +12792,14 @@ static struct umr_bitfield ixD2F5_DEVICE_CNTL[] = {
 	 { "MAX_READ_REQUEST_SIZE", 12, 14, &umr_bitfield_default },
 	 { "BRIDGE_CFG_RETRY_EN", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F5_DEVICE_STATUS[] = {
+	 { "CORR_ERR", 16, 16, &umr_bitfield_default },
+	 { "NON_FATAL_ERR", 17, 17, &umr_bitfield_default },
+	 { "FATAL_ERR", 18, 18, &umr_bitfield_default },
+	 { "USR_DETECTED", 19, 19, &umr_bitfield_default },
+	 { "AUX_PWR", 20, 20, &umr_bitfield_default },
+	 { "TRANSACTIONS_PEND", 21, 21, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F5_LINK_CAP[] = {
 	 { "LINK_SPEED", 0, 3, &umr_bitfield_default },
 	 { "LINK_WIDTH", 4, 9, &umr_bitfield_default },
@@ -12813,15 +12813,6 @@ static struct umr_bitfield ixD2F5_LINK_CAP[] = {
 	 { "ASPM_OPTIONALITY_COMPLIANCE", 22, 22, &umr_bitfield_default },
 	 { "PORT_NUMBER", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F5_LINK_STATUS[] = {
-	 { "CURRENT_LINK_SPEED", 16, 19, &umr_bitfield_default },
-	 { "NEGOTIATED_LINK_WIDTH", 20, 25, &umr_bitfield_default },
-	 { "LINK_TRAINING", 27, 27, &umr_bitfield_default },
-	 { "SLOT_CLOCK_CFG", 28, 28, &umr_bitfield_default },
-	 { "DL_ACTIVE", 29, 29, &umr_bitfield_default },
-	 { "LINK_BW_MANAGEMENT_STATUS", 30, 30, &umr_bitfield_default },
-	 { "LINK_AUTONOMOUS_BW_STATUS", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F5_LINK_CNTL[] = {
 	 { "PM_CONTROL", 0, 1, &umr_bitfield_default },
 	 { "READ_CPL_BOUNDARY", 3, 3, &umr_bitfield_default },
@@ -12833,6 +12824,15 @@ static struct umr_bitfield ixD2F5_LINK_CNTL[] = {
 	 { "HW_AUTONOMOUS_WIDTH_DISABLE", 9, 9, &umr_bitfield_default },
 	 { "LINK_BW_MANAGEMENT_INT_EN", 10, 10, &umr_bitfield_default },
 	 { "LINK_AUTONOMOUS_BW_INT_EN", 11, 11, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F5_LINK_STATUS[] = {
+	 { "CURRENT_LINK_SPEED", 16, 19, &umr_bitfield_default },
+	 { "NEGOTIATED_LINK_WIDTH", 20, 25, &umr_bitfield_default },
+	 { "LINK_TRAINING", 27, 27, &umr_bitfield_default },
+	 { "SLOT_CLOCK_CFG", 28, 28, &umr_bitfield_default },
+	 { "DL_ACTIVE", 29, 29, &umr_bitfield_default },
+	 { "LINK_BW_MANAGEMENT_STATUS", 30, 30, &umr_bitfield_default },
+	 { "LINK_AUTONOMOUS_BW_STATUS", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F5_SLOT_CAP[] = {
 	 { "ATTN_BUTTON_PRESENT", 0, 0, &umr_bitfield_default },
@@ -12848,17 +12848,6 @@ static struct umr_bitfield ixD2F5_SLOT_CAP[] = {
 	 { "NO_COMMAND_COMPLETED_SUPPORTED", 18, 18, &umr_bitfield_default },
 	 { "PHYSICAL_SLOT_NUM", 19, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F5_SLOT_STATUS[] = {
-	 { "ATTN_BUTTON_PRESSED", 16, 16, &umr_bitfield_default },
-	 { "PWR_FAULT_DETECTED", 17, 17, &umr_bitfield_default },
-	 { "MRL_SENSOR_CHANGED", 18, 18, &umr_bitfield_default },
-	 { "PRESENCE_DETECT_CHANGED", 19, 19, &umr_bitfield_default },
-	 { "COMMAND_COMPLETED", 20, 20, &umr_bitfield_default },
-	 { "MRL_SENSOR_STATE", 21, 21, &umr_bitfield_default },
-	 { "PRESENCE_DETECT_STATE", 22, 22, &umr_bitfield_default },
-	 { "ELECTROMECH_INTERLOCK_STATUS", 23, 23, &umr_bitfield_default },
-	 { "DL_STATE_CHANGED", 24, 24, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F5_SLOT_CNTL[] = {
 	 { "ATTN_BUTTON_PRESSED_EN", 0, 0, &umr_bitfield_default },
 	 { "PWR_FAULT_DETECTED_EN", 1, 1, &umr_bitfield_default },
@@ -12872,15 +12861,26 @@ static struct umr_bitfield ixD2F5_SLOT_CNTL[] = {
 	 { "ELECTROMECH_INTERLOCK_CNTL", 11, 11, &umr_bitfield_default },
 	 { "DL_STATE_CHANGED_EN", 12, 12, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F5_SLOT_STATUS[] = {
+	 { "ATTN_BUTTON_PRESSED", 16, 16, &umr_bitfield_default },
+	 { "PWR_FAULT_DETECTED", 17, 17, &umr_bitfield_default },
+	 { "MRL_SENSOR_CHANGED", 18, 18, &umr_bitfield_default },
+	 { "PRESENCE_DETECT_CHANGED", 19, 19, &umr_bitfield_default },
+	 { "COMMAND_COMPLETED", 20, 20, &umr_bitfield_default },
+	 { "MRL_SENSOR_STATE", 21, 21, &umr_bitfield_default },
+	 { "PRESENCE_DETECT_STATE", 22, 22, &umr_bitfield_default },
+	 { "ELECTROMECH_INTERLOCK_STATUS", 23, 23, &umr_bitfield_default },
+	 { "DL_STATE_CHANGED", 24, 24, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F5_ROOT_CAP[] = {
+	 { "CRS_SOFTWARE_VISIBILITY", 16, 16, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F5_ROOT_CNTL[] = {
 	 { "SERR_ON_CORR_ERR_EN", 0, 0, &umr_bitfield_default },
 	 { "SERR_ON_NONFATAL_ERR_EN", 1, 1, &umr_bitfield_default },
 	 { "SERR_ON_FATAL_ERR_EN", 2, 2, &umr_bitfield_default },
 	 { "PM_INTERRUPT_EN", 3, 3, &umr_bitfield_default },
 	 { "CRS_SOFTWARE_VISIBILITY_EN", 4, 4, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F5_ROOT_CAP[] = {
-	 { "CRS_SOFTWARE_VISIBILITY", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F5_ROOT_STATUS[] = {
 	 { "PME_REQUESTOR_ID", 0, 15, &umr_bitfield_default },
@@ -12903,9 +12903,6 @@ static struct umr_bitfield ixD2F5_DEVICE_CAP2[] = {
 	 { "END_END_TLP_PREFIX_SUPPORTED", 21, 21, &umr_bitfield_default },
 	 { "MAX_END_END_TLP_PREFIXES", 22, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F5_DEVICE_STATUS2[] = {
-	 { "RESERVED", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F5_DEVICE_CNTL2[] = {
 	 { "CPL_TIMEOUT_VALUE", 0, 3, &umr_bitfield_default },
 	 { "CPL_TIMEOUT_DIS", 4, 4, &umr_bitfield_default },
@@ -12918,18 +12915,13 @@ static struct umr_bitfield ixD2F5_DEVICE_CNTL2[] = {
 	 { "OBFF_EN", 13, 14, &umr_bitfield_default },
 	 { "END_END_TLP_PREFIX_BLOCKING", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F5_DEVICE_STATUS2[] = {
+	 { "RESERVED", 16, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F5_LINK_CAP2[] = {
 	 { "SUPPORTED_LINK_SPEED", 1, 7, &umr_bitfield_default },
 	 { "CROSSLINK_SUPPORTED", 8, 8, &umr_bitfield_default },
 	 { "RESERVED", 9, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD2F5_LINK_STATUS2[] = {
-	 { "CUR_DEEMPHASIS_LEVEL", 16, 16, &umr_bitfield_default },
-	 { "EQUALIZATION_COMPLETE", 17, 17, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE1_SUCCESS", 18, 18, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE2_SUCCESS", 19, 19, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE3_SUCCESS", 20, 20, &umr_bitfield_default },
-	 { "LINK_EQUALIZATION_REQUEST", 21, 21, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F5_LINK_CNTL2[] = {
 	 { "TARGET_LINK_SPEED", 0, 3, &umr_bitfield_default },
@@ -12941,14 +12933,22 @@ static struct umr_bitfield ixD2F5_LINK_CNTL2[] = {
 	 { "COMPLIANCE_SOS", 11, 11, &umr_bitfield_default },
 	 { "COMPLIANCE_DEEMPHASIS", 12, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F5_LINK_STATUS2[] = {
+	 { "CUR_DEEMPHASIS_LEVEL", 16, 16, &umr_bitfield_default },
+	 { "EQUALIZATION_COMPLETE", 17, 17, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE1_SUCCESS", 18, 18, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE2_SUCCESS", 19, 19, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE3_SUCCESS", 20, 20, &umr_bitfield_default },
+	 { "LINK_EQUALIZATION_REQUEST", 21, 21, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F5_SLOT_CAP2[] = {
 	 { "RESERVED", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F5_SLOT_STATUS2[] = {
-	 { "RESERVED", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F5_SLOT_CNTL2[] = {
 	 { "RESERVED", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F5_SLOT_STATUS2[] = {
+	 { "RESERVED", 16, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F5_MSI_CAP_LIST[] = {
 	 { "CAP_ID", 0, 7, &umr_bitfield_default },
@@ -12957,11 +12957,11 @@ static struct umr_bitfield ixD2F5_MSI_CAP_LIST[] = {
 static struct umr_bitfield ixD2F5_MSI_MSG_ADDR_LO[] = {
 	 { "MSI_MSG_ADDR_LO", 2, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F5_MSI_MSG_ADDR_HI[] = {
-	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F5_MSI_MSG_DATA[] = {
 	 { "MSI_DATA", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F5_MSI_MSG_ADDR_HI[] = {
+	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F5_MSI_MSG_DATA_64[] = {
 	 { "MSI_DATA_64", 0, 15, &umr_bitfield_default },
@@ -12974,14 +12974,14 @@ static struct umr_bitfield ixD2F5_SSID_CAP[] = {
 	 { "SUBSYSTEM_VENDOR_ID", 0, 15, &umr_bitfield_default },
 	 { "SUBSYSTEM_ID", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F5_MSI_MAP_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F5_MSI_MAP_CAP[] = {
 	 { "EN", 16, 16, &umr_bitfield_default },
 	 { "FIXD", 17, 17, &umr_bitfield_default },
 	 { "CAP_TYPE", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F5_MSI_MAP_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F5_MSI_MAP_ADDR_LO[] = {
 	 { "MSI_MAP_ADDR_LO", 20, 31, &umr_bitfield_default },
@@ -13026,12 +13026,12 @@ static struct umr_bitfield ixD2F5_PCIE_PORT_VC_CAP_REG2[] = {
 	 { "VC_ARB_CAP", 0, 7, &umr_bitfield_default },
 	 { "VC_ARB_TABLE_OFFSET", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F5_PCIE_PORT_VC_STATUS[] = {
-	 { "VC_ARB_TABLE_STATUS", 16, 16, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F5_PCIE_PORT_VC_CNTL[] = {
 	 { "LOAD_VC_ARB_TABLE", 0, 0, &umr_bitfield_default },
 	 { "VC_ARB_SELECT", 1, 3, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F5_PCIE_PORT_VC_STATUS[] = {
+	 { "VC_ARB_TABLE_STATUS", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F5_PCIE_VC0_RESOURCE_CAP[] = {
 	 { "PORT_ARB_CAP", 0, 7, &umr_bitfield_default },
@@ -13287,15 +13287,6 @@ static struct umr_bitfield ixD2F5_PCIE_ACS_ENH_CAP_LIST[] = {
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F5_PCIE_ACS_CNTL[] = {
-	 { "SOURCE_VALIDATION_EN", 16, 16, &umr_bitfield_default },
-	 { "TRANSLATION_BLOCKING_EN", 17, 17, &umr_bitfield_default },
-	 { "P2P_REQUEST_REDIRECT_EN", 18, 18, &umr_bitfield_default },
-	 { "P2P_COMPLETION_REDIRECT_EN", 19, 19, &umr_bitfield_default },
-	 { "UPSTREAM_FORWARDING_EN", 20, 20, &umr_bitfield_default },
-	 { "P2P_EGRESS_CONTROL_EN", 21, 21, &umr_bitfield_default },
-	 { "DIRECT_TRANSLATED_P2P_EN", 22, 22, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F5_PCIE_ACS_CAP[] = {
 	 { "SOURCE_VALIDATION", 0, 0, &umr_bitfield_default },
 	 { "TRANSLATION_BLOCKING", 1, 1, &umr_bitfield_default },
@@ -13306,18 +13297,27 @@ static struct umr_bitfield ixD2F5_PCIE_ACS_CAP[] = {
 	 { "DIRECT_TRANSLATED_P2P", 6, 6, &umr_bitfield_default },
 	 { "EGRESS_CONTROL_VECTOR_SIZE", 8, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F5_PCIE_ACS_CNTL[] = {
+	 { "SOURCE_VALIDATION_EN", 16, 16, &umr_bitfield_default },
+	 { "TRANSLATION_BLOCKING_EN", 17, 17, &umr_bitfield_default },
+	 { "P2P_REQUEST_REDIRECT_EN", 18, 18, &umr_bitfield_default },
+	 { "P2P_COMPLETION_REDIRECT_EN", 19, 19, &umr_bitfield_default },
+	 { "UPSTREAM_FORWARDING_EN", 20, 20, &umr_bitfield_default },
+	 { "P2P_EGRESS_CONTROL_EN", 21, 21, &umr_bitfield_default },
+	 { "DIRECT_TRANSLATED_P2P_EN", 22, 22, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F5_PCIE_MC_ENH_CAP_LIST[] = {
 	 { "CAP_ID", 0, 15, &umr_bitfield_default },
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F5_PCIE_MC_CNTL[] = {
-	 { "MC_NUM_GROUP", 16, 21, &umr_bitfield_default },
-	 { "MC_ENABLE", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F5_PCIE_MC_CAP[] = {
 	 { "MC_MAX_GROUP", 0, 5, &umr_bitfield_default },
 	 { "MC_ECRC_REGEN_SUPP", 15, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F5_PCIE_MC_CNTL[] = {
+	 { "MC_NUM_GROUP", 16, 21, &umr_bitfield_default },
+	 { "MC_ENABLE", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F5_PCIE_MC_ADDR0[] = {
 	 { "MC_INDEX_POS", 0, 5, &umr_bitfield_default },
@@ -13355,12 +13355,12 @@ static struct umr_bitfield ixD2F1_PCIE_FC_NP[] = {
 	 { "NPD_CREDITS", 0, 7, &umr_bitfield_default },
 	 { "NPH_CREDITS", 8, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPCIE_TLP_PREFIX_LOG0[] = {
-	 { "TLP_PREFIX", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F1_PCIE_FC_CPL[] = {
 	 { "CPLD_CREDITS", 0, 7, &umr_bitfield_default },
 	 { "CPLH_CREDITS", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield mmPCIE_TLP_PREFIX_LOG0[] = {
+	 { "TLP_PREFIX", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmPCIE_TLP_PREFIX_LOG1[] = {
 	 { "TLP_PREFIX", 0, 31, &umr_bitfield_default },
@@ -13421,19 +13421,6 @@ static struct umr_bitfield ixD2F1_PCIE_RX_CNTL[] = {
 static struct umr_bitfield ixD3F1_VENDOR_ID[] = {
 	 { "VENDOR_ID", 0, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F1_COMMAND[] = {
-	 { "IO_ACCESS_EN", 0, 0, &umr_bitfield_default },
-	 { "MEM_ACCESS_EN", 1, 1, &umr_bitfield_default },
-	 { "BUS_MASTER_EN", 2, 2, &umr_bitfield_default },
-	 { "SPECIAL_CYCLE_EN", 3, 3, &umr_bitfield_default },
-	 { "MEM_WRITE_INVALIDATE_EN", 4, 4, &umr_bitfield_default },
-	 { "PAL_SNOOP_EN", 5, 5, &umr_bitfield_default },
-	 { "PARITY_ERROR_RESPONSE", 6, 6, &umr_bitfield_default },
-	 { "AD_STEPPING", 7, 7, &umr_bitfield_default },
-	 { "SERR_EN", 8, 8, &umr_bitfield_default },
-	 { "FAST_B2B_EN", 9, 9, &umr_bitfield_default },
-	 { "INT_DIS", 10, 10, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F1_STATUS[] = {
 	 { "INT_STATUS", 19, 19, &umr_bitfield_default },
 	 { "CAP_LIST", 20, 20, &umr_bitfield_default },
@@ -13447,39 +13434,58 @@ static struct umr_bitfield ixD3F1_STATUS[] = {
 	 { "SIGNALED_SYSTEM_ERROR", 30, 30, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F1_PROG_INTERFACE[] = {
-	 { "PROG_INTERFACE", 8, 15, &umr_bitfield_default },
+static struct umr_bitfield ixD3F1_COMMAND[] = {
+	 { "IO_ACCESS_EN", 0, 0, &umr_bitfield_default },
+	 { "MEM_ACCESS_EN", 1, 1, &umr_bitfield_default },
+	 { "BUS_MASTER_EN", 2, 2, &umr_bitfield_default },
+	 { "SPECIAL_CYCLE_EN", 3, 3, &umr_bitfield_default },
+	 { "MEM_WRITE_INVALIDATE_EN", 4, 4, &umr_bitfield_default },
+	 { "PAL_SNOOP_EN", 5, 5, &umr_bitfield_default },
+	 { "PARITY_ERROR_RESPONSE", 6, 6, &umr_bitfield_default },
+	 { "AD_STEPPING", 7, 7, &umr_bitfield_default },
+	 { "SERR_EN", 8, 8, &umr_bitfield_default },
+	 { "FAST_B2B_EN", 9, 9, &umr_bitfield_default },
+	 { "INT_DIS", 10, 10, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F1_SUB_CLASS[] = {
+	 { "SUB_CLASS", 16, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F1_BASE_CLASS[] = {
+	 { "BASE_CLASS", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F1_REVISION_ID[] = {
 	 { "MINOR_REV_ID", 0, 3, &umr_bitfield_default },
 	 { "MAJOR_REV_ID", 4, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F1_BASE_CLASS[] = {
-	 { "BASE_CLASS", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F1_SUB_CLASS[] = {
-	 { "SUB_CLASS", 16, 23, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F1_CACHE_LINE[] = {
-	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F1_LATENCY[] = {
-	 { "LATENCY_TIMER", 8, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F1_HEADER[] = {
-	 { "HEADER_TYPE", 16, 22, &umr_bitfield_default },
-	 { "DEVICE_TYPE", 23, 23, &umr_bitfield_default },
+static struct umr_bitfield ixD3F1_PROG_INTERFACE[] = {
+	 { "PROG_INTERFACE", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F1_BIST[] = {
 	 { "BIST_COMP", 24, 27, &umr_bitfield_default },
 	 { "BIST_STRT", 30, 30, &umr_bitfield_default },
 	 { "BIST_CAP", 31, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F1_HEADER[] = {
+	 { "HEADER_TYPE", 16, 22, &umr_bitfield_default },
+	 { "DEVICE_TYPE", 23, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F1_LATENCY[] = {
+	 { "LATENCY_TIMER", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F1_CACHE_LINE[] = {
+	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F1_SUB_BUS_NUMBER_LATENCY[] = {
 	 { "PRIMARY_BUS", 0, 7, &umr_bitfield_default },
 	 { "SECONDARY_BUS", 8, 15, &umr_bitfield_default },
 	 { "SUB_BUS_NUM", 16, 23, &umr_bitfield_default },
 	 { "SECONDARY_LATENCY_TIMER", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F1_IO_BASE_LIMIT[] = {
+	 { "IO_BASE_TYPE", 0, 3, &umr_bitfield_default },
+	 { "IO_BASE", 4, 7, &umr_bitfield_default },
+	 { "IO_LIMIT_TYPE", 8, 11, &umr_bitfield_default },
+	 { "IO_LIMIT", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F1_SECONDARY_STATUS[] = {
 	 { "CAP_LIST", 20, 20, &umr_bitfield_default },
@@ -13492,12 +13498,6 @@ static struct umr_bitfield ixD3F1_SECONDARY_STATUS[] = {
 	 { "RECEIVED_MASTER_ABORT", 29, 29, &umr_bitfield_default },
 	 { "RECEIVED_SYSTEM_ERROR", 30, 30, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 31, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F1_IO_BASE_LIMIT[] = {
-	 { "IO_BASE_TYPE", 0, 3, &umr_bitfield_default },
-	 { "IO_BASE", 4, 7, &umr_bitfield_default },
-	 { "IO_LIMIT_TYPE", 8, 11, &umr_bitfield_default },
-	 { "IO_LIMIT", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F1_MEM_BASE_LIMIT[] = {
 	 { "MEM_BASE_TYPE", 0, 3, &umr_bitfield_default },
@@ -13524,6 +13524,12 @@ static struct umr_bitfield ixD3F1_IO_BASE_LIMIT_HI[] = {
 static struct umr_bitfield ixD3F1_CAP_PTR[] = {
 	 { "CAP_PTR", 0, 7, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F1_INTERRUPT_PIN[] = {
+	 { "INTERRUPT_PIN", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F1_INTERRUPT_LINE[] = {
+	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F1_IRQ_BRIDGE_CNTL[] = {
 	 { "PARITY_RESPONSE_EN", 16, 16, &umr_bitfield_default },
 	 { "SERR_EN", 17, 17, &umr_bitfield_default },
@@ -13534,18 +13540,8 @@ static struct umr_bitfield ixD3F1_IRQ_BRIDGE_CNTL[] = {
 	 { "SECONDARY_BUS_RESET", 22, 22, &umr_bitfield_default },
 	 { "FAST_B2B_EN", 23, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F1_INTERRUPT_LINE[] = {
-	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F1_INTERRUPT_PIN[] = {
-	 { "INTERRUPT_PIN", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F1_EXT_BRIDGE_CNTL[] = {
 	 { "IO_PORT_80_EN", 0, 0, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F1_PMI_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F1_PMI_CAP[] = {
 	 { "VERSION", 16, 18, &umr_bitfield_default },
@@ -13555,6 +13551,10 @@ static struct umr_bitfield ixD3F1_PMI_CAP[] = {
 	 { "D1_SUPPORT", 25, 25, &umr_bitfield_default },
 	 { "D2_SUPPORT", 26, 26, &umr_bitfield_default },
 	 { "PME_SUPPORT", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F1_PMI_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F1_PMI_STATUS_CNTL[] = {
 	 { "POWER_STATE", 0, 1, &umr_bitfield_default },
@@ -13567,15 +13567,15 @@ static struct umr_bitfield ixD3F1_PMI_STATUS_CNTL[] = {
 	 { "BUS_PWR_EN", 23, 23, &umr_bitfield_default },
 	 { "PMI_DATA", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F1_PCIE_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F1_PCIE_CAP[] = {
 	 { "VERSION", 16, 19, &umr_bitfield_default },
 	 { "DEVICE_TYPE", 20, 23, &umr_bitfield_default },
 	 { "SLOT_IMPLEMENTED", 24, 24, &umr_bitfield_default },
 	 { "INT_MESSAGE_NUM", 25, 29, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F1_PCIE_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F1_DEVICE_CAP[] = {
 	 { "MAX_PAYLOAD_SUPPORT", 0, 2, &umr_bitfield_default },
@@ -13587,14 +13587,6 @@ static struct umr_bitfield ixD3F1_DEVICE_CAP[] = {
 	 { "CAPTURED_SLOT_POWER_LIMIT", 18, 25, &umr_bitfield_default },
 	 { "CAPTURED_SLOT_POWER_SCALE", 26, 27, &umr_bitfield_default },
 	 { "FLR_CAPABLE", 28, 28, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F1_DEVICE_STATUS[] = {
-	 { "CORR_ERR", 16, 16, &umr_bitfield_default },
-	 { "NON_FATAL_ERR", 17, 17, &umr_bitfield_default },
-	 { "FATAL_ERR", 18, 18, &umr_bitfield_default },
-	 { "USR_DETECTED", 19, 19, &umr_bitfield_default },
-	 { "AUX_PWR", 20, 20, &umr_bitfield_default },
-	 { "TRANSACTIONS_PEND", 21, 21, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F1_DEVICE_CNTL[] = {
 	 { "CORR_ERR_EN", 0, 0, &umr_bitfield_default },
@@ -13610,6 +13602,14 @@ static struct umr_bitfield ixD3F1_DEVICE_CNTL[] = {
 	 { "MAX_READ_REQUEST_SIZE", 12, 14, &umr_bitfield_default },
 	 { "BRIDGE_CFG_RETRY_EN", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F1_DEVICE_STATUS[] = {
+	 { "CORR_ERR", 16, 16, &umr_bitfield_default },
+	 { "NON_FATAL_ERR", 17, 17, &umr_bitfield_default },
+	 { "FATAL_ERR", 18, 18, &umr_bitfield_default },
+	 { "USR_DETECTED", 19, 19, &umr_bitfield_default },
+	 { "AUX_PWR", 20, 20, &umr_bitfield_default },
+	 { "TRANSACTIONS_PEND", 21, 21, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F1_LINK_CAP[] = {
 	 { "LINK_SPEED", 0, 3, &umr_bitfield_default },
 	 { "LINK_WIDTH", 4, 9, &umr_bitfield_default },
@@ -13623,15 +13623,6 @@ static struct umr_bitfield ixD3F1_LINK_CAP[] = {
 	 { "ASPM_OPTIONALITY_COMPLIANCE", 22, 22, &umr_bitfield_default },
 	 { "PORT_NUMBER", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F1_LINK_STATUS[] = {
-	 { "CURRENT_LINK_SPEED", 16, 19, &umr_bitfield_default },
-	 { "NEGOTIATED_LINK_WIDTH", 20, 25, &umr_bitfield_default },
-	 { "LINK_TRAINING", 27, 27, &umr_bitfield_default },
-	 { "SLOT_CLOCK_CFG", 28, 28, &umr_bitfield_default },
-	 { "DL_ACTIVE", 29, 29, &umr_bitfield_default },
-	 { "LINK_BW_MANAGEMENT_STATUS", 30, 30, &umr_bitfield_default },
-	 { "LINK_AUTONOMOUS_BW_STATUS", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F1_LINK_CNTL[] = {
 	 { "PM_CONTROL", 0, 1, &umr_bitfield_default },
 	 { "READ_CPL_BOUNDARY", 3, 3, &umr_bitfield_default },
@@ -13643,6 +13634,15 @@ static struct umr_bitfield ixD3F1_LINK_CNTL[] = {
 	 { "HW_AUTONOMOUS_WIDTH_DISABLE", 9, 9, &umr_bitfield_default },
 	 { "LINK_BW_MANAGEMENT_INT_EN", 10, 10, &umr_bitfield_default },
 	 { "LINK_AUTONOMOUS_BW_INT_EN", 11, 11, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F1_LINK_STATUS[] = {
+	 { "CURRENT_LINK_SPEED", 16, 19, &umr_bitfield_default },
+	 { "NEGOTIATED_LINK_WIDTH", 20, 25, &umr_bitfield_default },
+	 { "LINK_TRAINING", 27, 27, &umr_bitfield_default },
+	 { "SLOT_CLOCK_CFG", 28, 28, &umr_bitfield_default },
+	 { "DL_ACTIVE", 29, 29, &umr_bitfield_default },
+	 { "LINK_BW_MANAGEMENT_STATUS", 30, 30, &umr_bitfield_default },
+	 { "LINK_AUTONOMOUS_BW_STATUS", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F1_SLOT_CAP[] = {
 	 { "ATTN_BUTTON_PRESENT", 0, 0, &umr_bitfield_default },
@@ -13658,17 +13658,6 @@ static struct umr_bitfield ixD3F1_SLOT_CAP[] = {
 	 { "NO_COMMAND_COMPLETED_SUPPORTED", 18, 18, &umr_bitfield_default },
 	 { "PHYSICAL_SLOT_NUM", 19, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F1_SLOT_STATUS[] = {
-	 { "ATTN_BUTTON_PRESSED", 16, 16, &umr_bitfield_default },
-	 { "PWR_FAULT_DETECTED", 17, 17, &umr_bitfield_default },
-	 { "MRL_SENSOR_CHANGED", 18, 18, &umr_bitfield_default },
-	 { "PRESENCE_DETECT_CHANGED", 19, 19, &umr_bitfield_default },
-	 { "COMMAND_COMPLETED", 20, 20, &umr_bitfield_default },
-	 { "MRL_SENSOR_STATE", 21, 21, &umr_bitfield_default },
-	 { "PRESENCE_DETECT_STATE", 22, 22, &umr_bitfield_default },
-	 { "ELECTROMECH_INTERLOCK_STATUS", 23, 23, &umr_bitfield_default },
-	 { "DL_STATE_CHANGED", 24, 24, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F1_SLOT_CNTL[] = {
 	 { "ATTN_BUTTON_PRESSED_EN", 0, 0, &umr_bitfield_default },
 	 { "PWR_FAULT_DETECTED_EN", 1, 1, &umr_bitfield_default },
@@ -13682,15 +13671,26 @@ static struct umr_bitfield ixD3F1_SLOT_CNTL[] = {
 	 { "ELECTROMECH_INTERLOCK_CNTL", 11, 11, &umr_bitfield_default },
 	 { "DL_STATE_CHANGED_EN", 12, 12, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F1_SLOT_STATUS[] = {
+	 { "ATTN_BUTTON_PRESSED", 16, 16, &umr_bitfield_default },
+	 { "PWR_FAULT_DETECTED", 17, 17, &umr_bitfield_default },
+	 { "MRL_SENSOR_CHANGED", 18, 18, &umr_bitfield_default },
+	 { "PRESENCE_DETECT_CHANGED", 19, 19, &umr_bitfield_default },
+	 { "COMMAND_COMPLETED", 20, 20, &umr_bitfield_default },
+	 { "MRL_SENSOR_STATE", 21, 21, &umr_bitfield_default },
+	 { "PRESENCE_DETECT_STATE", 22, 22, &umr_bitfield_default },
+	 { "ELECTROMECH_INTERLOCK_STATUS", 23, 23, &umr_bitfield_default },
+	 { "DL_STATE_CHANGED", 24, 24, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F1_ROOT_CAP[] = {
+	 { "CRS_SOFTWARE_VISIBILITY", 16, 16, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F1_ROOT_CNTL[] = {
 	 { "SERR_ON_CORR_ERR_EN", 0, 0, &umr_bitfield_default },
 	 { "SERR_ON_NONFATAL_ERR_EN", 1, 1, &umr_bitfield_default },
 	 { "SERR_ON_FATAL_ERR_EN", 2, 2, &umr_bitfield_default },
 	 { "PM_INTERRUPT_EN", 3, 3, &umr_bitfield_default },
 	 { "CRS_SOFTWARE_VISIBILITY_EN", 4, 4, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F1_ROOT_CAP[] = {
-	 { "CRS_SOFTWARE_VISIBILITY", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F1_ROOT_STATUS[] = {
 	 { "PME_REQUESTOR_ID", 0, 15, &umr_bitfield_default },
@@ -13713,9 +13713,6 @@ static struct umr_bitfield ixD3F1_DEVICE_CAP2[] = {
 	 { "END_END_TLP_PREFIX_SUPPORTED", 21, 21, &umr_bitfield_default },
 	 { "MAX_END_END_TLP_PREFIXES", 22, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F1_DEVICE_STATUS2[] = {
-	 { "RESERVED", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F1_DEVICE_CNTL2[] = {
 	 { "CPL_TIMEOUT_VALUE", 0, 3, &umr_bitfield_default },
 	 { "CPL_TIMEOUT_DIS", 4, 4, &umr_bitfield_default },
@@ -13728,18 +13725,13 @@ static struct umr_bitfield ixD3F1_DEVICE_CNTL2[] = {
 	 { "OBFF_EN", 13, 14, &umr_bitfield_default },
 	 { "END_END_TLP_PREFIX_BLOCKING", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F1_DEVICE_STATUS2[] = {
+	 { "RESERVED", 16, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F1_LINK_CAP2[] = {
 	 { "SUPPORTED_LINK_SPEED", 1, 7, &umr_bitfield_default },
 	 { "CROSSLINK_SUPPORTED", 8, 8, &umr_bitfield_default },
 	 { "RESERVED", 9, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F1_LINK_STATUS2[] = {
-	 { "CUR_DEEMPHASIS_LEVEL", 16, 16, &umr_bitfield_default },
-	 { "EQUALIZATION_COMPLETE", 17, 17, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE1_SUCCESS", 18, 18, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE2_SUCCESS", 19, 19, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE3_SUCCESS", 20, 20, &umr_bitfield_default },
-	 { "LINK_EQUALIZATION_REQUEST", 21, 21, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F1_LINK_CNTL2[] = {
 	 { "TARGET_LINK_SPEED", 0, 3, &umr_bitfield_default },
@@ -13751,14 +13743,22 @@ static struct umr_bitfield ixD3F1_LINK_CNTL2[] = {
 	 { "COMPLIANCE_SOS", 11, 11, &umr_bitfield_default },
 	 { "COMPLIANCE_DEEMPHASIS", 12, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F1_LINK_STATUS2[] = {
+	 { "CUR_DEEMPHASIS_LEVEL", 16, 16, &umr_bitfield_default },
+	 { "EQUALIZATION_COMPLETE", 17, 17, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE1_SUCCESS", 18, 18, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE2_SUCCESS", 19, 19, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE3_SUCCESS", 20, 20, &umr_bitfield_default },
+	 { "LINK_EQUALIZATION_REQUEST", 21, 21, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F1_SLOT_CAP2[] = {
 	 { "RESERVED", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F1_SLOT_STATUS2[] = {
-	 { "RESERVED", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F1_SLOT_CNTL2[] = {
 	 { "RESERVED", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F1_SLOT_STATUS2[] = {
+	 { "RESERVED", 16, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F1_MSI_CAP_LIST[] = {
 	 { "CAP_ID", 0, 7, &umr_bitfield_default },
@@ -13767,11 +13767,11 @@ static struct umr_bitfield ixD3F1_MSI_CAP_LIST[] = {
 static struct umr_bitfield ixD3F1_MSI_MSG_ADDR_LO[] = {
 	 { "MSI_MSG_ADDR_LO", 2, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F1_MSI_MSG_ADDR_HI[] = {
-	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F1_MSI_MSG_DATA[] = {
 	 { "MSI_DATA", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F1_MSI_MSG_ADDR_HI[] = {
+	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F1_MSI_MSG_DATA_64[] = {
 	 { "MSI_DATA_64", 0, 15, &umr_bitfield_default },
@@ -13784,14 +13784,14 @@ static struct umr_bitfield ixD3F1_SSID_CAP[] = {
 	 { "SUBSYSTEM_VENDOR_ID", 0, 15, &umr_bitfield_default },
 	 { "SUBSYSTEM_ID", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F1_MSI_MAP_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F1_MSI_MAP_CAP[] = {
 	 { "EN", 16, 16, &umr_bitfield_default },
 	 { "FIXD", 17, 17, &umr_bitfield_default },
 	 { "CAP_TYPE", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F1_MSI_MAP_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F1_MSI_MAP_ADDR_LO[] = {
 	 { "MSI_MAP_ADDR_LO", 20, 31, &umr_bitfield_default },
@@ -13836,12 +13836,12 @@ static struct umr_bitfield ixD3F1_PCIE_PORT_VC_CAP_REG2[] = {
 	 { "VC_ARB_CAP", 0, 7, &umr_bitfield_default },
 	 { "VC_ARB_TABLE_OFFSET", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F1_PCIE_PORT_VC_STATUS[] = {
-	 { "VC_ARB_TABLE_STATUS", 16, 16, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F1_PCIE_PORT_VC_CNTL[] = {
 	 { "LOAD_VC_ARB_TABLE", 0, 0, &umr_bitfield_default },
 	 { "VC_ARB_SELECT", 1, 3, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F1_PCIE_PORT_VC_STATUS[] = {
+	 { "VC_ARB_TABLE_STATUS", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F1_PCIE_VC0_RESOURCE_CAP[] = {
 	 { "PORT_ARB_CAP", 0, 7, &umr_bitfield_default },
@@ -14097,15 +14097,6 @@ static struct umr_bitfield ixD3F1_PCIE_ACS_ENH_CAP_LIST[] = {
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F1_PCIE_ACS_CNTL[] = {
-	 { "SOURCE_VALIDATION_EN", 16, 16, &umr_bitfield_default },
-	 { "TRANSLATION_BLOCKING_EN", 17, 17, &umr_bitfield_default },
-	 { "P2P_REQUEST_REDIRECT_EN", 18, 18, &umr_bitfield_default },
-	 { "P2P_COMPLETION_REDIRECT_EN", 19, 19, &umr_bitfield_default },
-	 { "UPSTREAM_FORWARDING_EN", 20, 20, &umr_bitfield_default },
-	 { "P2P_EGRESS_CONTROL_EN", 21, 21, &umr_bitfield_default },
-	 { "DIRECT_TRANSLATED_P2P_EN", 22, 22, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F1_PCIE_ACS_CAP[] = {
 	 { "SOURCE_VALIDATION", 0, 0, &umr_bitfield_default },
 	 { "TRANSLATION_BLOCKING", 1, 1, &umr_bitfield_default },
@@ -14116,18 +14107,27 @@ static struct umr_bitfield ixD3F1_PCIE_ACS_CAP[] = {
 	 { "DIRECT_TRANSLATED_P2P", 6, 6, &umr_bitfield_default },
 	 { "EGRESS_CONTROL_VECTOR_SIZE", 8, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F1_PCIE_ACS_CNTL[] = {
+	 { "SOURCE_VALIDATION_EN", 16, 16, &umr_bitfield_default },
+	 { "TRANSLATION_BLOCKING_EN", 17, 17, &umr_bitfield_default },
+	 { "P2P_REQUEST_REDIRECT_EN", 18, 18, &umr_bitfield_default },
+	 { "P2P_COMPLETION_REDIRECT_EN", 19, 19, &umr_bitfield_default },
+	 { "UPSTREAM_FORWARDING_EN", 20, 20, &umr_bitfield_default },
+	 { "P2P_EGRESS_CONTROL_EN", 21, 21, &umr_bitfield_default },
+	 { "DIRECT_TRANSLATED_P2P_EN", 22, 22, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F1_PCIE_MC_ENH_CAP_LIST[] = {
 	 { "CAP_ID", 0, 15, &umr_bitfield_default },
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F1_PCIE_MC_CNTL[] = {
-	 { "MC_NUM_GROUP", 16, 21, &umr_bitfield_default },
-	 { "MC_ENABLE", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F1_PCIE_MC_CAP[] = {
 	 { "MC_MAX_GROUP", 0, 5, &umr_bitfield_default },
 	 { "MC_ECRC_REGEN_SUPP", 15, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F1_PCIE_MC_CNTL[] = {
+	 { "MC_NUM_GROUP", 16, 21, &umr_bitfield_default },
+	 { "MC_ENABLE", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F1_PCIE_MC_ADDR0[] = {
 	 { "MC_INDEX_POS", 0, 5, &umr_bitfield_default },
@@ -14178,30 +14178,17 @@ static struct umr_bitfield ixD2F1_PCIE_RX_CNTL3[] = {
 static struct umr_bitfield mmBASE_ADDR_5[] = {
 	 { "BASE_ADDR", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_PCIE_RX_CREDITS_ALLOCATED_P[] = {
-	 { "RX_CREDITS_ALLOCATED_PD", 0, 11, &umr_bitfield_default },
-	 { "RX_CREDITS_ALLOCATED_PH", 16, 23, &umr_bitfield_default },
-};
 static struct umr_bitfield mmPCIE_BAR_ENH_CAP_LIST[] = {
 	 { "CAP_ID", 0, 15, &umr_bitfield_default },
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F1_PCIE_RX_CREDITS_ALLOCATED_P[] = {
+	 { "RX_CREDITS_ALLOCATED_PD", 0, 11, &umr_bitfield_default },
+	 { "RX_CREDITS_ALLOCATED_PH", 16, 23, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F2_VENDOR_ID[] = {
 	 { "VENDOR_ID", 0, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F2_COMMAND[] = {
-	 { "IO_ACCESS_EN", 0, 0, &umr_bitfield_default },
-	 { "MEM_ACCESS_EN", 1, 1, &umr_bitfield_default },
-	 { "BUS_MASTER_EN", 2, 2, &umr_bitfield_default },
-	 { "SPECIAL_CYCLE_EN", 3, 3, &umr_bitfield_default },
-	 { "MEM_WRITE_INVALIDATE_EN", 4, 4, &umr_bitfield_default },
-	 { "PAL_SNOOP_EN", 5, 5, &umr_bitfield_default },
-	 { "PARITY_ERROR_RESPONSE", 6, 6, &umr_bitfield_default },
-	 { "AD_STEPPING", 7, 7, &umr_bitfield_default },
-	 { "SERR_EN", 8, 8, &umr_bitfield_default },
-	 { "FAST_B2B_EN", 9, 9, &umr_bitfield_default },
-	 { "INT_DIS", 10, 10, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F2_STATUS[] = {
 	 { "INT_STATUS", 19, 19, &umr_bitfield_default },
@@ -14216,39 +14203,58 @@ static struct umr_bitfield ixD3F2_STATUS[] = {
 	 { "SIGNALED_SYSTEM_ERROR", 30, 30, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F2_PROG_INTERFACE[] = {
-	 { "PROG_INTERFACE", 8, 15, &umr_bitfield_default },
+static struct umr_bitfield ixD3F2_COMMAND[] = {
+	 { "IO_ACCESS_EN", 0, 0, &umr_bitfield_default },
+	 { "MEM_ACCESS_EN", 1, 1, &umr_bitfield_default },
+	 { "BUS_MASTER_EN", 2, 2, &umr_bitfield_default },
+	 { "SPECIAL_CYCLE_EN", 3, 3, &umr_bitfield_default },
+	 { "MEM_WRITE_INVALIDATE_EN", 4, 4, &umr_bitfield_default },
+	 { "PAL_SNOOP_EN", 5, 5, &umr_bitfield_default },
+	 { "PARITY_ERROR_RESPONSE", 6, 6, &umr_bitfield_default },
+	 { "AD_STEPPING", 7, 7, &umr_bitfield_default },
+	 { "SERR_EN", 8, 8, &umr_bitfield_default },
+	 { "FAST_B2B_EN", 9, 9, &umr_bitfield_default },
+	 { "INT_DIS", 10, 10, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F2_SUB_CLASS[] = {
+	 { "SUB_CLASS", 16, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F2_BASE_CLASS[] = {
+	 { "BASE_CLASS", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F2_REVISION_ID[] = {
 	 { "MINOR_REV_ID", 0, 3, &umr_bitfield_default },
 	 { "MAJOR_REV_ID", 4, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F2_BASE_CLASS[] = {
-	 { "BASE_CLASS", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F2_SUB_CLASS[] = {
-	 { "SUB_CLASS", 16, 23, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F2_CACHE_LINE[] = {
-	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F2_LATENCY[] = {
-	 { "LATENCY_TIMER", 8, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F2_HEADER[] = {
-	 { "HEADER_TYPE", 16, 22, &umr_bitfield_default },
-	 { "DEVICE_TYPE", 23, 23, &umr_bitfield_default },
+static struct umr_bitfield ixD3F2_PROG_INTERFACE[] = {
+	 { "PROG_INTERFACE", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F2_BIST[] = {
 	 { "BIST_COMP", 24, 27, &umr_bitfield_default },
 	 { "BIST_STRT", 30, 30, &umr_bitfield_default },
 	 { "BIST_CAP", 31, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F2_HEADER[] = {
+	 { "HEADER_TYPE", 16, 22, &umr_bitfield_default },
+	 { "DEVICE_TYPE", 23, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F2_LATENCY[] = {
+	 { "LATENCY_TIMER", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F2_CACHE_LINE[] = {
+	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F2_SUB_BUS_NUMBER_LATENCY[] = {
 	 { "PRIMARY_BUS", 0, 7, &umr_bitfield_default },
 	 { "SECONDARY_BUS", 8, 15, &umr_bitfield_default },
 	 { "SUB_BUS_NUM", 16, 23, &umr_bitfield_default },
 	 { "SECONDARY_LATENCY_TIMER", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F2_IO_BASE_LIMIT[] = {
+	 { "IO_BASE_TYPE", 0, 3, &umr_bitfield_default },
+	 { "IO_BASE", 4, 7, &umr_bitfield_default },
+	 { "IO_LIMIT_TYPE", 8, 11, &umr_bitfield_default },
+	 { "IO_LIMIT", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F2_SECONDARY_STATUS[] = {
 	 { "CAP_LIST", 20, 20, &umr_bitfield_default },
@@ -14261,12 +14267,6 @@ static struct umr_bitfield ixD3F2_SECONDARY_STATUS[] = {
 	 { "RECEIVED_MASTER_ABORT", 29, 29, &umr_bitfield_default },
 	 { "RECEIVED_SYSTEM_ERROR", 30, 30, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 31, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F2_IO_BASE_LIMIT[] = {
-	 { "IO_BASE_TYPE", 0, 3, &umr_bitfield_default },
-	 { "IO_BASE", 4, 7, &umr_bitfield_default },
-	 { "IO_LIMIT_TYPE", 8, 11, &umr_bitfield_default },
-	 { "IO_LIMIT", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F2_MEM_BASE_LIMIT[] = {
 	 { "MEM_BASE_TYPE", 0, 3, &umr_bitfield_default },
@@ -14293,6 +14293,12 @@ static struct umr_bitfield ixD3F2_IO_BASE_LIMIT_HI[] = {
 static struct umr_bitfield ixD3F2_CAP_PTR[] = {
 	 { "CAP_PTR", 0, 7, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F2_INTERRUPT_PIN[] = {
+	 { "INTERRUPT_PIN", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F2_INTERRUPT_LINE[] = {
+	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F2_IRQ_BRIDGE_CNTL[] = {
 	 { "PARITY_RESPONSE_EN", 16, 16, &umr_bitfield_default },
 	 { "SERR_EN", 17, 17, &umr_bitfield_default },
@@ -14303,18 +14309,8 @@ static struct umr_bitfield ixD3F2_IRQ_BRIDGE_CNTL[] = {
 	 { "SECONDARY_BUS_RESET", 22, 22, &umr_bitfield_default },
 	 { "FAST_B2B_EN", 23, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F2_INTERRUPT_LINE[] = {
-	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F2_INTERRUPT_PIN[] = {
-	 { "INTERRUPT_PIN", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F2_EXT_BRIDGE_CNTL[] = {
 	 { "IO_PORT_80_EN", 0, 0, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F2_PMI_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F2_PMI_CAP[] = {
 	 { "VERSION", 16, 18, &umr_bitfield_default },
@@ -14324,6 +14320,10 @@ static struct umr_bitfield ixD3F2_PMI_CAP[] = {
 	 { "D1_SUPPORT", 25, 25, &umr_bitfield_default },
 	 { "D2_SUPPORT", 26, 26, &umr_bitfield_default },
 	 { "PME_SUPPORT", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F2_PMI_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F2_PMI_STATUS_CNTL[] = {
 	 { "POWER_STATE", 0, 1, &umr_bitfield_default },
@@ -14336,15 +14336,15 @@ static struct umr_bitfield ixD3F2_PMI_STATUS_CNTL[] = {
 	 { "BUS_PWR_EN", 23, 23, &umr_bitfield_default },
 	 { "PMI_DATA", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F2_PCIE_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F2_PCIE_CAP[] = {
 	 { "VERSION", 16, 19, &umr_bitfield_default },
 	 { "DEVICE_TYPE", 20, 23, &umr_bitfield_default },
 	 { "SLOT_IMPLEMENTED", 24, 24, &umr_bitfield_default },
 	 { "INT_MESSAGE_NUM", 25, 29, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F2_PCIE_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F2_DEVICE_CAP[] = {
 	 { "MAX_PAYLOAD_SUPPORT", 0, 2, &umr_bitfield_default },
@@ -14356,14 +14356,6 @@ static struct umr_bitfield ixD3F2_DEVICE_CAP[] = {
 	 { "CAPTURED_SLOT_POWER_LIMIT", 18, 25, &umr_bitfield_default },
 	 { "CAPTURED_SLOT_POWER_SCALE", 26, 27, &umr_bitfield_default },
 	 { "FLR_CAPABLE", 28, 28, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F2_DEVICE_STATUS[] = {
-	 { "CORR_ERR", 16, 16, &umr_bitfield_default },
-	 { "NON_FATAL_ERR", 17, 17, &umr_bitfield_default },
-	 { "FATAL_ERR", 18, 18, &umr_bitfield_default },
-	 { "USR_DETECTED", 19, 19, &umr_bitfield_default },
-	 { "AUX_PWR", 20, 20, &umr_bitfield_default },
-	 { "TRANSACTIONS_PEND", 21, 21, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F2_DEVICE_CNTL[] = {
 	 { "CORR_ERR_EN", 0, 0, &umr_bitfield_default },
@@ -14379,6 +14371,14 @@ static struct umr_bitfield ixD3F2_DEVICE_CNTL[] = {
 	 { "MAX_READ_REQUEST_SIZE", 12, 14, &umr_bitfield_default },
 	 { "BRIDGE_CFG_RETRY_EN", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F2_DEVICE_STATUS[] = {
+	 { "CORR_ERR", 16, 16, &umr_bitfield_default },
+	 { "NON_FATAL_ERR", 17, 17, &umr_bitfield_default },
+	 { "FATAL_ERR", 18, 18, &umr_bitfield_default },
+	 { "USR_DETECTED", 19, 19, &umr_bitfield_default },
+	 { "AUX_PWR", 20, 20, &umr_bitfield_default },
+	 { "TRANSACTIONS_PEND", 21, 21, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F2_LINK_CAP[] = {
 	 { "LINK_SPEED", 0, 3, &umr_bitfield_default },
 	 { "LINK_WIDTH", 4, 9, &umr_bitfield_default },
@@ -14392,15 +14392,6 @@ static struct umr_bitfield ixD3F2_LINK_CAP[] = {
 	 { "ASPM_OPTIONALITY_COMPLIANCE", 22, 22, &umr_bitfield_default },
 	 { "PORT_NUMBER", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F2_LINK_STATUS[] = {
-	 { "CURRENT_LINK_SPEED", 16, 19, &umr_bitfield_default },
-	 { "NEGOTIATED_LINK_WIDTH", 20, 25, &umr_bitfield_default },
-	 { "LINK_TRAINING", 27, 27, &umr_bitfield_default },
-	 { "SLOT_CLOCK_CFG", 28, 28, &umr_bitfield_default },
-	 { "DL_ACTIVE", 29, 29, &umr_bitfield_default },
-	 { "LINK_BW_MANAGEMENT_STATUS", 30, 30, &umr_bitfield_default },
-	 { "LINK_AUTONOMOUS_BW_STATUS", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F2_LINK_CNTL[] = {
 	 { "PM_CONTROL", 0, 1, &umr_bitfield_default },
 	 { "READ_CPL_BOUNDARY", 3, 3, &umr_bitfield_default },
@@ -14412,6 +14403,15 @@ static struct umr_bitfield ixD3F2_LINK_CNTL[] = {
 	 { "HW_AUTONOMOUS_WIDTH_DISABLE", 9, 9, &umr_bitfield_default },
 	 { "LINK_BW_MANAGEMENT_INT_EN", 10, 10, &umr_bitfield_default },
 	 { "LINK_AUTONOMOUS_BW_INT_EN", 11, 11, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F2_LINK_STATUS[] = {
+	 { "CURRENT_LINK_SPEED", 16, 19, &umr_bitfield_default },
+	 { "NEGOTIATED_LINK_WIDTH", 20, 25, &umr_bitfield_default },
+	 { "LINK_TRAINING", 27, 27, &umr_bitfield_default },
+	 { "SLOT_CLOCK_CFG", 28, 28, &umr_bitfield_default },
+	 { "DL_ACTIVE", 29, 29, &umr_bitfield_default },
+	 { "LINK_BW_MANAGEMENT_STATUS", 30, 30, &umr_bitfield_default },
+	 { "LINK_AUTONOMOUS_BW_STATUS", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F2_SLOT_CAP[] = {
 	 { "ATTN_BUTTON_PRESENT", 0, 0, &umr_bitfield_default },
@@ -14427,17 +14427,6 @@ static struct umr_bitfield ixD3F2_SLOT_CAP[] = {
 	 { "NO_COMMAND_COMPLETED_SUPPORTED", 18, 18, &umr_bitfield_default },
 	 { "PHYSICAL_SLOT_NUM", 19, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F2_SLOT_STATUS[] = {
-	 { "ATTN_BUTTON_PRESSED", 16, 16, &umr_bitfield_default },
-	 { "PWR_FAULT_DETECTED", 17, 17, &umr_bitfield_default },
-	 { "MRL_SENSOR_CHANGED", 18, 18, &umr_bitfield_default },
-	 { "PRESENCE_DETECT_CHANGED", 19, 19, &umr_bitfield_default },
-	 { "COMMAND_COMPLETED", 20, 20, &umr_bitfield_default },
-	 { "MRL_SENSOR_STATE", 21, 21, &umr_bitfield_default },
-	 { "PRESENCE_DETECT_STATE", 22, 22, &umr_bitfield_default },
-	 { "ELECTROMECH_INTERLOCK_STATUS", 23, 23, &umr_bitfield_default },
-	 { "DL_STATE_CHANGED", 24, 24, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F2_SLOT_CNTL[] = {
 	 { "ATTN_BUTTON_PRESSED_EN", 0, 0, &umr_bitfield_default },
 	 { "PWR_FAULT_DETECTED_EN", 1, 1, &umr_bitfield_default },
@@ -14451,15 +14440,26 @@ static struct umr_bitfield ixD3F2_SLOT_CNTL[] = {
 	 { "ELECTROMECH_INTERLOCK_CNTL", 11, 11, &umr_bitfield_default },
 	 { "DL_STATE_CHANGED_EN", 12, 12, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F2_SLOT_STATUS[] = {
+	 { "ATTN_BUTTON_PRESSED", 16, 16, &umr_bitfield_default },
+	 { "PWR_FAULT_DETECTED", 17, 17, &umr_bitfield_default },
+	 { "MRL_SENSOR_CHANGED", 18, 18, &umr_bitfield_default },
+	 { "PRESENCE_DETECT_CHANGED", 19, 19, &umr_bitfield_default },
+	 { "COMMAND_COMPLETED", 20, 20, &umr_bitfield_default },
+	 { "MRL_SENSOR_STATE", 21, 21, &umr_bitfield_default },
+	 { "PRESENCE_DETECT_STATE", 22, 22, &umr_bitfield_default },
+	 { "ELECTROMECH_INTERLOCK_STATUS", 23, 23, &umr_bitfield_default },
+	 { "DL_STATE_CHANGED", 24, 24, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F2_ROOT_CAP[] = {
+	 { "CRS_SOFTWARE_VISIBILITY", 16, 16, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F2_ROOT_CNTL[] = {
 	 { "SERR_ON_CORR_ERR_EN", 0, 0, &umr_bitfield_default },
 	 { "SERR_ON_NONFATAL_ERR_EN", 1, 1, &umr_bitfield_default },
 	 { "SERR_ON_FATAL_ERR_EN", 2, 2, &umr_bitfield_default },
 	 { "PM_INTERRUPT_EN", 3, 3, &umr_bitfield_default },
 	 { "CRS_SOFTWARE_VISIBILITY_EN", 4, 4, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F2_ROOT_CAP[] = {
-	 { "CRS_SOFTWARE_VISIBILITY", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F2_ROOT_STATUS[] = {
 	 { "PME_REQUESTOR_ID", 0, 15, &umr_bitfield_default },
@@ -14482,9 +14482,6 @@ static struct umr_bitfield ixD3F2_DEVICE_CAP2[] = {
 	 { "END_END_TLP_PREFIX_SUPPORTED", 21, 21, &umr_bitfield_default },
 	 { "MAX_END_END_TLP_PREFIXES", 22, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F2_DEVICE_STATUS2[] = {
-	 { "RESERVED", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F2_DEVICE_CNTL2[] = {
 	 { "CPL_TIMEOUT_VALUE", 0, 3, &umr_bitfield_default },
 	 { "CPL_TIMEOUT_DIS", 4, 4, &umr_bitfield_default },
@@ -14497,18 +14494,13 @@ static struct umr_bitfield ixD3F2_DEVICE_CNTL2[] = {
 	 { "OBFF_EN", 13, 14, &umr_bitfield_default },
 	 { "END_END_TLP_PREFIX_BLOCKING", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F2_DEVICE_STATUS2[] = {
+	 { "RESERVED", 16, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F2_LINK_CAP2[] = {
 	 { "SUPPORTED_LINK_SPEED", 1, 7, &umr_bitfield_default },
 	 { "CROSSLINK_SUPPORTED", 8, 8, &umr_bitfield_default },
 	 { "RESERVED", 9, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F2_LINK_STATUS2[] = {
-	 { "CUR_DEEMPHASIS_LEVEL", 16, 16, &umr_bitfield_default },
-	 { "EQUALIZATION_COMPLETE", 17, 17, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE1_SUCCESS", 18, 18, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE2_SUCCESS", 19, 19, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE3_SUCCESS", 20, 20, &umr_bitfield_default },
-	 { "LINK_EQUALIZATION_REQUEST", 21, 21, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F2_LINK_CNTL2[] = {
 	 { "TARGET_LINK_SPEED", 0, 3, &umr_bitfield_default },
@@ -14520,14 +14512,22 @@ static struct umr_bitfield ixD3F2_LINK_CNTL2[] = {
 	 { "COMPLIANCE_SOS", 11, 11, &umr_bitfield_default },
 	 { "COMPLIANCE_DEEMPHASIS", 12, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F2_LINK_STATUS2[] = {
+	 { "CUR_DEEMPHASIS_LEVEL", 16, 16, &umr_bitfield_default },
+	 { "EQUALIZATION_COMPLETE", 17, 17, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE1_SUCCESS", 18, 18, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE2_SUCCESS", 19, 19, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE3_SUCCESS", 20, 20, &umr_bitfield_default },
+	 { "LINK_EQUALIZATION_REQUEST", 21, 21, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F2_SLOT_CAP2[] = {
 	 { "RESERVED", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F2_SLOT_STATUS2[] = {
-	 { "RESERVED", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F2_SLOT_CNTL2[] = {
 	 { "RESERVED", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F2_SLOT_STATUS2[] = {
+	 { "RESERVED", 16, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F2_MSI_CAP_LIST[] = {
 	 { "CAP_ID", 0, 7, &umr_bitfield_default },
@@ -14536,11 +14536,11 @@ static struct umr_bitfield ixD3F2_MSI_CAP_LIST[] = {
 static struct umr_bitfield ixD3F2_MSI_MSG_ADDR_LO[] = {
 	 { "MSI_MSG_ADDR_LO", 2, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F2_MSI_MSG_ADDR_HI[] = {
-	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F2_MSI_MSG_DATA[] = {
 	 { "MSI_DATA", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F2_MSI_MSG_ADDR_HI[] = {
+	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F2_MSI_MSG_DATA_64[] = {
 	 { "MSI_DATA_64", 0, 15, &umr_bitfield_default },
@@ -14553,14 +14553,14 @@ static struct umr_bitfield ixD3F2_SSID_CAP[] = {
 	 { "SUBSYSTEM_VENDOR_ID", 0, 15, &umr_bitfield_default },
 	 { "SUBSYSTEM_ID", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F2_MSI_MAP_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F2_MSI_MAP_CAP[] = {
 	 { "EN", 16, 16, &umr_bitfield_default },
 	 { "FIXD", 17, 17, &umr_bitfield_default },
 	 { "CAP_TYPE", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F2_MSI_MAP_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F2_MSI_MAP_ADDR_LO[] = {
 	 { "MSI_MAP_ADDR_LO", 20, 31, &umr_bitfield_default },
@@ -14605,12 +14605,12 @@ static struct umr_bitfield ixD3F2_PCIE_PORT_VC_CAP_REG2[] = {
 	 { "VC_ARB_CAP", 0, 7, &umr_bitfield_default },
 	 { "VC_ARB_TABLE_OFFSET", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F2_PCIE_PORT_VC_STATUS[] = {
-	 { "VC_ARB_TABLE_STATUS", 16, 16, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F2_PCIE_PORT_VC_CNTL[] = {
 	 { "LOAD_VC_ARB_TABLE", 0, 0, &umr_bitfield_default },
 	 { "VC_ARB_SELECT", 1, 3, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F2_PCIE_PORT_VC_STATUS[] = {
+	 { "VC_ARB_TABLE_STATUS", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F2_PCIE_VC0_RESOURCE_CAP[] = {
 	 { "PORT_ARB_CAP", 0, 7, &umr_bitfield_default },
@@ -14866,15 +14866,6 @@ static struct umr_bitfield ixD3F2_PCIE_ACS_ENH_CAP_LIST[] = {
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F2_PCIE_ACS_CNTL[] = {
-	 { "SOURCE_VALIDATION_EN", 16, 16, &umr_bitfield_default },
-	 { "TRANSLATION_BLOCKING_EN", 17, 17, &umr_bitfield_default },
-	 { "P2P_REQUEST_REDIRECT_EN", 18, 18, &umr_bitfield_default },
-	 { "P2P_COMPLETION_REDIRECT_EN", 19, 19, &umr_bitfield_default },
-	 { "UPSTREAM_FORWARDING_EN", 20, 20, &umr_bitfield_default },
-	 { "P2P_EGRESS_CONTROL_EN", 21, 21, &umr_bitfield_default },
-	 { "DIRECT_TRANSLATED_P2P_EN", 22, 22, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F2_PCIE_ACS_CAP[] = {
 	 { "SOURCE_VALIDATION", 0, 0, &umr_bitfield_default },
 	 { "TRANSLATION_BLOCKING", 1, 1, &umr_bitfield_default },
@@ -14885,18 +14876,27 @@ static struct umr_bitfield ixD3F2_PCIE_ACS_CAP[] = {
 	 { "DIRECT_TRANSLATED_P2P", 6, 6, &umr_bitfield_default },
 	 { "EGRESS_CONTROL_VECTOR_SIZE", 8, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F2_PCIE_ACS_CNTL[] = {
+	 { "SOURCE_VALIDATION_EN", 16, 16, &umr_bitfield_default },
+	 { "TRANSLATION_BLOCKING_EN", 17, 17, &umr_bitfield_default },
+	 { "P2P_REQUEST_REDIRECT_EN", 18, 18, &umr_bitfield_default },
+	 { "P2P_COMPLETION_REDIRECT_EN", 19, 19, &umr_bitfield_default },
+	 { "UPSTREAM_FORWARDING_EN", 20, 20, &umr_bitfield_default },
+	 { "P2P_EGRESS_CONTROL_EN", 21, 21, &umr_bitfield_default },
+	 { "DIRECT_TRANSLATED_P2P_EN", 22, 22, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F2_PCIE_MC_ENH_CAP_LIST[] = {
 	 { "CAP_ID", 0, 15, &umr_bitfield_default },
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F2_PCIE_MC_CNTL[] = {
-	 { "MC_NUM_GROUP", 16, 21, &umr_bitfield_default },
-	 { "MC_ENABLE", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F2_PCIE_MC_CAP[] = {
 	 { "MC_MAX_GROUP", 0, 5, &umr_bitfield_default },
 	 { "MC_ECRC_REGEN_SUPP", 15, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F2_PCIE_MC_CNTL[] = {
+	 { "MC_NUM_GROUP", 16, 21, &umr_bitfield_default },
+	 { "MC_ENABLE", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F2_PCIE_MC_ADDR0[] = {
 	 { "MC_INDEX_POS", 0, 5, &umr_bitfield_default },
@@ -14930,21 +14930,24 @@ static struct umr_bitfield ixD3F2_PCIE_MC_OVERLAY_BAR0[] = {
 static struct umr_bitfield ixD3F2_PCIE_MC_OVERLAY_BAR1[] = {
 	 { "MC_OVERLAY_BAR_1", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_PCIE_RX_CREDITS_ALLOCATED_NP[] = {
-	 { "RX_CREDITS_ALLOCATED_NPD", 0, 11, &umr_bitfield_default },
-	 { "RX_CREDITS_ALLOCATED_NPH", 16, 23, &umr_bitfield_default },
-};
 static struct umr_bitfield mmPCIE_BAR1_CAP[] = {
 	 { "BAR_SIZE_SUPPORTED", 4, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_PCIE_RX_CREDITS_ALLOCATED_CPL[] = {
-	 { "RX_CREDITS_ALLOCATED_CPLD", 0, 11, &umr_bitfield_default },
-	 { "RX_CREDITS_ALLOCATED_CPLH", 16, 23, &umr_bitfield_default },
+static struct umr_bitfield ixD2F1_PCIE_RX_CREDITS_ALLOCATED_NP[] = {
+	 { "RX_CREDITS_ALLOCATED_NPD", 0, 11, &umr_bitfield_default },
+	 { "RX_CREDITS_ALLOCATED_NPH", 16, 23, &umr_bitfield_default },
 };
 static struct umr_bitfield mmPCIE_BAR1_CNTL[] = {
 	 { "BAR_INDEX", 0, 2, &umr_bitfield_default },
 	 { "BAR_TOTAL_NUM", 5, 7, &umr_bitfield_default },
 	 { "BAR_SIZE", 8, 12, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_PCIE_RX_CREDITS_ALLOCATED_CPL[] = {
+	 { "RX_CREDITS_ALLOCATED_CPLD", 0, 11, &umr_bitfield_default },
+	 { "RX_CREDITS_ALLOCATED_CPLH", 16, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield mmPCIE_BAR2_CAP[] = {
+	 { "BAR_SIZE_SUPPORTED", 4, 23, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PCIEP_ERROR_INJECT_PHYSICAL[] = {
 	 { "ERROR_INJECT_PL_LANE_ERR", 0, 1, &umr_bitfield_default },
@@ -14960,8 +14963,10 @@ static struct umr_bitfield ixD2F1_PCIEP_ERROR_INJECT_PHYSICAL[] = {
 	 { "ERROR_INJECT_PL_INV_OS_IDENTIFIER", 20, 21, &umr_bitfield_default },
 	 { "ERROR_INJECT_PL_BAD_SYNC_HEADER", 22, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPCIE_BAR2_CAP[] = {
-	 { "BAR_SIZE_SUPPORTED", 4, 23, &umr_bitfield_default },
+static struct umr_bitfield mmPCIE_BAR2_CNTL[] = {
+	 { "BAR_INDEX", 0, 2, &umr_bitfield_default },
+	 { "BAR_TOTAL_NUM", 5, 7, &umr_bitfield_default },
+	 { "BAR_SIZE", 8, 12, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PCIEP_ERROR_INJECT_TRANSACTION[] = {
 	 { "ERROR_INJECT_TL_FLOW_CTL_ERR", 0, 1, &umr_bitfield_default },
@@ -14974,11 +14979,6 @@ static struct umr_bitfield ixD2F1_PCIEP_ERROR_INJECT_TRANSACTION[] = {
 	 { "ERROR_INJECT_TL_UNEXPECTED_CMPLT", 14, 15, &umr_bitfield_default },
 	 { "ERROR_INJECT_TL_COMPLETER_ABORT", 16, 17, &umr_bitfield_default },
 	 { "ERROR_INJECT_TL_COMPLETION_TIMEOUT", 18, 19, &umr_bitfield_default },
-};
-static struct umr_bitfield mmPCIE_BAR2_CNTL[] = {
-	 { "BAR_INDEX", 0, 2, &umr_bitfield_default },
-	 { "BAR_TOTAL_NUM", 5, 7, &umr_bitfield_default },
-	 { "BAR_SIZE", 8, 12, &umr_bitfield_default },
 };
 static struct umr_bitfield mmPCIE_BAR3_CAP[] = {
 	 { "BAR_SIZE_SUPPORTED", 4, 23, &umr_bitfield_default },
@@ -15023,19 +15023,6 @@ static struct umr_bitfield mmPCIE_PWR_BUDGET_ENH_CAP_LIST[] = {
 static struct umr_bitfield ixD3F3_VENDOR_ID[] = {
 	 { "VENDOR_ID", 0, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F3_COMMAND[] = {
-	 { "IO_ACCESS_EN", 0, 0, &umr_bitfield_default },
-	 { "MEM_ACCESS_EN", 1, 1, &umr_bitfield_default },
-	 { "BUS_MASTER_EN", 2, 2, &umr_bitfield_default },
-	 { "SPECIAL_CYCLE_EN", 3, 3, &umr_bitfield_default },
-	 { "MEM_WRITE_INVALIDATE_EN", 4, 4, &umr_bitfield_default },
-	 { "PAL_SNOOP_EN", 5, 5, &umr_bitfield_default },
-	 { "PARITY_ERROR_RESPONSE", 6, 6, &umr_bitfield_default },
-	 { "AD_STEPPING", 7, 7, &umr_bitfield_default },
-	 { "SERR_EN", 8, 8, &umr_bitfield_default },
-	 { "FAST_B2B_EN", 9, 9, &umr_bitfield_default },
-	 { "INT_DIS", 10, 10, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F3_STATUS[] = {
 	 { "INT_STATUS", 19, 19, &umr_bitfield_default },
 	 { "CAP_LIST", 20, 20, &umr_bitfield_default },
@@ -15049,39 +15036,58 @@ static struct umr_bitfield ixD3F3_STATUS[] = {
 	 { "SIGNALED_SYSTEM_ERROR", 30, 30, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F3_PROG_INTERFACE[] = {
-	 { "PROG_INTERFACE", 8, 15, &umr_bitfield_default },
+static struct umr_bitfield ixD3F3_COMMAND[] = {
+	 { "IO_ACCESS_EN", 0, 0, &umr_bitfield_default },
+	 { "MEM_ACCESS_EN", 1, 1, &umr_bitfield_default },
+	 { "BUS_MASTER_EN", 2, 2, &umr_bitfield_default },
+	 { "SPECIAL_CYCLE_EN", 3, 3, &umr_bitfield_default },
+	 { "MEM_WRITE_INVALIDATE_EN", 4, 4, &umr_bitfield_default },
+	 { "PAL_SNOOP_EN", 5, 5, &umr_bitfield_default },
+	 { "PARITY_ERROR_RESPONSE", 6, 6, &umr_bitfield_default },
+	 { "AD_STEPPING", 7, 7, &umr_bitfield_default },
+	 { "SERR_EN", 8, 8, &umr_bitfield_default },
+	 { "FAST_B2B_EN", 9, 9, &umr_bitfield_default },
+	 { "INT_DIS", 10, 10, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F3_SUB_CLASS[] = {
+	 { "SUB_CLASS", 16, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F3_BASE_CLASS[] = {
+	 { "BASE_CLASS", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F3_REVISION_ID[] = {
 	 { "MINOR_REV_ID", 0, 3, &umr_bitfield_default },
 	 { "MAJOR_REV_ID", 4, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F3_BASE_CLASS[] = {
-	 { "BASE_CLASS", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F3_SUB_CLASS[] = {
-	 { "SUB_CLASS", 16, 23, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F3_CACHE_LINE[] = {
-	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F3_LATENCY[] = {
-	 { "LATENCY_TIMER", 8, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F3_HEADER[] = {
-	 { "HEADER_TYPE", 16, 22, &umr_bitfield_default },
-	 { "DEVICE_TYPE", 23, 23, &umr_bitfield_default },
+static struct umr_bitfield ixD3F3_PROG_INTERFACE[] = {
+	 { "PROG_INTERFACE", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F3_BIST[] = {
 	 { "BIST_COMP", 24, 27, &umr_bitfield_default },
 	 { "BIST_STRT", 30, 30, &umr_bitfield_default },
 	 { "BIST_CAP", 31, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F3_HEADER[] = {
+	 { "HEADER_TYPE", 16, 22, &umr_bitfield_default },
+	 { "DEVICE_TYPE", 23, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F3_LATENCY[] = {
+	 { "LATENCY_TIMER", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F3_CACHE_LINE[] = {
+	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F3_SUB_BUS_NUMBER_LATENCY[] = {
 	 { "PRIMARY_BUS", 0, 7, &umr_bitfield_default },
 	 { "SECONDARY_BUS", 8, 15, &umr_bitfield_default },
 	 { "SUB_BUS_NUM", 16, 23, &umr_bitfield_default },
 	 { "SECONDARY_LATENCY_TIMER", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F3_IO_BASE_LIMIT[] = {
+	 { "IO_BASE_TYPE", 0, 3, &umr_bitfield_default },
+	 { "IO_BASE", 4, 7, &umr_bitfield_default },
+	 { "IO_LIMIT_TYPE", 8, 11, &umr_bitfield_default },
+	 { "IO_LIMIT", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F3_SECONDARY_STATUS[] = {
 	 { "CAP_LIST", 20, 20, &umr_bitfield_default },
@@ -15094,12 +15100,6 @@ static struct umr_bitfield ixD3F3_SECONDARY_STATUS[] = {
 	 { "RECEIVED_MASTER_ABORT", 29, 29, &umr_bitfield_default },
 	 { "RECEIVED_SYSTEM_ERROR", 30, 30, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 31, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F3_IO_BASE_LIMIT[] = {
-	 { "IO_BASE_TYPE", 0, 3, &umr_bitfield_default },
-	 { "IO_BASE", 4, 7, &umr_bitfield_default },
-	 { "IO_LIMIT_TYPE", 8, 11, &umr_bitfield_default },
-	 { "IO_LIMIT", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F3_MEM_BASE_LIMIT[] = {
 	 { "MEM_BASE_TYPE", 0, 3, &umr_bitfield_default },
@@ -15126,6 +15126,12 @@ static struct umr_bitfield ixD3F3_IO_BASE_LIMIT_HI[] = {
 static struct umr_bitfield ixD3F3_CAP_PTR[] = {
 	 { "CAP_PTR", 0, 7, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F3_INTERRUPT_PIN[] = {
+	 { "INTERRUPT_PIN", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F3_INTERRUPT_LINE[] = {
+	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F3_IRQ_BRIDGE_CNTL[] = {
 	 { "PARITY_RESPONSE_EN", 16, 16, &umr_bitfield_default },
 	 { "SERR_EN", 17, 17, &umr_bitfield_default },
@@ -15136,18 +15142,8 @@ static struct umr_bitfield ixD3F3_IRQ_BRIDGE_CNTL[] = {
 	 { "SECONDARY_BUS_RESET", 22, 22, &umr_bitfield_default },
 	 { "FAST_B2B_EN", 23, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F3_INTERRUPT_LINE[] = {
-	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F3_INTERRUPT_PIN[] = {
-	 { "INTERRUPT_PIN", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F3_EXT_BRIDGE_CNTL[] = {
 	 { "IO_PORT_80_EN", 0, 0, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F3_PMI_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F3_PMI_CAP[] = {
 	 { "VERSION", 16, 18, &umr_bitfield_default },
@@ -15157,6 +15153,10 @@ static struct umr_bitfield ixD3F3_PMI_CAP[] = {
 	 { "D1_SUPPORT", 25, 25, &umr_bitfield_default },
 	 { "D2_SUPPORT", 26, 26, &umr_bitfield_default },
 	 { "PME_SUPPORT", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F3_PMI_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F3_PMI_STATUS_CNTL[] = {
 	 { "POWER_STATE", 0, 1, &umr_bitfield_default },
@@ -15169,15 +15169,15 @@ static struct umr_bitfield ixD3F3_PMI_STATUS_CNTL[] = {
 	 { "BUS_PWR_EN", 23, 23, &umr_bitfield_default },
 	 { "PMI_DATA", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F3_PCIE_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F3_PCIE_CAP[] = {
 	 { "VERSION", 16, 19, &umr_bitfield_default },
 	 { "DEVICE_TYPE", 20, 23, &umr_bitfield_default },
 	 { "SLOT_IMPLEMENTED", 24, 24, &umr_bitfield_default },
 	 { "INT_MESSAGE_NUM", 25, 29, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F3_PCIE_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F3_DEVICE_CAP[] = {
 	 { "MAX_PAYLOAD_SUPPORT", 0, 2, &umr_bitfield_default },
@@ -15189,14 +15189,6 @@ static struct umr_bitfield ixD3F3_DEVICE_CAP[] = {
 	 { "CAPTURED_SLOT_POWER_LIMIT", 18, 25, &umr_bitfield_default },
 	 { "CAPTURED_SLOT_POWER_SCALE", 26, 27, &umr_bitfield_default },
 	 { "FLR_CAPABLE", 28, 28, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F3_DEVICE_STATUS[] = {
-	 { "CORR_ERR", 16, 16, &umr_bitfield_default },
-	 { "NON_FATAL_ERR", 17, 17, &umr_bitfield_default },
-	 { "FATAL_ERR", 18, 18, &umr_bitfield_default },
-	 { "USR_DETECTED", 19, 19, &umr_bitfield_default },
-	 { "AUX_PWR", 20, 20, &umr_bitfield_default },
-	 { "TRANSACTIONS_PEND", 21, 21, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F3_DEVICE_CNTL[] = {
 	 { "CORR_ERR_EN", 0, 0, &umr_bitfield_default },
@@ -15212,6 +15204,14 @@ static struct umr_bitfield ixD3F3_DEVICE_CNTL[] = {
 	 { "MAX_READ_REQUEST_SIZE", 12, 14, &umr_bitfield_default },
 	 { "BRIDGE_CFG_RETRY_EN", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F3_DEVICE_STATUS[] = {
+	 { "CORR_ERR", 16, 16, &umr_bitfield_default },
+	 { "NON_FATAL_ERR", 17, 17, &umr_bitfield_default },
+	 { "FATAL_ERR", 18, 18, &umr_bitfield_default },
+	 { "USR_DETECTED", 19, 19, &umr_bitfield_default },
+	 { "AUX_PWR", 20, 20, &umr_bitfield_default },
+	 { "TRANSACTIONS_PEND", 21, 21, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F3_LINK_CAP[] = {
 	 { "LINK_SPEED", 0, 3, &umr_bitfield_default },
 	 { "LINK_WIDTH", 4, 9, &umr_bitfield_default },
@@ -15225,15 +15225,6 @@ static struct umr_bitfield ixD3F3_LINK_CAP[] = {
 	 { "ASPM_OPTIONALITY_COMPLIANCE", 22, 22, &umr_bitfield_default },
 	 { "PORT_NUMBER", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F3_LINK_STATUS[] = {
-	 { "CURRENT_LINK_SPEED", 16, 19, &umr_bitfield_default },
-	 { "NEGOTIATED_LINK_WIDTH", 20, 25, &umr_bitfield_default },
-	 { "LINK_TRAINING", 27, 27, &umr_bitfield_default },
-	 { "SLOT_CLOCK_CFG", 28, 28, &umr_bitfield_default },
-	 { "DL_ACTIVE", 29, 29, &umr_bitfield_default },
-	 { "LINK_BW_MANAGEMENT_STATUS", 30, 30, &umr_bitfield_default },
-	 { "LINK_AUTONOMOUS_BW_STATUS", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F3_LINK_CNTL[] = {
 	 { "PM_CONTROL", 0, 1, &umr_bitfield_default },
 	 { "READ_CPL_BOUNDARY", 3, 3, &umr_bitfield_default },
@@ -15245,6 +15236,15 @@ static struct umr_bitfield ixD3F3_LINK_CNTL[] = {
 	 { "HW_AUTONOMOUS_WIDTH_DISABLE", 9, 9, &umr_bitfield_default },
 	 { "LINK_BW_MANAGEMENT_INT_EN", 10, 10, &umr_bitfield_default },
 	 { "LINK_AUTONOMOUS_BW_INT_EN", 11, 11, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F3_LINK_STATUS[] = {
+	 { "CURRENT_LINK_SPEED", 16, 19, &umr_bitfield_default },
+	 { "NEGOTIATED_LINK_WIDTH", 20, 25, &umr_bitfield_default },
+	 { "LINK_TRAINING", 27, 27, &umr_bitfield_default },
+	 { "SLOT_CLOCK_CFG", 28, 28, &umr_bitfield_default },
+	 { "DL_ACTIVE", 29, 29, &umr_bitfield_default },
+	 { "LINK_BW_MANAGEMENT_STATUS", 30, 30, &umr_bitfield_default },
+	 { "LINK_AUTONOMOUS_BW_STATUS", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F3_SLOT_CAP[] = {
 	 { "ATTN_BUTTON_PRESENT", 0, 0, &umr_bitfield_default },
@@ -15260,17 +15260,6 @@ static struct umr_bitfield ixD3F3_SLOT_CAP[] = {
 	 { "NO_COMMAND_COMPLETED_SUPPORTED", 18, 18, &umr_bitfield_default },
 	 { "PHYSICAL_SLOT_NUM", 19, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F3_SLOT_STATUS[] = {
-	 { "ATTN_BUTTON_PRESSED", 16, 16, &umr_bitfield_default },
-	 { "PWR_FAULT_DETECTED", 17, 17, &umr_bitfield_default },
-	 { "MRL_SENSOR_CHANGED", 18, 18, &umr_bitfield_default },
-	 { "PRESENCE_DETECT_CHANGED", 19, 19, &umr_bitfield_default },
-	 { "COMMAND_COMPLETED", 20, 20, &umr_bitfield_default },
-	 { "MRL_SENSOR_STATE", 21, 21, &umr_bitfield_default },
-	 { "PRESENCE_DETECT_STATE", 22, 22, &umr_bitfield_default },
-	 { "ELECTROMECH_INTERLOCK_STATUS", 23, 23, &umr_bitfield_default },
-	 { "DL_STATE_CHANGED", 24, 24, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F3_SLOT_CNTL[] = {
 	 { "ATTN_BUTTON_PRESSED_EN", 0, 0, &umr_bitfield_default },
 	 { "PWR_FAULT_DETECTED_EN", 1, 1, &umr_bitfield_default },
@@ -15284,15 +15273,26 @@ static struct umr_bitfield ixD3F3_SLOT_CNTL[] = {
 	 { "ELECTROMECH_INTERLOCK_CNTL", 11, 11, &umr_bitfield_default },
 	 { "DL_STATE_CHANGED_EN", 12, 12, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F3_SLOT_STATUS[] = {
+	 { "ATTN_BUTTON_PRESSED", 16, 16, &umr_bitfield_default },
+	 { "PWR_FAULT_DETECTED", 17, 17, &umr_bitfield_default },
+	 { "MRL_SENSOR_CHANGED", 18, 18, &umr_bitfield_default },
+	 { "PRESENCE_DETECT_CHANGED", 19, 19, &umr_bitfield_default },
+	 { "COMMAND_COMPLETED", 20, 20, &umr_bitfield_default },
+	 { "MRL_SENSOR_STATE", 21, 21, &umr_bitfield_default },
+	 { "PRESENCE_DETECT_STATE", 22, 22, &umr_bitfield_default },
+	 { "ELECTROMECH_INTERLOCK_STATUS", 23, 23, &umr_bitfield_default },
+	 { "DL_STATE_CHANGED", 24, 24, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F3_ROOT_CAP[] = {
+	 { "CRS_SOFTWARE_VISIBILITY", 16, 16, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F3_ROOT_CNTL[] = {
 	 { "SERR_ON_CORR_ERR_EN", 0, 0, &umr_bitfield_default },
 	 { "SERR_ON_NONFATAL_ERR_EN", 1, 1, &umr_bitfield_default },
 	 { "SERR_ON_FATAL_ERR_EN", 2, 2, &umr_bitfield_default },
 	 { "PM_INTERRUPT_EN", 3, 3, &umr_bitfield_default },
 	 { "CRS_SOFTWARE_VISIBILITY_EN", 4, 4, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F3_ROOT_CAP[] = {
-	 { "CRS_SOFTWARE_VISIBILITY", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F3_ROOT_STATUS[] = {
 	 { "PME_REQUESTOR_ID", 0, 15, &umr_bitfield_default },
@@ -15315,9 +15315,6 @@ static struct umr_bitfield ixD3F3_DEVICE_CAP2[] = {
 	 { "END_END_TLP_PREFIX_SUPPORTED", 21, 21, &umr_bitfield_default },
 	 { "MAX_END_END_TLP_PREFIXES", 22, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F3_DEVICE_STATUS2[] = {
-	 { "RESERVED", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F3_DEVICE_CNTL2[] = {
 	 { "CPL_TIMEOUT_VALUE", 0, 3, &umr_bitfield_default },
 	 { "CPL_TIMEOUT_DIS", 4, 4, &umr_bitfield_default },
@@ -15330,18 +15327,13 @@ static struct umr_bitfield ixD3F3_DEVICE_CNTL2[] = {
 	 { "OBFF_EN", 13, 14, &umr_bitfield_default },
 	 { "END_END_TLP_PREFIX_BLOCKING", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F3_DEVICE_STATUS2[] = {
+	 { "RESERVED", 16, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F3_LINK_CAP2[] = {
 	 { "SUPPORTED_LINK_SPEED", 1, 7, &umr_bitfield_default },
 	 { "CROSSLINK_SUPPORTED", 8, 8, &umr_bitfield_default },
 	 { "RESERVED", 9, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F3_LINK_STATUS2[] = {
-	 { "CUR_DEEMPHASIS_LEVEL", 16, 16, &umr_bitfield_default },
-	 { "EQUALIZATION_COMPLETE", 17, 17, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE1_SUCCESS", 18, 18, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE2_SUCCESS", 19, 19, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE3_SUCCESS", 20, 20, &umr_bitfield_default },
-	 { "LINK_EQUALIZATION_REQUEST", 21, 21, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F3_LINK_CNTL2[] = {
 	 { "TARGET_LINK_SPEED", 0, 3, &umr_bitfield_default },
@@ -15353,14 +15345,22 @@ static struct umr_bitfield ixD3F3_LINK_CNTL2[] = {
 	 { "COMPLIANCE_SOS", 11, 11, &umr_bitfield_default },
 	 { "COMPLIANCE_DEEMPHASIS", 12, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F3_LINK_STATUS2[] = {
+	 { "CUR_DEEMPHASIS_LEVEL", 16, 16, &umr_bitfield_default },
+	 { "EQUALIZATION_COMPLETE", 17, 17, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE1_SUCCESS", 18, 18, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE2_SUCCESS", 19, 19, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE3_SUCCESS", 20, 20, &umr_bitfield_default },
+	 { "LINK_EQUALIZATION_REQUEST", 21, 21, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F3_SLOT_CAP2[] = {
 	 { "RESERVED", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F3_SLOT_STATUS2[] = {
-	 { "RESERVED", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F3_SLOT_CNTL2[] = {
 	 { "RESERVED", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F3_SLOT_STATUS2[] = {
+	 { "RESERVED", 16, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F3_MSI_CAP_LIST[] = {
 	 { "CAP_ID", 0, 7, &umr_bitfield_default },
@@ -15369,11 +15369,11 @@ static struct umr_bitfield ixD3F3_MSI_CAP_LIST[] = {
 static struct umr_bitfield ixD3F3_MSI_MSG_ADDR_LO[] = {
 	 { "MSI_MSG_ADDR_LO", 2, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F3_MSI_MSG_ADDR_HI[] = {
-	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F3_MSI_MSG_DATA[] = {
 	 { "MSI_DATA", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F3_MSI_MSG_ADDR_HI[] = {
+	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F3_MSI_MSG_DATA_64[] = {
 	 { "MSI_DATA_64", 0, 15, &umr_bitfield_default },
@@ -15386,14 +15386,14 @@ static struct umr_bitfield ixD3F3_SSID_CAP[] = {
 	 { "SUBSYSTEM_VENDOR_ID", 0, 15, &umr_bitfield_default },
 	 { "SUBSYSTEM_ID", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F3_MSI_MAP_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F3_MSI_MAP_CAP[] = {
 	 { "EN", 16, 16, &umr_bitfield_default },
 	 { "FIXD", 17, 17, &umr_bitfield_default },
 	 { "CAP_TYPE", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F3_MSI_MAP_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F3_MSI_MAP_ADDR_LO[] = {
 	 { "MSI_MAP_ADDR_LO", 20, 31, &umr_bitfield_default },
@@ -15438,12 +15438,12 @@ static struct umr_bitfield ixD3F3_PCIE_PORT_VC_CAP_REG2[] = {
 	 { "VC_ARB_CAP", 0, 7, &umr_bitfield_default },
 	 { "VC_ARB_TABLE_OFFSET", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F3_PCIE_PORT_VC_STATUS[] = {
-	 { "VC_ARB_TABLE_STATUS", 16, 16, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F3_PCIE_PORT_VC_CNTL[] = {
 	 { "LOAD_VC_ARB_TABLE", 0, 0, &umr_bitfield_default },
 	 { "VC_ARB_SELECT", 1, 3, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F3_PCIE_PORT_VC_STATUS[] = {
+	 { "VC_ARB_TABLE_STATUS", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F3_PCIE_VC0_RESOURCE_CAP[] = {
 	 { "PORT_ARB_CAP", 0, 7, &umr_bitfield_default },
@@ -15699,15 +15699,6 @@ static struct umr_bitfield ixD3F3_PCIE_ACS_ENH_CAP_LIST[] = {
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F3_PCIE_ACS_CNTL[] = {
-	 { "SOURCE_VALIDATION_EN", 16, 16, &umr_bitfield_default },
-	 { "TRANSLATION_BLOCKING_EN", 17, 17, &umr_bitfield_default },
-	 { "P2P_REQUEST_REDIRECT_EN", 18, 18, &umr_bitfield_default },
-	 { "P2P_COMPLETION_REDIRECT_EN", 19, 19, &umr_bitfield_default },
-	 { "UPSTREAM_FORWARDING_EN", 20, 20, &umr_bitfield_default },
-	 { "P2P_EGRESS_CONTROL_EN", 21, 21, &umr_bitfield_default },
-	 { "DIRECT_TRANSLATED_P2P_EN", 22, 22, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F3_PCIE_ACS_CAP[] = {
 	 { "SOURCE_VALIDATION", 0, 0, &umr_bitfield_default },
 	 { "TRANSLATION_BLOCKING", 1, 1, &umr_bitfield_default },
@@ -15718,18 +15709,27 @@ static struct umr_bitfield ixD3F3_PCIE_ACS_CAP[] = {
 	 { "DIRECT_TRANSLATED_P2P", 6, 6, &umr_bitfield_default },
 	 { "EGRESS_CONTROL_VECTOR_SIZE", 8, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F3_PCIE_ACS_CNTL[] = {
+	 { "SOURCE_VALIDATION_EN", 16, 16, &umr_bitfield_default },
+	 { "TRANSLATION_BLOCKING_EN", 17, 17, &umr_bitfield_default },
+	 { "P2P_REQUEST_REDIRECT_EN", 18, 18, &umr_bitfield_default },
+	 { "P2P_COMPLETION_REDIRECT_EN", 19, 19, &umr_bitfield_default },
+	 { "UPSTREAM_FORWARDING_EN", 20, 20, &umr_bitfield_default },
+	 { "P2P_EGRESS_CONTROL_EN", 21, 21, &umr_bitfield_default },
+	 { "DIRECT_TRANSLATED_P2P_EN", 22, 22, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F3_PCIE_MC_ENH_CAP_LIST[] = {
 	 { "CAP_ID", 0, 15, &umr_bitfield_default },
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F3_PCIE_MC_CNTL[] = {
-	 { "MC_NUM_GROUP", 16, 21, &umr_bitfield_default },
-	 { "MC_ENABLE", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F3_PCIE_MC_CAP[] = {
 	 { "MC_MAX_GROUP", 0, 5, &umr_bitfield_default },
 	 { "MC_ECRC_REGEN_SUPP", 15, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F3_PCIE_MC_CNTL[] = {
+	 { "MC_NUM_GROUP", 16, 21, &umr_bitfield_default },
+	 { "MC_ENABLE", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F3_PCIE_MC_ADDR0[] = {
 	 { "MC_INDEX_POS", 0, 5, &umr_bitfield_default },
@@ -15792,12 +15792,12 @@ static struct umr_bitfield mmPCIE_DPA_CAP[] = {
 static struct umr_bitfield mmPCIE_DPA_LATENCY_INDICATOR[] = {
 	 { "TRANS_LAT_INDICATOR_BITS", 0, 7, &umr_bitfield_default },
 };
+static struct umr_bitfield mmPCIE_DPA_CNTL[] = {
+	 { "SUBSTATE_CNTL", 0, 4, &umr_bitfield_default },
+};
 static struct umr_bitfield mmPCIE_DPA_STATUS[] = {
 	 { "SUBSTATE_STATUS", 0, 4, &umr_bitfield_default },
 	 { "SUBSTATE_CNTL_ENABLED", 8, 8, &umr_bitfield_default },
-};
-static struct umr_bitfield mmPCIE_DPA_CNTL[] = {
-	 { "SUBSTATE_CNTL", 0, 4, &umr_bitfield_default },
 };
 static struct umr_bitfield mmPCIE_DPA_SUBSTATE_PWR_ALLOC_0[] = {
 	 { "SUBSTATE_PWR_ALLOC", 0, 7, &umr_bitfield_default },
@@ -15826,13 +15826,6 @@ static struct umr_bitfield mmPCIE_LANE_0_EQUALIZATION_CNTL[] = {
 	 { "UPSTREAM_PORT_RX_PRESET_HINT", 12, 14, &umr_bitfield_default },
 	 { "RESERVED", 15, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPCIE_LANE_2_EQUALIZATION_CNTL[] = {
-	 { "DOWNSTREAM_PORT_TX_PRESET", 0, 3, &umr_bitfield_default },
-	 { "DOWNSTREAM_PORT_RX_PRESET_HINT", 4, 6, &umr_bitfield_default },
-	 { "UPSTREAM_PORT_TX_PRESET", 8, 11, &umr_bitfield_default },
-	 { "UPSTREAM_PORT_RX_PRESET_HINT", 12, 14, &umr_bitfield_default },
-	 { "RESERVED", 15, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F1_PCIE_LC_CNTL[] = {
 	 { "LC_DONT_ENTER_L23_IN_D0", 1, 1, &umr_bitfield_default },
 	 { "LC_RESET_L_IDLE_COUNT_EN", 2, 2, &umr_bitfield_default },
@@ -15855,21 +15848,15 @@ static struct umr_bitfield ixD2F1_PCIE_LC_CNTL[] = {
 	 { "LC_ESCAPE_L1L23_EN", 30, 30, &umr_bitfield_default },
 	 { "LC_GATE_RCVR_IDLE", 31, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield mmPCIE_LANE_2_EQUALIZATION_CNTL[] = {
+	 { "DOWNSTREAM_PORT_TX_PRESET", 0, 3, &umr_bitfield_default },
+	 { "DOWNSTREAM_PORT_RX_PRESET_HINT", 4, 6, &umr_bitfield_default },
+	 { "UPSTREAM_PORT_TX_PRESET", 8, 11, &umr_bitfield_default },
+	 { "UPSTREAM_PORT_RX_PRESET_HINT", 12, 14, &umr_bitfield_default },
+	 { "RESERVED", 15, 15, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F4_VENDOR_ID[] = {
 	 { "VENDOR_ID", 0, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F4_COMMAND[] = {
-	 { "IO_ACCESS_EN", 0, 0, &umr_bitfield_default },
-	 { "MEM_ACCESS_EN", 1, 1, &umr_bitfield_default },
-	 { "BUS_MASTER_EN", 2, 2, &umr_bitfield_default },
-	 { "SPECIAL_CYCLE_EN", 3, 3, &umr_bitfield_default },
-	 { "MEM_WRITE_INVALIDATE_EN", 4, 4, &umr_bitfield_default },
-	 { "PAL_SNOOP_EN", 5, 5, &umr_bitfield_default },
-	 { "PARITY_ERROR_RESPONSE", 6, 6, &umr_bitfield_default },
-	 { "AD_STEPPING", 7, 7, &umr_bitfield_default },
-	 { "SERR_EN", 8, 8, &umr_bitfield_default },
-	 { "FAST_B2B_EN", 9, 9, &umr_bitfield_default },
-	 { "INT_DIS", 10, 10, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F4_STATUS[] = {
 	 { "INT_STATUS", 19, 19, &umr_bitfield_default },
@@ -15884,39 +15871,58 @@ static struct umr_bitfield ixD3F4_STATUS[] = {
 	 { "SIGNALED_SYSTEM_ERROR", 30, 30, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F4_PROG_INTERFACE[] = {
-	 { "PROG_INTERFACE", 8, 15, &umr_bitfield_default },
+static struct umr_bitfield ixD3F4_COMMAND[] = {
+	 { "IO_ACCESS_EN", 0, 0, &umr_bitfield_default },
+	 { "MEM_ACCESS_EN", 1, 1, &umr_bitfield_default },
+	 { "BUS_MASTER_EN", 2, 2, &umr_bitfield_default },
+	 { "SPECIAL_CYCLE_EN", 3, 3, &umr_bitfield_default },
+	 { "MEM_WRITE_INVALIDATE_EN", 4, 4, &umr_bitfield_default },
+	 { "PAL_SNOOP_EN", 5, 5, &umr_bitfield_default },
+	 { "PARITY_ERROR_RESPONSE", 6, 6, &umr_bitfield_default },
+	 { "AD_STEPPING", 7, 7, &umr_bitfield_default },
+	 { "SERR_EN", 8, 8, &umr_bitfield_default },
+	 { "FAST_B2B_EN", 9, 9, &umr_bitfield_default },
+	 { "INT_DIS", 10, 10, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F4_SUB_CLASS[] = {
+	 { "SUB_CLASS", 16, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F4_BASE_CLASS[] = {
+	 { "BASE_CLASS", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F4_REVISION_ID[] = {
 	 { "MINOR_REV_ID", 0, 3, &umr_bitfield_default },
 	 { "MAJOR_REV_ID", 4, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F4_BASE_CLASS[] = {
-	 { "BASE_CLASS", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F4_SUB_CLASS[] = {
-	 { "SUB_CLASS", 16, 23, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F4_CACHE_LINE[] = {
-	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F4_LATENCY[] = {
-	 { "LATENCY_TIMER", 8, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F4_HEADER[] = {
-	 { "HEADER_TYPE", 16, 22, &umr_bitfield_default },
-	 { "DEVICE_TYPE", 23, 23, &umr_bitfield_default },
+static struct umr_bitfield ixD3F4_PROG_INTERFACE[] = {
+	 { "PROG_INTERFACE", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F4_BIST[] = {
 	 { "BIST_COMP", 24, 27, &umr_bitfield_default },
 	 { "BIST_STRT", 30, 30, &umr_bitfield_default },
 	 { "BIST_CAP", 31, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F4_HEADER[] = {
+	 { "HEADER_TYPE", 16, 22, &umr_bitfield_default },
+	 { "DEVICE_TYPE", 23, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F4_LATENCY[] = {
+	 { "LATENCY_TIMER", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F4_CACHE_LINE[] = {
+	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F4_SUB_BUS_NUMBER_LATENCY[] = {
 	 { "PRIMARY_BUS", 0, 7, &umr_bitfield_default },
 	 { "SECONDARY_BUS", 8, 15, &umr_bitfield_default },
 	 { "SUB_BUS_NUM", 16, 23, &umr_bitfield_default },
 	 { "SECONDARY_LATENCY_TIMER", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F4_IO_BASE_LIMIT[] = {
+	 { "IO_BASE_TYPE", 0, 3, &umr_bitfield_default },
+	 { "IO_BASE", 4, 7, &umr_bitfield_default },
+	 { "IO_LIMIT_TYPE", 8, 11, &umr_bitfield_default },
+	 { "IO_LIMIT", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F4_SECONDARY_STATUS[] = {
 	 { "CAP_LIST", 20, 20, &umr_bitfield_default },
@@ -15929,12 +15935,6 @@ static struct umr_bitfield ixD3F4_SECONDARY_STATUS[] = {
 	 { "RECEIVED_MASTER_ABORT", 29, 29, &umr_bitfield_default },
 	 { "RECEIVED_SYSTEM_ERROR", 30, 30, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 31, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F4_IO_BASE_LIMIT[] = {
-	 { "IO_BASE_TYPE", 0, 3, &umr_bitfield_default },
-	 { "IO_BASE", 4, 7, &umr_bitfield_default },
-	 { "IO_LIMIT_TYPE", 8, 11, &umr_bitfield_default },
-	 { "IO_LIMIT", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F4_MEM_BASE_LIMIT[] = {
 	 { "MEM_BASE_TYPE", 0, 3, &umr_bitfield_default },
@@ -15961,6 +15961,12 @@ static struct umr_bitfield ixD3F4_IO_BASE_LIMIT_HI[] = {
 static struct umr_bitfield ixD3F4_CAP_PTR[] = {
 	 { "CAP_PTR", 0, 7, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F4_INTERRUPT_PIN[] = {
+	 { "INTERRUPT_PIN", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F4_INTERRUPT_LINE[] = {
+	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F4_IRQ_BRIDGE_CNTL[] = {
 	 { "PARITY_RESPONSE_EN", 16, 16, &umr_bitfield_default },
 	 { "SERR_EN", 17, 17, &umr_bitfield_default },
@@ -15971,18 +15977,8 @@ static struct umr_bitfield ixD3F4_IRQ_BRIDGE_CNTL[] = {
 	 { "SECONDARY_BUS_RESET", 22, 22, &umr_bitfield_default },
 	 { "FAST_B2B_EN", 23, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F4_INTERRUPT_LINE[] = {
-	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F4_INTERRUPT_PIN[] = {
-	 { "INTERRUPT_PIN", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F4_EXT_BRIDGE_CNTL[] = {
 	 { "IO_PORT_80_EN", 0, 0, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F4_PMI_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F4_PMI_CAP[] = {
 	 { "VERSION", 16, 18, &umr_bitfield_default },
@@ -15992,6 +15988,10 @@ static struct umr_bitfield ixD3F4_PMI_CAP[] = {
 	 { "D1_SUPPORT", 25, 25, &umr_bitfield_default },
 	 { "D2_SUPPORT", 26, 26, &umr_bitfield_default },
 	 { "PME_SUPPORT", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F4_PMI_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F4_PMI_STATUS_CNTL[] = {
 	 { "POWER_STATE", 0, 1, &umr_bitfield_default },
@@ -16004,15 +16004,15 @@ static struct umr_bitfield ixD3F4_PMI_STATUS_CNTL[] = {
 	 { "BUS_PWR_EN", 23, 23, &umr_bitfield_default },
 	 { "PMI_DATA", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F4_PCIE_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F4_PCIE_CAP[] = {
 	 { "VERSION", 16, 19, &umr_bitfield_default },
 	 { "DEVICE_TYPE", 20, 23, &umr_bitfield_default },
 	 { "SLOT_IMPLEMENTED", 24, 24, &umr_bitfield_default },
 	 { "INT_MESSAGE_NUM", 25, 29, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F4_PCIE_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F4_DEVICE_CAP[] = {
 	 { "MAX_PAYLOAD_SUPPORT", 0, 2, &umr_bitfield_default },
@@ -16024,14 +16024,6 @@ static struct umr_bitfield ixD3F4_DEVICE_CAP[] = {
 	 { "CAPTURED_SLOT_POWER_LIMIT", 18, 25, &umr_bitfield_default },
 	 { "CAPTURED_SLOT_POWER_SCALE", 26, 27, &umr_bitfield_default },
 	 { "FLR_CAPABLE", 28, 28, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F4_DEVICE_STATUS[] = {
-	 { "CORR_ERR", 16, 16, &umr_bitfield_default },
-	 { "NON_FATAL_ERR", 17, 17, &umr_bitfield_default },
-	 { "FATAL_ERR", 18, 18, &umr_bitfield_default },
-	 { "USR_DETECTED", 19, 19, &umr_bitfield_default },
-	 { "AUX_PWR", 20, 20, &umr_bitfield_default },
-	 { "TRANSACTIONS_PEND", 21, 21, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F4_DEVICE_CNTL[] = {
 	 { "CORR_ERR_EN", 0, 0, &umr_bitfield_default },
@@ -16047,6 +16039,14 @@ static struct umr_bitfield ixD3F4_DEVICE_CNTL[] = {
 	 { "MAX_READ_REQUEST_SIZE", 12, 14, &umr_bitfield_default },
 	 { "BRIDGE_CFG_RETRY_EN", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F4_DEVICE_STATUS[] = {
+	 { "CORR_ERR", 16, 16, &umr_bitfield_default },
+	 { "NON_FATAL_ERR", 17, 17, &umr_bitfield_default },
+	 { "FATAL_ERR", 18, 18, &umr_bitfield_default },
+	 { "USR_DETECTED", 19, 19, &umr_bitfield_default },
+	 { "AUX_PWR", 20, 20, &umr_bitfield_default },
+	 { "TRANSACTIONS_PEND", 21, 21, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F4_LINK_CAP[] = {
 	 { "LINK_SPEED", 0, 3, &umr_bitfield_default },
 	 { "LINK_WIDTH", 4, 9, &umr_bitfield_default },
@@ -16060,15 +16060,6 @@ static struct umr_bitfield ixD3F4_LINK_CAP[] = {
 	 { "ASPM_OPTIONALITY_COMPLIANCE", 22, 22, &umr_bitfield_default },
 	 { "PORT_NUMBER", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F4_LINK_STATUS[] = {
-	 { "CURRENT_LINK_SPEED", 16, 19, &umr_bitfield_default },
-	 { "NEGOTIATED_LINK_WIDTH", 20, 25, &umr_bitfield_default },
-	 { "LINK_TRAINING", 27, 27, &umr_bitfield_default },
-	 { "SLOT_CLOCK_CFG", 28, 28, &umr_bitfield_default },
-	 { "DL_ACTIVE", 29, 29, &umr_bitfield_default },
-	 { "LINK_BW_MANAGEMENT_STATUS", 30, 30, &umr_bitfield_default },
-	 { "LINK_AUTONOMOUS_BW_STATUS", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F4_LINK_CNTL[] = {
 	 { "PM_CONTROL", 0, 1, &umr_bitfield_default },
 	 { "READ_CPL_BOUNDARY", 3, 3, &umr_bitfield_default },
@@ -16080,6 +16071,15 @@ static struct umr_bitfield ixD3F4_LINK_CNTL[] = {
 	 { "HW_AUTONOMOUS_WIDTH_DISABLE", 9, 9, &umr_bitfield_default },
 	 { "LINK_BW_MANAGEMENT_INT_EN", 10, 10, &umr_bitfield_default },
 	 { "LINK_AUTONOMOUS_BW_INT_EN", 11, 11, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F4_LINK_STATUS[] = {
+	 { "CURRENT_LINK_SPEED", 16, 19, &umr_bitfield_default },
+	 { "NEGOTIATED_LINK_WIDTH", 20, 25, &umr_bitfield_default },
+	 { "LINK_TRAINING", 27, 27, &umr_bitfield_default },
+	 { "SLOT_CLOCK_CFG", 28, 28, &umr_bitfield_default },
+	 { "DL_ACTIVE", 29, 29, &umr_bitfield_default },
+	 { "LINK_BW_MANAGEMENT_STATUS", 30, 30, &umr_bitfield_default },
+	 { "LINK_AUTONOMOUS_BW_STATUS", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F4_SLOT_CAP[] = {
 	 { "ATTN_BUTTON_PRESENT", 0, 0, &umr_bitfield_default },
@@ -16095,17 +16095,6 @@ static struct umr_bitfield ixD3F4_SLOT_CAP[] = {
 	 { "NO_COMMAND_COMPLETED_SUPPORTED", 18, 18, &umr_bitfield_default },
 	 { "PHYSICAL_SLOT_NUM", 19, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F4_SLOT_STATUS[] = {
-	 { "ATTN_BUTTON_PRESSED", 16, 16, &umr_bitfield_default },
-	 { "PWR_FAULT_DETECTED", 17, 17, &umr_bitfield_default },
-	 { "MRL_SENSOR_CHANGED", 18, 18, &umr_bitfield_default },
-	 { "PRESENCE_DETECT_CHANGED", 19, 19, &umr_bitfield_default },
-	 { "COMMAND_COMPLETED", 20, 20, &umr_bitfield_default },
-	 { "MRL_SENSOR_STATE", 21, 21, &umr_bitfield_default },
-	 { "PRESENCE_DETECT_STATE", 22, 22, &umr_bitfield_default },
-	 { "ELECTROMECH_INTERLOCK_STATUS", 23, 23, &umr_bitfield_default },
-	 { "DL_STATE_CHANGED", 24, 24, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F4_SLOT_CNTL[] = {
 	 { "ATTN_BUTTON_PRESSED_EN", 0, 0, &umr_bitfield_default },
 	 { "PWR_FAULT_DETECTED_EN", 1, 1, &umr_bitfield_default },
@@ -16119,15 +16108,26 @@ static struct umr_bitfield ixD3F4_SLOT_CNTL[] = {
 	 { "ELECTROMECH_INTERLOCK_CNTL", 11, 11, &umr_bitfield_default },
 	 { "DL_STATE_CHANGED_EN", 12, 12, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F4_SLOT_STATUS[] = {
+	 { "ATTN_BUTTON_PRESSED", 16, 16, &umr_bitfield_default },
+	 { "PWR_FAULT_DETECTED", 17, 17, &umr_bitfield_default },
+	 { "MRL_SENSOR_CHANGED", 18, 18, &umr_bitfield_default },
+	 { "PRESENCE_DETECT_CHANGED", 19, 19, &umr_bitfield_default },
+	 { "COMMAND_COMPLETED", 20, 20, &umr_bitfield_default },
+	 { "MRL_SENSOR_STATE", 21, 21, &umr_bitfield_default },
+	 { "PRESENCE_DETECT_STATE", 22, 22, &umr_bitfield_default },
+	 { "ELECTROMECH_INTERLOCK_STATUS", 23, 23, &umr_bitfield_default },
+	 { "DL_STATE_CHANGED", 24, 24, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F4_ROOT_CAP[] = {
+	 { "CRS_SOFTWARE_VISIBILITY", 16, 16, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F4_ROOT_CNTL[] = {
 	 { "SERR_ON_CORR_ERR_EN", 0, 0, &umr_bitfield_default },
 	 { "SERR_ON_NONFATAL_ERR_EN", 1, 1, &umr_bitfield_default },
 	 { "SERR_ON_FATAL_ERR_EN", 2, 2, &umr_bitfield_default },
 	 { "PM_INTERRUPT_EN", 3, 3, &umr_bitfield_default },
 	 { "CRS_SOFTWARE_VISIBILITY_EN", 4, 4, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F4_ROOT_CAP[] = {
-	 { "CRS_SOFTWARE_VISIBILITY", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F4_ROOT_STATUS[] = {
 	 { "PME_REQUESTOR_ID", 0, 15, &umr_bitfield_default },
@@ -16150,9 +16150,6 @@ static struct umr_bitfield ixD3F4_DEVICE_CAP2[] = {
 	 { "END_END_TLP_PREFIX_SUPPORTED", 21, 21, &umr_bitfield_default },
 	 { "MAX_END_END_TLP_PREFIXES", 22, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F4_DEVICE_STATUS2[] = {
-	 { "RESERVED", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F4_DEVICE_CNTL2[] = {
 	 { "CPL_TIMEOUT_VALUE", 0, 3, &umr_bitfield_default },
 	 { "CPL_TIMEOUT_DIS", 4, 4, &umr_bitfield_default },
@@ -16165,18 +16162,13 @@ static struct umr_bitfield ixD3F4_DEVICE_CNTL2[] = {
 	 { "OBFF_EN", 13, 14, &umr_bitfield_default },
 	 { "END_END_TLP_PREFIX_BLOCKING", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F4_DEVICE_STATUS2[] = {
+	 { "RESERVED", 16, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F4_LINK_CAP2[] = {
 	 { "SUPPORTED_LINK_SPEED", 1, 7, &umr_bitfield_default },
 	 { "CROSSLINK_SUPPORTED", 8, 8, &umr_bitfield_default },
 	 { "RESERVED", 9, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F4_LINK_STATUS2[] = {
-	 { "CUR_DEEMPHASIS_LEVEL", 16, 16, &umr_bitfield_default },
-	 { "EQUALIZATION_COMPLETE", 17, 17, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE1_SUCCESS", 18, 18, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE2_SUCCESS", 19, 19, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE3_SUCCESS", 20, 20, &umr_bitfield_default },
-	 { "LINK_EQUALIZATION_REQUEST", 21, 21, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F4_LINK_CNTL2[] = {
 	 { "TARGET_LINK_SPEED", 0, 3, &umr_bitfield_default },
@@ -16188,14 +16180,22 @@ static struct umr_bitfield ixD3F4_LINK_CNTL2[] = {
 	 { "COMPLIANCE_SOS", 11, 11, &umr_bitfield_default },
 	 { "COMPLIANCE_DEEMPHASIS", 12, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F4_LINK_STATUS2[] = {
+	 { "CUR_DEEMPHASIS_LEVEL", 16, 16, &umr_bitfield_default },
+	 { "EQUALIZATION_COMPLETE", 17, 17, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE1_SUCCESS", 18, 18, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE2_SUCCESS", 19, 19, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE3_SUCCESS", 20, 20, &umr_bitfield_default },
+	 { "LINK_EQUALIZATION_REQUEST", 21, 21, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F4_SLOT_CAP2[] = {
 	 { "RESERVED", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F4_SLOT_STATUS2[] = {
-	 { "RESERVED", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F4_SLOT_CNTL2[] = {
 	 { "RESERVED", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F4_SLOT_STATUS2[] = {
+	 { "RESERVED", 16, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F4_MSI_CAP_LIST[] = {
 	 { "CAP_ID", 0, 7, &umr_bitfield_default },
@@ -16204,11 +16204,11 @@ static struct umr_bitfield ixD3F4_MSI_CAP_LIST[] = {
 static struct umr_bitfield ixD3F4_MSI_MSG_ADDR_LO[] = {
 	 { "MSI_MSG_ADDR_LO", 2, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F4_MSI_MSG_ADDR_HI[] = {
-	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F4_MSI_MSG_DATA[] = {
 	 { "MSI_DATA", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F4_MSI_MSG_ADDR_HI[] = {
+	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F4_MSI_MSG_DATA_64[] = {
 	 { "MSI_DATA_64", 0, 15, &umr_bitfield_default },
@@ -16221,14 +16221,14 @@ static struct umr_bitfield ixD3F4_SSID_CAP[] = {
 	 { "SUBSYSTEM_VENDOR_ID", 0, 15, &umr_bitfield_default },
 	 { "SUBSYSTEM_ID", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F4_MSI_MAP_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F4_MSI_MAP_CAP[] = {
 	 { "EN", 16, 16, &umr_bitfield_default },
 	 { "FIXD", 17, 17, &umr_bitfield_default },
 	 { "CAP_TYPE", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F4_MSI_MAP_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F4_MSI_MAP_ADDR_LO[] = {
 	 { "MSI_MAP_ADDR_LO", 20, 31, &umr_bitfield_default },
@@ -16273,12 +16273,12 @@ static struct umr_bitfield ixD3F4_PCIE_PORT_VC_CAP_REG2[] = {
 	 { "VC_ARB_CAP", 0, 7, &umr_bitfield_default },
 	 { "VC_ARB_TABLE_OFFSET", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F4_PCIE_PORT_VC_STATUS[] = {
-	 { "VC_ARB_TABLE_STATUS", 16, 16, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F4_PCIE_PORT_VC_CNTL[] = {
 	 { "LOAD_VC_ARB_TABLE", 0, 0, &umr_bitfield_default },
 	 { "VC_ARB_SELECT", 1, 3, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F4_PCIE_PORT_VC_STATUS[] = {
+	 { "VC_ARB_TABLE_STATUS", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F4_PCIE_VC0_RESOURCE_CAP[] = {
 	 { "PORT_ARB_CAP", 0, 7, &umr_bitfield_default },
@@ -16534,15 +16534,6 @@ static struct umr_bitfield ixD3F4_PCIE_ACS_ENH_CAP_LIST[] = {
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F4_PCIE_ACS_CNTL[] = {
-	 { "SOURCE_VALIDATION_EN", 16, 16, &umr_bitfield_default },
-	 { "TRANSLATION_BLOCKING_EN", 17, 17, &umr_bitfield_default },
-	 { "P2P_REQUEST_REDIRECT_EN", 18, 18, &umr_bitfield_default },
-	 { "P2P_COMPLETION_REDIRECT_EN", 19, 19, &umr_bitfield_default },
-	 { "UPSTREAM_FORWARDING_EN", 20, 20, &umr_bitfield_default },
-	 { "P2P_EGRESS_CONTROL_EN", 21, 21, &umr_bitfield_default },
-	 { "DIRECT_TRANSLATED_P2P_EN", 22, 22, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F4_PCIE_ACS_CAP[] = {
 	 { "SOURCE_VALIDATION", 0, 0, &umr_bitfield_default },
 	 { "TRANSLATION_BLOCKING", 1, 1, &umr_bitfield_default },
@@ -16553,18 +16544,27 @@ static struct umr_bitfield ixD3F4_PCIE_ACS_CAP[] = {
 	 { "DIRECT_TRANSLATED_P2P", 6, 6, &umr_bitfield_default },
 	 { "EGRESS_CONTROL_VECTOR_SIZE", 8, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F4_PCIE_ACS_CNTL[] = {
+	 { "SOURCE_VALIDATION_EN", 16, 16, &umr_bitfield_default },
+	 { "TRANSLATION_BLOCKING_EN", 17, 17, &umr_bitfield_default },
+	 { "P2P_REQUEST_REDIRECT_EN", 18, 18, &umr_bitfield_default },
+	 { "P2P_COMPLETION_REDIRECT_EN", 19, 19, &umr_bitfield_default },
+	 { "UPSTREAM_FORWARDING_EN", 20, 20, &umr_bitfield_default },
+	 { "P2P_EGRESS_CONTROL_EN", 21, 21, &umr_bitfield_default },
+	 { "DIRECT_TRANSLATED_P2P_EN", 22, 22, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F4_PCIE_MC_ENH_CAP_LIST[] = {
 	 { "CAP_ID", 0, 15, &umr_bitfield_default },
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F4_PCIE_MC_CNTL[] = {
-	 { "MC_NUM_GROUP", 16, 21, &umr_bitfield_default },
-	 { "MC_ENABLE", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F4_PCIE_MC_CAP[] = {
 	 { "MC_MAX_GROUP", 0, 5, &umr_bitfield_default },
 	 { "MC_ECRC_REGEN_SUPP", 15, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F4_PCIE_MC_CNTL[] = {
+	 { "MC_NUM_GROUP", 16, 21, &umr_bitfield_default },
+	 { "MC_ENABLE", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F4_PCIE_MC_ADDR0[] = {
 	 { "MC_INDEX_POS", 0, 5, &umr_bitfield_default },
@@ -16598,13 +16598,6 @@ static struct umr_bitfield ixD3F4_PCIE_MC_OVERLAY_BAR0[] = {
 static struct umr_bitfield ixD3F4_PCIE_MC_OVERLAY_BAR1[] = {
 	 { "MC_OVERLAY_BAR_1", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPCIE_LANE_4_EQUALIZATION_CNTL[] = {
-	 { "DOWNSTREAM_PORT_TX_PRESET", 0, 3, &umr_bitfield_default },
-	 { "DOWNSTREAM_PORT_RX_PRESET_HINT", 4, 6, &umr_bitfield_default },
-	 { "UPSTREAM_PORT_TX_PRESET", 8, 11, &umr_bitfield_default },
-	 { "UPSTREAM_PORT_RX_PRESET_HINT", 12, 14, &umr_bitfield_default },
-	 { "RESERVED", 15, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F1_PCIE_LC_TRAINING_CNTL[] = {
 	 { "LC_TRAINING_CNTL", 0, 3, &umr_bitfield_default },
 	 { "LC_COMPLIANCE_RECEIVE", 4, 4, &umr_bitfield_default },
@@ -16632,7 +16625,7 @@ static struct umr_bitfield ixD2F1_PCIE_LC_TRAINING_CNTL[] = {
 	 { "LC_WAIT_FOR_FOM_VALID_AFTER_TRACK", 29, 29, &umr_bitfield_default },
 	 { "LC_EXTEND_EQ_REQ_TIME", 30, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPCIE_LANE_6_EQUALIZATION_CNTL[] = {
+static struct umr_bitfield mmPCIE_LANE_4_EQUALIZATION_CNTL[] = {
 	 { "DOWNSTREAM_PORT_TX_PRESET", 0, 3, &umr_bitfield_default },
 	 { "DOWNSTREAM_PORT_RX_PRESET_HINT", 4, 6, &umr_bitfield_default },
 	 { "UPSTREAM_PORT_TX_PRESET", 8, 11, &umr_bitfield_default },
@@ -16665,7 +16658,7 @@ static struct umr_bitfield ixD2F1_PCIE_LC_LINK_WIDTH_CNTL[] = {
 	 { "LC_HOLD_EI_FOR_RSPEED_CMD_CHANGE", 28, 28, &umr_bitfield_default },
 	 { "LC_BYPASS_RXL0S_ON_SHORT_EI", 29, 29, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPCIE_LANE_8_EQUALIZATION_CNTL[] = {
+static struct umr_bitfield mmPCIE_LANE_6_EQUALIZATION_CNTL[] = {
 	 { "DOWNSTREAM_PORT_TX_PRESET", 0, 3, &umr_bitfield_default },
 	 { "DOWNSTREAM_PORT_RX_PRESET_HINT", 4, 6, &umr_bitfield_default },
 	 { "UPSTREAM_PORT_TX_PRESET", 8, 11, &umr_bitfield_default },
@@ -16679,7 +16672,7 @@ static struct umr_bitfield ixD2F1_PCIE_LC_N_FTS_CNTL[] = {
 	 { "LC_XMIT_N_FTS_LIMIT", 16, 23, &umr_bitfield_default },
 	 { "LC_N_FTS", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPCIE_LANE_10_EQUALIZATION_CNTL[] = {
+static struct umr_bitfield mmPCIE_LANE_8_EQUALIZATION_CNTL[] = {
 	 { "DOWNSTREAM_PORT_TX_PRESET", 0, 3, &umr_bitfield_default },
 	 { "DOWNSTREAM_PORT_RX_PRESET_HINT", 4, 6, &umr_bitfield_default },
 	 { "UPSTREAM_PORT_TX_PRESET", 8, 11, &umr_bitfield_default },
@@ -16716,7 +16709,7 @@ static struct umr_bitfield ixD2F1_PCIE_LC_SPEED_CNTL[] = {
 	 { "LC_DONT_CHECK_EQTS_IN_RCFG", 30, 30, &umr_bitfield_default },
 	 { "LC_DELAY_COEFF_UPDATE_DIS", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPCIE_LANE_12_EQUALIZATION_CNTL[] = {
+static struct umr_bitfield mmPCIE_LANE_10_EQUALIZATION_CNTL[] = {
 	 { "DOWNSTREAM_PORT_TX_PRESET", 0, 3, &umr_bitfield_default },
 	 { "DOWNSTREAM_PORT_RX_PRESET_HINT", 4, 6, &umr_bitfield_default },
 	 { "UPSTREAM_PORT_TX_PRESET", 8, 11, &umr_bitfield_default },
@@ -16729,7 +16722,7 @@ static struct umr_bitfield ixD2F1_PCIE_LC_STATE0[] = {
 	 { "LC_PREV_STATE2", 16, 21, &umr_bitfield_default },
 	 { "LC_PREV_STATE3", 24, 29, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPCIE_LANE_14_EQUALIZATION_CNTL[] = {
+static struct umr_bitfield mmPCIE_LANE_12_EQUALIZATION_CNTL[] = {
 	 { "DOWNSTREAM_PORT_TX_PRESET", 0, 3, &umr_bitfield_default },
 	 { "DOWNSTREAM_PORT_RX_PRESET_HINT", 4, 6, &umr_bitfield_default },
 	 { "UPSTREAM_PORT_TX_PRESET", 8, 11, &umr_bitfield_default },
@@ -16742,16 +16735,18 @@ static struct umr_bitfield ixD2F1_PCIE_LC_STATE1[] = {
 	 { "LC_PREV_STATE6", 16, 21, &umr_bitfield_default },
 	 { "LC_PREV_STATE7", 24, 29, &umr_bitfield_default },
 };
+static struct umr_bitfield mmPCIE_LANE_14_EQUALIZATION_CNTL[] = {
+	 { "DOWNSTREAM_PORT_TX_PRESET", 0, 3, &umr_bitfield_default },
+	 { "DOWNSTREAM_PORT_RX_PRESET_HINT", 4, 6, &umr_bitfield_default },
+	 { "UPSTREAM_PORT_TX_PRESET", 8, 11, &umr_bitfield_default },
+	 { "UPSTREAM_PORT_RX_PRESET_HINT", 12, 14, &umr_bitfield_default },
+	 { "RESERVED", 15, 15, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F1_PCIE_LC_STATE2[] = {
 	 { "LC_PREV_STATE8", 0, 5, &umr_bitfield_default },
 	 { "LC_PREV_STATE9", 8, 13, &umr_bitfield_default },
 	 { "LC_PREV_STATE10", 16, 21, &umr_bitfield_default },
 	 { "LC_PREV_STATE11", 24, 29, &umr_bitfield_default },
-};
-static struct umr_bitfield mmPCIE_ACS_ENH_CAP_LIST[] = {
-	 { "CAP_ID", 0, 15, &umr_bitfield_default },
-	 { "CAP_VER", 16, 19, &umr_bitfield_default },
-	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PCIE_LC_STATE3[] = {
 	 { "LC_PREV_STATE12", 0, 5, &umr_bitfield_default },
@@ -16759,20 +16754,10 @@ static struct umr_bitfield ixD2F1_PCIE_LC_STATE3[] = {
 	 { "LC_PREV_STATE14", 16, 21, &umr_bitfield_default },
 	 { "LC_PREV_STATE15", 24, 29, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_PCIE_LC_STATE4[] = {
-	 { "LC_PREV_STATE16", 0, 5, &umr_bitfield_default },
-	 { "LC_PREV_STATE17", 8, 13, &umr_bitfield_default },
-	 { "LC_PREV_STATE18", 16, 21, &umr_bitfield_default },
-	 { "LC_PREV_STATE19", 24, 29, &umr_bitfield_default },
-};
-static struct umr_bitfield mmPCIE_ACS_CNTL[] = {
-	 { "SOURCE_VALIDATION_EN", 0, 0, &umr_bitfield_default },
-	 { "TRANSLATION_BLOCKING_EN", 1, 1, &umr_bitfield_default },
-	 { "P2P_REQUEST_REDIRECT_EN", 2, 2, &umr_bitfield_default },
-	 { "P2P_COMPLETION_REDIRECT_EN", 3, 3, &umr_bitfield_default },
-	 { "UPSTREAM_FORWARDING_EN", 4, 4, &umr_bitfield_default },
-	 { "P2P_EGRESS_CONTROL_EN", 5, 5, &umr_bitfield_default },
-	 { "DIRECT_TRANSLATED_P2P_EN", 6, 6, &umr_bitfield_default },
+static struct umr_bitfield mmPCIE_ACS_ENH_CAP_LIST[] = {
+	 { "CAP_ID", 0, 15, &umr_bitfield_default },
+	 { "CAP_VER", 16, 19, &umr_bitfield_default },
+	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmPCIE_ACS_CAP[] = {
 	 { "SOURCE_VALIDATION", 0, 0, &umr_bitfield_default },
@@ -16783,6 +16768,21 @@ static struct umr_bitfield mmPCIE_ACS_CAP[] = {
 	 { "P2P_EGRESS_CONTROL", 5, 5, &umr_bitfield_default },
 	 { "DIRECT_TRANSLATED_P2P", 6, 6, &umr_bitfield_default },
 	 { "EGRESS_CONTROL_VECTOR_SIZE", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield mmPCIE_ACS_CNTL[] = {
+	 { "SOURCE_VALIDATION_EN", 0, 0, &umr_bitfield_default },
+	 { "TRANSLATION_BLOCKING_EN", 1, 1, &umr_bitfield_default },
+	 { "P2P_REQUEST_REDIRECT_EN", 2, 2, &umr_bitfield_default },
+	 { "P2P_COMPLETION_REDIRECT_EN", 3, 3, &umr_bitfield_default },
+	 { "UPSTREAM_FORWARDING_EN", 4, 4, &umr_bitfield_default },
+	 { "P2P_EGRESS_CONTROL_EN", 5, 5, &umr_bitfield_default },
+	 { "DIRECT_TRANSLATED_P2P_EN", 6, 6, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_PCIE_LC_STATE4[] = {
+	 { "LC_PREV_STATE16", 0, 5, &umr_bitfield_default },
+	 { "LC_PREV_STATE17", 8, 13, &umr_bitfield_default },
+	 { "LC_PREV_STATE18", 16, 21, &umr_bitfield_default },
+	 { "LC_PREV_STATE19", 24, 29, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PCIE_LC_STATE5[] = {
 	 { "LC_PREV_STATE20", 0, 5, &umr_bitfield_default },
@@ -16795,14 +16795,14 @@ static struct umr_bitfield mmPCIE_ATS_ENH_CAP_LIST[] = {
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPCIE_ATS_CNTL[] = {
-	 { "STU", 0, 4, &umr_bitfield_default },
-	 { "ATC_ENABLE", 15, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield mmPCIE_ATS_CAP[] = {
 	 { "INVALIDATE_Q_DEPTH", 0, 4, &umr_bitfield_default },
 	 { "PAGE_ALIGNED_REQUEST", 5, 5, &umr_bitfield_default },
 	 { "GLOBAL_INVALIDATE_SUPPORTED", 6, 6, &umr_bitfield_default },
+};
+static struct umr_bitfield mmPCIE_ATS_CNTL[] = {
+	 { "STU", 0, 4, &umr_bitfield_default },
+	 { "ATC_ENABLE", 15, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield mmADAPTER_ID[] = {
 	 { "SUBSYSTEM_VENDOR_ID", 0, 15, &umr_bitfield_default },
@@ -16815,19 +16815,6 @@ static struct umr_bitfield mmPCIE_PAGE_REQ_ENH_CAP_LIST[] = {
 };
 static struct umr_bitfield ixD3F5_VENDOR_ID[] = {
 	 { "VENDOR_ID", 0, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F5_COMMAND[] = {
-	 { "IO_ACCESS_EN", 0, 0, &umr_bitfield_default },
-	 { "MEM_ACCESS_EN", 1, 1, &umr_bitfield_default },
-	 { "BUS_MASTER_EN", 2, 2, &umr_bitfield_default },
-	 { "SPECIAL_CYCLE_EN", 3, 3, &umr_bitfield_default },
-	 { "MEM_WRITE_INVALIDATE_EN", 4, 4, &umr_bitfield_default },
-	 { "PAL_SNOOP_EN", 5, 5, &umr_bitfield_default },
-	 { "PARITY_ERROR_RESPONSE", 6, 6, &umr_bitfield_default },
-	 { "AD_STEPPING", 7, 7, &umr_bitfield_default },
-	 { "SERR_EN", 8, 8, &umr_bitfield_default },
-	 { "FAST_B2B_EN", 9, 9, &umr_bitfield_default },
-	 { "INT_DIS", 10, 10, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F5_STATUS[] = {
 	 { "INT_STATUS", 19, 19, &umr_bitfield_default },
@@ -16842,39 +16829,58 @@ static struct umr_bitfield ixD3F5_STATUS[] = {
 	 { "SIGNALED_SYSTEM_ERROR", 30, 30, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F5_PROG_INTERFACE[] = {
-	 { "PROG_INTERFACE", 8, 15, &umr_bitfield_default },
+static struct umr_bitfield ixD3F5_COMMAND[] = {
+	 { "IO_ACCESS_EN", 0, 0, &umr_bitfield_default },
+	 { "MEM_ACCESS_EN", 1, 1, &umr_bitfield_default },
+	 { "BUS_MASTER_EN", 2, 2, &umr_bitfield_default },
+	 { "SPECIAL_CYCLE_EN", 3, 3, &umr_bitfield_default },
+	 { "MEM_WRITE_INVALIDATE_EN", 4, 4, &umr_bitfield_default },
+	 { "PAL_SNOOP_EN", 5, 5, &umr_bitfield_default },
+	 { "PARITY_ERROR_RESPONSE", 6, 6, &umr_bitfield_default },
+	 { "AD_STEPPING", 7, 7, &umr_bitfield_default },
+	 { "SERR_EN", 8, 8, &umr_bitfield_default },
+	 { "FAST_B2B_EN", 9, 9, &umr_bitfield_default },
+	 { "INT_DIS", 10, 10, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F5_SUB_CLASS[] = {
+	 { "SUB_CLASS", 16, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F5_BASE_CLASS[] = {
+	 { "BASE_CLASS", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F5_REVISION_ID[] = {
 	 { "MINOR_REV_ID", 0, 3, &umr_bitfield_default },
 	 { "MAJOR_REV_ID", 4, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F5_BASE_CLASS[] = {
-	 { "BASE_CLASS", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F5_SUB_CLASS[] = {
-	 { "SUB_CLASS", 16, 23, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F5_CACHE_LINE[] = {
-	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F5_LATENCY[] = {
-	 { "LATENCY_TIMER", 8, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F5_HEADER[] = {
-	 { "HEADER_TYPE", 16, 22, &umr_bitfield_default },
-	 { "DEVICE_TYPE", 23, 23, &umr_bitfield_default },
+static struct umr_bitfield ixD3F5_PROG_INTERFACE[] = {
+	 { "PROG_INTERFACE", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F5_BIST[] = {
 	 { "BIST_COMP", 24, 27, &umr_bitfield_default },
 	 { "BIST_STRT", 30, 30, &umr_bitfield_default },
 	 { "BIST_CAP", 31, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F5_HEADER[] = {
+	 { "HEADER_TYPE", 16, 22, &umr_bitfield_default },
+	 { "DEVICE_TYPE", 23, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F5_LATENCY[] = {
+	 { "LATENCY_TIMER", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F5_CACHE_LINE[] = {
+	 { "CACHE_LINE_SIZE", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F5_SUB_BUS_NUMBER_LATENCY[] = {
 	 { "PRIMARY_BUS", 0, 7, &umr_bitfield_default },
 	 { "SECONDARY_BUS", 8, 15, &umr_bitfield_default },
 	 { "SUB_BUS_NUM", 16, 23, &umr_bitfield_default },
 	 { "SECONDARY_LATENCY_TIMER", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F5_IO_BASE_LIMIT[] = {
+	 { "IO_BASE_TYPE", 0, 3, &umr_bitfield_default },
+	 { "IO_BASE", 4, 7, &umr_bitfield_default },
+	 { "IO_LIMIT_TYPE", 8, 11, &umr_bitfield_default },
+	 { "IO_LIMIT", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F5_SECONDARY_STATUS[] = {
 	 { "CAP_LIST", 20, 20, &umr_bitfield_default },
@@ -16887,12 +16893,6 @@ static struct umr_bitfield ixD3F5_SECONDARY_STATUS[] = {
 	 { "RECEIVED_MASTER_ABORT", 29, 29, &umr_bitfield_default },
 	 { "RECEIVED_SYSTEM_ERROR", 30, 30, &umr_bitfield_default },
 	 { "PARITY_ERROR_DETECTED", 31, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F5_IO_BASE_LIMIT[] = {
-	 { "IO_BASE_TYPE", 0, 3, &umr_bitfield_default },
-	 { "IO_BASE", 4, 7, &umr_bitfield_default },
-	 { "IO_LIMIT_TYPE", 8, 11, &umr_bitfield_default },
-	 { "IO_LIMIT", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F5_MEM_BASE_LIMIT[] = {
 	 { "MEM_BASE_TYPE", 0, 3, &umr_bitfield_default },
@@ -16919,6 +16919,12 @@ static struct umr_bitfield ixD3F5_IO_BASE_LIMIT_HI[] = {
 static struct umr_bitfield ixD3F5_CAP_PTR[] = {
 	 { "CAP_PTR", 0, 7, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F5_INTERRUPT_PIN[] = {
+	 { "INTERRUPT_PIN", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F5_INTERRUPT_LINE[] = {
+	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F5_IRQ_BRIDGE_CNTL[] = {
 	 { "PARITY_RESPONSE_EN", 16, 16, &umr_bitfield_default },
 	 { "SERR_EN", 17, 17, &umr_bitfield_default },
@@ -16929,18 +16935,8 @@ static struct umr_bitfield ixD3F5_IRQ_BRIDGE_CNTL[] = {
 	 { "SECONDARY_BUS_RESET", 22, 22, &umr_bitfield_default },
 	 { "FAST_B2B_EN", 23, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F5_INTERRUPT_LINE[] = {
-	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F5_INTERRUPT_PIN[] = {
-	 { "INTERRUPT_PIN", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F5_EXT_BRIDGE_CNTL[] = {
 	 { "IO_PORT_80_EN", 0, 0, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F5_PMI_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F5_PMI_CAP[] = {
 	 { "VERSION", 16, 18, &umr_bitfield_default },
@@ -16950,6 +16946,10 @@ static struct umr_bitfield ixD3F5_PMI_CAP[] = {
 	 { "D1_SUPPORT", 25, 25, &umr_bitfield_default },
 	 { "D2_SUPPORT", 26, 26, &umr_bitfield_default },
 	 { "PME_SUPPORT", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F5_PMI_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F5_PMI_STATUS_CNTL[] = {
 	 { "POWER_STATE", 0, 1, &umr_bitfield_default },
@@ -16962,15 +16962,15 @@ static struct umr_bitfield ixD3F5_PMI_STATUS_CNTL[] = {
 	 { "BUS_PWR_EN", 23, 23, &umr_bitfield_default },
 	 { "PMI_DATA", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F5_PCIE_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F5_PCIE_CAP[] = {
 	 { "VERSION", 16, 19, &umr_bitfield_default },
 	 { "DEVICE_TYPE", 20, 23, &umr_bitfield_default },
 	 { "SLOT_IMPLEMENTED", 24, 24, &umr_bitfield_default },
 	 { "INT_MESSAGE_NUM", 25, 29, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F5_PCIE_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F5_DEVICE_CAP[] = {
 	 { "MAX_PAYLOAD_SUPPORT", 0, 2, &umr_bitfield_default },
@@ -16982,14 +16982,6 @@ static struct umr_bitfield ixD3F5_DEVICE_CAP[] = {
 	 { "CAPTURED_SLOT_POWER_LIMIT", 18, 25, &umr_bitfield_default },
 	 { "CAPTURED_SLOT_POWER_SCALE", 26, 27, &umr_bitfield_default },
 	 { "FLR_CAPABLE", 28, 28, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F5_DEVICE_STATUS[] = {
-	 { "CORR_ERR", 16, 16, &umr_bitfield_default },
-	 { "NON_FATAL_ERR", 17, 17, &umr_bitfield_default },
-	 { "FATAL_ERR", 18, 18, &umr_bitfield_default },
-	 { "USR_DETECTED", 19, 19, &umr_bitfield_default },
-	 { "AUX_PWR", 20, 20, &umr_bitfield_default },
-	 { "TRANSACTIONS_PEND", 21, 21, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F5_DEVICE_CNTL[] = {
 	 { "CORR_ERR_EN", 0, 0, &umr_bitfield_default },
@@ -17005,6 +16997,14 @@ static struct umr_bitfield ixD3F5_DEVICE_CNTL[] = {
 	 { "MAX_READ_REQUEST_SIZE", 12, 14, &umr_bitfield_default },
 	 { "BRIDGE_CFG_RETRY_EN", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F5_DEVICE_STATUS[] = {
+	 { "CORR_ERR", 16, 16, &umr_bitfield_default },
+	 { "NON_FATAL_ERR", 17, 17, &umr_bitfield_default },
+	 { "FATAL_ERR", 18, 18, &umr_bitfield_default },
+	 { "USR_DETECTED", 19, 19, &umr_bitfield_default },
+	 { "AUX_PWR", 20, 20, &umr_bitfield_default },
+	 { "TRANSACTIONS_PEND", 21, 21, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F5_LINK_CAP[] = {
 	 { "LINK_SPEED", 0, 3, &umr_bitfield_default },
 	 { "LINK_WIDTH", 4, 9, &umr_bitfield_default },
@@ -17018,15 +17018,6 @@ static struct umr_bitfield ixD3F5_LINK_CAP[] = {
 	 { "ASPM_OPTIONALITY_COMPLIANCE", 22, 22, &umr_bitfield_default },
 	 { "PORT_NUMBER", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F5_LINK_STATUS[] = {
-	 { "CURRENT_LINK_SPEED", 16, 19, &umr_bitfield_default },
-	 { "NEGOTIATED_LINK_WIDTH", 20, 25, &umr_bitfield_default },
-	 { "LINK_TRAINING", 27, 27, &umr_bitfield_default },
-	 { "SLOT_CLOCK_CFG", 28, 28, &umr_bitfield_default },
-	 { "DL_ACTIVE", 29, 29, &umr_bitfield_default },
-	 { "LINK_BW_MANAGEMENT_STATUS", 30, 30, &umr_bitfield_default },
-	 { "LINK_AUTONOMOUS_BW_STATUS", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F5_LINK_CNTL[] = {
 	 { "PM_CONTROL", 0, 1, &umr_bitfield_default },
 	 { "READ_CPL_BOUNDARY", 3, 3, &umr_bitfield_default },
@@ -17038,6 +17029,15 @@ static struct umr_bitfield ixD3F5_LINK_CNTL[] = {
 	 { "HW_AUTONOMOUS_WIDTH_DISABLE", 9, 9, &umr_bitfield_default },
 	 { "LINK_BW_MANAGEMENT_INT_EN", 10, 10, &umr_bitfield_default },
 	 { "LINK_AUTONOMOUS_BW_INT_EN", 11, 11, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F5_LINK_STATUS[] = {
+	 { "CURRENT_LINK_SPEED", 16, 19, &umr_bitfield_default },
+	 { "NEGOTIATED_LINK_WIDTH", 20, 25, &umr_bitfield_default },
+	 { "LINK_TRAINING", 27, 27, &umr_bitfield_default },
+	 { "SLOT_CLOCK_CFG", 28, 28, &umr_bitfield_default },
+	 { "DL_ACTIVE", 29, 29, &umr_bitfield_default },
+	 { "LINK_BW_MANAGEMENT_STATUS", 30, 30, &umr_bitfield_default },
+	 { "LINK_AUTONOMOUS_BW_STATUS", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F5_SLOT_CAP[] = {
 	 { "ATTN_BUTTON_PRESENT", 0, 0, &umr_bitfield_default },
@@ -17053,17 +17053,6 @@ static struct umr_bitfield ixD3F5_SLOT_CAP[] = {
 	 { "NO_COMMAND_COMPLETED_SUPPORTED", 18, 18, &umr_bitfield_default },
 	 { "PHYSICAL_SLOT_NUM", 19, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F5_SLOT_STATUS[] = {
-	 { "ATTN_BUTTON_PRESSED", 16, 16, &umr_bitfield_default },
-	 { "PWR_FAULT_DETECTED", 17, 17, &umr_bitfield_default },
-	 { "MRL_SENSOR_CHANGED", 18, 18, &umr_bitfield_default },
-	 { "PRESENCE_DETECT_CHANGED", 19, 19, &umr_bitfield_default },
-	 { "COMMAND_COMPLETED", 20, 20, &umr_bitfield_default },
-	 { "MRL_SENSOR_STATE", 21, 21, &umr_bitfield_default },
-	 { "PRESENCE_DETECT_STATE", 22, 22, &umr_bitfield_default },
-	 { "ELECTROMECH_INTERLOCK_STATUS", 23, 23, &umr_bitfield_default },
-	 { "DL_STATE_CHANGED", 24, 24, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F5_SLOT_CNTL[] = {
 	 { "ATTN_BUTTON_PRESSED_EN", 0, 0, &umr_bitfield_default },
 	 { "PWR_FAULT_DETECTED_EN", 1, 1, &umr_bitfield_default },
@@ -17077,15 +17066,26 @@ static struct umr_bitfield ixD3F5_SLOT_CNTL[] = {
 	 { "ELECTROMECH_INTERLOCK_CNTL", 11, 11, &umr_bitfield_default },
 	 { "DL_STATE_CHANGED_EN", 12, 12, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F5_SLOT_STATUS[] = {
+	 { "ATTN_BUTTON_PRESSED", 16, 16, &umr_bitfield_default },
+	 { "PWR_FAULT_DETECTED", 17, 17, &umr_bitfield_default },
+	 { "MRL_SENSOR_CHANGED", 18, 18, &umr_bitfield_default },
+	 { "PRESENCE_DETECT_CHANGED", 19, 19, &umr_bitfield_default },
+	 { "COMMAND_COMPLETED", 20, 20, &umr_bitfield_default },
+	 { "MRL_SENSOR_STATE", 21, 21, &umr_bitfield_default },
+	 { "PRESENCE_DETECT_STATE", 22, 22, &umr_bitfield_default },
+	 { "ELECTROMECH_INTERLOCK_STATUS", 23, 23, &umr_bitfield_default },
+	 { "DL_STATE_CHANGED", 24, 24, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F5_ROOT_CAP[] = {
+	 { "CRS_SOFTWARE_VISIBILITY", 16, 16, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F5_ROOT_CNTL[] = {
 	 { "SERR_ON_CORR_ERR_EN", 0, 0, &umr_bitfield_default },
 	 { "SERR_ON_NONFATAL_ERR_EN", 1, 1, &umr_bitfield_default },
 	 { "SERR_ON_FATAL_ERR_EN", 2, 2, &umr_bitfield_default },
 	 { "PM_INTERRUPT_EN", 3, 3, &umr_bitfield_default },
 	 { "CRS_SOFTWARE_VISIBILITY_EN", 4, 4, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F5_ROOT_CAP[] = {
-	 { "CRS_SOFTWARE_VISIBILITY", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F5_ROOT_STATUS[] = {
 	 { "PME_REQUESTOR_ID", 0, 15, &umr_bitfield_default },
@@ -17108,9 +17108,6 @@ static struct umr_bitfield ixD3F5_DEVICE_CAP2[] = {
 	 { "END_END_TLP_PREFIX_SUPPORTED", 21, 21, &umr_bitfield_default },
 	 { "MAX_END_END_TLP_PREFIXES", 22, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F5_DEVICE_STATUS2[] = {
-	 { "RESERVED", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F5_DEVICE_CNTL2[] = {
 	 { "CPL_TIMEOUT_VALUE", 0, 3, &umr_bitfield_default },
 	 { "CPL_TIMEOUT_DIS", 4, 4, &umr_bitfield_default },
@@ -17123,18 +17120,13 @@ static struct umr_bitfield ixD3F5_DEVICE_CNTL2[] = {
 	 { "OBFF_EN", 13, 14, &umr_bitfield_default },
 	 { "END_END_TLP_PREFIX_BLOCKING", 15, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F5_DEVICE_STATUS2[] = {
+	 { "RESERVED", 16, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F5_LINK_CAP2[] = {
 	 { "SUPPORTED_LINK_SPEED", 1, 7, &umr_bitfield_default },
 	 { "CROSSLINK_SUPPORTED", 8, 8, &umr_bitfield_default },
 	 { "RESERVED", 9, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixD3F5_LINK_STATUS2[] = {
-	 { "CUR_DEEMPHASIS_LEVEL", 16, 16, &umr_bitfield_default },
-	 { "EQUALIZATION_COMPLETE", 17, 17, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE1_SUCCESS", 18, 18, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE2_SUCCESS", 19, 19, &umr_bitfield_default },
-	 { "EQUALIZATION_PHASE3_SUCCESS", 20, 20, &umr_bitfield_default },
-	 { "LINK_EQUALIZATION_REQUEST", 21, 21, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F5_LINK_CNTL2[] = {
 	 { "TARGET_LINK_SPEED", 0, 3, &umr_bitfield_default },
@@ -17146,14 +17138,22 @@ static struct umr_bitfield ixD3F5_LINK_CNTL2[] = {
 	 { "COMPLIANCE_SOS", 11, 11, &umr_bitfield_default },
 	 { "COMPLIANCE_DEEMPHASIS", 12, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F5_LINK_STATUS2[] = {
+	 { "CUR_DEEMPHASIS_LEVEL", 16, 16, &umr_bitfield_default },
+	 { "EQUALIZATION_COMPLETE", 17, 17, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE1_SUCCESS", 18, 18, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE2_SUCCESS", 19, 19, &umr_bitfield_default },
+	 { "EQUALIZATION_PHASE3_SUCCESS", 20, 20, &umr_bitfield_default },
+	 { "LINK_EQUALIZATION_REQUEST", 21, 21, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F5_SLOT_CAP2[] = {
 	 { "RESERVED", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F5_SLOT_STATUS2[] = {
-	 { "RESERVED", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F5_SLOT_CNTL2[] = {
 	 { "RESERVED", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F5_SLOT_STATUS2[] = {
+	 { "RESERVED", 16, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F5_MSI_CAP_LIST[] = {
 	 { "CAP_ID", 0, 7, &umr_bitfield_default },
@@ -17162,11 +17162,11 @@ static struct umr_bitfield ixD3F5_MSI_CAP_LIST[] = {
 static struct umr_bitfield ixD3F5_MSI_MSG_ADDR_LO[] = {
 	 { "MSI_MSG_ADDR_LO", 2, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F5_MSI_MSG_ADDR_HI[] = {
-	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F5_MSI_MSG_DATA[] = {
 	 { "MSI_DATA", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F5_MSI_MSG_ADDR_HI[] = {
+	 { "MSI_MSG_ADDR_HI", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F5_MSI_MSG_DATA_64[] = {
 	 { "MSI_DATA_64", 0, 15, &umr_bitfield_default },
@@ -17179,14 +17179,14 @@ static struct umr_bitfield ixD3F5_SSID_CAP[] = {
 	 { "SUBSYSTEM_VENDOR_ID", 0, 15, &umr_bitfield_default },
 	 { "SUBSYSTEM_ID", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F5_MSI_MAP_CAP_LIST[] = {
-	 { "CAP_ID", 0, 7, &umr_bitfield_default },
-	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F5_MSI_MAP_CAP[] = {
 	 { "EN", 16, 16, &umr_bitfield_default },
 	 { "FIXD", 17, 17, &umr_bitfield_default },
 	 { "CAP_TYPE", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F5_MSI_MAP_CAP_LIST[] = {
+	 { "CAP_ID", 0, 7, &umr_bitfield_default },
+	 { "NEXT_PTR", 8, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F5_MSI_MAP_ADDR_LO[] = {
 	 { "MSI_MAP_ADDR_LO", 20, 31, &umr_bitfield_default },
@@ -17231,12 +17231,12 @@ static struct umr_bitfield ixD3F5_PCIE_PORT_VC_CAP_REG2[] = {
 	 { "VC_ARB_CAP", 0, 7, &umr_bitfield_default },
 	 { "VC_ARB_TABLE_OFFSET", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F5_PCIE_PORT_VC_STATUS[] = {
-	 { "VC_ARB_TABLE_STATUS", 16, 16, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F5_PCIE_PORT_VC_CNTL[] = {
 	 { "LOAD_VC_ARB_TABLE", 0, 0, &umr_bitfield_default },
 	 { "VC_ARB_SELECT", 1, 3, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F5_PCIE_PORT_VC_STATUS[] = {
+	 { "VC_ARB_TABLE_STATUS", 16, 16, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F5_PCIE_VC0_RESOURCE_CAP[] = {
 	 { "PORT_ARB_CAP", 0, 7, &umr_bitfield_default },
@@ -17492,15 +17492,6 @@ static struct umr_bitfield ixD3F5_PCIE_ACS_ENH_CAP_LIST[] = {
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F5_PCIE_ACS_CNTL[] = {
-	 { "SOURCE_VALIDATION_EN", 16, 16, &umr_bitfield_default },
-	 { "TRANSLATION_BLOCKING_EN", 17, 17, &umr_bitfield_default },
-	 { "P2P_REQUEST_REDIRECT_EN", 18, 18, &umr_bitfield_default },
-	 { "P2P_COMPLETION_REDIRECT_EN", 19, 19, &umr_bitfield_default },
-	 { "UPSTREAM_FORWARDING_EN", 20, 20, &umr_bitfield_default },
-	 { "P2P_EGRESS_CONTROL_EN", 21, 21, &umr_bitfield_default },
-	 { "DIRECT_TRANSLATED_P2P_EN", 22, 22, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F5_PCIE_ACS_CAP[] = {
 	 { "SOURCE_VALIDATION", 0, 0, &umr_bitfield_default },
 	 { "TRANSLATION_BLOCKING", 1, 1, &umr_bitfield_default },
@@ -17511,18 +17502,27 @@ static struct umr_bitfield ixD3F5_PCIE_ACS_CAP[] = {
 	 { "DIRECT_TRANSLATED_P2P", 6, 6, &umr_bitfield_default },
 	 { "EGRESS_CONTROL_VECTOR_SIZE", 8, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD3F5_PCIE_ACS_CNTL[] = {
+	 { "SOURCE_VALIDATION_EN", 16, 16, &umr_bitfield_default },
+	 { "TRANSLATION_BLOCKING_EN", 17, 17, &umr_bitfield_default },
+	 { "P2P_REQUEST_REDIRECT_EN", 18, 18, &umr_bitfield_default },
+	 { "P2P_COMPLETION_REDIRECT_EN", 19, 19, &umr_bitfield_default },
+	 { "UPSTREAM_FORWARDING_EN", 20, 20, &umr_bitfield_default },
+	 { "P2P_EGRESS_CONTROL_EN", 21, 21, &umr_bitfield_default },
+	 { "DIRECT_TRANSLATED_P2P_EN", 22, 22, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD3F5_PCIE_MC_ENH_CAP_LIST[] = {
 	 { "CAP_ID", 0, 15, &umr_bitfield_default },
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD3F5_PCIE_MC_CNTL[] = {
-	 { "MC_NUM_GROUP", 16, 21, &umr_bitfield_default },
-	 { "MC_ENABLE", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD3F5_PCIE_MC_CAP[] = {
 	 { "MC_MAX_GROUP", 0, 5, &umr_bitfield_default },
 	 { "MC_ECRC_REGEN_SUPP", 15, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD3F5_PCIE_MC_CNTL[] = {
+	 { "MC_NUM_GROUP", 16, 21, &umr_bitfield_default },
+	 { "MC_ENABLE", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD3F5_PCIE_MC_ADDR0[] = {
 	 { "MC_INDEX_POS", 0, 5, &umr_bitfield_default },
@@ -17556,18 +17556,15 @@ static struct umr_bitfield ixD3F5_PCIE_MC_OVERLAY_BAR0[] = {
 static struct umr_bitfield ixD3F5_PCIE_MC_OVERLAY_BAR1[] = {
 	 { "MC_OVERLAY_BAR_1", 0, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield mmPCIE_PAGE_REQ_CNTL[] = {
+	 { "PRI_ENABLE", 0, 0, &umr_bitfield_default },
+	 { "PRI_RESET", 1, 1, &umr_bitfield_default },
+};
 static struct umr_bitfield mmPCIE_PAGE_REQ_STATUS[] = {
 	 { "RESPONSE_FAILURE", 0, 0, &umr_bitfield_default },
 	 { "UNEXPECTED_PAGE_REQ_GRP_INDEX", 1, 1, &umr_bitfield_default },
 	 { "STOPPED", 8, 8, &umr_bitfield_default },
 	 { "PRG_RESPONSE_PASID_REQUIRED", 15, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield mmPCIE_PAGE_REQ_CNTL[] = {
-	 { "PRI_ENABLE", 0, 0, &umr_bitfield_default },
-	 { "PRI_RESET", 1, 1, &umr_bitfield_default },
-};
-static struct umr_bitfield mmPCIE_OUTSTAND_PAGE_REQ_CAPACITY[] = {
-	 { "OUTSTAND_PAGE_REQ_CAPACITY", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PCIE_LC_BW_CHANGE_CNTL[] = {
 	 { "LC_BW_CHANGE_INT_EN", 0, 0, &umr_bitfield_default },
@@ -17582,22 +17579,35 @@ static struct umr_bitfield ixD2F1_PCIE_LC_BW_CHANGE_CNTL[] = {
 	 { "LC_LW_CHANGE_FAILED", 9, 9, &umr_bitfield_default },
 	 { "LC_LINK_BW_NOTIFICATION_DETECT_MODE", 10, 10, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPCIE_OUTSTAND_PAGE_REQ_ALLOC[] = {
-	 { "OUTSTAND_PAGE_REQ_ALLOC", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmPCIE_OUTSTAND_PAGE_REQ_CAPACITY[] = {
+	 { "OUTSTAND_PAGE_REQ_CAPACITY", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PCIE_LC_CDR_CNTL[] = {
 	 { "LC_CDR_TEST_OFF", 0, 11, &umr_bitfield_default },
 	 { "LC_CDR_TEST_SETS", 12, 23, &umr_bitfield_default },
 	 { "LC_CDR_SET_TYPE", 24, 25, &umr_bitfield_default },
 };
+static struct umr_bitfield mmPCIE_OUTSTAND_PAGE_REQ_ALLOC[] = {
+	 { "OUTSTAND_PAGE_REQ_ALLOC", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixD2F1_PCIE_LC_LANE_CNTL[] = {
+	 { "LC_CORRUPTED_LANES", 0, 15, &umr_bitfield_default },
+	 { "LC_LANE_DIS", 16, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield mmPCIE_PASID_ENH_CAP_LIST[] = {
 	 { "CAP_ID", 0, 15, &umr_bitfield_default },
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_PCIE_LC_LANE_CNTL[] = {
-	 { "LC_CORRUPTED_LANES", 0, 15, &umr_bitfield_default },
-	 { "LC_LANE_DIS", 16, 31, &umr_bitfield_default },
+static struct umr_bitfield mmPCIE_PASID_CAP[] = {
+	 { "PASID_EXE_PERMISSION_SUPPORTED", 1, 1, &umr_bitfield_default },
+	 { "PASID_PRIV_MODE_SUPPORTED", 2, 2, &umr_bitfield_default },
+	 { "MAX_PASID_WIDTH", 8, 12, &umr_bitfield_default },
+};
+static struct umr_bitfield mmPCIE_PASID_CNTL[] = {
+	 { "PASID_ENABLE", 0, 0, &umr_bitfield_default },
+	 { "PASID_EXE_PERMISSION_ENABLE", 1, 1, &umr_bitfield_default },
+	 { "PASID_PRIV_MODE_SUPPORTED_ENABLE", 2, 2, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PCIE_LC_CNTL3[] = {
 	 { "LC_SELECT_DEEMPHASIS", 0, 0, &umr_bitfield_default },
@@ -17623,16 +17633,6 @@ static struct umr_bitfield ixD2F1_PCIE_LC_CNTL3[] = {
 	 { "LC_VOLTAGE_TIMER_SEL", 26, 29, &umr_bitfield_default },
 	 { "LC_GO_TO_RECOVERY", 30, 30, &umr_bitfield_default },
 	 { "LC_N_EIE_SEL", 31, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield mmPCIE_PASID_CNTL[] = {
-	 { "PASID_ENABLE", 0, 0, &umr_bitfield_default },
-	 { "PASID_EXE_PERMISSION_ENABLE", 1, 1, &umr_bitfield_default },
-	 { "PASID_PRIV_MODE_SUPPORTED_ENABLE", 2, 2, &umr_bitfield_default },
-};
-static struct umr_bitfield mmPCIE_PASID_CAP[] = {
-	 { "PASID_EXE_PERMISSION_SUPPORTED", 1, 1, &umr_bitfield_default },
-	 { "PASID_PRIV_MODE_SUPPORTED", 2, 2, &umr_bitfield_default },
-	 { "MAX_PASID_WIDTH", 8, 12, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PCIE_LC_CNTL4[] = {
 	 { "LC_TX_ENABLE_BEHAVIOUR", 0, 1, &umr_bitfield_default },
@@ -17665,11 +17665,6 @@ static struct umr_bitfield ixD2F1_PCIE_LC_CNTL5[] = {
 	 { "LC_EQ_LF_8", 18, 23, &umr_bitfield_default },
 	 { "LC_DSC_EQ_FS_LF_INVALID_TO_PRESETS", 24, 24, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPCIE_TPH_REQR_ENH_CAP_LIST[] = {
-	 { "CAP_ID", 0, 15, &umr_bitfield_default },
-	 { "CAP_VER", 16, 19, &umr_bitfield_default },
-	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixD2F1_PCIE_LC_FORCE_COEFF[] = {
 	 { "LC_FORCE_COEFF", 0, 0, &umr_bitfield_default },
 	 { "LC_FORCE_PRE_CURSOR", 1, 6, &umr_bitfield_default },
@@ -17678,12 +17673,10 @@ static struct umr_bitfield ixD2F1_PCIE_LC_FORCE_COEFF[] = {
 	 { "LC_3X3_COEFF_SEARCH_EN", 19, 19, &umr_bitfield_default },
 	 { "LC_PRESET_10_EN", 20, 20, &umr_bitfield_default },
 };
-static struct umr_bitfield ixD2F1_PCIE_LC_BEST_EQ_SETTINGS[] = {
-	 { "LC_BEST_PRESET", 0, 3, &umr_bitfield_default },
-	 { "LC_BEST_PRECURSOR", 4, 9, &umr_bitfield_default },
-	 { "LC_BEST_CURSOR", 10, 15, &umr_bitfield_default },
-	 { "LC_BEST_POSTCURSOR", 16, 21, &umr_bitfield_default },
-	 { "LC_BEST_FOM", 22, 29, &umr_bitfield_default },
+static struct umr_bitfield mmPCIE_TPH_REQR_ENH_CAP_LIST[] = {
+	 { "CAP_ID", 0, 15, &umr_bitfield_default },
+	 { "CAP_VER", 16, 19, &umr_bitfield_default },
+	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmPCIE_TPH_REQR_CAP[] = {
 	 { "TPH_REQR_NO_ST_MODE_SUPPORTED", 0, 0, &umr_bitfield_default },
@@ -17693,6 +17686,17 @@ static struct umr_bitfield mmPCIE_TPH_REQR_CAP[] = {
 	 { "TPH_REQR_ST_TABLE_LOCATION", 9, 10, &umr_bitfield_default },
 	 { "TPH_REQR_ST_TABLE_SIZE", 16, 26, &umr_bitfield_default },
 };
+static struct umr_bitfield ixD2F1_PCIE_LC_BEST_EQ_SETTINGS[] = {
+	 { "LC_BEST_PRESET", 0, 3, &umr_bitfield_default },
+	 { "LC_BEST_PRECURSOR", 4, 9, &umr_bitfield_default },
+	 { "LC_BEST_CURSOR", 10, 15, &umr_bitfield_default },
+	 { "LC_BEST_POSTCURSOR", 16, 21, &umr_bitfield_default },
+	 { "LC_BEST_FOM", 22, 29, &umr_bitfield_default },
+};
+static struct umr_bitfield mmPCIE_TPH_REQR_CNTL[] = {
+	 { "TPH_REQR_ST_MODE_SEL", 0, 2, &umr_bitfield_default },
+	 { "TPH_REQR_EN", 8, 9, &umr_bitfield_default },
+};
 static struct umr_bitfield ixD2F1_PCIE_LC_FORCE_EQ_REQ_COEFF[] = {
 	 { "LC_FORCE_COEFF_IN_EQ_REQ_PHASE", 0, 0, &umr_bitfield_default },
 	 { "LC_FORCE_PRE_CURSOR_REQ", 1, 6, &umr_bitfield_default },
@@ -17700,10 +17704,6 @@ static struct umr_bitfield ixD2F1_PCIE_LC_FORCE_EQ_REQ_COEFF[] = {
 	 { "LC_FORCE_POST_CURSOR_REQ", 13, 18, &umr_bitfield_default },
 	 { "LC_FS_OTHER_END", 19, 24, &umr_bitfield_default },
 	 { "LC_LF_OTHER_END", 25, 30, &umr_bitfield_default },
-};
-static struct umr_bitfield mmPCIE_TPH_REQR_CNTL[] = {
-	 { "TPH_REQR_ST_MODE_SEL", 0, 2, &umr_bitfield_default },
-	 { "TPH_REQR_EN", 8, 9, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PCIE_LC_CNTL6[] = {
 	 { "LC_SPC_MODE_2P5GT", 0, 0, &umr_bitfield_default },
@@ -17715,14 +17715,14 @@ static struct umr_bitfield mmPCIE_MC_ENH_CAP_LIST[] = {
 	 { "CAP_VER", 16, 19, &umr_bitfield_default },
 	 { "NEXT_PTR", 20, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPCIE_MC_CNTL[] = {
-	 { "MC_NUM_GROUP", 0, 5, &umr_bitfield_default },
-	 { "MC_ENABLE", 15, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield mmPCIE_MC_CAP[] = {
 	 { "MC_MAX_GROUP", 0, 5, &umr_bitfield_default },
 	 { "MC_WIN_SIZE_REQ", 8, 13, &umr_bitfield_default },
 	 { "MC_ECRC_REGEN_SUPP", 15, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield mmPCIE_MC_CNTL[] = {
+	 { "MC_NUM_GROUP", 0, 5, &umr_bitfield_default },
+	 { "MC_ENABLE", 15, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield mmPCIE_MC_ADDR0[] = {
 	 { "MC_INDEX_POS", 0, 5, &umr_bitfield_default },
@@ -17731,11 +17731,14 @@ static struct umr_bitfield mmPCIE_MC_ADDR0[] = {
 static struct umr_bitfield mmPCIE_MC_ADDR1[] = {
 	 { "MC_BASE_ADDR_1", 0, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield mmPCIE_INDEX_2[] = {
+	 { "PCIE_INDEX", 0, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield mmROM_BASE_ADDR[] = {
 	 { "BASE_ADDR", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPCIE_INDEX_2[] = {
-	 { "PCIE_INDEX", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmPCIE_MC_RCV0[] = {
+	 { "MC_RECEIVE_0", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PCIEP_STRAP_LC[] = {
 	 { "STRAP_FTS_yTSx_COUNT", 0, 1, &umr_bitfield_default },
@@ -17750,8 +17753,8 @@ static struct umr_bitfield ixD2F1_PCIEP_STRAP_LC[] = {
 	 { "STRAP_AUTO_RC_SPEED_NEGOTIATION_DIS", 15, 15, &umr_bitfield_default },
 	 { "STRAP_LANE_NEGOTIATION", 16, 18, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPCIE_MC_RCV0[] = {
-	 { "MC_RECEIVE_0", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmPCIE_MC_RCV1[] = {
+	 { "MC_RECEIVE_1", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PCIEP_STRAP_MISC[] = {
 	 { "STRAP_REVERSE_LANES", 0, 0, &umr_bitfield_default },
@@ -17759,9 +17762,6 @@ static struct umr_bitfield ixD2F1_PCIEP_STRAP_MISC[] = {
 	 { "STRAP_EXTENDED_FMT_SUPPORTED", 2, 2, &umr_bitfield_default },
 	 { "STRAP_OBFF_SUPPORTED", 3, 4, &umr_bitfield_default },
 	 { "STRAP_LTR_SUPPORTED", 5, 5, &umr_bitfield_default },
-};
-static struct umr_bitfield mmPCIE_MC_RCV1[] = {
-	 { "MC_RECEIVE_1", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmPCIE_MC_BLOCK_ALL0[] = {
 	 { "MC_BLOCK_ALL_0", 0, 31, &umr_bitfield_default },
@@ -17786,11 +17786,11 @@ static struct umr_bitfield mmPCIE_LTR_CAP[] = {
 	 { "LTR_MAX_NS_LATENCY_VALUE", 16, 25, &umr_bitfield_default },
 	 { "LTR_MAX_NS_LATENCY_SCALE", 26, 28, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPCIE_DATA_2[] = {
-	 { "PCIE_DATA", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield mmCAP_PTR[] = {
 	 { "CAP_PTR", 0, 7, &umr_bitfield_default },
+};
+static struct umr_bitfield mmPCIE_DATA_2[] = {
+	 { "PCIE_DATA", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixD2F1_PCIEP_BCH_ECC_CNTL[] = {
 	 { "STRAP_BCH_ECC_EN", 0, 0, &umr_bitfield_default },
@@ -17817,15 +17817,15 @@ static struct umr_bitfield ixD2F1_PCIEP_HPGI[] = {
 static struct umr_bitfield mmPCIE_INDEX[] = {
 	 { "PCIE_INDEX", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmINTERRUPT_LINE[] = {
-	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield mmINTERRUPT_PIN[] = {
-	 { "INTERRUPT_PIN", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield mmMIN_GRANT[] = {
+	 { "MIN_GNT", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield mmMAX_LATENCY[] = {
 	 { "MAX_LAT", 0, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield mmMIN_GRANT[] = {
-	 { "MIN_GNT", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield mmINTERRUPT_PIN[] = {
+	 { "INTERRUPT_PIN", 0, 7, &umr_bitfield_default },
+};
+static struct umr_bitfield mmINTERRUPT_LINE[] = {
+	 { "INTERRUPT_LINE", 0, 7, &umr_bitfield_default },
 };

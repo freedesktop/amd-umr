@@ -3630,13 +3630,13 @@ static struct umr_bitfield ixSMU_PM_STATUS_126[] = {
 static struct umr_bitfield ixSMU_PM_STATUS_127[] = {
 	 { "DATA", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmGCK_SMC_IND_INDEX[] = {
+static struct umr_bitfield mmSMC_IND_INDEX[] = {
 	 { "SMC_IND_ADDR", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmSMC_IND_INDEX_0[] = {
 	 { "SMC_IND_ADDR", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmSMC_IND_INDEX[] = {
+static struct umr_bitfield mmGCK_SMC_IND_INDEX[] = {
 	 { "SMC_IND_ADDR", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixSMC_SYSCON_RESET_CNTL[] = {
@@ -3665,13 +3665,13 @@ static struct umr_bitfield ixSMC_PC_C[] = {
 static struct umr_bitfield ixSMC_SCRATCH9[] = {
 	 { "SCRATCH_VALUE", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmGCK_SMC_IND_DATA[] = {
+static struct umr_bitfield mmSMC_IND_DATA[] = {
 	 { "SMC_IND_DATA", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmSMC_IND_DATA_0[] = {
 	 { "SMC_IND_DATA", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmSMC_IND_DATA[] = {
+static struct umr_bitfield mmGCK_SMC_IND_DATA[] = {
 	 { "SMC_IND_DATA", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmSMC_IND_INDEX_1[] = {

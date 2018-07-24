@@ -1,13 +1,10 @@
-static struct umr_bitfield ixMC_TSM_DEBUG_GCNT[] = {
-	 { "DATA", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixMC_IO_DEBUG_UP_0[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
 	 { "VALUE1", 8, 15, &umr_bitfield_default },
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixMC_TSM_DEBUG_FLAG[] = {
+static struct umr_bitfield ixMC_TSM_DEBUG_GCNT[] = {
 	 { "DATA", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixMC_IO_DEBUG_UP_1[] = {
@@ -15,6 +12,9 @@ static struct umr_bitfield ixMC_IO_DEBUG_UP_1[] = {
 	 { "VALUE1", 8, 15, &umr_bitfield_default },
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixMC_TSM_DEBUG_FLAG[] = {
+	 { "DATA", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixMC_TSM_DEBUG_ST01[] = {
 	 { "DATA", 0, 31, &umr_bitfield_default },
@@ -1600,16 +1600,16 @@ static struct umr_bitfield ixMC_IO_DEBUG_WCDR_RX_DYN_PM_D1[] = {
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixMC_TSM_DEBUG_MISC[] = {
-	 { "FLAG", 0, 7, &umr_bitfield_default },
-	 { "NCNT_RD", 8, 11, &umr_bitfield_default },
-	 { "NCNT_WR", 12, 15, &umr_bitfield_default },
-};
 static struct umr_bitfield ixMC_IO_DEBUG_UP_2[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
 	 { "VALUE1", 8, 15, &umr_bitfield_default },
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixMC_TSM_DEBUG_MISC[] = {
+	 { "FLAG", 0, 7, &umr_bitfield_default },
+	 { "NCNT_RD", 8, 11, &umr_bitfield_default },
+	 { "NCNT_WR", 12, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield ixMC_IO_DEBUG_UP_32[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
@@ -1707,17 +1707,17 @@ static struct umr_bitfield ixMC_IO_DEBUG_UP_47[] = {
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixMC_TSM_DEBUG_BCNT0[] = {
-	 { "BYTE0", 0, 7, &umr_bitfield_default },
-	 { "BYTE1", 8, 15, &umr_bitfield_default },
-	 { "BYTE2", 16, 23, &umr_bitfield_default },
-	 { "BYTE3", 24, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixMC_IO_DEBUG_UP_3[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
 	 { "VALUE1", 8, 15, &umr_bitfield_default },
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixMC_TSM_DEBUG_BCNT0[] = {
+	 { "BYTE0", 0, 7, &umr_bitfield_default },
+	 { "BYTE1", 8, 15, &umr_bitfield_default },
+	 { "BYTE2", 16, 23, &umr_bitfield_default },
+	 { "BYTE3", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixMC_IO_DEBUG_UP_48[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
@@ -1815,17 +1815,17 @@ static struct umr_bitfield ixMC_IO_DEBUG_UP_63[] = {
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixMC_TSM_DEBUG_BCNT1[] = {
-	 { "BYTE0", 0, 7, &umr_bitfield_default },
-	 { "BYTE1", 8, 15, &umr_bitfield_default },
-	 { "BYTE2", 16, 23, &umr_bitfield_default },
-	 { "BYTE3", 24, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixMC_IO_DEBUG_UP_4[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
 	 { "VALUE1", 8, 15, &umr_bitfield_default },
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixMC_TSM_DEBUG_BCNT1[] = {
+	 { "BYTE0", 0, 7, &umr_bitfield_default },
+	 { "BYTE1", 8, 15, &umr_bitfield_default },
+	 { "BYTE2", 16, 23, &umr_bitfield_default },
+	 { "BYTE3", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixMC_IO_DEBUG_UP_64[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
@@ -1923,17 +1923,17 @@ static struct umr_bitfield ixMC_IO_DEBUG_UP_79[] = {
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixMC_TSM_DEBUG_BCNT2[] = {
-	 { "BYTE0", 0, 7, &umr_bitfield_default },
-	 { "BYTE1", 8, 15, &umr_bitfield_default },
-	 { "BYTE2", 16, 23, &umr_bitfield_default },
-	 { "BYTE3", 24, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixMC_IO_DEBUG_UP_5[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
 	 { "VALUE1", 8, 15, &umr_bitfield_default },
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixMC_TSM_DEBUG_BCNT2[] = {
+	 { "BYTE0", 0, 7, &umr_bitfield_default },
+	 { "BYTE1", 8, 15, &umr_bitfield_default },
+	 { "BYTE2", 16, 23, &umr_bitfield_default },
+	 { "BYTE3", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixMC_IO_DEBUG_UP_80[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
@@ -2563,17 +2563,17 @@ static struct umr_bitfield ixMC_IO_DEBUG_UP_95[] = {
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixMC_TSM_DEBUG_BCNT3[] = {
-	 { "BYTE0", 0, 7, &umr_bitfield_default },
-	 { "BYTE1", 8, 15, &umr_bitfield_default },
-	 { "BYTE2", 16, 23, &umr_bitfield_default },
-	 { "BYTE3", 24, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixMC_IO_DEBUG_UP_6[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
 	 { "VALUE1", 8, 15, &umr_bitfield_default },
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixMC_TSM_DEBUG_BCNT3[] = {
+	 { "BYTE0", 0, 7, &umr_bitfield_default },
+	 { "BYTE1", 8, 15, &umr_bitfield_default },
+	 { "BYTE2", 16, 23, &umr_bitfield_default },
+	 { "BYTE3", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixMC_IO_DEBUG_UP_96[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
@@ -2671,17 +2671,17 @@ static struct umr_bitfield ixMC_IO_DEBUG_UP_111[] = {
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixMC_TSM_DEBUG_BCNT4[] = {
-	 { "BYTE0", 0, 7, &umr_bitfield_default },
-	 { "BYTE1", 8, 15, &umr_bitfield_default },
-	 { "BYTE2", 16, 23, &umr_bitfield_default },
-	 { "BYTE3", 24, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixMC_IO_DEBUG_UP_7[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
 	 { "VALUE1", 8, 15, &umr_bitfield_default },
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixMC_TSM_DEBUG_BCNT4[] = {
+	 { "BYTE0", 0, 7, &umr_bitfield_default },
+	 { "BYTE1", 8, 15, &umr_bitfield_default },
+	 { "BYTE2", 16, 23, &umr_bitfield_default },
+	 { "BYTE3", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixMC_IO_DEBUG_UP_112[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
@@ -3138,17 +3138,17 @@ static struct umr_bitfield ixMC_IO_DEBUG_UP_127[] = {
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixMC_TSM_DEBUG_BCNT5[] = {
-	 { "BYTE0", 0, 7, &umr_bitfield_default },
-	 { "BYTE1", 8, 15, &umr_bitfield_default },
-	 { "BYTE2", 16, 23, &umr_bitfield_default },
-	 { "BYTE3", 24, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixMC_IO_DEBUG_UP_8[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
 	 { "VALUE1", 8, 15, &umr_bitfield_default },
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixMC_TSM_DEBUG_BCNT5[] = {
+	 { "BYTE0", 0, 7, &umr_bitfield_default },
+	 { "BYTE1", 8, 15, &umr_bitfield_default },
+	 { "BYTE2", 16, 23, &umr_bitfield_default },
+	 { "BYTE3", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixMC_IO_DEBUG_UP_128[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
@@ -4789,17 +4789,17 @@ static struct umr_bitfield mmMC_XPB_UNC_THRESH_HST[] = {
 	 { "STRONG_PREF", 6, 11, &umr_bitfield_default },
 	 { "USE_UNFULL", 12, 17, &umr_bitfield_default },
 };
-static struct umr_bitfield ixMC_TSM_DEBUG_BCNT6[] = {
-	 { "BYTE0", 0, 7, &umr_bitfield_default },
-	 { "BYTE1", 8, 15, &umr_bitfield_default },
-	 { "BYTE2", 16, 23, &umr_bitfield_default },
-	 { "BYTE3", 24, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixMC_IO_DEBUG_UP_9[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
 	 { "VALUE1", 8, 15, &umr_bitfield_default },
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixMC_TSM_DEBUG_BCNT6[] = {
+	 { "BYTE0", 0, 7, &umr_bitfield_default },
+	 { "BYTE1", 8, 15, &umr_bitfield_default },
+	 { "BYTE2", 16, 23, &umr_bitfield_default },
+	 { "BYTE3", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixMC_IO_DEBUG_UP_144[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
@@ -6459,17 +6459,17 @@ static struct umr_bitfield mmMC_ARB_DRAM_TIMING2_1[] = {
 	 { "WRPLUSRP", 16, 23, &umr_bitfield_default },
 	 { "BUS_TURN", 24, 28, &umr_bitfield_default },
 };
-static struct umr_bitfield ixMC_TSM_DEBUG_BCNT7[] = {
-	 { "BYTE0", 0, 7, &umr_bitfield_default },
-	 { "BYTE1", 8, 15, &umr_bitfield_default },
-	 { "BYTE2", 16, 23, &umr_bitfield_default },
-	 { "BYTE3", 24, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixMC_IO_DEBUG_UP_10[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
 	 { "VALUE1", 8, 15, &umr_bitfield_default },
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixMC_TSM_DEBUG_BCNT7[] = {
+	 { "BYTE0", 0, 7, &umr_bitfield_default },
+	 { "BYTE1", 8, 15, &umr_bitfield_default },
+	 { "BYTE2", 16, 23, &umr_bitfield_default },
+	 { "BYTE3", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixMC_IO_DEBUG_DQB0L_MISC_D0[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
@@ -8811,17 +8811,17 @@ static struct umr_bitfield mmMC_SEQ_TRAIN_EDC_THRESHOLD3[] = {
 	 { "CH0_LINK_RETRAIN_IN_PROGRESS", 8, 8, &umr_bitfield_default },
 	 { "CH1_LINK_RETRAIN_IN_PROGRESS", 9, 9, &umr_bitfield_default },
 };
-static struct umr_bitfield ixMC_TSM_DEBUG_BCNT8[] = {
-	 { "BYTE0", 0, 7, &umr_bitfield_default },
-	 { "BYTE1", 8, 15, &umr_bitfield_default },
-	 { "BYTE2", 16, 23, &umr_bitfield_default },
-	 { "BYTE3", 24, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixMC_IO_DEBUG_UP_11[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
 	 { "VALUE1", 8, 15, &umr_bitfield_default },
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixMC_TSM_DEBUG_BCNT8[] = {
+	 { "BYTE0", 0, 7, &umr_bitfield_default },
+	 { "BYTE1", 8, 15, &umr_bitfield_default },
+	 { "BYTE2", 16, 23, &umr_bitfield_default },
+	 { "BYTE3", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixMC_IO_DEBUG_DQB0L_MISC_D1[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
@@ -8919,17 +8919,17 @@ static struct umr_bitfield ixMC_IO_DEBUG_CMD_MISC_D1[] = {
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixMC_TSM_DEBUG_BCNT9[] = {
-	 { "BYTE0", 0, 7, &umr_bitfield_default },
-	 { "BYTE1", 8, 15, &umr_bitfield_default },
-	 { "BYTE2", 16, 23, &umr_bitfield_default },
-	 { "BYTE3", 24, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixMC_IO_DEBUG_UP_12[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
 	 { "VALUE1", 8, 15, &umr_bitfield_default },
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixMC_TSM_DEBUG_BCNT9[] = {
+	 { "BYTE0", 0, 7, &umr_bitfield_default },
+	 { "BYTE1", 8, 15, &umr_bitfield_default },
+	 { "BYTE2", 16, 23, &umr_bitfield_default },
+	 { "BYTE3", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixMC_IO_DEBUG_DQB0L_CLKSEL_D0[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
@@ -9459,17 +9459,17 @@ static struct umr_bitfield mmATC_VMID15_PASID_MAPPING[] = {
 	 { "NO_INVALIDATION", 30, 30, &umr_bitfield_default },
 	 { "VALID", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixMC_TSM_DEBUG_BCNT10[] = {
-	 { "BYTE0", 0, 7, &umr_bitfield_default },
-	 { "BYTE1", 8, 15, &umr_bitfield_default },
-	 { "BYTE2", 16, 23, &umr_bitfield_default },
-	 { "BYTE3", 24, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixMC_IO_DEBUG_UP_13[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },
 	 { "VALUE1", 8, 15, &umr_bitfield_default },
 	 { "VALUE2", 16, 23, &umr_bitfield_default },
 	 { "VALUE3", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixMC_TSM_DEBUG_BCNT10[] = {
+	 { "BYTE0", 0, 7, &umr_bitfield_default },
+	 { "BYTE1", 8, 15, &umr_bitfield_default },
+	 { "BYTE2", 16, 23, &umr_bitfield_default },
+	 { "BYTE3", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixMC_IO_DEBUG_DQB0L_CLKSEL_D1[] = {
 	 { "VALUE0", 0, 7, &umr_bitfield_default },

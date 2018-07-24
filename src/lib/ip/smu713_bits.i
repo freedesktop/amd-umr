@@ -3100,13 +3100,13 @@ static struct umr_bitfield ixSMU_PM_STATUS_126[] = {
 static struct umr_bitfield ixSMU_PM_STATUS_127[] = {
 	 { "DATA", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmGCK_SMC_IND_INDEX[] = {
+static struct umr_bitfield mmSMC_IND_INDEX[] = {
 	 { "SMC_IND_ADDR", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmSMC_IND_INDEX_0[] = {
 	 { "SMC_IND_ADDR", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmSMC_IND_INDEX[] = {
+static struct umr_bitfield mmGCK_SMC_IND_INDEX[] = {
 	 { "SMC_IND_ADDR", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixSMC_SYSCON_RESET_CNTL[] = {
@@ -3138,13 +3138,13 @@ static struct umr_bitfield ixSMC_PC_C[] = {
 static struct umr_bitfield ixSMC_SCRATCH9[] = {
 	 { "SCRATCH_VALUE", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmGCK_SMC_IND_DATA[] = {
+static struct umr_bitfield mmSMC_IND_DATA[] = {
 	 { "SMC_IND_DATA", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmSMC_IND_DATA_0[] = {
 	 { "SMC_IND_DATA", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmSMC_IND_DATA[] = {
+static struct umr_bitfield mmGCK_SMC_IND_DATA[] = {
 	 { "SMC_IND_DATA", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmSMC_IND_INDEX_1[] = {
@@ -3297,32 +3297,32 @@ static struct umr_bitfield mmSMC_RESP_9[] = {
 static struct umr_bitfield mmSMC_MESSAGE_10[] = {
 	 { "SMC_MSG", 0, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield ixGC_CAC_ACC_CU0[] = {
-	 { "ACCUMULATOR_31_0", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield mmSMC_RESP_10[] = {
 	 { "SMC_RESP", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixGC_CAC_ACC_CU0[] = {
+	 { "ACCUMULATOR_31_0", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmSMC_MESSAGE_11[] = {
 	 { "SMC_MSG", 0, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield ixGC_CAC_ACC_CU2[] = {
-	 { "ACCUMULATOR_31_0", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield mmSMC_RESP_11[] = {
 	 { "SMC_RESP", 0, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield ixGC_CAC_ACC_CU3[] = {
+static struct umr_bitfield ixGC_CAC_ACC_CU2[] = {
 	 { "ACCUMULATOR_31_0", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmSMC_MSG_ARG_8[] = {
 	 { "SMC_MSG_ARG", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixGC_CAC_ACC_CU4[] = {
+static struct umr_bitfield ixGC_CAC_ACC_CU3[] = {
 	 { "ACCUMULATOR_31_0", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmSMC_MSG_ARG_9[] = {
 	 { "SMC_MSG_ARG", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixGC_CAC_ACC_CU4[] = {
+	 { "ACCUMULATOR_31_0", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmSMC_MSG_ARG_10[] = {
 	 { "SMC_MSG_ARG", 0, 31, &umr_bitfield_default },

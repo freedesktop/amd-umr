@@ -1,20 +1,20 @@
-static struct umr_bitfield mmPWRHW_SMC_IND_INDEX[] = {
-	 { "SMC_IND_ADDR", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmMP0PUB_IND_INDEX[] = {
+	 { "MP0PUB_IND_ADDR", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmMP0PUB_IND_INDEX_0[] = {
 	 { "MP0PUB_IND_ADDR", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmMP0PUB_IND_INDEX[] = {
-	 { "MP0PUB_IND_ADDR", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmPWRHW_SMC_IND_INDEX[] = {
+	 { "SMC_IND_ADDR", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPWRHW_SMC_IND_DATA[] = {
-	 { "SMC_IND_DATA", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmMP0PUB_IND_DATA[] = {
+	 { "MP0PUB_IND_DATA", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmMP0PUB_IND_DATA_0[] = {
 	 { "MP0PUB_IND_DATA", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmMP0PUB_IND_DATA[] = {
-	 { "MP0PUB_IND_DATA", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmPWRHW_SMC_IND_DATA[] = {
+	 { "SMC_IND_DATA", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmMP0PUB_IND_INDEX_1[] = {
 	 { "MP0PUB_IND_ADDR", 0, 31, &umr_bitfield_default },
