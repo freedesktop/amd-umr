@@ -463,6 +463,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 	static const char *op_37_dst_sel[] = { "mem-mapped reg", "memory sync", "TC/L2", "GDS", "reserved", "memory async", "reserved", "reserved" };
 	static const char *op_84_cntr_sel[] = { "invalid", "ce", "cs", "ce and cs" };
 	struct umr_reg *reg;
+	char buf[4];
 
 	if (decoder->pm4.n_words == 1)
 		printf("\\---+ ");
@@ -487,8 +488,17 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 		case 0x27: // DRAW_INDEX_2
 			switch (decoder->pm4.cur_word) {
 				case 0: printf("MAX_SIZE: %s%lu%s", BLUE, (unsigned long) BITS(ib, 0, 32), RST); break;
-				case 1: printf("INDEX_BASE_LO: %s0x%08lx%s", YELLOW, (unsigned long) BITS(ib, 0, 32), RST); break;
-				case 2: printf("INDEX_BASE_HI: %s0x%08lx%s", YELLOW, (unsigned long) BITS(ib, 0, 32), RST); break;
+				case 1: printf("INDEX_BASE_LO: %s0x%08lx%s", YELLOW, (unsigned long) BITS(ib, 0, 32), RST);
+						decoder->pm4.next_ib_state.ib_addr_lo = ib;
+						break;
+				case 2: printf("INDEX_BASE_HI: %s0x%08lx%s", YELLOW, (unsigned long) BITS(ib, 0, 32), RST);
+						decoder->pm4.next_ib_state.ib_addr_hi = ib;
+						if (umr_read_vram(asic, decoder->next_ib_info.vmid,
+										  ((uint64_t)decoder->pm4.next_ib_state.ib_addr_hi << 32) | decoder->pm4.next_ib_state.ib_addr_lo, 4, buf) < 0)
+							printf(" [%sUNMAPPED%s]", RED, RST);
+						else
+							printf(" [%sMAPPED%s]", GREEN, RST);
+						break;
 				case 3: printf("INDEX_COUNT: %s%lu%s", BLUE, (unsigned long) BITS(ib, 0, 32), RST); break;
 				case 4: printf("DRAW_INITIATOR: %s0x%08lx%s", YELLOW, (unsigned long) BITS(ib, 0, 32), RST); break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
@@ -541,7 +551,13 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 				case 2: printf("IB_SIZE:%s%lu%s, VMID: %s%lu%s", BLUE, BITS(ib, 0, 20), RST, BLUE, BITS(ib, 24, 32), RST);
 					decoder->pm4.next_ib_state.ib_size = BITS(ib, 0, 20) * 4;
 					decoder->pm4.next_ib_state.ib_vmid = decoder->next_ib_info.vmid ? decoder->next_ib_info.vmid : BITS(ib, 24, 32);
-					add_ib_pm4(decoder);
+					if (umr_read_vram(asic, decoder->pm4.next_ib_state.ib_vmid,
+									  ((uint64_t)decoder->pm4.next_ib_state.ib_addr_hi << 32) | decoder->pm4.next_ib_state.ib_addr_lo, 4, buf) < 0) {
+						printf(" [%sUNMAPPED%s]", RED, RST);
+					} else {
+						printf(" [%sMAPPED%s]", GREEN, RST);
+						add_ib_pm4(decoder);
+					}
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
@@ -779,7 +795,14 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 						} else if (strstr(tmp, "SPI_SHADER_PGM_HI_") || strstr(tmp, "COMPUTE_PGM_HI")) {
 							decoder->pm4.next_ib_state.ib_addr_hi = ib;
 							decoder->pm4.next_ib_state.ib_vmid = decoder->next_ib_info.vmid;
-							add_shader(asic, decoder);
+							if (umr_read_vram(asic, decoder->pm4.next_ib_state.ib_vmid,
+											  (((uint64_t)decoder->pm4.next_ib_state.ib_addr_hi << 32) | decoder->pm4.next_ib_state.ib_addr_lo) << 8,
+											  4, buf) < 0) {
+								printf(" [%sUNMAPPED%s]", RED, RST);
+							} else {
+								printf(" [%sMAPPED%s]", GREEN, RST);
+								add_shader(asic, decoder);
+							}
 						}
 						print_bits(asic, decoder->pm4.next_write_mem.addr_lo++, ib, 0);
 					}
@@ -974,6 +997,8 @@ static const char *sdma_opcodes[] = {
 
 static void parse_next_sdma_pkt(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib)
 {
+	char buf[4];
+
 	if (decoder->sdma.n_words == 1)
 		printf("\\---+ ");
 	else
@@ -1222,7 +1247,14 @@ static void parse_next_sdma_pkt(struct umr_asic *asic, struct umr_ring_decoder *
 					break;
 				case 5: printf("IB_CSA_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					decoder->sdma.next_ib_state.csa_addr_hi = ib;
-					add_ib_pm3(decoder);
+					if (umr_read_vram(asic, decoder->sdma.next_ib_state.ib_vmid,
+									  ((uint64_t)decoder->sdma.next_ib_state.ib_addr_hi << 32) | decoder->sdma.next_ib_state.ib_addr_lo,
+									  4, buf) < 0) {
+						printf(" [%sUNMAPPED%s]", RED, RST);
+					} else {
+						printf(" [%sMAPPED%s]", GREEN, RST);
+						add_ib_pm3(decoder);
+					}
 					break;
 			}
 			break;
