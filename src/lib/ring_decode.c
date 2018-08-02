@@ -472,6 +472,19 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 
 	printf("PKT3 OPCODE 0x%02x, word %u: ", (unsigned)decoder->pm4.cur_opcode, (unsigned)decoder->pm4.cur_word);
 	switch (decoder->pm4.cur_opcode) {
+		case 0x15: // DISPATCH DIRECT
+			switch (decoder->pm4.cur_word) {
+				case 0: printf("DIM_X: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+				case 1: printf("DIM_Y: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+				case 2: printf("DIM_Z: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+				case 3: printf("INITIATOR: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
 		case 0x22: // COND_EXEC
 			switch (decoder->pm4.cur_word) {
 				case 0: printf("GPU_ADDR_LO32: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
