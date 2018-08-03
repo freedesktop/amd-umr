@@ -46,7 +46,7 @@ void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder)
 		printf("ring[%s%u%s]", BLUE, (unsigned)decoder->src.addr, RST);
 	else
 		printf("IB[%s%u%s@%s0x%" PRIx64 "%s + %s0x%x%s]",
-			BLUE, (int)decoder->src.vmid, RST,
+			BLUE, (int)decoder->src.vmid & 0xFF, RST,
 			YELLOW, decoder->src.ib_addr, RST,
 			YELLOW, (unsigned)decoder->src.addr * 4, RST);
 
@@ -61,7 +61,7 @@ void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder)
 		for (x = 0; x < decoder->next_ib_info.size/4; x++) {
 			decoder->next_ib_info.addr = x;
 			printf("IB[%s%u%s@%s0x%" PRIx64 "%s + %s0x%-4x%s] = %s0x%08lx%s ... ",
-				BLUE, decoder->next_ib_info.vmid, RST,
+				BLUE, decoder->next_ib_info.vmid & 0xFF, RST,
 				YELLOW, decoder->next_ib_info.ib_addr, RST,
 				YELLOW, (unsigned)x * 4, RST,
 				GREEN, (unsigned long)data[x], RST);
