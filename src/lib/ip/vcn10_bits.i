@@ -650,6 +650,9 @@ static struct umr_bitfield mmUVD_MASTINT_EN[] = {
 	 { "SYS_EN", 2, 2, &umr_bitfield_default },
 	 { "INT_OVERRUN", 4, 22, &umr_bitfield_default },
 };
+static struct umr_bitfield mmUVD_SYS_INT_EN[] = {
+	 { "UVD_JRBC_EN", 4, 4, &umr_bitfield_default },
+};
 static struct umr_bitfield mmJPEG_CGC_CTRL[] = {
 	 { "DYN_CLOCK_MODE", 0, 0, &umr_bitfield_default },
 	 { "JPEG2_MODE", 1, 1, &umr_bitfield_default },

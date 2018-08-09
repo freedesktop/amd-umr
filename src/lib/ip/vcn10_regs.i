@@ -133,6 +133,7 @@
 	{ "mmUVD_LMI_VCPU_CACHE_VMID", REG_MMIO, 0x053c, 1, &mmUVD_LMI_VCPU_CACHE_VMID[0], sizeof(mmUVD_LMI_VCPU_CACHE_VMID)/sizeof(mmUVD_LMI_VCPU_CACHE_VMID[0]), 0, 0 },
 	{ "mmUVD_LMI_CTRL2", REG_MMIO, 0x053d, 1, &mmUVD_LMI_CTRL2[0], sizeof(mmUVD_LMI_CTRL2)/sizeof(mmUVD_LMI_CTRL2[0]), 0, 0 },
 	{ "mmUVD_MASTINT_EN", REG_MMIO, 0x0540, 1, &mmUVD_MASTINT_EN[0], sizeof(mmUVD_MASTINT_EN)/sizeof(mmUVD_MASTINT_EN[0]), 0, 0 },
+	{ "mmUVD_SYS_INT_EN", REG_MMIO, 0x0541, 1, &mmUVD_SYS_INT_EN[0], sizeof(mmUVD_SYS_INT_EN)/sizeof(mmUVD_SYS_INT_EN[0]), 0, 0 },
 	{ "mmJPEG_CGC_CTRL", REG_MMIO, 0x0565, 1, &mmJPEG_CGC_CTRL[0], sizeof(mmJPEG_CGC_CTRL)/sizeof(mmJPEG_CGC_CTRL[0]), 0, 0 },
 	{ "mmUVD_LMI_CTRL", REG_MMIO, 0x0566, 1, &mmUVD_LMI_CTRL[0], sizeof(mmUVD_LMI_CTRL)/sizeof(mmUVD_LMI_CTRL[0]), 0, 0 },
 	{ "mmUVD_LMI_STATUS", REG_MMIO, 0x0567, 1, NULL, 0, 0, 0 },
