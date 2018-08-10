@@ -22,31 +22,32 @@
  * Authors: Tom St Denis <tom.stdenis@amd.com>
  *
  */
-extern struct umr_options options;
-#include "umr.h"
+#include "umrapp.h"
+#include <inttypes.h>
 
-extern const char *libumrcore_rev;
+void umr_ib_read(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint32_t len, int pm)
+{
+	struct umr_ring_decoder decoder, *pdecoder, *ppdecoder;
+	struct umr_wave_data *wd;
 
-/* Application functions */
+	memset(&decoder, 0, sizeof decoder);
+	wd = NULL;
 
-/* scan functions */
-int umr_scan_asic(struct umr_asic *asic, char *asicname, char *ipname, char *regname);
+	decoder.next_ib_info.vmid = vmid;
+	decoder.next_ib_info.ib_addr = addr;
+	decoder.next_ib_info.size = len;
+	decoder.pm = pm;
 
-/* print functions */
-void umr_print_asic(struct umr_asic *asic, char *ipname);
-
-/* set register */
-int umr_set_register(struct umr_asic *asic, char *regpath, char *regvalue);
-int umr_set_register_bit(struct umr_asic *asic, char *regpath, char *regvalue);
-
-/* Read and display a ring buffer */
-void umr_read_ring(struct umr_asic *asic, char *ringpath);
-void umr_ib_read(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint32_t len, int pm);
-
-void umr_lookup(struct umr_asic *asic, char *address, char *value);
-void umr_scan_log(struct umr_asic *asic);
-void umr_top(struct umr_asic *asic);
-
-void umr_print_config(struct umr_asic *asic);
-void umr_print_waves(struct umr_asic *asic);
-void umr_profiler(struct umr_asic *asic, int samples, int delay);
+	umr_dump_ib(asic, &decoder);
+	umr_dump_shaders(asic, &decoder, wd);
+	pdecoder = decoder.next_ib;
+	while (pdecoder) {
+		if (asic->options.follow_ib) {
+			umr_dump_ib(asic, pdecoder);
+			umr_dump_shaders(asic, pdecoder, wd);
+		}
+		ppdecoder = pdecoder->next_ib;
+		free(pdecoder);
+		pdecoder = ppdecoder;
+	}
+}

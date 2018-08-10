@@ -7,6 +7,7 @@ add_library(umrapp
   print.c
   print_config.c
   profile.c
+  ib_read.c
   ring_read.c
   scan.c
   scan_log.c

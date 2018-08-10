@@ -1,6 +1,6 @@
-=============
-Ring Decoding
-=============
+====================
+Ring and IB Decoding
+====================
 
 UMR can read the contents of the various GPU rings and for certain
 rings (gfx/compute/vcn/uvd/sdma) decode the packets.  The ring
@@ -169,6 +169,41 @@ Each line of disassembly includes the address of the shader opcode,
 followed by the opcode in hex, followed by the disassembly provided
 by llvm.  If the disassembly indicates ';;' this means this word
 is part of the previous disassembled instruction.
+
+-----------
+IB Decoding
+-----------
+
+Arbitrary IBs can be decoded with the following command:
+
+::
+
+	umr --dump-ib <vmid>@address length <pm>
+
+Which will dump the IB pointed to by the address specified with
+an optional VMID.  The length is specified in bytes.  The
+default decoder is for PM4 and pm can be omitted in this case.  To
+decode SDMA IBs the value of '3' can be specified for pm.
+
+::
+
+	umr --dump-ib 0@0xf500447000 0x20
+
+Might produce:
+
+::
+
+	Dumping IB at (gfxhub) VMID:0 0xf500447000 of 8 words from ring[0]
+	IB[0@0xf500447000 + 0x0   ] = 0xc0032200 ... PKT3, COUNT:4, PREDICATE:0, SHADER_TYPE:0, OPCODE:22[PKT3_COND_EXEC]
+	IB[0@0xf500447000 + 0x4   ] = 0x00400060 ... |---+ PKT3 OPCODE 0x22, word 0: GPU_ADDR_LO32: 0x00400060
+	IB[0@0xf500447000 + 0x8   ] = 0x000000f5 ... |---+ PKT3 OPCODE 0x22, word 1: GPU_ADDR_HI32: 0x000000f5
+	IB[0@0xf500447000 + 0xc   ] = 0x00000000 ... |---+ PKT3 OPCODE 0x22, word 2: TEST_VALUE: 0x00000000
+	IB[0@0xf500447000 + 0x10  ] = 0x00000027 ... \---+ PKT3 OPCODE 0x22, word 3: PATCH_VALUE: 0x00000027
+	IB[0@0xf500447000 + 0x14  ] = 0xc0053c00 ... PKT3, COUNT:6, PREDICATE:0, SHADER_TYPE:0, OPCODE:3c[PKT3_WAIT_REG_MEM]
+	IB[0@0xf500447000 + 0x18  ] = 0x00000113 ... |---+ PKT3 OPCODE 0x3c, word 0: ENGINE:PFP, MEMSPACE:REG, FUNC:[==]
+	IB[0@0xf500447000 + 0x1c  ] = 0x00400040 ... |---+ PKT3 OPCODE 0x3c, word 1: POLL_ADDRESS_LO: 0x00400040, SWAP: 0
+	End of IB
+
 
 -----------------
 Colourized Output

@@ -340,6 +340,34 @@ int main(int argc, char **argv)
 				printf("--ring requires one parameter\n");
 				return EXIT_FAILURE;
 			}
+		} else if (!strcmp(argv[i], "--dump-ib") || !strcmp(argv[i], "-di")) {
+			if (i + 2 < argc) {
+				uint64_t address;
+				uint32_t vmid, len;
+				int pm;
+
+				if (!asic)
+					asic = get_asic();
+
+				if (sscanf(argv[i+1], "0x%"SCNx32"@%"SCNx64, &vmid, &address) != 2)
+					if (sscanf(argv[i+1], "%"SCNu32"@%"SCNx64, &vmid, &address) != 2) {
+						sscanf(argv[i+1], "%"SCNx64, &address);
+						vmid = UMR_LINEAR_HUB;
+					}
+
+				if (sscanf(argv[i+2], "0x%"SCNx32, &len) != 1)
+					sscanf(argv[i+2], "%"SCNu32, &len);
+
+				if ((i + 3 < argc) && sscanf(argv[i+3], "%d", &pm) == 1) {
+					i += 3;
+				} else {
+					pm = 4;
+					i += 2;
+				}
+				umr_ib_read(asic, vmid, address, len, pm);
+			} else {
+					printf("--dump-ib requires three parameters\n");
+			}
 		} else if (!strcmp(argv[i], "--logscan") || !strcmp(argv[i], "-ls")) {
 			if (!asic)
 				asic = get_asic();
@@ -582,6 +610,10 @@ int main(int argc, char **argv)
 	"\n\t\tto the current wptr pointer.  For example, \"-R gfx\" would read the entire gfx "
 	"\n\t\tring, \"-R gfx[0:16]\" would display the contents from 0 to 16 inclusively, and "
 	"\n\t\t\"-R gfx[.]\" or \"-R gfx[.:.]\" would display the last 32 words relative to rptr.\n"
+"\n\t--dump-ib, -di <vmid>@address length <pm>"
+	"\n\t\tDump an IB packet at an address with an optional VMID.  The length is specified"
+	"\n\t\tin bytes.  The type of decoder <pm> is optional and defaults to PM4 packets."
+	"\n\t\tCan specify '3' for SDMA packets.\n"
 "\n\t--logscan, -ls\n\t\tRead and display contents of the MMIO register log (usually specified with"
 	"\n\t\t'-O bits,follow,empty_log' to continually dump the trace log.)\n"
 "\n\t--top, -t\n\t\tSummarize GPU utilization.  Can select a SE block with --bank.  Can use"
