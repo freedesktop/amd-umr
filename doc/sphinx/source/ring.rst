@@ -178,7 +178,7 @@ Arbitrary IBs can be decoded with the following command:
 
 ::
 
-	umr --dump-ib <vmid>@address length <pm>
+	umr --dump-ib [vmid]@address length [pm]
 
 Which will dump the IB pointed to by the address specified with
 an optional VMID.  The length is specified in bytes.  The

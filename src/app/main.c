@@ -610,7 +610,7 @@ int main(int argc, char **argv)
 	"\n\t\tto the current wptr pointer.  For example, \"-R gfx\" would read the entire gfx "
 	"\n\t\tring, \"-R gfx[0:16]\" would display the contents from 0 to 16 inclusively, and "
 	"\n\t\t\"-R gfx[.]\" or \"-R gfx[.:.]\" would display the last 32 words relative to rptr.\n"
-"\n\t--dump-ib, -di <vmid>@address length <pm>"
+"\n\t--dump-ib, -di [vmid]@address length [pm]"
 	"\n\t\tDump an IB packet at an address with an optional VMID.  The length is specified"
 	"\n\t\tin bytes.  The type of decoder <pm> is optional and defaults to PM4 packets."
 	"\n\t\tCan specify '3' for SDMA packets.\n"

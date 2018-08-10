@@ -79,7 +79,7 @@ pointer.  For example, "-R gfx" would read the entire gfx ring,
 "-R gfx[0:16]" would display the contents from 0 to 16 inclusively, and
 "-R gfx[.]" or "-R gfx[.:.]" would display the last 32 words relative
 to rptr.
-.IP "--dump-ib, -di <vmid>@address length <pm>
+.IP "--dump-ib, -di [vmid]@address length [pm]
 Dump an IB packet at an address with an optional VMID.  The length is specified
 in bytes.  The type of decoder <pm> is optional and defaults to PM4 packets.
 Can specify '3' for SDMA packets.
