@@ -73,7 +73,12 @@ static void parse_pm4(struct umr_asic *asic, int vmid, struct umr_pm4_stream *ps
 		case 0x3f: // INDIRECT_BUFFER_CIK
 		case 0x33: // INDIRECT_BUFFER_CONST
 			addr = (ps->words[0] & ~3ULL) | ((uint64_t)(ps->words[1] & 0xFFFF) << 32);
+
+			// abort if the IB is >8 MB in size which is very likely just garbage data
 			size = (ps->words[2] & ((1UL << 20) - 1)) * 4;
+			if (size > (1024UL * 1024UL * 8UL))
+				break;
+
 			tvmid = ps->words[2] >> 24;
 			if (!tvmid)
 				tvmid = vmid;
@@ -269,6 +274,28 @@ struct umr_pm4_stream *umr_pm4_decode_stream(struct umr_asic *asic, int vmid, ui
 	}
 
 	return ops;
+}
+
+/**
+ * umr_pm4_decode_ring_is_halted - Try to determine if a ring is actually halted
+ */
+int umr_pm4_decode_ring_is_halted(struct umr_asic *asic, char *ringname)
+{
+	uint32_t *ringdata, ringsize;
+	int n;
+
+	// read ring data and reduce indeices modulo ring size
+	// since the kernel returned values might be unwrapped.
+	for (n = 0; n < 100; n++) {
+		ringdata = umr_read_ring_data(asic, ringname, &ringsize);
+		ringsize /= 4;
+		ringdata[0] %= ringsize;
+		ringdata[1] %= ringsize;
+		if (ringdata[0] == ringdata[1])
+			return 0;
+		usleep(1);
+	}
+	return 1;
 }
 
 /**

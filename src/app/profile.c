@@ -77,6 +77,7 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 	struct umr_pm4_stream *stream;
 	struct umr_shaders_pgm *shader;
 	unsigned nitems, nmax, nshaders, x, y, z, found;
+	char *ringname;
 
 	nmax = samples;
 	nitems = 0;
@@ -87,6 +88,8 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 	if (!asic->mmio_accel.reglist)
 		umr_create_mmio_accel(asic);
 
+	ringname = asic->options.ring_name[0] ? asic->options.ring_name : "gfx";
+
 	while (samples--) {
 		fprintf(stderr, "%5u samples left\r", samples);
 		fflush(stderr);
@@ -95,6 +98,11 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 			if (delay)
 				usleep(delay);
 			umr_sq_cmd_halt_waves(asic, UMR_SQ_CMD_HALT);
+
+			// release waves (if any) if the ring isn't halted
+			if (umr_pm4_decode_ring_is_halted(asic, ringname) == 0)
+				continue;
+
 			wd = umr_scan_wave_data(asic);
 		} while (!wd);
 
@@ -103,7 +111,7 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 		// processor is also halted so we can grab the
 		// stream.  This isn't 100% though it seems so race
 		// conditions might occur.
-		stream = umr_pm4_decode_ring(asic, asic->options.ring_name[0] ? asic->options.ring_name : "gfx", 1);
+		stream = umr_pm4_decode_ring(asic, ringname, 1);
 
 		// loop through data ...
 		while (wd) {
