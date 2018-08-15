@@ -539,18 +539,18 @@ int main(int argc, char **argv)
 				return EXIT_FAILURE;
 			}
 		} else if (!strcmp(argv[i], "-prof") || !strcmp(argv[i], "--profiler")) {
-			if (i + 2 < argc) {
+			if (i + 1 < argc) {
 				int n = 0;
 				if (!asic)
 					asic = get_asic();
-				if (i + 3 < argc && argv[i+3][0] != '-') {
+				if (i + 2 < argc && argv[i+2][0] != '-') {
 					n = 1;
-					strcpy(asic->options.ring_name, argv[i+3]);
+					strcpy(asic->options.ring_name, argv[i+2]);
 				}
-				umr_profiler(asic, atoi(argv[i+1]), atoi(argv[i+2]));
-				i += 2 + n;
+				umr_profiler(asic, atoi(argv[i+1]));
+				i += 1 + n;
 			} else {
-				printf("--profiler requires two parameters\n");
+				printf("--profiler requires one parameter\n");
 				return EXIT_FAILURE;
 			}
 		} else if (!strcmp(argv[i], "--option") || !strcmp(argv[i], "-O")) {
@@ -638,9 +638,8 @@ int main(int argc, char **argv)
 "\n\t--vm-disasm, -vdis [<vmid>@]<address> <size>"
 	"\n\t\tDisassemble 'size' bytes (in hex) from a given address (in hex).  The size can"
 	"\n\t\tbe specified as zero to have umr try and compute the shader size.\n"
-"\n\t--profiler, -prof <nsamples> <usec_delay> [ring]"
-	"\n\t\tCapture 'nsamples' samples of wave data with at least usec_delay"
-	"\n\t\tmicroseconds between captures.  Optionally specify a ring to search"
+"\n\t--profiler, -prof <nsamples> [ring]"
+	"\n\t\tCapture 'nsamples' samples of wave data. Optionally specify a ring to search"
 	"\n\t\tfor IBs that point to shaders.  Defaults to 'gfx'.\n"
 "\n\t--option -O <string>[,<string>,...]\n\t\tEnable various flags: bits, bitsfull, empty_log, follow, no_follow_ib, named, many,"
 	"\n\t\tuse_pci, use_colour, read_smc, quiet, no_kernel, verbose, halt_waves, disasm_early_term.\n"

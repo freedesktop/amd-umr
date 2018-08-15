@@ -67,7 +67,7 @@ static int comp_shaders(const void *A, const void *B)
 	return b->total_cnt - a->total_cnt;
 }
 
-void umr_profiler(struct umr_asic *asic, int samples, int delay)
+void umr_profiler(struct umr_asic *asic, int samples)
 {
 	struct umr_profiler_hit *ophit, *phit;
 	struct umr_profiler_rle *prle;
@@ -95,8 +95,6 @@ void umr_profiler(struct umr_asic *asic, int samples, int delay)
 		fflush(stderr);
 		do {
 			umr_sq_cmd_halt_waves(asic, UMR_SQ_CMD_RESUME);
-			if (delay)
-				usleep(delay);
 			umr_sq_cmd_halt_waves(asic, UMR_SQ_CMD_HALT);
 
 			// release waves (if any) if the ring isn't halted
