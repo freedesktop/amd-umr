@@ -542,8 +542,13 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 				DEBUG("selector mask == %llx\n", va_mask);
 
 				// read PDE entry
-				if (umr_read_vram(asic, UMR_LINEAR_HUB, pde_address + pde_idx * 8, 8, &pde_entry) < 0)
-					return -1;
+				if (pde_fields.system == 0) {
+					if (umr_read_vram(asic, UMR_LINEAR_HUB, pde_address + pde_idx * 8, 8, &pde_entry) < 0)
+						return -1;
+				} else {
+					if (umr_access_sram(asic, pde_address + pde_idx * 8, 8, &pde_entry, 0) < 0)
+						return -1;
+				}
 
 				// decode PDE values
 				pde_fields.frag_size     = (pde_entry >> 59) & 0x1F;
@@ -594,8 +599,13 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 			pte_idx = (address >> (12 + pde_fields.frag_size + page_table_size)) & ((1ULL << (9 + page_table_size - pde_fields.frag_size)) - 1);
 pte_further:
 			// now read PTE entry for this page
-			if (umr_read_vram(asic, UMR_LINEAR_HUB, pde_fields.pte_base_addr + pte_idx*8, 8, &pte_entry) < 0)
-				return -1;
+			if (pde_fields.system == 0) {
+				if (umr_read_vram(asic, UMR_LINEAR_HUB, pde_fields.pte_base_addr + pte_idx*8, 8, &pte_entry) < 0)
+					return -1;
+			} else {
+				if (umr_access_sram(asic, pde_fields.pte_base_addr + pte_idx*8, 8, &pte_entry, 0) < 0)
+					return -1;
+			}
 
 			// decode PTE values
 pde_is_pte:
