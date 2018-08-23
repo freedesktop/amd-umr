@@ -102,6 +102,7 @@ static int read_wave_status_via_mmio(struct umr_asic *asic, uint32_t simd, uint3
 static int umr_get_wave_status_vi(struct umr_asic *asic, unsigned se, unsigned sh, unsigned cu, unsigned simd, unsigned wave, struct umr_wave_status *ws)
 {
 	uint32_t x, value, buf[32];
+	int r;
 
 	memset(buf, 0, sizeof buf);
 
@@ -113,7 +114,9 @@ static int umr_get_wave_status_vi(struct umr_asic *asic, unsigned se, unsigned s
 			((uint64_t)cu << 23) |
 			((uint64_t)wave << 31) |
 			((uint64_t)simd << 37), SEEK_SET);
-		read(asic->fd.wave, &buf, 32*4);
+		r = read(asic->fd.wave, &buf, 32*4);
+		if (r <= 0)
+			return -1;
 	} else {
 		int n = 0;
 		umr_grbm_select_index(asic, se, sh, cu);
@@ -207,6 +210,7 @@ static int umr_get_wave_status_vi(struct umr_asic *asic, unsigned se, unsigned s
 static int umr_get_wave_status_ai(struct umr_asic *asic, unsigned se, unsigned sh, unsigned cu, unsigned simd, unsigned wave, struct umr_wave_status *ws)
 {
 	uint32_t x, value, buf[32];
+	int r;
 
 	memset(buf, 0, sizeof buf);
 
@@ -218,7 +222,9 @@ static int umr_get_wave_status_ai(struct umr_asic *asic, unsigned se, unsigned s
 			((uint64_t)cu << 23) |
 			((uint64_t)wave << 31) |
 			((uint64_t)simd << 37), SEEK_SET);
-		read(asic->fd.wave, &buf, 32*4);
+		r = read(asic->fd.wave, &buf, 32*4);
+		if (r < 0)
+			return -1;
 	} else {
 		int n = 0;
 		umr_grbm_select_index(asic, se, sh, cu);

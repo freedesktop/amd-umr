@@ -194,8 +194,12 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 		}
 		return NULL;
 	} else if (f) {
-		fscanf(f, "%*s %s", name);
+		int r;
+
+		r = fscanf(f, "%*s %s", name);
 		fclose(f);
+		if (r != 1)
+			return NULL;
 
 		// strip off dev= for kernels > 4.7
 		if (strstr(name, "dev="))

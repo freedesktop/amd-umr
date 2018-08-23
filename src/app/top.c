@@ -628,7 +628,8 @@ static void parse_bits(struct umr_asic *asic, uint32_t addr, struct umr_bitfield
 			value = asic->pci.mem[addr>>2];
 		} else {
 			lseek(asic->fd.mmio, addr | addr_mask, SEEK_SET);
-			read(asic->fd.mmio, &value, 4);
+			if (read(asic->fd.mmio, &value, 4) != 4)
+				value = 0;
 		}
 		for (j = 0; bits[j].regname; j++)
 			if (bits[j].start != 255) {
@@ -724,7 +725,8 @@ static void parse_iov(struct umr_asic *asic, uint32_t addr, struct umr_bitfield 
 			value = asic->pci.mem[addr>>2];
 		} else {
 			lseek(asic->fd.mmio, addr | addr_mask, SEEK_SET);
-			read(asic->fd.mmio, &value, 4);
+			if (read(asic->fd.mmio, &value, 4) != 4)
+				value = 0;
 		}
 		for (j = 0; bits[j].regname; j++)
 			if (bits[j].start != 255) {
@@ -844,28 +846,34 @@ void load_options(void)
 {
 	FILE *f;
 	char path[512];
+	int r;
 
 	memset(&top_options, 0, sizeof(top_options));
 
 	sprintf(path, "%s/.umrtop", getenv("HOME"));
 	f = fopen(path, "r");
 	if (f) {
-		fscanf(f, "%d\n", &top_options.wide);
-		fscanf(f, "%d\n", &top_options.vram);
-		fscanf(f, "%d\n", &top_options.high_precision);
-		fscanf(f, "%d\n", &top_options.high_frequency);
-		fscanf(f, "%d\n", &top_options.all);
-		fscanf(f, "%d\n", &top_options.drm);
-		fscanf(f, "%d\n", &top_options.vi.ta);
-		fscanf(f, "%d\n", &top_options.vi.vgt);
-		fscanf(f, "%d\n", &top_options.vi.uvd);
-		fscanf(f, "%d\n", &top_options.vi.vce);
-		fscanf(f, "%d\n", &top_options.vi.gfxpwr);
-		fscanf(f, "%d\n", &top_options.vi.grbm);
-		fscanf(f, "%d\n", &top_options.vi.memory_hub);
-		fscanf(f, "%d\n", &top_options.vi.sdma);
-		fscanf(f, "%d\n", &top_options.vi.sensors);
+		r = 1;
+		r &= fscanf(f, "%d\n", &top_options.wide);
+		r &= fscanf(f, "%d\n", &top_options.vram);
+		r &= fscanf(f, "%d\n", &top_options.high_precision);
+		r &= fscanf(f, "%d\n", &top_options.high_frequency);
+		r &= fscanf(f, "%d\n", &top_options.all);
+		r &= fscanf(f, "%d\n", &top_options.drm);
+		r &= fscanf(f, "%d\n", &top_options.vi.ta);
+		r &= fscanf(f, "%d\n", &top_options.vi.vgt);
+		r &= fscanf(f, "%d\n", &top_options.vi.uvd);
+		r &= fscanf(f, "%d\n", &top_options.vi.vce);
+		r &= fscanf(f, "%d\n", &top_options.vi.gfxpwr);
+		r &= fscanf(f, "%d\n", &top_options.vi.grbm);
+		r &= fscanf(f, "%d\n", &top_options.vi.memory_hub);
+		r &= fscanf(f, "%d\n", &top_options.vi.sdma);
+		r &= fscanf(f, "%d\n", &top_options.vi.sensors);
 		fclose(f);
+		if (!r) {
+			fprintf(stderr, "[WARNING]: --top option missing from configuration file please save configuration before quitting\n");
+			sleep(2);
+		}
 	} else {
 		// add some defaults to not be so boring
 		top_options.vi.grbm = 1;
@@ -1097,7 +1105,8 @@ int get_active_vf(struct umr_asic *asic, uint32_t addr)
 			value = asic->pci.mem[addr>>2];
 		} else {
 			lseek(asic->fd.mmio, addr, SEEK_SET);
-			read(asic->fd.mmio, &value, 4);
+			if (read(asic->fd.mmio, &value, 4) != 4)
+				return 0;
 		}
 		value &= 0xF;
 	}

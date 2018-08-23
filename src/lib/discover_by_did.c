@@ -255,8 +255,13 @@ static int find_first_did(long did, long start_instance)
 		f = fopen(name, "r");
 		if (f) {
 			unsigned tmp_did;
-			fscanf(f, "%*s %s", name);
+			int r;
+
+			r = fscanf(f, "%*s %s", name);
 			fclose(f);
+
+			if (r != 1)
+				return -1;
 
 			// strip off dev= for kernels > 4.7
 			if (strstr(name, "dev="))
@@ -265,8 +270,7 @@ static int find_first_did(long did, long start_instance)
 			snprintf(device, sizeof(device)-1, "/sys/bus/pci/devices/%s/device", name);
 			f2 = fopen(device, "r");
 			if (f2) {
-				fscanf(f, "0x%04x", &tmp_did);
-				if (tmp_did == did) {
+				if (fscanf(f, "0x%04x", &tmp_did) == 1 && tmp_did == did) {
 					fclose(f2);
 					return x;
 				}

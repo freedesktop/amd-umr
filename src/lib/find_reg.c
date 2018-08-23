@@ -84,6 +84,9 @@ struct umr_reg *umr_find_reg_by_addr(struct umr_asic *asic, uint64_t addr, struc
 {
 	int i, j;
 
+	if (ip)
+		*ip = NULL;
+
 	if (asic->mmio_accel.reglist && asic->mmio_accel.reglist[addr]) {
 		if (ip && asic->mmio_accel.iplist)
 			*ip = asic->mmio_accel.iplist[addr];

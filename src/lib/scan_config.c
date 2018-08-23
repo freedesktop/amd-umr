@@ -100,8 +100,8 @@ int umr_scan_config(struct umr_asic *asic)
 	snprintf(fname, sizeof(fname)-1, "/sys/bus/pci/devices/%s/vbios_version", asic->options.pci.name);
 	f = fopen(fname, "r");
 	if (f) {
-		fgets(asic->config.vbios_version, sizeof(asic->config.vbios_version)-1, f);
-		asic->config.vbios_version[strlen(asic->config.vbios_version)-1] = 0; // remove newline...
+		if (fgets(asic->config.vbios_version, sizeof(asic->config.vbios_version)-1, f))
+			asic->config.vbios_version[strlen(asic->config.vbios_version)-1] = 0; // remove newline...
 		fclose(f);
 	}
 
@@ -126,8 +126,10 @@ gca_config:
 	f = fopen(fname, "rb");
 	if (!f)
 		return -1;
-	fread(data, 1, sizeof(data), f);
+	r = fread(data, 1, sizeof(data), f);
 	fclose(f);
+	if (r < 0)
+		return -1;
 
 	switch (data[0]) {
 		case 0: parse_rev0(asic, data, &r);

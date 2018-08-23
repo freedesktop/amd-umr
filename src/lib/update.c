@@ -403,7 +403,7 @@ int umr_update(struct umr_asic *asic, char *script)
 	int fd;
 	void *smem;
 	char *sdata;
-	unsigned len;
+	unsigned len, r;
 
 	fd = open(script, O_RDWR);
 	if (fd < 0) {
@@ -418,8 +418,12 @@ int umr_update(struct umr_asic *asic, char *script)
 		fprintf(stderr, "[ERROR]: Out of memory...\n");
 		return -1;
 	}
-	read(fd, smem, len);
+	r = read(fd, smem, len);
 	close(fd);
+	if (r != len) {
+		free(smem);
+		return 0;
+	}
 
 	// parse script
 	while (*sdata) {

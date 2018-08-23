@@ -216,7 +216,7 @@ struct umr_options {
 		hub_name[32],
 		ring_name[32];
 	struct {
-		int domain,
+		unsigned domain,
 		    bus,
 		    slot,
 		    func;

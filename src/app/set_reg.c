@@ -71,7 +71,8 @@ int umr_set_register(struct umr_asic *asic, char *regpath, char *regvalue)
 								addr = 0;
 
 							lseek(fd, addr | (asic->blocks[i]->regs[j].addr*scale), SEEK_SET);
-							write(fd, &value, 4);
+							if (write(fd, &value, 4) != 4)
+								return -1;
 
 							if (asic->blocks[i]->release) {
 								if (asic->blocks[i]->release(asic)) {

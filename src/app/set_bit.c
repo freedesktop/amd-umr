@@ -74,7 +74,8 @@ int umr_set_register_bit(struct umr_asic *asic, char *regpath, char *regvalue)
 										addr = 0;
 
 									lseek(fd, addr | (asic->blocks[i]->regs[j].addr*scale), SEEK_SET);
-									read(fd, &copy, 4);
+									if (read(fd, &copy, 4) != 4)
+										return -1;
 
 									// read-modify-write value back
 									copy &= ~mask;
@@ -82,7 +83,8 @@ int umr_set_register_bit(struct umr_asic *asic, char *regpath, char *regvalue)
 									copy |= value;
 
 									lseek(fd, addr | (asic->blocks[i]->regs[j].addr<<2), SEEK_SET);
-									write(fd, &copy, 4);
+									if (write(fd, &copy, 4) != 4)
+										return -1;
 									if (!asic->options.quiet) printf("%s <= 0x%08lx\n", regpath, (unsigned long)copy);
 
 									if (asic->blocks[i]->release) {

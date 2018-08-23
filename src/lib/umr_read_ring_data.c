@@ -39,6 +39,7 @@
 void *umr_read_ring_data(struct umr_asic *asic, char *ringname, uint32_t *ringsize)
 {
 	int fd;
+	uint32_t r;
 	void *ring_data;
 	char fname[128];
 
@@ -59,7 +60,11 @@ void *umr_read_ring_data(struct umr_asic *asic, char *ringname, uint32_t *ringsi
 		fprintf(stderr, "[ERROR]: Out of memory\n");
 		return NULL;
 	}
-	read(fd, ring_data, *ringsize + 12);
+	r = read(fd, ring_data, *ringsize + 12);
 	close(fd);
+	if (r != *ringsize + 12) {
+		free(ring_data);
+		return NULL;
+	}
 	return ring_data;
 }

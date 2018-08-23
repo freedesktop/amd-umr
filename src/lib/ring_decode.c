@@ -717,8 +717,10 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 						// decode additional words
 						printf("DATA: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
 						break;
+					} else {
+						printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 					}
-					// fall through to invalid
+					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
 			break;

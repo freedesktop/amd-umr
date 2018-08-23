@@ -372,17 +372,27 @@ int main(int argc, char **argv)
 			if (!asic)
 				asic = get_asic();
 			if (options.follow) {
+				int r;
+
 				signal(SIGINT, sigint);
-				system("echo 1 > /sys/kernel/debug/tracing/events/amdgpu/amdgpu_mm_wreg/enable");
-				system("echo 1 > /sys/kernel/debug/tracing/events/amdgpu/amdgpu_mm_rreg/enable");
+				r = system("echo 1 > /sys/kernel/debug/tracing/events/amdgpu/amdgpu_mm_wreg/enable");
+				r |= system("echo 1 > /sys/kernel/debug/tracing/events/amdgpu/amdgpu_mm_rreg/enable");
+				if (r) {
+					fprintf(stderr, "[ERROR]: Could not enable mm tracers\n");
+					return EXIT_FAILURE;
+				}
 				req.tv_sec = 0;
 				req.tv_nsec = 1000000000/10; // 100ms
 				while (!quit) {
 					nanosleep(&req, NULL);
 					umr_scan_log(asic);
 				}
-				system("echo 0 > /sys/kernel/debug/tracing/events/amdgpu/amdgpu_mm_wreg/enable");
-				system("echo 0 > /sys/kernel/debug/tracing/events/amdgpu/amdgpu_mm_rreg/enable");
+				r = system("echo 0 > /sys/kernel/debug/tracing/events/amdgpu/amdgpu_mm_wreg/enable");
+				r |= system("echo 0 > /sys/kernel/debug/tracing/events/amdgpu/amdgpu_mm_rreg/enable");
+				if (r) {
+					fprintf(stderr, "[ERROR]: Could not diable mm tracers\n");
+					return EXIT_FAILURE;
+				}
 			} else {
 				umr_scan_log(asic);
 			}
@@ -493,7 +503,7 @@ int main(int argc, char **argv)
 				sscanf(argv[i+2], "%"SCNx32, &size);
 				do {
 					n = size > sizeof(buf) ? sizeof(buf) : size;
-					fread(buf, 1, n, stdin);
+					n = fread(buf, 1, n, stdin);
 					if (umr_write_vram(asic, vmid, address, n, buf))
 						return EXIT_FAILURE;
 					size -= n;

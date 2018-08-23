@@ -31,7 +31,10 @@ static uint64_t dma_to_phys(struct umr_asic *asic, uint64_t dma_addr)
 	uint64_t phys;
 	if (asic->fd.iova >= 0) {
 		lseek(asic->fd.iova, dma_addr & ~0xFFFULL, SEEK_SET);
-		read(asic->fd.iova, &phys, 8);
+		if (read(asic->fd.iova, &phys, 8) != 8) {
+			fprintf(stderr, "[ERROR]: Could not read from debugfs iova file for address %" PRIx64 "\n", dma_addr);
+			return 0;
+		}
 	} else {
 		phys = dma_addr;
 	}
