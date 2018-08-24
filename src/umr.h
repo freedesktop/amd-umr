@@ -423,6 +423,16 @@ struct umr_ring_decoder {
 				 addr_hi,
 				 value;
 		} next_write_mem;
+
+		// structure to keep track of PKT3_NOP comment data
+		struct {
+			uint32_t
+				pktlen,
+				pkttype,
+				magic;
+			char *str;
+		} nop;
+
 	} pm4;
 
 	// working state of the SDMA decoder

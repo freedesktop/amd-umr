@@ -472,6 +472,43 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 
 	printf("PKT3 OPCODE 0x%02x, word %u: ", (unsigned)decoder->pm4.cur_opcode, (unsigned)decoder->pm4.cur_word);
 	switch (decoder->pm4.cur_opcode) {
+		case 0x10: // NOP
+			switch (decoder->pm4.cur_word) {
+				case 0:
+					// comment NOPs have a MAGIC word first
+					if (ib == 0x1337F77D)
+						decoder->pm4.nop.magic = 1;
+					else
+						decoder->pm4.nop.magic = 0;
+					printf("MAGIC: %s%d%s\n", BLUE, (int)decoder->pm4.nop.magic, RST);
+					break;
+				case 1:
+					if (decoder->pm4.nop.magic) {
+						decoder->pm4.nop.pktlen = ib - 1; // number of data words (we don't care about the PM4 header)
+						printf("PKT_SIZE: %s%lu%s", BLUE, (unsigned long)decoder->pm4.nop.pktlen, RST);
+					}
+					break;
+				case 2:
+					if (decoder->pm4.nop.magic) {
+						decoder->pm4.nop.pkttype = ib; // type of packet
+						printf("PKT_TYPE: %s%lu%s", BLUE, (unsigned long)decoder->pm4.nop.pkttype, RST);
+						decoder->pm4.nop.str = calloc(1, decoder->pm4.nop.pktlen * 4 - 12 + 1);
+					}
+					break;
+				default:
+					// process 'string' type comments
+					if (decoder->pm4.nop.magic && decoder->pm4.nop.pkttype == 7 && decoder->pm4.nop.pktlen > decoder->pm4.cur_word) {
+						memcpy(decoder->pm4.nop.str + decoder->pm4.cur_word * 4 - 12, &ib, 4);
+
+						// if this was the last word print out the string
+						if ((decoder->pm4.cur_word + 1) == decoder->pm4.nop.pktlen) {
+							printf("CommentString: [%s]", decoder->pm4.nop.str);
+							free(decoder->pm4.nop.str);
+							decoder->pm4.nop.magic = 0;
+						}
+					}
+			}
+			break;
 		case 0x15: // DISPATCH DIRECT
 			switch (decoder->pm4.cur_word) {
 				case 0: printf("DIM_X: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
