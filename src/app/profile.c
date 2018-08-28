@@ -52,6 +52,8 @@ struct umr_profiler_text {
 		size;
 	uint64_t
 		addr;
+	int
+		type;
 	void *text;
 	struct umr_profiler_text *next;
 };
@@ -78,6 +80,9 @@ void umr_profiler(struct umr_asic *asic, int samples)
 	struct umr_shaders_pgm *shader;
 	unsigned nitems, nmax, nshaders, x, y, z, found;
 	char *ringname;
+	uint32_t total_hits_by_type[3], total_hits;
+
+	memset(&total_hits_by_type, 0, sizeof total_hits_by_type);
 
 	nmax = samples;
 	nitems = 0;
@@ -154,6 +159,7 @@ void umr_profiler(struct umr_asic *asic, int samples)
 						texts->vmid = shader->vmid;
 						texts->size = shader->size;
 						texts->addr = shader->addr;
+						texts->type = shader->type;
 						texts->text = data;
 						shader_text = texts;
 					}
@@ -263,11 +269,14 @@ void umr_profiler(struct umr_asic *asic, int samples)
 			if (!texts)
 				continue;
 
-			printf("\n\nShader %u@0x%llx (%lu bytes): total hits: %lu\n",
+			printf("\n\nShader %u@0x%llx (%lu bytes, type: %d): total hits: %lu\n",
 				shaders[x].hits[0].data.vmid,
 				(unsigned long long)shaders[x].hits[0].data.base_addr,
 				(unsigned long)shaders[x].hits[0].data.shader_size,
+				texts->type,
 				(unsigned long)shaders[x].total_cnt);
+
+			total_hits_by_type[texts->type] += shaders[x].total_cnt;
 
 			// disasm shader
 			strs = calloc(texts->size/4, sizeof(strs[0]));
@@ -313,6 +322,11 @@ void umr_profiler(struct umr_asic *asic, int samples)
 			free(strs);
 		}
 	}
+	total_hits = total_hits_by_type[0] + total_hits_by_type[1] +
+				 total_hits_by_type[2];
+	printf("\nPixel Shaders:   %3u.%01u %%\n", ((1000 * total_hits_by_type[0]) / total_hits) / 10, ((1000 * total_hits_by_type[0]) / total_hits) % 10);
+	printf("Vertex Shaders:  %3u.%01u %%\n", ((1000 * total_hits_by_type[1]) / total_hits) / 10, ((1000 * total_hits_by_type[1]) / total_hits) % 10);
+	printf("Compute Shaders: %3u.%01u %%\n", ((1000 * total_hits_by_type[2]) / total_hits) / 10, ((1000 * total_hits_by_type[2]) / total_hits) % 10);
 
 	texts = otext;
 	while (texts) {

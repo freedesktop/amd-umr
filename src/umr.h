@@ -377,6 +377,10 @@ struct umr_shaders_pgm {
 		vmid,
 		size;
 
+	// shader type (0==PS, 1==VS, 2==COMPUTE)
+	int
+		type;
+
 	// address in VM space for this shader
 	uint64_t addr;
 
