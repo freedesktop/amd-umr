@@ -480,7 +480,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 						decoder->pm4.nop.magic = 1;
 					else
 						decoder->pm4.nop.magic = 0;
-					printf("MAGIC: %s%d%s\n", BLUE, (int)decoder->pm4.nop.magic, RST);
+					printf("MAGIC: %s%d%s", BLUE, (int)decoder->pm4.nop.magic, RST);
 					break;
 				case 1:
 					if (decoder->pm4.nop.magic) {
