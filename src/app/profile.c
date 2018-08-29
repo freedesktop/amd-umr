@@ -81,6 +81,7 @@ void umr_profiler(struct umr_asic *asic, int samples)
 	unsigned nitems, nmax, nshaders, x, y, z, found;
 	char *ringname;
 	uint32_t total_hits_by_type[3], total_hits;
+	const char *shader_names[3] = { "pixel", "vertex", "compute" };
 
 	memset(&total_hits_by_type, 0, sizeof total_hits_by_type);
 
@@ -269,11 +270,11 @@ void umr_profiler(struct umr_asic *asic, int samples)
 			if (!texts)
 				continue;
 
-			printf("\n\nShader %u@0x%llx (%lu bytes, type: %d): total hits: %lu\n",
+			printf("\n\nShader %u@0x%llx (%lu bytes, type: %s): total hits: %lu\n",
 				shaders[x].hits[0].data.vmid,
 				(unsigned long long)shaders[x].hits[0].data.base_addr,
 				(unsigned long)shaders[x].hits[0].data.shader_size,
-				texts->type,
+				shader_names[texts->type],
 				(unsigned long)shaders[x].total_cnt);
 
 			total_hits_by_type[texts->type] += shaders[x].total_cnt;
