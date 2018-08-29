@@ -550,14 +550,22 @@ int main(int argc, char **argv)
 			}
 		} else if (!strcmp(argv[i], "-prof") || !strcmp(argv[i], "--profiler")) {
 			if (i + 1 < argc) {
-				int n = 0;
+				int n = 0, samples = -1, type = -1;
 				if (!asic)
 					asic = get_asic();
 				if (i + 2 < argc && argv[i+2][0] != '-') {
 					n = 1;
 					strcpy(asic->options.ring_name, argv[i+2]);
 				}
-				umr_profiler(asic, atoi(argv[i+1]));
+				if (sscanf(argv[i+1], "pixel=%d", &samples) == 1)
+					type = 0;
+				else if (sscanf(argv[i+1], "vertex=%d", &samples) == 1)
+					type = 1;
+				else if (sscanf(argv[i+1], "compute=%d", &samples) == 1)
+					type = 2;
+				else
+					samples = atoi(argv[i+1]);
+				umr_profiler(asic, samples, type);
 				i += 1 + n;
 			} else {
 				printf("--profiler requires one parameter\n");
@@ -648,9 +656,10 @@ int main(int argc, char **argv)
 "\n\t--vm-disasm, -vdis [<vmid>@]<address> <size>"
 	"\n\t\tDisassemble 'size' bytes (in hex) from a given address (in hex).  The size can"
 	"\n\t\tbe specified as zero to have umr try and compute the shader size.\n"
-"\n\t--profiler, -prof <nsamples> [ring]"
+"\n\t--profiler, -prof [pixel= | vertex= | compute=]<nsamples> [ring]"
 	"\n\t\tCapture 'nsamples' samples of wave data. Optionally specify a ring to search"
-	"\n\t\tfor IBs that point to shaders.  Defaults to 'gfx'.\n"
+	"\n\t\tfor IBs that point to shaders.  Defaults to 'gfx'.  Additionally, the type"
+	"\n\t\tof shader can be selected for as well to only profile a given type.\n"
 "\n\t--option -O <string>[,<string>,...]\n\t\tEnable various flags: bits, bitsfull, empty_log, follow, no_follow_ib, named, many,"
 	"\n\t\tuse_pci, use_colour, read_smc, quiet, no_kernel, verbose, halt_waves, disasm_early_term.\n"
 "\n\n", UMR_BUILD_VER, UMR_BUILD_REV);

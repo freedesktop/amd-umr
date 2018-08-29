@@ -23,6 +23,7 @@
  *
  */
 #include "umrapp.h"
+#include <signal.h>
 
 struct umr_profiler_hit {
 	uint32_t
@@ -69,7 +70,17 @@ static int comp_shaders(const void *A, const void *B)
 	return b->total_cnt - a->total_cnt;
 }
 
-void umr_profiler(struct umr_asic *asic, int samples)
+static struct umr_asic *kill_asic;
+
+static void sigint_handler(int n)
+{
+	(void)n;
+	printf("Profiler killed\n");
+	umr_sq_cmd_halt_waves(kill_asic, UMR_SQ_CMD_RESUME);
+	exit(EXIT_FAILURE);
+}
+
+void umr_profiler(struct umr_asic *asic, int samples, int shader_target)
 {
 	struct umr_profiler_hit *ophit, *phit;
 	struct umr_profiler_rle *prle;
@@ -82,6 +93,10 @@ void umr_profiler(struct umr_asic *asic, int samples)
 	char *ringname;
 	uint32_t total_hits_by_type[3], total_hits;
 	const char *shader_names[3] = { "pixel", "vertex", "compute" };
+	int sample_hit;
+
+	kill_asic = asic;
+	signal(SIGINT, &sigint_handler);
 
 	memset(&total_hits_by_type, 0, sizeof total_hits_by_type);
 
@@ -118,6 +133,7 @@ void umr_profiler(struct umr_asic *asic, int samples)
 		stream = umr_pm4_decode_ring(asic, ringname, 1);
 
 		// loop through data ...
+		sample_hit = 0;
 		while (wd) {
 			phit[nitems].vmid = wd->ws.hw_id.vm_id;
 			phit[nitems].pc = ((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo;
@@ -130,6 +146,13 @@ void umr_profiler(struct umr_asic *asic, int samples)
 				shader = umr_find_shader_in_stream(stream, phit[nitems].vmid, phit[nitems].pc);
 			if (shader) {
 				struct umr_profiler_text *shader_text;
+
+				// toss out if shader doesn't match desired target
+				if (shader_target != -1 && shader_target != shader->type) {
+					free(shader);
+					goto throw_back;
+				}
+
 
 				// capture shader text, first see if we can find it
 				texts = otext;
@@ -193,10 +216,15 @@ void umr_profiler(struct umr_asic *asic, int samples)
 				memset(&phit[nitems], 0, (nmax - nitems) * sizeof(phit[0]));
 			}
 
+			sample_hit = 1;
+throw_back:
 			owd = wd->next;
 			free(wd);
 			wd = owd;
 		}
+
+		if (!sample_hit)
+			++samples;
 
 		if (stream)
 			umr_free_pm4_stream(stream);
@@ -207,6 +235,7 @@ void umr_profiler(struct umr_asic *asic, int samples)
 	// and the shaders unmapped which is why we captured
 	// them in the 'texts' list
 	umr_sq_cmd_halt_waves(asic, UMR_SQ_CMD_RESUME);
+	signal(SIGINT, NULL);
 
 	// sort all hits by address/size/etc so we can
 	// RLE compress them.  The compression tells us how often

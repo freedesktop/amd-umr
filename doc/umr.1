@@ -124,9 +124,10 @@ from stdin.
 Disassemble 'size' bytes (in hex) from a given address (in hex).  The size can be
 specified as zero to have umr try and compute the shader size.
 
-.IP "--profiler, -prof <nsamples> [ring]"
+.IP "--profiler, -prof [pixel= | vertex= | compute=]<nsamples> [ring]"
 Capture 'nsamples' samples of wave data.  Optionally specify a ring to use when
-searching for IBs that point to shaders.  Defaults to 'gfx'.
+searching for IBs that point to shaders.  Defaults to 'gfx'.  Additionally, the type
+of shader can be selected for as well to only profile a given type of shader.
 
 .IP "--update, -u" <filename>
 Specify update file to add, change, or delete registers from the register

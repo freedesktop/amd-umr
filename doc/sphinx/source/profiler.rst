@@ -4,14 +4,27 @@ Profiling
 
 When testing a shader compiler and/or a shader under testing
 a profile of where the GPU tends to spend time can be generated with
-the umr "--profiler" command:
+the umr "--profiler" command.
+
+The command repeatedly issues SQ_CMD halt/resume commands to see where any waves
+end up halting.  This results in a GPU lockup temporarily which allows umr to read
+the rings and find IBs and shaders.  A ring is considered "halted" if the read and
+write pointers do not move for 500 uSeconds which typically is enough for most pixel
+and vertex shaders but may not be enough for compute tasks resulting in race conditions
+trying to read GPU virtual memory.
+
+The command is:
 
 ::
 
-	--profiler <nsamples>
+	--profiler [pixel= | vertex= | compute=]<nsamples> [ring]
 
-Which will capture 'nsamples' many wave samples.  The output then
-contains the sorted list of addresses and opcodes in descending order.
+Which will capture 'nsamples'-many wave samples.  Optionally, a ring
+can be specified to profile shaders stored in different rings.  This defaults
+to the 'gfx' ring.  Additionally, the type of shader can be selcted for as
+well to only profile a given type of shader.
+
+The output then contains the sorted list of addresses and opcodes in descending order.
 For example,
 
 ::
