@@ -140,6 +140,8 @@ The options available are:
 +-------------------+-------------------------------------------------------------------------+
 | disasm_early_term | Terminate disassembly early for UMDs that don't use 0xBF9F0000 marker   |
 +-------------------+-------------------------------------------------------------------------+
+| no_disasm         | Disable LLVM disassembly.  Used on systems with outdated llvm-dev       |
++-------------------+-------------------------------------------------------------------------+
 
 ------------------
 Device Information

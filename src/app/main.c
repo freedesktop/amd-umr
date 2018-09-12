@@ -116,6 +116,8 @@ static void parse_options(char *str)
 		} else if (!strcmp(option, "no_kernel")) {
 			options.no_kernel = 1;
 			options.use_pci = 1;
+		} else if (!strcmp(option, "no_disasm")) {
+			options.no_disasm = 1;
 		} else {
 			printf("error: Unknown option [%s]\n", option);
 			exit(EXIT_FAILURE);
@@ -661,7 +663,7 @@ int main(int argc, char **argv)
 	"\n\t\tfor IBs that point to shaders.  Defaults to 'gfx'.  Additionally, the type"
 	"\n\t\tof shader can be selected for as well to only profile a given type.\n"
 "\n\t--option -O <string>[,<string>,...]\n\t\tEnable various flags: bits, bitsfull, empty_log, follow, no_follow_ib, named, many,"
-	"\n\t\tuse_pci, use_colour, read_smc, quiet, no_kernel, verbose, halt_waves, disasm_early_term.\n"
+	"\n\t\tuse_pci, use_colour, read_smc, quiet, no_kernel, verbose, halt_waves, disasm_early_term, no_disasm\n"
 "\n\n", UMR_BUILD_VER, UMR_BUILD_REV);
 			exit(EXIT_SUCCESS);
 		} else {

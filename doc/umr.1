@@ -196,6 +196,10 @@ separated strings.  Options should be specified before --update or --force comma
      older UMDs (or non-mesa UMDs) that don't use the quintuple 0xBF9F0000 to signal the true
      end of a shader.
 
+.B no_disasm
+     Disable shader disassembler logic (still outputs text just doesn't use LLVM to decode).  Useful
+     if the linked llvm-dev doesn't support the hardware being debugged.  Avoids segfualts/asserts.
+
 .SH "Notes"
 
 - The "Waves" field in the DRM section of --top only works if GFX PG has been disabled.  Otherwise,

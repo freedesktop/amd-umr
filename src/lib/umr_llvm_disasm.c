@@ -36,14 +36,21 @@
  *					to disassembled shader.
  */
 int umr_llvm_disasm(struct umr_asic *asic,
-					uint8_t *inst, unsigned inst_bytes,
-					uint64_t PC,
-					char **disasm_text)
+		     uint8_t *inst, unsigned inst_bytes,
+		     uint64_t PC,
+		     char **disasm_text)
 {
 	LLVMDisasmContextRef disasm_ref;
 	unsigned x, z, i;
 	size_t n;
 	char tmp[256], *cpuname;
+
+	if (asic->options.no_disasm) {
+		for (x = 0; x < inst_bytes; x += 4) {
+			disasm_text[x/4] = strdup("...");
+		}
+		return 0;
+	}
 
 	// initialize LLVM
 	LLVMInitializeAllTargetInfos();

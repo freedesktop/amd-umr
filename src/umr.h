@@ -192,6 +192,7 @@ struct umr_options {
 	    verbose,
 	    halt_waves,
 	    no_kernel,
+	    no_disasm,
 	    disasm_early_term;
 
 	union {
