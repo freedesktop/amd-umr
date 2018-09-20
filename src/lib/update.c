@@ -420,7 +420,7 @@ int umr_update(struct umr_asic *asic, char *script)
 	}
 	r = read(fd, smem, len);
 	close(fd);
-	if (r != len) {
+	if (r + 1 != len) {
 		free(smem);
 		return 0;
 	}
