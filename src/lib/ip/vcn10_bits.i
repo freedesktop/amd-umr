@@ -36,6 +36,19 @@ static struct umr_bitfield mmUVD_POWER_STATUS[] = {
 static struct umr_bitfield mmCC_UVD_HARVESTING[] = {
 	 { "UVD_DISABLE", 1, 1, &umr_bitfield_default },
 };
+static struct umr_bitfield mmUVD_DPG_LMA_CTL[] = {
+	 { "READ_WRITE", 0, 0, &umr_bitfield_default },
+	 { "MASK_EN", 1, 1, &umr_bitfield_default },
+	 { "ADDR_AUTO_INCREMENT", 2, 2, &umr_bitfield_default },
+	 { "SRAM_SEL", 4, 4, &umr_bitfield_default },
+	 { "READ_WRITE_ADDR", 16, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmUVD_DPG_PAUSE[] = {
+	 { "JPEG_PAUSE_DPG_REQ", 0, 0, &umr_bitfield_default },
+	 { "JPEG_PAUSE_DPG_ACK", 1, 1, &umr_bitfield_default },
+	 { "NJ_PAUSE_DPG_REQ", 2, 2, &umr_bitfield_default },
+	 { "NJ_PAUSE_DPG_ACK", 3, 3, &umr_bitfield_default },
+};
 static struct umr_bitfield mmUVD_SCRATCH1[] = {
 	 { "SCRATCH1_DATA", 0, 31, &umr_bitfield_default },
 };
@@ -758,6 +771,8 @@ static struct umr_bitfield mmUVD_VCPU_CACHE_SIZE2[] = {
 };
 static struct umr_bitfield mmUVD_VCPU_CNTL[] = {
 	 { "CLK_EN", 9, 9, &umr_bitfield_default },
+	 { "MIF_WR_LOW_THRESHOLD_BP", 17, 17, &umr_bitfield_default },
+	 { "PRB_TIMEOUT_VAL", 20, 27, &umr_bitfield_default },
 };
 static struct umr_bitfield mmUVD_SOFT_RESET[] = {
 	 { "RBC_SOFT_RESET", 0, 0, &umr_bitfield_default },

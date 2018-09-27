@@ -5227,7 +5227,7 @@ static struct umr_bitfield mmMC_VM_LOCAL_HBM_ADDRESS_LOCK_CNTL[] = {
 };
 static struct umr_bitfield mmMC_VM_XGMI_LFB_CNTL[] = {
 	 { "PF_LFB_REGION", 0, 2, &umr_bitfield_default },
-	 { "PF_MAX_REGION", 3, 5, &umr_bitfield_default },
+	 { "PF_MAX_REGION", 4, 6, &umr_bitfield_default },
 };
 static struct umr_bitfield mmMC_VM_XGMI_LFB_SIZE[] = {
 	 { "PF_LFB_SIZE", 0, 15, &umr_bitfield_default },
