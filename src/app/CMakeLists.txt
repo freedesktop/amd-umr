@@ -21,7 +21,9 @@ add_library(umrapp
 
 add_executable(umr main.c)
 target_link_libraries(umr umrapp)
+target_link_libraries(umr umrlow)
 target_link_libraries(umr umrcore)
+target_link_libraries(umr umrlow)
 
 target_link_libraries(umr ${LLVM_LIBS})
 target_link_libraries(umr ${REQUIRED_EXTERNAL_LIBS})

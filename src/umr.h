@@ -716,7 +716,10 @@ uint32_t umr_compute_shader_size(struct umr_asic *asic, struct umr_shaders_pgm *
 
 
 // memory access
+uint64_t umr_vm_dma_to_phys(struct umr_asic *asic, uint64_t dma_addr);
+int umr_access_sram(struct umr_asic *asic, uint64_t address, uint32_t size, void *dst, int write_en);
 int umr_access_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint32_t size, void *data, int write_en);
+int umr_access_linear_vram(struct umr_asic *asic, uint64_t address, uint32_t size, void *data, int write_en);
 #define umr_read_vram(asic, vmid, address, size, dst) umr_access_vram(asic, vmid, address, size, dst, 0)
 #define umr_write_vram(asic, vmid, address, size, src) umr_access_vram(asic, vmid, address, size, src, 1)
 

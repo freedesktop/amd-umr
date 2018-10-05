@@ -2,6 +2,7 @@
 
 add_subdirectory(asic)
 add_subdirectory(ip)
+add_subdirectory(lowlevel)
 
 add_library(umrcore STATIC
   bitfield_print.c
@@ -11,20 +12,15 @@ add_library(umrcore STATIC
   create_mmio_accel.c
   discover_by_did.c
   discover_by_name.c
-  discover.c
   dump_ib.c
   find_reg.c
   mmio.c
-  query_drm.c
-  read_sensor.c
-  read_gpr.c
   read_vram.c
   ring_decode.c
   scan_config.c
   scan_waves.c
   sq_cmd_halt_waves.c
   transfer_soc15.c
-  wave_status.c
   umr_apply_bank_address.c
   umr_llvm_disasm.c
   umr_read_ring_data.c
