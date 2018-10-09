@@ -107,7 +107,7 @@ static const char *pm4_pkt3_opcode_names[] = {
 	"UNK", // 4e
 	"UNK", // 4f
 	"PKT3_DMA_DATA", // 50
-	"UNK", // 51
+	"PKT3_CONTEXT_REG_RMW", // 51
 	"UNK", // 52
 	"UNK", // 53
 	"UNK", // 54
@@ -125,7 +125,7 @@ static const char *pm4_pkt3_opcode_names[] = {
 	"PKT3_LOAD_CONFIG_REG", // 60
 	"PKT3_LOAD_CONTEXT_REG", // 61
 	"UNK", // 62
-	"UNK", // 63
+	"PKT3_LOAD_SH_REG_INDEX", // 63
 	"UNK", // 64
 	"UNK", // 65
 	"UNK", // 66
@@ -148,7 +148,7 @@ static const char *pm4_pkt3_opcode_names[] = {
 	"PKT3_SET_SH_REG_OFFSET", // 77
 	"PKT3_SET_QUEUE_REG", // 78
 	"PKT3_SET_UCONFIG_REG", // 79
-	"UNK", // 7a
+	"PKT3_SET_UCONFIG_REG_INDEX", // 7a
 	"UNK", // 7b
 	"UNK", // 7c
 	"UNK", // 7d
@@ -180,12 +180,12 @@ static const char *pm4_pkt3_opcode_names[] = {
 	"UNK", // 97
 	"UNK", // 98
 	"UNK", // 99
-	"UNK", // 9a
-	"UNK", // 9b
+	"PKT3_DMA_DATA_FILL_MULTI", // 9a
+	"PKT3_SET_SH_REG_INDEX", // 9b
 	"UNK", // 9c
 	"UNK", // 9d
 	"UNK", // 9e
-	"UNK", // 9f
+	"PKT3_LOAD_CONTEXT_REG_INDEX", // 9f
 	"PKT3_SET_RESOURCES", // a0
 	"UNK", // a1
 	"PKT3_MAP_QUEUES", // a2
@@ -462,6 +462,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 	static const char *op_37_engines[] = { "ME", "PFP", "CE", "DE" };
 	static const char *op_37_dst_sel[] = { "mem-mapped reg", "memory sync", "TC/L2", "GDS", "reserved", "memory async", "reserved", "reserved" };
 	static const char *op_84_cntr_sel[] = { "invalid", "ce", "cs", "ce and cs" };
+	static const char *op_7a_index_str[] = { "default", "prim_type", "index_type", "num_instance", "multi_vgt_param", "reserved", "reserved", "reserved" };
 	struct umr_reg *reg;
 	char buf[4];
 
@@ -787,6 +788,17 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
 			break;
+		case 0x51: // CONTEXT_REG_RMW
+			switch (decoder->pm4.cur_word) {
+				case 0: printf("REG: %s", umr_reg_name(asic, BITS(ib, 0, 16) + 0xA000));
+					break;
+				case 1: printf("MASK: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+				case 2: printf("DATA: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
 		case 0x58: // ACQUIRE_MEM
 			switch(decoder->pm4.cur_word) {
 				case 0: printf("ENGINE: %s%s%s, COHER_CNTL: %s0x%08lx%s",
@@ -811,6 +823,40 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 				case 3: printf("CP_COHER_BASE: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST); break;
 				case 4: printf("CP_COHER_BASE_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST); break;
 				case 5: printf("POLL_INTERVAL: %s0x%08lx%s", BLUE, (unsigned long)ib, RST); break;
+			}
+			break;
+		case 0x63: // LOAD_SH_REG_INDEX
+			switch(decoder->pm4.cur_word) {
+				case 0: decoder->pm4.next_write_mem.addr_lo = BITS(ib, 0, 31) & ~0x3UL;
+					decoder->pm4.next_write_mem.type = BITS(ib, 0, 0); // INDEX bit
+					if (BITS(ib, 0, 0))
+						printf("INDEX: %s1%s", BLUE, RST);
+					else
+						printf("MEM_ADDR_LO: %s0x%lx%s",
+							YELLOW, (unsigned long)decoder->pm4.next_write_mem.addr_lo, RST);
+					break;
+				case 1: decoder->pm4.next_write_mem.addr_lo = BITS(ib, 0, 32);
+					if (decoder->pm4.next_write_mem.type) // INDEX bit
+						printf("SH_BASE_ADDR: %s0x%lx%s", YELLOW, (unsigned long)decoder->pm4.next_write_mem.addr_lo, RST);
+					else
+						printf("MEM_ADDR_HI: %s0x%lx%s", YELLOW, (unsigned long)decoder->pm4.next_write_mem.addr_lo, RST);
+					break;
+				case 2: decoder->pm4.next_write_mem.type |= BITS(ib, 31, 32) << 1; // DATA_FORMAT
+					if (decoder->pm4.next_write_mem.type & 2)
+						printf("REG: %s\n", umr_reg_name(asic, 0x2c00 + BITS(ib, 0, 16)));
+					else
+						printf("REG: (ignored)\n");
+					break;
+				case 3: printf("NUM_DWORDS: %s0x%lx%s\n", BLUE, (unsigned long)BITS(ib, 0, 14), RST);
+					break;
+				default:
+					if (decoder->pm4.next_write_mem.type & 2) {
+						printf("%s <= %s0x%08lx%s", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo++), YELLOW, (unsigned long)ib, RST);
+						print_bits(asic, decoder->pm4.next_write_mem.addr_lo - 1, ib, 0);
+					} else {
+						printf("DATA: %s0x%lx%s\n", BLUE, (unsigned long)ib, RST);
+					}
+					break;
 			}
 			break;
 		case 0x68: // SET_CONFIG_REG
@@ -865,6 +911,18 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 			switch(decoder->pm4.cur_word) {
 				case 0: decoder->pm4.next_write_mem.addr_lo = BITS(ib, 0, 16) + 0xC000;
 					printf("OFFSET: %s0x%lx%s", BLUE, (unsigned long)BITS(ib, 0, 16), RST);
+					break;
+				default: printf("%s <= %s0x%08lx%s", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo++), YELLOW, (unsigned long)ib, RST);
+					print_bits(asic, decoder->pm4.next_write_mem.addr_lo - 1, ib, 0);
+					break;
+			}
+			break;
+		case 0x7A: // SET_UCONFIG_REG_INDEX
+			switch(decoder->pm4.cur_word) {
+				case 0: decoder->pm4.next_write_mem.addr_lo = BITS(ib, 0, 16) + 0xC000;
+					printf("OFFSET: %s0x%lx%s, INDEX: [%s%s%s]",
+						BLUE, (unsigned long)BITS(ib, 0, 16), RST,
+						CYAN, op_7a_index_str[BITS(ib, 28, 32)], RST);
 					break;
 				default: printf("%s <= %s0x%08lx%s", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo++), YELLOW, (unsigned long)ib, RST);
 					print_bits(asic, decoder->pm4.next_write_mem.addr_lo - 1, ib, 0);
@@ -934,6 +992,76 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 						BLUE, (int)BITS(ib, 27, 28), RST);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
+		case 0x9A: // DMA_DATA_FILL_MULTI
+			switch(decoder->pm4.cur_word) {
+				case 0: printf("ENGINE_SEL: %s%lu%s, MEMLOG_CLEAR: %s%lu%s, DST_SEL: %s%lu%s, DST_CACHE_POLICY: %s%lu%s, SRC_SEL: %s%lu%s, CP_SYNC: %s%lu%s",
+						BLUE, (unsigned long)BITS(ib, 0, 1), RST,
+						BLUE, (unsigned long)BITS(ib, 10, 11), RST,
+						BLUE, (unsigned long)BITS(ib, 20, 22), RST,
+						BLUE, (unsigned long)BITS(ib, 25, 27), RST,
+						BLUE, (unsigned long)BITS(ib, 29, 31), RST,
+						BLUE, (unsigned long)BITS(ib, 31, 32), RST);
+					break;
+				case 1: printf("BYTE_STRIDE: %s%lu%s", BLUE, (unsigned long)BITS(ib, 0, 32), RST);
+					break;
+				case 2: printf("DMA_COUNT: %s%lu%s", BLUE, (unsigned long)BITS(ib, 0, 32), RST);
+					break;
+				case 3: printf("DST_ADDR_LO: %s0x%lx%s", YELLOW, (unsigned long)BITS(ib, 0, 32), RST);
+					break;
+				case 4: printf("DST_ADDR_HI: %s0x%lx%s", YELLOW, (unsigned long)BITS(ib, 0, 32), RST);
+					break;
+				case 5: printf("BYTE_COUNT: %s%lu%s", BLUE, (unsigned long)BITS(ib, 0, 26), RST);
+					break;
+				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
+		case 0x9B: // SET_SH_REG_INDEX
+			switch(decoder->pm4.cur_word) {
+				case 0:
+					decoder->pm4.next_write_mem.addr_lo = BITS(ib, 0, 16) + 0x2C00;
+					printf("REG_OFFSET: %s0x%lx%s, INDEX: %s%lu%s",
+						BLUE, (unsigned long)decoder->pm4.next_write_mem.addr_lo, RST,
+						BLUE, BITS(ib, 28, 32), RST);
+					break;
+				default: printf("%s <= %s0x%08lx%s", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo++), YELLOW, (unsigned long)ib, RST);
+					print_bits(asic, decoder->pm4.next_write_mem.addr_lo - 1, ib, 0);
+					break;
+			}
+			break;
+		case 0x9F: // LOAD_CONTEXT_REG_INDEX
+			switch(decoder->pm4.cur_word) {
+				case 0: decoder->pm4.next_write_mem.addr_lo = BITS(ib, 0, 31) & ~0x3UL;
+					decoder->pm4.next_write_mem.type = BITS(ib, 0, 0); // INDEX bit
+					if (BITS(ib, 0, 0))
+						printf("INDEX: %s1%s", BLUE, RST);
+					else
+						printf("MEM_ADDR_LO: %s0x%lx%s",
+							YELLOW, (unsigned long)decoder->pm4.next_write_mem.addr_lo, RST);
+					break;
+				case 1: decoder->pm4.next_write_mem.addr_lo = BITS(ib, 0, 32);
+					if (decoder->pm4.next_write_mem.type) // INDEX bit
+						printf("CONTEXT_BASE_ADDR: %s0x%lx%s", YELLOW, (unsigned long)decoder->pm4.next_write_mem.addr_lo, RST);
+					else
+						printf("MEM_ADDR_HI: %s0x%lx%s", YELLOW, (unsigned long)decoder->pm4.next_write_mem.addr_lo, RST);
+					break;
+				case 2: decoder->pm4.next_write_mem.type |= BITS(ib, 31, 32) << 1; // DATA_FORMAT
+					if (decoder->pm4.next_write_mem.type & 2)
+						printf("REG: %s\n", umr_reg_name(asic, 0xA000 + BITS(ib, 0, 16)));
+					else
+						printf("REG: (ignored)\n");
+					break;
+				case 3: printf("NUM_DWORDS: %s0x%lx%s\n", BLUE, (unsigned long)BITS(ib, 0, 14), RST);
+					break;
+				default:
+					if (decoder->pm4.next_write_mem.type & 2) {
+						printf("%s <= %s0x%08lx%s", umr_reg_name(asic, decoder->pm4.next_write_mem.addr_lo++), YELLOW, (unsigned long)ib, RST);
+						print_bits(asic, decoder->pm4.next_write_mem.addr_lo - 1, ib, 0);
+					} else {
+						printf("DATA: %s0x%lx%s\n", BLUE, (unsigned long)ib, RST);
+					}
+					break;
 			}
 			break;
 		default:
