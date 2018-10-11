@@ -598,9 +598,9 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 				case 1: printf("IB_BASE_HI: %s0x%08lx%s", YELLOW, BITS(ib, 0, 16), RST);
 					decoder->pm4.next_ib_state.ib_addr_hi = BITS(ib, 0, 16);
 					break;
-				case 2: printf("IB_SIZE:%s%lu%s, VMID: %s%lu%s", BLUE, BITS(ib, 0, 20), RST, BLUE, BITS(ib, 24, 32), RST);
+				case 2: printf("IB_SIZE:%s%lu%s, VMID: %s%lu%s", BLUE, BITS(ib, 0, 20), RST, BLUE, BITS(ib, 24, 28), RST);
 					decoder->pm4.next_ib_state.ib_size = BITS(ib, 0, 20) * 4;
-					decoder->pm4.next_ib_state.ib_vmid = decoder->next_ib_info.vmid ? decoder->next_ib_info.vmid : BITS(ib, 24, 32);
+					decoder->pm4.next_ib_state.ib_vmid = decoder->next_ib_info.vmid ? decoder->next_ib_info.vmid : BITS(ib, 24, 28);
 					if (umr_read_vram(asic, decoder->pm4.next_ib_state.ib_vmid,
 									  ((uint64_t)decoder->pm4.next_ib_state.ib_addr_hi << 32) | decoder->pm4.next_ib_state.ib_addr_lo, 4, buf) < 0) {
 						printf(" [%sUNMAPPED%s]", RED, RST);
