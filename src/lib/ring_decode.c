@@ -170,7 +170,7 @@ static const char *pm4_pkt3_opcode_names[] = {
 	"UNK", // 8d
 	"UNK", // 8e
 	"UNK", // 8f
-	"UNK", // 90
+	"PKT3_FRAME_CONTROL", // 90
 	"UNK", // 91
 	"UNK", // 92
 	"UNK", // 93
@@ -732,28 +732,53 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 			break;
 		case 0x49: // RELEASE_MEM
 			switch(decoder->pm4.cur_word) {
-				case 0: printf("EOP_TCL1_ACTION: %s%lu%s, EOP_TC_ACTION: %s%lu%s, EOP_TC_WB_ACTION: %s%lu%s, EVENT_TYPE: %s%lu%s[%s%s%s], EVENT_INDEX: %s%lu%s",
-				BLUE, BITS(ib, 16, 17), RST,
-				BLUE, BITS(ib, 17, 18), RST,
-				BLUE, BITS(ib, 15, 16), RST,
-				BLUE, BITS(ib, 0, 7), RST, CYAN, vgt_event_decode(BITS(ib, 0, 7)), RST,
-				BLUE, BITS(ib, 8, 15), RST);
+				case 0: printf("EVENT_TYPE: %s%lu%s [%s%s%s], EVENT_INDEX: %s%lu%s, TCL1_VOL_ACTION_ENA: %s%lu%s, TC_VOL_ACTION_ENA: %s%lu%s, TC_WB_ACTION_ENA: %s%lu%s, TCL1_ACTION_ENA: %s%lu%s, TC_ACTION_ENA: %s%lu%s, TC_NC_ACTION_ENA: %s%lu%s, TC_WC_ACTION_ENA: %s%lu%s, TC_MD_ACTION_ENA: %s%lu%s, CACHE_POLICY: %s%lu%s, EXECUTE: %s%lu%s",
+						BLUE, BITS(ib, 0, 6), RST, CYAN, vgt_event_decode(BITS(ib, 0, 6)), RST,
+						BLUE, BITS(ib, 8, 12), RST,
+						BLUE, BITS(ib, 12, 13), RST,
+						BLUE, BITS(ib, 13, 14), RST,
+						BLUE, BITS(ib, 15, 16), RST,
+						BLUE, BITS(ib, 16, 17), RST,
+						BLUE, BITS(ib, 17, 18), RST,
+						BLUE, BITS(ib, 19, 20), RST,
+						BLUE, BITS(ib, 20, 21), RST,
+						BLUE, BITS(ib, 21, 22), RST,
+						BLUE, BITS(ib, 25, 27), RST,
+						BLUE, BITS(ib, 28, 29), RST);
 					break;
 				case 1:
-					printf("DATA_SEL+INT_SEL: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					decoder->pm4.next_write_mem.type = ib;
+					printf("DST_SEL: %s%lu%s, INT_SEL: %s%lu%s, DATA_SEL: %s%lu%s",
+						BLUE, BITS(ib, 16, 18), RST,
+						BLUE, BITS(ib, 24, 27), RST,
+						BLUE, BITS(ib, 29, 32), RST);
 					break;
 				case 2: printf("ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
 				case 3: printf("ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
-				case 4: printf("SEQ_LO: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+				case 4:
+					if (BITS(decoder->pm4.next_write_mem.type, 24, 27) == 5 ||
+					    BITS(decoder->pm4.next_write_mem.type, 24, 27) == 6)
+						printf("CMP_DATA_LO: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					else if (BITS(decoder->pm4.next_write_mem.type, 29, 32) == 5)
+						printf("DW_OFFSET: %s%lu%s, NUM_DWORDS: %s%lu%s",
+							BLUE, BITS(ib, 0, 16), RST,
+							BLUE, BITS(ib, 16, 32), RST);
+					else
+						printf("DATA_LO: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
 					break;
-				case 5: printf("SEQ_HI: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+				case 5:
+					if (BITS(decoder->pm4.next_write_mem.type, 24, 27) == 5 ||
+					    BITS(decoder->pm4.next_write_mem.type, 24, 27) == 6)
+						printf("CMP_DATA_HI: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					else
+						printf("DATA_HI: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
 					break;
 				case 6:
 					if (asic->family >= FAMILY_AI) {
 						// decode additional words
-						printf("DATA: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+						printf("INT_CTXID: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
 						break;
 					} else {
 						printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
@@ -994,6 +1019,16 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
 			break;
+		case 0x90: // FRAME_CONTROL
+			switch(decoder->pm4.cur_word) {
+				case 0: printf("TMZ: %s%lu%s, COMMAND: %s%lu%s",
+						BLUE, BITS(ib, 0, 1), RST,
+						BLUE, BITS(ib, 28, 32), RST);
+					break;
+				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
+
 		case 0x9A: // DMA_DATA_FILL_MULTI
 			switch(decoder->pm4.cur_word) {
 				case 0: printf("ENGINE_SEL: %s%lu%s, MEMLOG_CLEAR: %s%lu%s, DST_SEL: %s%lu%s, DST_CACHE_POLICY: %s%lu%s, SRC_SEL: %s%lu%s, CP_SYNC: %s%lu%s",
