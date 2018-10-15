@@ -656,6 +656,7 @@ static struct umr_bitfield mmUVD_LMI_CTRL2[] = {
 	 { "STALL_ARB_UMC", 8, 8, &umr_bitfield_default },
 	 { "MC_READ_ID_SEL", 9, 10, &umr_bitfield_default },
 	 { "MC_WRITE_ID_SEL", 11, 12, &umr_bitfield_default },
+	 { "RE_OFLD_MIF_WR_REQ_NUM", 17, 24, &umr_bitfield_default },
 };
 static struct umr_bitfield mmUVD_MASTINT_EN[] = {
 	 { "OVERRUN_RST", 0, 0, &umr_bitfield_default },
@@ -689,6 +690,14 @@ static struct umr_bitfield mmUVD_LMI_CTRL[] = {
 	 { "IT_IT_DATA_COHERENCY_EN", 25, 25, &umr_bitfield_default },
 	 { "RFU", 27, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield mmUVD_LMI_STATUS[] = {
+	 { "READ_CLEAN", 0, 0, &umr_bitfield_default },
+	 { "WRITE_CLEAN", 1, 1, &umr_bitfield_default },
+	 { "WRITE_CLEAN_RAW", 2, 2, &umr_bitfield_default },
+	 { "VCPU_LMI_WRITE_CLEAN", 3, 3, &umr_bitfield_default },
+	 { "UMC_WRITE_CLEAN_RAW", 6, 6, &umr_bitfield_default },
+	 { "UMC_READ_CLEAN_RAW", 9, 9, &umr_bitfield_default },
+};
 static struct umr_bitfield mmUVD_LMI_SWAP_CNTL[] = {
 	 { "RB_MC_SWAP", 0, 1, &umr_bitfield_default },
 	 { "IB_MC_SWAP", 2, 3, &umr_bitfield_default },
@@ -706,6 +715,9 @@ static struct umr_bitfield mmUVD_LMI_SWAP_CNTL[] = {
 	 { "RB_WR_MC_SWAP", 26, 27, &umr_bitfield_default },
 	 { "RE_MC_SWAP", 28, 29, &umr_bitfield_default },
 	 { "MP_MC_SWAP", 30, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmUVD_MPC_CNTL[] = {
+	 { "REPLACEMENT_MODE", 3, 5, &umr_bitfield_default },
 };
 static struct umr_bitfield mmUVD_MPC_SET_MUXA0[] = {
 	 { "VARA_0", 0, 5, &umr_bitfield_default },
