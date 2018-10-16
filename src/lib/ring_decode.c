@@ -657,11 +657,11 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 					break;
 				case 2: printf("POLL_ADDRESS_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
-				case 3: printf("REFERENCE: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+				case 3: printf("REFERENCE: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
 					break;
-				case 4: printf("MASK: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+				case 4: printf("MASK: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
 					break;
-				case 5: printf("POLL INTERVAL: %s0x%08lx%s", YELLOW, BITS(ib, 0, 16), RST);
+				case 5: printf("POLL INTERVAL: %s0x%08lx%s", BLUE, BITS(ib, 0, 16), RST);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
