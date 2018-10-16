@@ -461,6 +461,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 	static const char *op_3c_functions[] = { "true", "<", "<=", "==", "!=", ">=", ">", "reserved" };
 	static const char *op_37_engines[] = { "ME", "PFP", "CE", "DE" };
 	static const char *op_37_dst_sel[] = { "mem-mapped reg", "memory sync", "TC/L2", "GDS", "reserved", "memory async", "reserved", "reserved" };
+	static const char *op_40_mem_sel[] = { "mem-mapped reg", "memory" "tc_l2", "gds", "perfcounters", "immediate data", "atomic return data", "gds_atomic_return_data_0", "gds_atomic_return_data1", "gpu_clock_count", "system_clock_count" };
 	static const char *op_84_cntr_sel[] = { "invalid", "ce", "cs", "ce and cs" };
 	static const char *op_7a_index_str[] = { "default", "prim_type", "index_type", "num_instance", "multi_vgt_param", "reserved", "reserved", "reserved" };
 	struct umr_reg *reg;
@@ -661,6 +662,46 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 				case 4: printf("MASK: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
 				case 5: printf("POLL INTERVAL: %s0x%08lx%s", YELLOW, BITS(ib, 0, 16), RST);
+					break;
+				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
+		case 0x40:
+			switch (decoder->pm4.cur_word) {
+				case 0:
+					decoder->pm4.next_write_mem.type = ib;
+					printf("SRC_SEL: %s%lu%s [%s%s%s], DST_SEL: %s%lu%s [%s%s%s], SRC_CACHE_POLICY: %s%lu%s, COUNT_SEL: %s%lu%s, WR_CONFIRM: %s%lu%s, DST_CACHE_POLICY: %s%lu%s, PQ_EXE_STATUS: %s%lu%s",
+						BLUE, BITS(ib, 0, 4), RST,
+						CYAN, op_40_mem_sel[BITS(ib, 0, 4)], RST,
+						BLUE, BITS(ib, 8, 12), RST,
+						CYAN, op_40_mem_sel[BITS(ib, 8, 12)], RST,
+						BLUE, BITS(ib, 13, 15), RST,
+						BLUE, BITS(ib, 16, 17), RST,
+						BLUE, BITS(ib, 20, 21), RST,
+						BLUE, BITS(ib, 25, 27), RST,
+						BLUE, BITS(ib, 29, 30), RST);
+					break;
+				case 1:
+					switch (BITS(decoder->pm4.next_write_mem.type, 0, 4)) {
+						case 0: printf("SRC_REG_OFFSET: %s", umr_reg_name(asic, BITS(ib, 0, 18))); break;
+						case 5: printf("IMM_DATA: %s0x%08lx%s", BLUE, (unsigned long)ib, RST); break;
+						default: printf("SRC_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST); break;
+					}
+					break;
+				case 2:
+					if (BITS(decoder->pm4.next_write_mem.type, 0, 4) == 5 && BITS(decoder->pm4.next_write_mem.type, 16, 17) == 1)
+						printf("IMM_DATA_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					else
+						printf("SRC_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					break;
+				case 3:
+					switch (BITS(decoder->pm4.next_write_mem.type, 0, 4)) {
+						case 0: printf("DST_REG_OFFSET: %s", umr_reg_name(asic, BITS(ib, 0, 18))); break;
+						default: printf("DST_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST); break;
+					}
+					break;
+				case 4:
+					printf("DST_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
