@@ -29,6 +29,7 @@ add_library(umrcore STATIC
   umr_llvm_disasm.c
   umr_read_ring_data.c
   umr_read_pm4_stream.c
+  umr_pm4_decode_opcodes.c
   update.c
   version.c
   $<TARGET_OBJECTS:asic> $<TARGET_OBJECTS:ip>

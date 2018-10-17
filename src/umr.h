@@ -641,14 +641,19 @@ int umr_sq_cmd_halt_waves(struct umr_asic *asic, enum umr_sq_cmd_halt_resume mod
 
 /* IB/ring decoding/dumping/etc */
 struct umr_pm4_stream {
-	uint32_t pkttype,				// packet type (0==simple write, 3 == packet)
+	uint32_t	 pkttype,				// packet type (0==simple write, 3 == packet)
 			 pkt0off,				// base address for PKT0 writes
 			 opcode,
 			 n_words,				// number of words ignoring header
 			 *words;				// words following header word
 
-	struct umr_pm4_stream *next,	// adjacent PM4 packet if any
-						  *ib;		// IB this packet might point to
+	struct umr_pm4_stream *next,		// adjacent PM4 packet if any
+			      *ib;		// IB this packet might point to
+
+	struct {
+		uint64_t addr;
+		uint32_t vmid;
+	} ib_source;                            // where did an IB if any come from?
 
 	struct umr_shaders_pgm *shader; // shader program if any
 };
@@ -661,23 +666,62 @@ struct umr_shaders_pgm *umr_find_shader_in_stream(struct umr_pm4_stream *stream,
 struct umr_shaders_pgm *umr_find_shader_in_ring(struct umr_asic *asic, char *ringname, unsigned vmid, uint64_t addr, int no_halt);
 int umr_pm4_decode_ring_is_halted(struct umr_asic *asic, char *ringname);
 
+
+// PM4 decoding library
+struct umr_pm4_stream_decode_ui {
+
+	/** start_ib -- Start a new IB
+	 * ib_addr/ib_vmid: Address of the IB
+	 * from_addr/from_vmid: Where does this reference come from?
+	 * size: size of IB in DWORDs
+	 * type: type of IB (which type of packets
+	 */
+	void (*start_ib)(struct umr_pm4_stream_decode_ui *ui, uint64_t ib_addr, uint32_t ib_vmid, uint64_t from_addr, uint32_t from_vmid, uint32_t size, int type);
+
+	/** start_opcode -- Start a new opcode
+	 * ib_addr/ib_vmid: Address of where packet is found
+	 * opcode: The numeric value of the ocpode
+	 * nwords: number of DWORDS in this opcode
+	 * opcode_name: Printable string name of opcode
+	 */
+	void (*start_opcode)(struct umr_pm4_stream_decode_ui *ui, uint64_t ib_addr, uint32_t ib_vmid, int pkttype, uint32_t opcode, uint32_t nwords, char *opcode_name);
+
+	/** add_field -- Add a decoded field to a specific DWORD
+	 * ib_addr/ib_vmid:  Address of the word from which the field comes
+	 * field_name: printable name of the field
+	 * value:  Value of the field
+	 * ideal_radix: (10 decimal, 16 hex)
+	 */
+	void (*add_field)(struct umr_pm4_stream_decode_ui *ui, uint64_t ib_addr, uint32_t ib_vmid, const char *field_name, uint64_t value, char *str, int ideal_radix);
+
+	void (*done)(struct umr_pm4_stream_decode_ui *ui);
+
+	/** data -- opaque pointer that can be used to track state information */
+	void *data;
+};
+
+struct umr_pm4_stream *umr_pm4_decode_stream_opcodes(struct umr_asic *asic, struct umr_pm4_stream_decode_ui *ui, struct umr_pm4_stream *stream, uint64_t ib_addr, uint32_t ib_vmid, uint64_t from_addr, uint64_t from_vmid, unsigned long opcodes, int follow);
+int umr_pm4_decode_opcodes_ib(struct umr_asic *asic, struct umr_pm4_stream_decode_ui *ui, uint64_t ib_addr, uint32_t ib_vmid, uint32_t nwords, uint64_t from_addr, uint64_t from_ib, unsigned long opcodes, int follow);
+
 void umr_print_decode(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib);
 void umr_dump_ib(struct umr_asic *asic, struct umr_ring_decoder *decoder);
 void umr_dump_shaders(struct umr_asic *asic, struct umr_ring_decoder *decoder, struct umr_wave_data *wd);
 
 int umr_llvm_disasm(struct umr_asic *asic,
-					uint8_t *inst, unsigned inst_bytes,
-					uint64_t PC,
-					char **disasm_text);
+		    uint8_t *inst, unsigned inst_bytes,
+		    uint64_t PC,
+		    char **disasm_text);
 int umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t PC, uint32_t size, uint32_t start_offset, struct umr_wave_data *wd);
-uint32_t umr_compute_shader_size(struct umr_asic *asic,
-								 struct umr_shaders_pgm *shader);
+uint32_t umr_compute_shader_size(struct umr_asic *asic, struct umr_shaders_pgm *shader);
 
 
 // memory access
 int umr_access_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint32_t size, void *data, int write_en);
 #define umr_read_vram(asic, vmid, address, size, dst) umr_access_vram(asic, vmid, address, size, dst, 0)
 #define umr_write_vram(asic, vmid, address, size, src) umr_access_vram(asic, vmid, address, size, src, 1)
+
+
+
 
 #define RED     (asic->options.use_colour ? "\x1b[31;1m" : "")
 #define YELLOW  (asic->options.use_colour ? "\x1b[33;1m" : "")
