@@ -894,8 +894,8 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 		case 0x63: // LOAD_SH_REG_INDEX
 			switch(decoder->pm4.cur_word) {
 				case 0: decoder->pm4.next_write_mem.addr_lo = BITS(ib, 0, 31) & ~0x3UL;
-					decoder->pm4.next_write_mem.type = BITS(ib, 0, 0); // INDEX bit
-					if (BITS(ib, 0, 0))
+					decoder->pm4.next_write_mem.type = BITS(ib, 0, 1); // INDEX bit
+					if (BITS(ib, 0, 1))
 						printf("INDEX: %s1%s", BLUE, RST);
 					else
 						printf("MEM_ADDR_LO: %s0x%lx%s",
