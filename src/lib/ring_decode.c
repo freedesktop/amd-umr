@@ -511,6 +511,13 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 					}
 			}
 			break;
+		case 0x12: // CLEAR_STATE
+			switch (decoder->pm4.cur_word) {
+				case 0: printf("CMD: %s0x%08lu%s", BLUE, (unsigned long)BITS(ib, 0, 4), RST);
+					break;
+				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
+			}
+			break;
 		case 0x15: // DISPATCH DIRECT
 			switch (decoder->pm4.cur_word) {
 				case 0: printf("DIM_X: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
