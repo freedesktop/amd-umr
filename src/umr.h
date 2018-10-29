@@ -694,6 +694,13 @@ struct umr_pm4_stream_decode_ui {
 	 */
 	void (*add_field)(struct umr_pm4_stream_decode_ui *ui, uint64_t ib_addr, uint32_t ib_vmid, const char *field_name, uint64_t value, char *str, int ideal_radix);
 
+	/** add_shader -- Add a reference to a shader found in the IB stream
+	 * ib_addr/ib_vmid:  Address of where reference comes from
+	 * asic:  The ASIC the IB stream and shader are bound to
+	 * shader: The shader reference
+	 */
+	void (*add_shader)(struct umr_pm4_stream_decode_ui *ui, struct umr_asic *asic, uint64_t ib_addr, uint32_t ib_vmid, struct umr_shaders_pgm *shader);
+
 	void (*done)(struct umr_pm4_stream_decode_ui *ui);
 
 	/** data -- opaque pointer that can be used to track state information */
