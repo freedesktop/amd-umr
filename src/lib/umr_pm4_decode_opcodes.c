@@ -671,6 +671,10 @@ static void decode_pkt3(struct umr_asic *asic, struct umr_pm4_stream_decode_ui *
 				}
 			}
 			break;
+		default:
+			if (ui->unhandled)
+				ui->unhandled(ui, asic, ib_addr, ib_vmid, stream);
+			break;
 	}
 }
 
@@ -804,6 +808,10 @@ static	void add_shader(struct umr_pm4_stream_decode_ui *ui, struct umr_asic *asi
 	printf("Shader from %lu@[0x%llx + 0x%llx] at %lu@0x%llx, type %d, size %lu\n", (unsigned long)ib_vmid, (unsigned long long)data->off[data->i - 1], (unsigned long long)ib_addr - data->off[data->i - 1], (unsigned long)shader->vmid, (unsigned long long)shader->addr, shader->type, (unsigned long)shader->size);
 }
 
+static void unhandled(struct umr_pm4_stream_decode_ui *ui, struct umr_asic *asic, uint64_t ib_addr, uint32_t ib_vmid, struct umr_pm4_stream *stream)
+{
+}
+
 static void done(struct umr_pm4_stream_decode_ui *ui)
 {
 	struct demo_ui_data *data = ui->data;
@@ -812,7 +820,7 @@ static void done(struct umr_pm4_stream_decode_ui *ui)
 	printf("Done decoding IB\n");
 }
 
-static struct  umr_pm4_stream_decode_ui demo_ui = { start_ib, start_opcode, add_field, add_shader, done, NULL };
+static struct  umr_pm4_stream_decode_ui demo_ui = { start_ib, start_opcode, add_field, add_shader, unhandled, done, NULL };
 
 /** demo */
 int umr__demo(struct umr_asic *asic)
