@@ -764,7 +764,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 						BLUE, BITS(ib, 8, 12), RST,
 						BLUE, BITS(ib, 0, 6), RST);
 					break;
-				case 1: printf("ADDRESS_LO: %s0x%08lx%s", YELLOW, BITS(ib, 2, 32), RST);
+				case 1: printf("ADDRESS_LO: %s0x%08lx%s", YELLOW, BITS(ib, 2, 32) << 2, RST);
 					break;
 				case 2: printf("DATA_SEL:%s%lu%s, INT_SEL:%s%lu%s, ADDRESS_HI: %s0x%08lx%s",
 						BLUE, BITS(ib, 29, 32), RST,

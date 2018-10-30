@@ -441,7 +441,7 @@ static void decode_pkt3(struct umr_asic *asic, struct umr_pm4_stream_decode_ui *
 			ui->add_field(ui, ib_addr + 4, ib_vmid, "EVENT_TYPE", BITS(stream->words[0], 0, 6), NULL, 10);
 			ui->add_field(ui, ib_addr + 4, ib_vmid, "EVENT_INDEX", BITS(stream->words[0], 8, 12), NULL, 10);
 			ui->add_field(ui, ib_addr + 4, ib_vmid, "INV_L2", BITS(stream->words[0], 20, 21), NULL, 10);
-			ui->add_field(ui, ib_addr + 8, ib_vmid, "ADDRESS_LO", stream->words[1], NULL, 16);
+			ui->add_field(ui, ib_addr + 8, ib_vmid, "ADDRESS_LO", BITS(stream->words[1], 2, 32) << 2, NULL, 16);
 			ui->add_field(ui, ib_addr + 12, ib_vmid, "ADDRESS_HI", BITS(stream->words[2], 0, 16), NULL, 16);
 			ui->add_field(ui, ib_addr + 12, ib_vmid, "DATA_SEL", BITS(stream->words[2], 29, 32), NULL, 10);
 			ui->add_field(ui, ib_addr + 12, ib_vmid, "INT_SEL", BITS(stream->words[2], 24, 26), NULL, 10);
