@@ -331,7 +331,7 @@ static void decode_pkt3(struct umr_asic *asic, struct umr_pm4_stream_decode_ui *
 			ui->add_field(ui, ib_addr + 16, ib_vmid, "INITIATOR", stream->words[3], NULL, 10);
 			break;
 		case 0x22: // COND_EXEC
-			ui->add_field(ui, ib_addr + 4, ib_vmid, "GPU_ADDR_LO32", stream->words[0], NULL, 16);
+			ui->add_field(ui, ib_addr + 4, ib_vmid, "GPU_ADDR_LO32", BITS(stream->words[0], 2, 32) << 2, NULL, 16);
 			ui->add_field(ui, ib_addr + 8, ib_vmid, "GPU_ADDR_HI32", stream->words[1], NULL, 16);
 			ui->add_field(ui, ib_addr + 12, ib_vmid, "TEST_VALUE", stream->words[2], NULL, 16);
 			ui->add_field(ui, ib_addr + 16, ib_vmid, "PATCH_VALUE", stream->words[3], NULL, 16);
@@ -375,7 +375,7 @@ static void decode_pkt3(struct umr_asic *asic, struct umr_pm4_stream_decode_ui *
 			ui->add_field(ui, ib_addr + 4, ib_vmid, "WR_CONFIRM", BITS(stream->words[0], 20, 21), NULL, 10);
 			ui->add_field(ui, ib_addr + 4, ib_vmid, "WR_ONE_ADDR", BITS(stream->words[0], 16, 17), NULL, 10);
 			ui->add_field(ui, ib_addr + 4, ib_vmid, "DST_SEL", 0, op_37_dst_sel[BITS(stream->words[0], 8, 12)],  0);
-			ui->add_field(ui, ib_addr + 8, ib_vmid, "DST_ADDR_LO", stream->words[1], NULL, 16);
+			ui->add_field(ui, ib_addr + 8, ib_vmid, "DST_ADDR_LO", BITS(stream->words[1], 2, 32) << 2, NULL, 16);
 			ui->add_field(ui, ib_addr + 12, ib_vmid, "DST_ADDR_HI", stream->words[2], NULL, 16);
 			if (BITS(stream->words[0], 8, 12) == 0) { // mem-mapped reg
 				uint32_t n;
@@ -410,7 +410,7 @@ static void decode_pkt3(struct umr_asic *asic, struct umr_pm4_stream_decode_ui *
 			switch (BITS(stream->words[0], 0, 4)) {
 				case 0: ui->add_field(ui, ib_addr + 8, ib_vmid, "SRC_REG_OFFSET", 0, umr_reg_name(asic, BITS(stream->words[1], 0, 18)), 0); break;
 				case 5: ui->add_field(ui, ib_addr + 8, ib_vmid, "IMM_DATA", stream->words[1], NULL, 16); break;
-				default: ui->add_field(ui, ib_addr + 8, ib_vmid, "SRC_ADDR_LO", stream->words[1], NULL, 16); break;
+				default: ui->add_field(ui, ib_addr + 8, ib_vmid, "SRC_ADDR_LO", BITS(stream->words[1], 2, 32) << 2, NULL, 16); break;
 			}
 
 			if (BITS(stream->words[0], 0, 4) == 5 && BITS(stream->words[0], 16, 17) == 1)
@@ -434,7 +434,7 @@ static void decode_pkt3(struct umr_asic *asic, struct umr_pm4_stream_decode_ui *
 		case 0x46: // EVENT_WRITE
 			ui->add_field(ui, ib_addr + 4, ib_vmid, "EVENT_TYPE", BITS(stream->words[0], 0, 6), NULL, 10);
 			ui->add_field(ui, ib_addr + 4, ib_vmid, "EVENT_INDEX", BITS(stream->words[0], 8, 12), NULL, 10);
-			ui->add_field(ui, ib_addr + 8, ib_vmid, "ADDRESS_LO", stream->words[1], NULL, 16);
+			ui->add_field(ui, ib_addr + 8, ib_vmid, "ADDRESS_LO", BITS(stream->words[1], 3, 32) << 3, NULL, 16);
 			ui->add_field(ui, ib_addr + 12, ib_vmid, "ADDRESS_HI", stream->words[2], NULL, 16);
 			break;
 		case 0x47: // EVENT_WRITE_EOP

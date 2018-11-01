@@ -533,7 +533,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 			break;
 		case 0x22: // COND_EXEC
 			switch (decoder->pm4.cur_word) {
-				case 0: printf("GPU_ADDR_LO32: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+				case 0: printf("GPU_ADDR_LO32: %s0x%08lx%s", YELLOW, (unsigned long)BITS(ib, 2, 32) << 2, RST);
 					break;
 				case 1: printf("GPU_ADDR_HI32: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
@@ -631,7 +631,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 					decoder->pm4.control = ib;
 					decoder->pm4.next_write_mem.type = BITS(ib, 8, 12);
 					break;
-				case 1: printf("DST_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+				case 1: printf("DST_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)BITS(ib, 2, 32) << 2, RST);
 					decoder->pm4.next_write_mem.addr_lo = ib;
 					break;
 				case 2: printf("DST_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
@@ -673,7 +673,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 				default: printf("Invalid word for opcode 0x%02lx", (unsigned long)decoder->pm4.cur_opcode);
 			}
 			break;
-		case 0x40:
+		case 0x40: // COPY_DATA
 			switch (decoder->pm4.cur_word) {
 				case 0:
 					decoder->pm4.next_write_mem.type = ib;
@@ -692,7 +692,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 					switch (BITS(decoder->pm4.next_write_mem.type, 0, 4)) {
 						case 0: printf("SRC_REG_OFFSET: %s", umr_reg_name(asic, BITS(ib, 0, 18))); break;
 						case 5: printf("IMM_DATA: %s0x%08lx%s", BLUE, (unsigned long)ib, RST); break;
-						default: printf("SRC_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST); break;
+						default: printf("SRC_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)BITS(ib, 2, 32) << 2, RST); break;
 					}
 					break;
 				case 2:
@@ -750,7 +750,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 					       BLUE, (unsigned long)BITS(ib, 0, 6), RST,
 					       BLUE, (unsigned long)BITS(ib, 8,12), RST);
 					break;
-				case 1: printf("ADDRESS_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+				case 1: printf("ADDRESS_LO: %s0x%08lx%s", YELLOW, (unsigned long)BITS(ib, 3, 32) << 3, RST);
 					break;
 				case 2: printf("ADDRESS_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
 					break;
