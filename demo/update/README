@@ -1,0 +1,7 @@
+Quick note, for MMIO registers the format is
+
+add reg ${regname} ${regaddr}
+
+with the SOC15 (if applicable) offset added in.  You only use smc/pci keywords for those registers. mmio is impllied if you just specify an address.
+
+
