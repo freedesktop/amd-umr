@@ -25,13 +25,13 @@ grep -E "(mm|ix)" ${regfile} | grep -v _BASE_IDX | grep -v "addressBlock:" | (wh
 	if [ "${regidx}" == "" ]; then regidx="0"; fi
 	`echo ${reg} | grep '^mm' > /dev/null`
 	if [ $? != 0 ]; then class="SMC"; else class="MMIO"; fi
-	if grep " ${regclean}__" ${bitfile} > /dev/null; then
+	if grep "[ 	]${regclean}__" ${bitfile} > /dev/null; then
 		# has bit definitions ...
 		# output reg declaration
 		printf "\t{ \"${reg}\", REG_${class}, ${addr}, ${regidx}, &${reg}[0], sizeof(${reg})/sizeof(${reg}[0]), 0, 0 },\n" >> /tmp/bits.1
 		# now we parse out bits
 		printf "static struct umr_bitfield ${reg}[] = {\n" >> /tmp/bits.2
-		grep " ${regclean}__" ${bitfile} | grep "_MASK " | grep -v "__SHIFT " | ( while read bitline; do
+		grep "[ 	]${regclean}__" ${bitfile} | grep "_MASK[ 	]" | grep -v "__SHIFT[ 	]" | ( while read bitline; do
 			bitmask=`echo ${bitline} | awk '{ print $3; }'`
 			bitname=`echo ${bitline} | awk '{ print $2; }'`
 			bitnameclean=`echo ${bitname} | sed -e "s/^${regclean}__//" | sed -e 's/_MASK$//'`
