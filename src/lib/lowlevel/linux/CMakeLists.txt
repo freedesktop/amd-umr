@@ -6,6 +6,7 @@ add_library(umrlow STATIC
   read_sensor.c
   mem.c
   wave_status.c
+  umr_free_asic.c
 )
 
 target_link_libraries(umrlow ${REQUIRED_EXTERNAL_LIBS})

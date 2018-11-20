@@ -30,7 +30,7 @@ grep -E "(mm|ix)" ${regfile} | sort -u -k 3 | (while read line; do
 		# now we parse out bits
 		printf "static struct umr_bitfield ${reg}[] = {\n" >> /tmp/bits.2
 		printf "has bits... hold on..."
-		grep " ${regclean}__" ${bitfile} | grep "_MASK " | grep -v "__SHIFT " | ( while read bitline; do
+		grep "[ 	]${regclean}__" ${bitfile} | grep "_MASK[ 	]" | grep -v "__SHIFT[ 	]" | ( while read bitline; do
 			bitmask=`echo ${bitline} | awk '{ print $3; }'`
 			bitname=`echo ${bitline} | awk '{ print $2; }'`
 			bitnameclean=`echo ${bitname} | sed -e "s/^${regclean}__//" | sed -e 's/_MASK$//'`

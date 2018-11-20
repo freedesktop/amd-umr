@@ -26,12 +26,14 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <pciaccess.h>
-#include <pthread.h>
+#if defined(__unix__)
+	#include <unistd.h>
+	#include <sys/types.h>
+	#include <sys/stat.h>
+	#include <fcntl.h>
+	#include <pciaccess.h>
+	#include <pthread.h>
+#endif
 
 /* SQ_CMD halt/resume */
 enum umr_sq_cmd_halt_resume {

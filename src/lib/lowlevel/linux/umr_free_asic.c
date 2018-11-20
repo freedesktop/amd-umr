@@ -24,25 +24,23 @@
  */
 #include "umr.h"
 
-#define cond_close(x) do { if ((x) >= 0) close((x)); } while(0);
-
 /**
- * umr_close_asic - Close an asic device and free memory
+ * umr_free_asic - Free memory associated with an asic device
  */
-void umr_close_asic(struct umr_asic *asic)
+void umr_free_asic(struct umr_asic *asic)
 {
-	if (asic) {
-		cond_close(asic->fd.mmio);
-		cond_close(asic->fd.didt);
-		cond_close(asic->fd.pcie);
-		cond_close(asic->fd.smc);
-		cond_close(asic->fd.sensors);
-		cond_close(asic->fd.wave);
-		cond_close(asic->fd.vram);
-		cond_close(asic->fd.gpr);
-		cond_close(asic->fd.drm);
-		cond_close(asic->fd.iova);
-		cond_close(asic->fd.iomem);
-		umr_free_asic(asic);
-	}
+        int x;
+        if (asic->pci.mem != NULL) {
+                // free PCI mapping
+                pci_device_unmap_range(asic->pci.pdevice, asic->pci.mem, asic->pci.pdevice->regions[asic->pci.region].size);
+                pci_system_cleanup();
+        }
+        for (x = 0; x < asic->no_blocks; x++) {
+                free(asic->blocks[x]->regs);
+                free(asic->blocks[x]);
+        }
+        free(asic->blocks);
+        free(asic->mmio_accel.reglist);
+        free(asic->mmio_accel.iplist);
+        free(asic);
 }
