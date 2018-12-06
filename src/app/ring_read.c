@@ -52,7 +52,8 @@ void umr_read_ring(struct umr_asic *asic, char *ringpath)
 	    !memcmp(ringname, "comp", 4)) {
 		enable_decoder = 1;
 		decoder.pm = 4;
-	} else if (!memcmp(ringname, "sdma", 4)) {
+	} else if (!memcmp(ringname, "sdma", 4) ||
+		   !memcmp(ringname, "page", 4)) {
 		enable_decoder = 1;
 		decoder.pm = 3;
 	} else {
