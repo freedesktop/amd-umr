@@ -1616,8 +1616,11 @@ static void parse_next_sdma_pkt(struct umr_asic *asic, struct umr_ring_decoder *
 			break;
 		case 14: // SRBM_WRITE
 			switch (decoder->sdma.cur_word) {
-				case 1: printf("SRBM_WRITE_ADDR: %s0x%08lx%s(%s)",
-						YELLOW, (unsigned long)ib & 0xFFFF, RST, umr_reg_name(asic, ib & 0xFFFF));
+				case 1:
+					if (asic->family <= FAMILY_VI)
+						printf("SRBM_WRITE_ADDR: %s0x%08lx%s(%s)", YELLOW, (unsigned long)ib & 0xFFFF, RST, umr_reg_name(asic, ib & 0xFFFF));
+					else
+						printf("SRBM_WRITE_ADDR: %s0x%08lx%s(%s)", YELLOW, (unsigned long)ib & 0xFFFF, RST, umr_reg_name(asic, ib & 0x3FFFF));
 					decoder->sdma.next_write_mem = ib;
 					break;
 				case 2: printf("SRBM_WRITE_DATA: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
