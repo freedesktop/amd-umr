@@ -61,7 +61,7 @@ set(REQUIRED_EXTERNAL_LIBS
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # CFLAGS += -Wall -W -O2 -g3 -Isrc/ -DPIC -fPIC
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -W -O2 -g3")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -W -O2 -g3 -pedantic")
 
 add_subdirectory(src)
 add_subdirectory(doc)

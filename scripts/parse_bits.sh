@@ -23,7 +23,7 @@ grep -E "(mm|ix)" ${regfile} | sort -u -k 3 | (while read line; do
 	`echo ${reg} | grep '^mm' > /dev/null`
 	if [ $? != 0 ]; then class="SMC"; else class="MMIO"; fi
 	printf "Parsing ${regclean}..."
-	if grep " ${regclean}__" ${bitfile} > /dev/null; then
+	if grep -E "[ 	]${regclean}__.*_MASK[ 	]" ${bitfile} > /dev/null; then
 		# has bit definitions ...
 		# output reg declaration
 		printf "\t{ \"${reg}\", REG_${class}, ${addr}, &${reg}[0], sizeof(${reg})/sizeof(${reg}[0]), 0, 0 },\n" >> /tmp/bits.1

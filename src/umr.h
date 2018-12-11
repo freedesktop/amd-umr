@@ -26,6 +26,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
+#if defined(_MSC_VER)
+#include <inttypes.h>
+#endif
 #if defined(__unix__)
 	#include <unistd.h>
 	#include <sys/types.h>

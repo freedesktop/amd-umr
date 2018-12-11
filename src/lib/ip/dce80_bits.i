@@ -1,15 +1,13 @@
-static struct umr_bitfield ixSEQ00[] = {
-	 { "SEQ_RST0B", 0, 0, &umr_bitfield_default },
-	 { "SEQ_RST1B", 1, 1, &umr_bitfield_default },
+static struct umr_bitfield ixAZALIA_F2_CODEC_PIN_CONTROL_MANUFACTURER_ID[] = {
+	 { "MANUFACTURER_ID", 0, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield ixATTR00[] = {
-	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
+static struct umr_bitfield ixAZALIA_FIFO_SIZE_CONTROL[] = {
+	 { "MIN_FIFO_SIZE", 0, 6, &umr_bitfield_default },
+	 { "MAX_FIFO_SIZE", 8, 14, &umr_bitfield_default },
+	 { "MAX_LATENCY_SUPPORT", 16, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixFMT_DEBUG_ID[] = {
-	 { "FMT_DEBUG_ID", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDCIO_DEBUG_ID[] = {
-	 { "DCIO_DEBUG_ID", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixAZALIA_CRC0_CHANNEL0[] = {
+	 { "CRC_CHANNEL0", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmGLOBAL_CAPABILITIES[] = {
 	 { "SIXTY_FOUR_BIT_ADDRESS_SUPPORTED", 0, 0, &umr_bitfield_default },
@@ -18,31 +16,55 @@ static struct umr_bitfield mmGLOBAL_CAPABILITIES[] = {
 	 { "NUMBER_OF_INPUT_STREAMS_SUPPORTED", 8, 11, &umr_bitfield_default },
 	 { "NUMBER_OF_OUTPUT_STREAMS_SUPPORTED", 12, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_CRC0_CHANNEL0[] = {
-	 { "CRC_CHANNEL0", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixDCIO_DEBUG_ID[] = {
+	 { "DCIO_DEBUG_ID", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_FIFO_SIZE_CONTROL[] = {
-	 { "MIN_FIFO_SIZE", 0, 6, &umr_bitfield_default },
-	 { "MAX_FIFO_SIZE", 8, 14, &umr_bitfield_default },
-	 { "MAX_LATENCY_SUPPORT", 16, 23, &umr_bitfield_default },
+static struct umr_bitfield ixFMT_DEBUG_ID[] = {
+	 { "FMT_DEBUG_ID", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_PIN_DEBUG[] = {
-};
-static struct umr_bitfield ixAZALIA_F2_CODEC_PIN_CONTROL_MANUFACTURER_ID[] = {
-	 { "MANUFACTURER_ID", 0, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield ixSEQ01[] = {
-	 { "SEQ_DOT8", 0, 0, &umr_bitfield_default },
-	 { "SEQ_SHIFT2", 2, 2, &umr_bitfield_default },
-	 { "SEQ_PCLKBY2", 3, 3, &umr_bitfield_default },
-	 { "SEQ_SHIFT4", 4, 4, &umr_bitfield_default },
-	 { "SEQ_MAXBW", 5, 5, &umr_bitfield_default },
-};
-static struct umr_bitfield ixATTR01[] = {
+static struct umr_bitfield ixATTR00[] = {
 	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
 };
-static struct umr_bitfield ixFMT_DEBUG0[] = {
-	 { "FMT_DEBUG0", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixSEQ00[] = {
+	 { "SEQ_RST0B", 0, 0, &umr_bitfield_default },
+	 { "SEQ_RST1B", 1, 1, &umr_bitfield_default },
+};
+static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_PARAMETER_AUDIO_WIDGET_CAPABILITIES[] = {
+	 { "AUDIO_CHANNEL_CAPABILITIES", 0, 0, &umr_bitfield_default },
+	 { "INPUT_AMPLIFIER_PRESENT", 1, 1, &umr_bitfield_default },
+	 { "OUTPUT_AMPLIFIER_PRESENT", 2, 2, &umr_bitfield_default },
+	 { "AMPLIFIER_PARAMETER_OVERRIDE", 3, 3, &umr_bitfield_default },
+	 { "FORMAT_OVERRIDE", 4, 4, &umr_bitfield_default },
+	 { "STRIPE", 5, 5, &umr_bitfield_default },
+	 { "PROCESSING_WIDGET", 6, 6, &umr_bitfield_default },
+	 { "UNSOLICITED_RESPONSE_CAPABILITY", 7, 7, &umr_bitfield_default },
+	 { "CONNECTION_LIST", 8, 8, &umr_bitfield_default },
+	 { "DIGITAL", 9, 9, &umr_bitfield_default },
+	 { "POWER_CONTROL", 10, 10, &umr_bitfield_default },
+	 { "LR_SWAP", 11, 11, &umr_bitfield_default },
+	 { "AUDIO_WIDGET_CAPABILITIES_DELAY", 16, 19, &umr_bitfield_default },
+	 { "TYPE", 20, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixAZALIA_F2_CODEC_PIN_CONTROL_PRODUCT_ID[] = {
+	 { "PRODUCT_ID", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixAZALIA_LATENCY_COUNTER_CONTROL[] = {
+	 { "AZALIA_LATENCY_COUNTER_RESET", 0, 0, &umr_bitfield_default },
+};
+static struct umr_bitfield mmOUTPUT_PAYLOAD_CAPABILITY[] = {
+	 { "OUTPUT_PAYLOAD_CAPABILITY", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield mmINPUT_PAYLOAD_CAPABILITY[] = {
+	 { "INPUT_PAYLOAD_CAPABILITY", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixAZALIA_CRC0_CHANNEL1[] = {
+	 { "CRC_CHANNEL1", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixAUDIO_DESCRIPTOR0[] = {
+	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
+	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
+	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
+	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixDCIO_DEBUG1[] = {
 	 { "DOUT_DCIO_MVP_DVOCNTL_A0_REG", 0, 1, &umr_bitfield_default },
@@ -68,45 +90,31 @@ static struct umr_bitfield ixDCIO_DEBUG1[] = {
 	 { "DOUT_DCIO_DVOCNTL1_SEL0_PREMUX", 26, 26, &umr_bitfield_default },
 	 { "DOUT_DCIO_DVOCNTL1_SEL0", 27, 27, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAUDIO_DESCRIPTOR0[] = {
-	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
-	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
-	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
-	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
+static struct umr_bitfield ixFMT_DEBUG0[] = {
+	 { "FMT_DEBUG0", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_CRC0_CHANNEL1[] = {
-	 { "CRC_CHANNEL1", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixATTR01[] = {
+	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
 };
-static struct umr_bitfield mmINPUT_PAYLOAD_CAPABILITY[] = {
-	 { "INPUT_PAYLOAD_CAPABILITY", 0, 15, &umr_bitfield_default },
+static struct umr_bitfield ixSEQ01[] = {
+	 { "SEQ_DOT8", 0, 0, &umr_bitfield_default },
+	 { "SEQ_SHIFT2", 2, 2, &umr_bitfield_default },
+	 { "SEQ_PCLKBY2", 3, 3, &umr_bitfield_default },
+	 { "SEQ_SHIFT4", 4, 4, &umr_bitfield_default },
+	 { "SEQ_MAXBW", 5, 5, &umr_bitfield_default },
 };
-static struct umr_bitfield mmOUTPUT_PAYLOAD_CAPABILITY[] = {
-	 { "OUTPUT_PAYLOAD_CAPABILITY", 0, 15, &umr_bitfield_default },
+static struct umr_bitfield mmCORB_LOWER_BASE_ADDRESS[] = {
+	 { "CORB_LOWER_BASE_UNIMPLEMENTED_BITS", 0, 6, &umr_bitfield_default },
+	 { "CORB_LOWER_BASE_ADDRESS", 7, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_LATENCY_COUNTER_CONTROL[] = {
-	 { "AZALIA_LATENCY_COUNTER_RESET", 0, 0, &umr_bitfield_default },
+static struct umr_bitfield ixSINK_DESCRIPTION11[] = {
+	 { "DESCRIPTION", 0, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_F2_CODEC_PIN_CONTROL_PRODUCT_ID[] = {
-	 { "PRODUCT_ID", 0, 15, &umr_bitfield_default },
+static struct umr_bitfield ixDP_AUX1_DEBUG_A[] = {
+	 { "DP_AUX1_DEBUG_A", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_PARAMETER_AUDIO_WIDGET_CAPABILITIES[] = {
-	 { "AUDIO_CHANNEL_CAPABILITIES", 0, 0, &umr_bitfield_default },
-	 { "INPUT_AMPLIFIER_PRESENT", 1, 1, &umr_bitfield_default },
-	 { "OUTPUT_AMPLIFIER_PRESENT", 2, 2, &umr_bitfield_default },
-	 { "AMPLIFIER_PARAMETER_OVERRIDE", 3, 3, &umr_bitfield_default },
-	 { "FORMAT_OVERRIDE", 4, 4, &umr_bitfield_default },
-	 { "STRIPE", 5, 5, &umr_bitfield_default },
-	 { "PROCESSING_WIDGET", 6, 6, &umr_bitfield_default },
-	 { "UNSOLICITED_RESPONSE_CAPABILITY", 7, 7, &umr_bitfield_default },
-	 { "CONNECTION_LIST", 8, 8, &umr_bitfield_default },
-	 { "DIGITAL", 9, 9, &umr_bitfield_default },
-	 { "POWER_CONTROL", 10, 10, &umr_bitfield_default },
-	 { "LR_SWAP", 11, 11, &umr_bitfield_default },
-	 { "AUDIO_WIDGET_CAPABILITIES_DELAY", 16, 19, &umr_bitfield_default },
-	 { "TYPE", 20, 23, &umr_bitfield_default },
-};
-static struct umr_bitfield ixCRT10[] = {
-	 { "V_SYNC_START", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield ixDCIO_DEBUG10[] = {
+	 { "DCIO_DIGC_DEBUG", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixATTR10[] = {
 	 { "ATTR_GRPH_MODE", 0, 0, &umr_bitfield_default },
@@ -117,18 +125,23 @@ static struct umr_bitfield ixATTR10[] = {
 	 { "ATTR_PCLKBY2", 6, 6, &umr_bitfield_default },
 	 { "ATTR_CSEL_EN", 7, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDCIO_DEBUG10[] = {
-	 { "DCIO_DIGC_DEBUG", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixCRT10[] = {
+	 { "V_SYNC_START", 0, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX1_DEBUG_A[] = {
-	 { "DP_AUX1_DEBUG_A", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmCORB_UPPER_BASE_ADDRESS[] = {
+	 { "CORB_UPPER_BASE_ADDRESS", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixSINK_DESCRIPTION11[] = {
+static struct umr_bitfield ixSINK_DESCRIPTION12[] = {
 	 { "DESCRIPTION", 0, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCORB_LOWER_BASE_ADDRESS[] = {
-	 { "CORB_LOWER_BASE_UNIMPLEMENTED_BITS", 0, 6, &umr_bitfield_default },
-	 { "CORB_LOWER_BASE_ADDRESS", 7, 31, &umr_bitfield_default },
+static struct umr_bitfield ixDP_AUX1_DEBUG_B[] = {
+	 { "DP_AUX1_DEBUG_B", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDCIO_DEBUG11[] = {
+	 { "DCIO_DIGD_DEBUG", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixATTR11[] = {
+	 { "ATTR_OVSC", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield ixCRT11[] = {
 	 { "V_SYNC_END", 0, 3, &umr_bitfield_default },
@@ -136,21 +149,6 @@ static struct umr_bitfield ixCRT11[] = {
 	 { "V_INTR_EN", 5, 5, &umr_bitfield_default },
 	 { "SEL5_REFRESH_CYC", 6, 6, &umr_bitfield_default },
 	 { "C0T7_WR_ONLY", 7, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixATTR11[] = {
-	 { "ATTR_OVSC", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDCIO_DEBUG11[] = {
-	 { "DCIO_DIGD_DEBUG", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDP_AUX1_DEBUG_B[] = {
-	 { "DP_AUX1_DEBUG_B", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixSINK_DESCRIPTION12[] = {
-	 { "DESCRIPTION", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield mmCORB_UPPER_BASE_ADDRESS[] = {
-	 { "CORB_UPPER_BASE_ADDRESS", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmDCCG_DS_DEBUG_CNTL[] = {
 	 { "DCCG_DS_DEBUG_COUNT_ENABLE", 0, 0, &umr_bitfield_default },
@@ -190,29 +188,29 @@ static struct umr_bitfield mmDPREFCLK_CNTL[] = {
 static struct umr_bitfield mmSCANIN_SOFT_RESET[] = {
 	 { "SCANIN_SOFT_RESET", 0, 0, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCRT12[] = {
-	 { "V_DISP_END", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield mmVGA_MEM_WRITE_PAGE_ADDR[] = {
+	 { "VGA_MEM_WRITE_PAGE0_ADDR", 0, 9, &umr_bitfield_default },
+	 { "VGA_MEM_WRITE_PAGE1_ADDR", 16, 25, &umr_bitfield_default },
 };
-static struct umr_bitfield ixATTR12[] = {
-	 { "ATTR_MAP_EN", 0, 3, &umr_bitfield_default },
-	 { "ATTR_VSMUX", 4, 5, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDCIO_DEBUG12[] = {
-	 { "DCIO_DIGE_DEBUG", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDP_AUX1_DEBUG_C[] = {
-	 { "DP_AUX1_DEBUG_C", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmCORB_WRITE_POINTER[] = {
+	 { "CORB_WRITE_POINTER", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCORB_READ_POINTER[] = {
 	 { "CORB_READ_POINTER", 0, 7, &umr_bitfield_default },
 	 { "CORB_READ_POINTER_RESET", 15, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCORB_WRITE_POINTER[] = {
-	 { "CORB_WRITE_POINTER", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield ixDP_AUX1_DEBUG_C[] = {
+	 { "DP_AUX1_DEBUG_C", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmVGA_MEM_WRITE_PAGE_ADDR[] = {
-	 { "VGA_MEM_WRITE_PAGE0_ADDR", 0, 9, &umr_bitfield_default },
-	 { "VGA_MEM_WRITE_PAGE1_ADDR", 16, 25, &umr_bitfield_default },
+static struct umr_bitfield ixDCIO_DEBUG12[] = {
+	 { "DCIO_DIGE_DEBUG", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixATTR12[] = {
+	 { "ATTR_MAP_EN", 0, 3, &umr_bitfield_default },
+	 { "ATTR_VSMUX", 4, 5, &umr_bitfield_default },
+};
+static struct umr_bitfield ixCRT12[] = {
+	 { "V_DISP_END", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield mmDCCG_GTC_CNTL[] = {
 	 { "DCCG_GTC_ENABLE", 0, 0, &umr_bitfield_default },
@@ -263,31 +261,31 @@ static struct umr_bitfield mmSMU_INTERRUPT_CONTROL[] = {
 	 { "DC_SMU_INT_STATUS", 4, 4, &umr_bitfield_default },
 	 { "DC_SMU_INT_EVENT", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCRT13[] = {
-	 { "DISP_PITCH", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield mmVGA_MEM_READ_PAGE_ADDR[] = {
+	 { "VGA_MEM_READ_PAGE0_ADDR", 0, 9, &umr_bitfield_default },
+	 { "VGA_MEM_READ_PAGE1_ADDR", 16, 25, &umr_bitfield_default },
 };
-static struct umr_bitfield ixATTR13[] = {
-	 { "ATTR_PPAN", 0, 3, &umr_bitfield_default },
+static struct umr_bitfield ixSINK_DESCRIPTION14[] = {
+	 { "DESCRIPTION", 0, 7, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDP_AUX1_DEBUG_D[] = {
+	 { "DP_AUX1_DEBUG_D", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDCIO_DEBUG13[] = {
+	 { "DCIO_DIGF_DEBUG", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmCORB_STATUS[] = {
+	 { "CORB_MEMORY_ERROR_INDICATION", 0, 0, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCORB_SIZE[] = {
 	 { "CORB_SIZE", 0, 1, &umr_bitfield_default },
 	 { "CORB_SIZE_CAPABILITY", 4, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCORB_STATUS[] = {
-	 { "CORB_MEMORY_ERROR_INDICATION", 0, 0, &umr_bitfield_default },
+static struct umr_bitfield ixATTR13[] = {
+	 { "ATTR_PPAN", 0, 3, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDCIO_DEBUG13[] = {
-	 { "DCIO_DIGF_DEBUG", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDP_AUX1_DEBUG_D[] = {
-	 { "DP_AUX1_DEBUG_D", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixSINK_DESCRIPTION14[] = {
-	 { "DESCRIPTION", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield mmVGA_MEM_READ_PAGE_ADDR[] = {
-	 { "VGA_MEM_READ_PAGE0_ADDR", 0, 9, &umr_bitfield_default },
-	 { "VGA_MEM_READ_PAGE1_ADDR", 16, 25, &umr_bitfield_default },
+static struct umr_bitfield ixCRT13[] = {
+	 { "DISP_PITCH", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield mmMILLISECOND_TIME_BASE_DIV[] = {
 	 { "MILLISECOND_TIME_BASE_DIV", 0, 16, &umr_bitfield_default },
@@ -399,27 +397,27 @@ static struct umr_bitfield mmDIG_SOFT_RESET[] = {
 static struct umr_bitfield mmDCCG_DISP_CNTL_REG[] = {
 	 { "ALLOW_SR_ON_TRANS_REQ", 8, 8, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCRT14[] = {
-	 { "UNDRLN_LOC", 0, 4, &umr_bitfield_default },
-	 { "ADDR_CNT_BY4", 5, 5, &umr_bitfield_default },
-	 { "DOUBLE_WORD", 6, 6, &umr_bitfield_default },
+static struct umr_bitfield mmRIRB_LOWER_BASE_ADDRESS[] = {
+	 { "RIRB_LOWER_BASE_UNIMPLEMENTED_BITS", 0, 6, &umr_bitfield_default },
+	 { "RIRB_LOWER_BASE_ADDRESS", 7, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixSINK_DESCRIPTION15[] = {
+	 { "DESCRIPTION", 0, 7, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDP_AUX1_DEBUG_E[] = {
+	 { "DP_AUX1_DEBUG_E", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDCIO_DEBUG14[] = {
+	 { "DCIO_DIGG_DEBUG", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixATTR14[] = {
 	 { "ATTR_CSEL1", 0, 1, &umr_bitfield_default },
 	 { "ATTR_CSEL2", 2, 3, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDCIO_DEBUG14[] = {
-	 { "DCIO_DIGG_DEBUG", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDP_AUX1_DEBUG_E[] = {
-	 { "DP_AUX1_DEBUG_E", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixSINK_DESCRIPTION15[] = {
-	 { "DESCRIPTION", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield mmRIRB_LOWER_BASE_ADDRESS[] = {
-	 { "RIRB_LOWER_BASE_UNIMPLEMENTED_BITS", 0, 6, &umr_bitfield_default },
-	 { "RIRB_LOWER_BASE_ADDRESS", 7, 31, &umr_bitfield_default },
+static struct umr_bitfield ixCRT14[] = {
+	 { "UNDRLN_LOC", 0, 4, &umr_bitfield_default },
+	 { "ADDR_CNT_BY4", 5, 5, &umr_bitfield_default },
+	 { "DOUBLE_WORD", 6, 6, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCRTC0_PIXEL_RATE_CNTL[] = {
 	 { "CRTC0_PIXEL_RATE_SOURCE", 0, 1, &umr_bitfield_default },
@@ -481,20 +479,20 @@ static struct umr_bitfield mmDP_DTO3_PHASE[] = {
 static struct umr_bitfield mmDP_DTO3_MODULO[] = {
 	 { "DP_DTO3_MODULO", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCRT15[] = {
-	 { "V_BLANK_START", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDCIO_DEBUG15[] = {
-	 { "DCIO_DEBUG15", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDP_AUX1_DEBUG_F[] = {
-	 { "DP_AUX1_DEBUG_F", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmRIRB_UPPER_BASE_ADDRESS[] = {
+	 { "RIRB_UPPER_BASE_ADDRESS", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixSINK_DESCRIPTION16[] = {
 	 { "DESCRIPTION", 0, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield mmRIRB_UPPER_BASE_ADDRESS[] = {
-	 { "RIRB_UPPER_BASE_ADDRESS", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixDP_AUX1_DEBUG_F[] = {
+	 { "DP_AUX1_DEBUG_F", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDCIO_DEBUG15[] = {
+	 { "DCIO_DEBUG15", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixCRT15[] = {
+	 { "V_BLANK_START", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCRTC4_PIXEL_RATE_CNTL[] = {
 	 { "CRTC4_PIXEL_RATE_SOURCE", 0, 1, &umr_bitfield_default },
@@ -590,18 +588,18 @@ static struct umr_bitfield mmDCCG_SOFT_RESET[] = {
 	 { "CASCADED_AMCLK0_SOFT_RESET", 14, 14, &umr_bitfield_default },
 	 { "CASCADED_AMCLK1_SOFT_RESET", 15, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCRT16[] = {
-	 { "V_BLANK_END", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDP_AUX1_DEBUG_G[] = {
-	 { "DP_AUX1_DEBUG_G", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmRESPONSE_INTERRUPT_COUNT[] = {
+	 { "N_RESPONSE_INTERRUPT_COUNT", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield mmRIRB_WRITE_POINTER[] = {
 	 { "RIRB_WRITE_POINTER", 0, 7, &umr_bitfield_default },
 	 { "RIRB_WRITE_POINTER_RESET", 15, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield mmRESPONSE_INTERRUPT_COUNT[] = {
-	 { "N_RESPONSE_INTERRUPT_COUNT", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield ixDP_AUX1_DEBUG_G[] = {
+	 { "DP_AUX1_DEBUG_G", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixCRT16[] = {
+	 { "V_BLANK_END", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield mmSYMCLKA_CLOCK_ENABLE[] = {
 	 { "SYMCLKA_CLOCK_ENABLE", 0, 0, &umr_bitfield_default },
@@ -1564,6 +1562,22 @@ static struct umr_bitfield mmFBC_DEBUG_CSR_RDATA_HI[] = {
 static struct umr_bitfield mmFBC_DEBUG_CSR_WDATA_HI[] = {
 	 { "FBC_DEBUG_CSR_WDATA_HI", 0, 7, &umr_bitfield_default },
 };
+static struct umr_bitfield ixDP_AUX1_DEBUG_H[] = {
+	 { "DP_AUX1_DEBUG_H", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmRIRB_CONTROL[] = {
+	 { "RESPONSE_INTERRUPT_CONTROL", 0, 0, &umr_bitfield_default },
+	 { "RIRB_DMA_ENABLE", 1, 1, &umr_bitfield_default },
+	 { "RESPONSE_OVERRUN_INTERRUPT_CONTROL", 2, 2, &umr_bitfield_default },
+};
+static struct umr_bitfield mmRIRB_STATUS[] = {
+	 { "RESPONSE_INTERRUPT", 0, 0, &umr_bitfield_default },
+	 { "RESPONSE_OVERRUN_INTERRUPT_STATUS", 2, 2, &umr_bitfield_default },
+};
+static struct umr_bitfield mmRIRB_SIZE[] = {
+	 { "RIRB_SIZE", 0, 1, &umr_bitfield_default },
+	 { "RIRB_SIZE_CAPABILITY", 4, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield ixCRT17[] = {
 	 { "RA0_AS_A13B", 0, 0, &umr_bitfield_default },
 	 { "RA1_AS_A14B", 1, 1, &umr_bitfield_default },
@@ -1572,22 +1586,6 @@ static struct umr_bitfield ixCRT17[] = {
 	 { "WRAP_A15TOA0", 5, 5, &umr_bitfield_default },
 	 { "BYTE_MODE", 6, 6, &umr_bitfield_default },
 	 { "CRTC_SYNC_EN", 7, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield mmRIRB_SIZE[] = {
-	 { "RIRB_SIZE", 0, 1, &umr_bitfield_default },
-	 { "RIRB_SIZE_CAPABILITY", 4, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield mmRIRB_STATUS[] = {
-	 { "RESPONSE_INTERRUPT", 0, 0, &umr_bitfield_default },
-	 { "RESPONSE_OVERRUN_INTERRUPT_STATUS", 2, 2, &umr_bitfield_default },
-};
-static struct umr_bitfield mmRIRB_CONTROL[] = {
-	 { "RESPONSE_INTERRUPT_CONTROL", 0, 0, &umr_bitfield_default },
-	 { "RIRB_DMA_ENABLE", 1, 1, &umr_bitfield_default },
-	 { "RESPONSE_OVERRUN_INTERRUPT_CONTROL", 2, 2, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDP_AUX1_DEBUG_H[] = {
-	 { "DP_AUX1_DEBUG_H", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmPERFCOUNTER_CNTL[] = {
 	 { "PERFCOUNTER_EVENT_SEL", 0, 8, &umr_bitfield_default },
@@ -1628,17 +1626,17 @@ static struct umr_bitfield mmPLL_SS_CNTL[] = {
 	 { "PLL_SS_MODE", 13, 13, &umr_bitfield_default },
 	 { "PLL_SS_STEP_SIZE_DSFRAC", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPLL_DS_CNTL[] = {
-	 { "PLL_DS_FRAC", 0, 15, &umr_bitfield_default },
-	 { "PLL_DS_ORDER", 16, 17, &umr_bitfield_default },
-	 { "PLL_DS_MODE", 18, 18, &umr_bitfield_default },
-	 { "PLL_DS_PRBS_EN", 19, 19, &umr_bitfield_default },
-};
 static struct umr_bitfield ixAZALIA_F2_CODEC_FUNCTION_CONTROL_POWER_STATE[] = {
 	 { "POWER_STATE_SET", 0, 3, &umr_bitfield_default },
 	 { "POWER_STATE_ACT", 4, 7, &umr_bitfield_default },
 	 { "CLKSTOPOK", 9, 9, &umr_bitfield_default },
 	 { "POWER_STATE_SETTINGS_RESET", 10, 10, &umr_bitfield_default },
+};
+static struct umr_bitfield mmPLL_DS_CNTL[] = {
+	 { "PLL_DS_FRAC", 0, 15, &umr_bitfield_default },
+	 { "PLL_DS_ORDER", 16, 17, &umr_bitfield_default },
+	 { "PLL_DS_MODE", 18, 18, &umr_bitfield_default },
+	 { "PLL_DS_PRBS_EN", 19, 19, &umr_bitfield_default },
 };
 static struct umr_bitfield mmPLL_IDCLK_CNTL[] = {
 	 { "PLL_LTDP_IDCLK_EN", 0, 0, &umr_bitfield_default },
@@ -2343,11 +2341,11 @@ static struct umr_bitfield mmPERFMON_TEST_DEBUG_INDEX[] = {
 	 { "PERFMON_TEST_DEBUG_INDEX", 0, 7, &umr_bitfield_default },
 	 { "PERFMON_TEST_DEBUG_WRITE_EN", 8, 8, &umr_bitfield_default },
 };
-static struct umr_bitfield mmPIPE4_PG_CONFIG[] = {
-	 { "PIPE4_POWER_FORCEON", 0, 0, &umr_bitfield_default },
-};
 static struct umr_bitfield ixAZALIA_F2_CODEC_FUNCTION_CONTROL_CONVERTER_SYNCHRONIZATION[] = {
 	 { "CONVERTER_SYNCHRONIZATION", 0, 6, &umr_bitfield_default },
+};
+static struct umr_bitfield mmPIPE4_PG_CONFIG[] = {
+	 { "PIPE4_POWER_FORCEON", 0, 0, &umr_bitfield_default },
 };
 static struct umr_bitfield mmPIPE4_PG_ENABLE[] = {
 	 { "PIPE4_POWER_GATE", 0, 0, &umr_bitfield_default },
@@ -2606,33 +2604,33 @@ static struct umr_bitfield mmAZALIA_STREAM_DATA[] = {
 static struct umr_bitfield ixAZALIA_F2_CODEC_FUNCTION_CONTROL_RESET[] = {
 	 { "CODEC_RESET", 0, 0, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCRT18[] = {
-	 { "LINE_CMP", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDP_AUX1_DEBUG_I[] = {
-	 { "DP_AUX1_DEBUG_I", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield mmIMMEDIATE_COMMAND_OUTPUT_INTERFACE[] = {
-	 { "IMMEDIATE_COMMAND_WRITE_VERB_AND_PAYLOAD", 0, 27, &umr_bitfield_default },
-	 { "IMMEDIATE_COMMAND_WRITE_CODEC_ADDRESS", 28, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield mmIMMEDIATE_COMMAND_OUTPUT_INTERFACE_DATA[] = {
-	 { "IMMEDIATE_COMMAND_WRITE", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield mmIMMEDIATE_COMMAND_OUTPUT_INTERFACE_INDEX[] = {
-	 { "IMMEDIATE_COMMAND_WRITE", 0, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield mmAZROOT_IMMEDIATE_COMMAND_OUTPUT_INTERFACE_DATA[] = {
-	 { "IMMEDIATE_COMMAND_WRITE", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield mmAZROOT_IMMEDIATE_COMMAND_OUTPUT_INTERFACE_INDEX[] = {
+static struct umr_bitfield mmAZENDPOINT_IMMEDIATE_COMMAND_OUTPUT_INTERFACE_INDEX[] = {
 	 { "IMMEDIATE_COMMAND_WRITE", 0, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield mmAZENDPOINT_IMMEDIATE_COMMAND_OUTPUT_INTERFACE_DATA[] = {
 	 { "IMMEDIATE_COMMAND_WRITE", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmAZENDPOINT_IMMEDIATE_COMMAND_OUTPUT_INTERFACE_INDEX[] = {
+static struct umr_bitfield mmAZROOT_IMMEDIATE_COMMAND_OUTPUT_INTERFACE_INDEX[] = {
 	 { "IMMEDIATE_COMMAND_WRITE", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield mmAZROOT_IMMEDIATE_COMMAND_OUTPUT_INTERFACE_DATA[] = {
+	 { "IMMEDIATE_COMMAND_WRITE", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmIMMEDIATE_COMMAND_OUTPUT_INTERFACE_INDEX[] = {
+	 { "IMMEDIATE_COMMAND_WRITE", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield mmIMMEDIATE_COMMAND_OUTPUT_INTERFACE_DATA[] = {
+	 { "IMMEDIATE_COMMAND_WRITE", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmIMMEDIATE_COMMAND_OUTPUT_INTERFACE[] = {
+	 { "IMMEDIATE_COMMAND_WRITE_VERB_AND_PAYLOAD", 0, 27, &umr_bitfield_default },
+	 { "IMMEDIATE_COMMAND_WRITE_CODEC_ADDRESS", 28, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDP_AUX1_DEBUG_I[] = {
+	 { "DP_AUX1_DEBUG_I", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixCRT18[] = {
+	 { "LINE_CMP", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield mmDC_HPD1_INT_STATUS[] = {
 	 { "DC_HPD1_INT_STATUS", 0, 0, &umr_bitfield_default },
@@ -3648,11 +3646,11 @@ static struct umr_bitfield mmDOUT_DCE_VCE_CONTROL[] = {
 	 { "DC_VCE_VIDEO_PIPE_SELECT", 0, 2, &umr_bitfield_default },
 	 { "DC_VCE_AUDIO_STREAM_SELECT", 4, 6, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX1_DEBUG_J[] = {
-	 { "DP_AUX1_DEBUG_J", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield mmIMMEDIATE_RESPONSE_INPUT_INTERFACE[] = {
 	 { "IMMEDIATE_RESPONSE_READ", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDP_AUX1_DEBUG_J[] = {
+	 { "DP_AUX1_DEBUG_J", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmDC_GENERICA[] = {
 	 { "GENERICA_EN", 0, 0, &umr_bitfield_default },
@@ -4968,18 +4966,15 @@ static struct umr_bitfield mmDAC_FIFO_STATUS[] = {
 static struct umr_bitfield mmDAC_MACRO_CNTL_RESERVED0[] = {
 	 { "DAC_MACRO_CNTL_RESERVED", 0, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield mmDAC_MACRO_CNTL_RESERVED1[] = {
+	 { "DAC_MACRO_CNTL_RESERVED", 0, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield mmBPHYC_DAC_MACRO_CNTL[] = {
 	 { "BPHYC_DAC_WHITE_LEVEL", 0, 1, &umr_bitfield_default },
 	 { "BPHYC_DAC_WHITE_FINE_CONTROL", 8, 13, &umr_bitfield_default },
 	 { "BPHYC_DAC_BANDGAP_ADJUSTMENT", 16, 21, &umr_bitfield_default },
 	 { "BPHYC_DAC_ANALOG_MONITOR", 24, 27, &umr_bitfield_default },
 	 { "BPHYC_DAC_COREMON", 28, 28, &umr_bitfield_default },
-};
-static struct umr_bitfield mmDAC_MACRO_CNTL_RESERVED1[] = {
-	 { "DAC_MACRO_CNTL_RESERVED", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield mmDAC_MACRO_CNTL_RESERVED2[] = {
-	 { "DAC_MACRO_CNTL_RESERVED", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmBPHYC_DAC_AUTO_CALIB_CONTROL[] = {
 	 { "BPHYC_DAC_CAL_INITB", 0, 0, &umr_bitfield_default },
@@ -4989,15 +4984,18 @@ static struct umr_bitfield mmBPHYC_DAC_AUTO_CALIB_CONTROL[] = {
 	 { "BPHYC_DAC_CAL_MASK", 20, 22, &umr_bitfield_default },
 	 { "BPHYC_DAC_CAL_COMPLETE", 28, 28, &umr_bitfield_default },
 };
-static struct umr_bitfield mmDAC_MACRO_CNTL_RESERVED3[] = {
+static struct umr_bitfield mmDAC_MACRO_CNTL_RESERVED2[] = {
 	 { "DAC_MACRO_CNTL_RESERVED", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX1_DEBUG_K[] = {
-	 { "DP_AUX1_DEBUG_K", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmDAC_MACRO_CNTL_RESERVED3[] = {
+	 { "DAC_MACRO_CNTL_RESERVED", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmIMMEDIATE_COMMAND_STATUS[] = {
 	 { "IMMEDIATE_COMMAND_BUSY", 0, 0, &umr_bitfield_default },
 	 { "IMMEDIATE_RESULT_VALID", 1, 1, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDP_AUX1_DEBUG_K[] = {
+	 { "DP_AUX1_DEBUG_K", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmGRPH_ENABLE[] = {
 	 { "GRPH_ENABLE", 0, 0, &umr_bitfield_default },
@@ -6932,13 +6930,13 @@ static struct umr_bitfield mmFMT_CRC_SIG_BLUE_CONTROL[] = {
 static struct umr_bitfield mmFMT_DEBUG_CNTL[] = {
 	 { "FMT_DEBUG_COLOR_SELECT", 0, 1, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX1_DEBUG_M[] = {
-	 { "DP_AUX1_DEBUG_M", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield mmDMA_POSITION_LOWER_BASE_ADDRESS[] = {
 	 { "DMA_POSITION_BUFFER_ENABLE", 0, 0, &umr_bitfield_default },
 	 { "DMA_POSITION_LOWER_BASE_UNIMPLEMENTED_BITS", 1, 6, &umr_bitfield_default },
 	 { "DMA_POSITION_LOWER_BASE_ADDRESS", 7, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDP_AUX1_DEBUG_M[] = {
+	 { "DP_AUX1_DEBUG_M", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmDIG_FE_CNTL[] = {
 	 { "DIG_SOURCE_SELECT", 0, 2, &umr_bitfield_default },
@@ -7711,23 +7709,23 @@ static struct umr_bitfield mmDP_TEST_DEBUG_INDEX[] = {
 static struct umr_bitfield mmDP_TEST_DEBUG_DATA[] = {
 	 { "DP_TEST_DEBUG_DATA", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX1_DEBUG_N[] = {
-	 { "DP_AUX1_DEBUG_N", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield mmDMA_POSITION_UPPER_BASE_ADDRESS[] = {
 	 { "DMA_POSITION_UPPER_BASE_ADDRESS", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCRT1E[] = {
-	 { "GRPH_DEC_RD1", 1, 1, &umr_bitfield_default },
+static struct umr_bitfield ixDP_AUX1_DEBUG_N[] = {
+	 { "DP_AUX1_DEBUG_N", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixDP_AUX1_DEBUG_O[] = {
 	 { "DP_AUX1_DEBUG_O", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCRT1F[] = {
-	 { "GRPH_DEC_RD0", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield ixCRT1E[] = {
+	 { "GRPH_DEC_RD1", 1, 1, &umr_bitfield_default },
 };
 static struct umr_bitfield ixDP_AUX1_DEBUG_P[] = {
 	 { "DP_AUX1_DEBUG_P", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixCRT1F[] = {
+	 { "GRPH_DEC_RD0", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F2_CODEC_FUNCTION_PARAMETER_SUBORDINATE_NODE_COUNT[] = {
 	 { "AZALIA_CODEC_FUNCTION_PARAMETER_SUBORDINATE_NODE_COUNT", 0, 31, &umr_bitfield_default },
@@ -7747,46 +7745,6 @@ static struct umr_bitfield ixAZALIA_F2_CODEC_FUNCTION_PARAMETER_POWER_STATES[] =
 	 { "CLKSTOP", 30, 30, &umr_bitfield_default },
 	 { "EPSS", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixSEQ02[] = {
-	 { "SEQ_MAP0_EN", 0, 0, &umr_bitfield_default },
-	 { "SEQ_MAP1_EN", 1, 1, &umr_bitfield_default },
-	 { "SEQ_MAP2_EN", 2, 2, &umr_bitfield_default },
-	 { "SEQ_MAP3_EN", 3, 3, &umr_bitfield_default },
-};
-static struct umr_bitfield ixATTR02[] = {
-	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
-};
-static struct umr_bitfield ixFMT_DEBUG1[] = {
-	 { "FMT_DEBUG1", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDCIO_DEBUG2[] = {
-	 { "DCIO_DEBUG2", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield mmGLOBAL_CONTROL[] = {
-	 { "CONTROLLER_RESET", 0, 0, &umr_bitfield_default },
-	 { "FLUSH_CONTROL", 1, 1, &umr_bitfield_default },
-	 { "ACCEPT_UNSOLICITED_RESPONSE_ENABLE", 8, 8, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAUDIO_DESCRIPTOR1[] = {
-	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
-	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
-	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
-	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDMIF_DEBUG02_CORE0[] = {
-	 { "DB_DATA", 0, 15, &umr_bitfield_default },
-	 { "MC_RDRET_COUNT_EN", 16, 16, &umr_bitfield_default },
-	 { "MC_RDRET_COUNTER", 17, 27, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAZALIA_CRC0_CHANNEL2[] = {
-	 { "CRC_CHANNEL2", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAZALIA_WORSTCASE_LATENCY_COUNT[] = {
-	 { "AZALIA_WORSTCASE_LATENCY_COUNT", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAZALIA_F2_CODEC_PIN_CONTROL_SINK_DESCRIPTION_LEN[] = {
-	 { "SINK_DESCRIPTION_LEN", 0, 7, &umr_bitfield_default },
-};
 static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_CONTROL_CONVERTER_FORMAT[] = {
 	 { "NUMBER_OF_CHANNELS", 0, 3, &umr_bitfield_default },
 	 { "BITS_PER_SAMPLE", 4, 6, &umr_bitfield_default },
@@ -7795,22 +7753,45 @@ static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_CONTROL_CONVERTER_FORMAT[
 	 { "SAMPLE_BASE_RATE", 14, 14, &umr_bitfield_default },
 	 { "STREAM_TYPE", 15, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX2_DEBUG_A[] = {
-	 { "DP_AUX2_DEBUG_A", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixAZALIA_F2_CODEC_PIN_CONTROL_SINK_DESCRIPTION_LEN[] = {
+	 { "SINK_DESCRIPTION_LEN", 0, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield mmOUTPUT_STREAM_DESCRIPTOR_CONTROL_AND_STATUS[] = {
-	 { "STREAM_RESET", 0, 0, &umr_bitfield_default },
-	 { "STREAM_RUN", 1, 1, &umr_bitfield_default },
-	 { "INTERRUPT_ON_COMPLETION_ENABLE", 2, 2, &umr_bitfield_default },
-	 { "FIFO_ERROR_INTERRUPT_ENABLE", 3, 3, &umr_bitfield_default },
-	 { "DESCRIPTOR_ERROR_INTERRUPT_ENABLE", 4, 4, &umr_bitfield_default },
-	 { "STRIPE_CONTROL", 16, 17, &umr_bitfield_default },
-	 { "TRAFFIC_PRIORITY", 18, 18, &umr_bitfield_default },
-	 { "STREAM_NUMBER", 20, 23, &umr_bitfield_default },
-	 { "BUFFER_COMPLETION_INTERRUPT_STATUS", 26, 26, &umr_bitfield_default },
-	 { "FIFO_ERROR", 27, 27, &umr_bitfield_default },
-	 { "DESCRIPTOR_ERROR", 28, 28, &umr_bitfield_default },
-	 { "FIFO_READY", 29, 29, &umr_bitfield_default },
+static struct umr_bitfield ixAZALIA_WORSTCASE_LATENCY_COUNT[] = {
+	 { "AZALIA_WORSTCASE_LATENCY_COUNT", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixAZALIA_CRC0_CHANNEL2[] = {
+	 { "CRC_CHANNEL2", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDMIF_DEBUG02_CORE0[] = {
+	 { "DB_DATA", 0, 15, &umr_bitfield_default },
+	 { "MC_RDRET_COUNT_EN", 16, 16, &umr_bitfield_default },
+	 { "MC_RDRET_COUNTER", 17, 27, &umr_bitfield_default },
+};
+static struct umr_bitfield ixAUDIO_DESCRIPTOR1[] = {
+	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
+	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
+	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
+	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmGLOBAL_CONTROL[] = {
+	 { "CONTROLLER_RESET", 0, 0, &umr_bitfield_default },
+	 { "FLUSH_CONTROL", 1, 1, &umr_bitfield_default },
+	 { "ACCEPT_UNSOLICITED_RESPONSE_ENABLE", 8, 8, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDCIO_DEBUG2[] = {
+	 { "DCIO_DEBUG2", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixFMT_DEBUG1[] = {
+	 { "FMT_DEBUG1", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixATTR02[] = {
+	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
+};
+static struct umr_bitfield ixSEQ02[] = {
+	 { "SEQ_MAP0_EN", 0, 0, &umr_bitfield_default },
+	 { "SEQ_MAP1_EN", 1, 1, &umr_bitfield_default },
+	 { "SEQ_MAP2_EN", 2, 2, &umr_bitfield_default },
+	 { "SEQ_MAP3_EN", 3, 3, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_PARAMETER_AUDIO_WIDGET_CAPABILITIES[] = {
 	 { "AUDIO_CHANNEL_CAPABILITIES", 0, 0, &umr_bitfield_default },
@@ -7827,8 +7808,25 @@ static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_PARAMETER_AUDIO_WIDGET_CAPABILI
 	 { "AUDIO_WIDGET_CAPABILITIES_DELAY", 16, 19, &umr_bitfield_default },
 	 { "TYPE", 20, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX2_DEBUG_B[] = {
-	 { "DP_AUX2_DEBUG_B", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmOUTPUT_STREAM_DESCRIPTOR_CONTROL_AND_STATUS[] = {
+	 { "STREAM_RESET", 0, 0, &umr_bitfield_default },
+	 { "STREAM_RUN", 1, 1, &umr_bitfield_default },
+	 { "INTERRUPT_ON_COMPLETION_ENABLE", 2, 2, &umr_bitfield_default },
+	 { "FIFO_ERROR_INTERRUPT_ENABLE", 3, 3, &umr_bitfield_default },
+	 { "DESCRIPTOR_ERROR_INTERRUPT_ENABLE", 4, 4, &umr_bitfield_default },
+	 { "STRIPE_CONTROL", 16, 17, &umr_bitfield_default },
+	 { "TRAFFIC_PRIORITY", 18, 18, &umr_bitfield_default },
+	 { "STREAM_NUMBER", 20, 23, &umr_bitfield_default },
+	 { "BUFFER_COMPLETION_INTERRUPT_STATUS", 26, 26, &umr_bitfield_default },
+	 { "FIFO_ERROR", 27, 27, &umr_bitfield_default },
+	 { "DESCRIPTOR_ERROR", 28, 28, &umr_bitfield_default },
+	 { "FIFO_READY", 29, 29, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDP_AUX2_DEBUG_A[] = {
+	 { "DP_AUX2_DEBUG_A", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmOUTPUT_STREAM_DESCRIPTOR_LINK_POSITION_IN_CURRENT_BUFFER[] = {
+	 { "LINK_POSITION_IN_BUFFER", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_PARAMETER_CAPABILITIES[] = {
 	 { "IMPEDANCE_SENSE_CAPABLE", 0, 0, &umr_bitfield_default },
@@ -7843,21 +7841,21 @@ static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_PARAMETER_CAPABILITIES[] = {
 	 { "EAPD_CAPABLE", 16, 16, &umr_bitfield_default },
 	 { "DP", 24, 24, &umr_bitfield_default },
 };
-static struct umr_bitfield mmOUTPUT_STREAM_DESCRIPTOR_LINK_POSITION_IN_CURRENT_BUFFER[] = {
-	 { "LINK_POSITION_IN_BUFFER", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixCRT22[] = {
-	 { "GRPH_LATCH_DATA", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDP_AUX2_DEBUG_C[] = {
-	 { "DP_AUX2_DEBUG_C", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield mmOUTPUT_STREAM_DESCRIPTOR_CYCLIC_BUFFER_LENGTH[] = {
-	 { "CYCLIC_BUFFER_LENGTH", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixDP_AUX2_DEBUG_B[] = {
+	 { "DP_AUX2_DEBUG_B", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_UNSOLICITED_RESPONSE[] = {
 	 { "TAG", 0, 5, &umr_bitfield_default },
 	 { "ENABLE", 7, 7, &umr_bitfield_default },
+};
+static struct umr_bitfield mmOUTPUT_STREAM_DESCRIPTOR_CYCLIC_BUFFER_LENGTH[] = {
+	 { "CYCLIC_BUFFER_LENGTH", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDP_AUX2_DEBUG_C[] = {
+	 { "DP_AUX2_DEBUG_C", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixCRT22[] = {
+	 { "GRPH_LATCH_DATA", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F2_CODEC_CONVERTER_CONTROL_CONVERTER_FORMAT[] = {
 	 { "NUMBER_OF_CHANNELS", 0, 3, &umr_bitfield_default },
@@ -7868,17 +7866,20 @@ static struct umr_bitfield ixAZALIA_F2_CODEC_CONVERTER_CONTROL_CONVERTER_FORMAT[
 	 { "STREAM_TYPE", 15, 15, &umr_bitfield_default },
 	 { "STREAM_TYPE_R", 15, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX2_DEBUG_D[] = {
-	 { "DP_AUX2_DEBUG_D", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_RESPONSE_PIN_SENSE[] = {
+	 { "IMPEDANCE_SENSE", 0, 30, &umr_bitfield_default },
 };
 static struct umr_bitfield mmOUTPUT_STREAM_DESCRIPTOR_LAST_VALID_INDEX[] = {
 	 { "LAST_VALID_INDEX", 0, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_RESPONSE_PIN_SENSE[] = {
-	 { "IMPEDANCE_SENSE", 0, 30, &umr_bitfield_default },
+static struct umr_bitfield ixDP_AUX2_DEBUG_D[] = {
+	 { "DP_AUX2_DEBUG_D", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX2_DEBUG_E[] = {
-	 { "DP_AUX2_DEBUG_E", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_WIDGET_CONTROL[] = {
+	 { "OUT_ENABLE", 6, 6, &umr_bitfield_default },
+};
+static struct umr_bitfield mmOUTPUT_STREAM_DESCRIPTOR_FIFO_SIZE[] = {
+	 { "FIFO_SIZE", 0, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield mmOUTPUT_STREAM_DESCRIPTOR_FORMAT[] = {
 	 { "NUMBER_OF_CHANNELS", 0, 3, &umr_bitfield_default },
@@ -7887,14 +7888,8 @@ static struct umr_bitfield mmOUTPUT_STREAM_DESCRIPTOR_FORMAT[] = {
 	 { "SAMPLE_BASE_MULTIPLE", 11, 13, &umr_bitfield_default },
 	 { "SAMPLE_BASE_RATE", 14, 14, &umr_bitfield_default },
 };
-static struct umr_bitfield mmOUTPUT_STREAM_DESCRIPTOR_FIFO_SIZE[] = {
-	 { "FIFO_SIZE", 0, 15, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_WIDGET_CONTROL[] = {
-	 { "OUT_ENABLE", 6, 6, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDP_AUX2_DEBUG_F[] = {
-	 { "DP_AUX2_DEBUG_F", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixDP_AUX2_DEBUG_E[] = {
+	 { "DP_AUX2_DEBUG_E", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_CHANNEL_SPEAKER[] = {
 	 { "SPEAKER_ALLOCATION", 0, 6, &umr_bitfield_default },
@@ -7905,18 +7900,21 @@ static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_CHANNEL_SPEAKER[] = {
 	 { "LEVEL_SHIFT", 27, 30, &umr_bitfield_default },
 	 { "DOWN_MIX_INHIBIT", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX2_DEBUG_G[] = {
-	 { "DP_AUX2_DEBUG_G", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixDP_AUX2_DEBUG_F[] = {
+	 { "DP_AUX2_DEBUG_F", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmOUTPUT_STREAM_DESCRIPTOR_BDL_POINTER_LOWER_BASE_ADDRESS[] = {
 	 { "BUFFER_DESCRIPTOR_LIST_LOWER_BASE_ADDRESS_UNIMPLEMENTED_BITS", 0, 6, &umr_bitfield_default },
 	 { "BUFFER_DESCRIPTOR_LIST_LOWER_BASE_ADDRESS", 7, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX2_DEBUG_H[] = {
-	 { "DP_AUX2_DEBUG_H", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixDP_AUX2_DEBUG_G[] = {
+	 { "DP_AUX2_DEBUG_G", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmOUTPUT_STREAM_DESCRIPTOR_BDL_POINTER_UPPER_BASE_ADDRESS[] = {
 	 { "BUFFER_DESCRIPTOR_LIST_UPPER_BASE_ADDRESS", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDP_AUX2_DEBUG_H[] = {
+	 { "DP_AUX2_DEBUG_H", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F2_CODEC_CONVERTER_CONTROL_CHANNEL_STREAM_ID[] = {
 	 { "CHANNEL_ID", 0, 3, &umr_bitfield_default },
@@ -7952,19 +7950,24 @@ static struct umr_bitfield ixAZALIA_F2_CODEC_CONVERTER_CONTROL_GTC_EMBEDDING[] =
 	 { "PRESENTATION_TIME_OFFSET_CHANGED", 1, 1, &umr_bitfield_default },
 	 { "PRESENTATION_TIME_EMBEDDING_GROUP", 4, 6, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX2_DEBUG_I[] = {
-	 { "DP_AUX2_DEBUG_I", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR0[] = {
 	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
 	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
 	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
 	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixDP_AUX2_DEBUG_I[] = {
+	 { "DP_AUX2_DEBUG_I", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR1[] = {
+	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
+	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
+	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
+};
 static struct umr_bitfield ixDP_AUX2_DEBUG_J[] = {
 	 { "DP_AUX2_DEBUG_J", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR1[] = {
+static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR2[] = {
 	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
 	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
 	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
@@ -7972,7 +7975,7 @@ static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR1[] = {
 static struct umr_bitfield ixDP_AUX2_DEBUG_K[] = {
 	 { "DP_AUX2_DEBUG_K", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR2[] = {
+static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR3[] = {
 	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
 	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
 	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
@@ -7980,7 +7983,7 @@ static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR2[] = {
 static struct umr_bitfield ixDP_AUX2_DEBUG_L[] = {
 	 { "DP_AUX2_DEBUG_L", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR3[] = {
+static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR4[] = {
 	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
 	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
 	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
@@ -7988,7 +7991,7 @@ static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR3[] = {
 static struct umr_bitfield ixDP_AUX2_DEBUG_M[] = {
 	 { "DP_AUX2_DEBUG_M", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR4[] = {
+static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR5[] = {
 	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
 	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
 	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
@@ -7996,7 +7999,7 @@ static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR4[] = {
 static struct umr_bitfield ixDP_AUX2_DEBUG_N[] = {
 	 { "DP_AUX2_DEBUG_N", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR5[] = {
+static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR6[] = {
 	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
 	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
 	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
@@ -8004,18 +8007,13 @@ static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR5[] = {
 static struct umr_bitfield ixDP_AUX2_DEBUG_O[] = {
 	 { "DP_AUX2_DEBUG_O", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR6[] = {
+static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR7[] = {
 	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
 	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
 	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
 };
 static struct umr_bitfield ixDP_AUX2_DEBUG_P[] = {
 	 { "DP_AUX2_DEBUG_P", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR7[] = {
-	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
-	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
-	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F2_CODEC_CONVERTER_PARAMETER_AUDIO_WIDGET_CAPABILITIES[] = {
 	 { "AUDIO_CHANNEL_CAPABILITIES", 0, 0, &umr_bitfield_default },
@@ -8093,6 +8091,37 @@ static struct umr_bitfield mmPIPE4_ARBITRATION_CONTROL3[] = {
 static struct umr_bitfield mmPIPE5_ARBITRATION_CONTROL3[] = {
 	 { "EFFICIENCY_WEIGHT", 0, 15, &umr_bitfield_default },
 };
+static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_CONTROL_CHANNEL_STREAM_ID[] = {
+	 { "CHANNEL_ID", 0, 3, &umr_bitfield_default },
+	 { "STREAM_ID", 4, 7, &umr_bitfield_default },
+};
+static struct umr_bitfield ixAZALIA_F2_CODEC_PIN_CONTROL_PORTID0[] = {
+	 { "PORTID", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixAZALIA_CUMULATIVE_LATENCY_COUNT[] = {
+	 { "AZALIA_CUMULATIVE_LATENCY_COUNT", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixAZALIA_CRC0_CHANNEL3[] = {
+	 { "CRC_CHANNEL3", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmSTATE_CHANGE_STATUS[] = {
+	 { "STATE_CHANGE_STATUS", 0, 0, &umr_bitfield_default },
+};
+static struct umr_bitfield ixAUDIO_DESCRIPTOR2[] = {
+	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
+	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
+	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
+	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDCIO_DEBUG3[] = {
+	 { "DCIO_DEBUG3", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixFMT_DEBUG2[] = {
+	 { "FMT_DEBUG2", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixATTR03[] = {
+	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
+};
 static struct umr_bitfield ixSEQ03[] = {
 	 { "SEQ_FONT_B1", 0, 0, &umr_bitfield_default },
 	 { "SEQ_FONT_B2", 1, 1, &umr_bitfield_default },
@@ -8101,44 +8130,13 @@ static struct umr_bitfield ixSEQ03[] = {
 	 { "SEQ_FONT_B0", 4, 4, &umr_bitfield_default },
 	 { "SEQ_FONT_A0", 5, 5, &umr_bitfield_default },
 };
-static struct umr_bitfield ixATTR03[] = {
-	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
-};
-static struct umr_bitfield ixFMT_DEBUG2[] = {
-	 { "FMT_DEBUG2", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDCIO_DEBUG3[] = {
-	 { "DCIO_DEBUG3", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAUDIO_DESCRIPTOR2[] = {
-	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
-	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
-	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
-	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield mmSTATE_CHANGE_STATUS[] = {
-	 { "STATE_CHANGE_STATUS", 0, 0, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAZALIA_CRC0_CHANNEL3[] = {
-	 { "CRC_CHANNEL3", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAZALIA_CUMULATIVE_LATENCY_COUNT[] = {
-	 { "AZALIA_CUMULATIVE_LATENCY_COUNT", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAZALIA_F2_CODEC_PIN_CONTROL_PORTID0[] = {
-	 { "PORTID", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_CONTROL_CHANNEL_STREAM_ID[] = {
-	 { "CHANNEL_ID", 0, 3, &umr_bitfield_default },
-	 { "STREAM_ID", 4, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDP_AUX3_DEBUG_A[] = {
-	 { "DP_AUX3_DEBUG_A", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR8[] = {
 	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
 	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
 	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDP_AUX3_DEBUG_A[] = {
+	 { "DP_AUX3_DEBUG_A", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmDMIF_ADDR_CALC[] = {
 	 { "ADDR_CONFIG_PIPE_INTERLEAVE_SIZE", 4, 6, &umr_bitfield_default },
@@ -8172,13 +8170,13 @@ static struct umr_bitfield mmPIPE4_MAX_REQUESTS[] = {
 static struct umr_bitfield mmPIPE5_MAX_REQUESTS[] = {
 	 { "MAX_REQUESTS", 0, 9, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX3_DEBUG_B[] = {
-	 { "DP_AUX3_DEBUG_B", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR9[] = {
 	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
 	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
 	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDP_AUX3_DEBUG_B[] = {
+	 { "DP_AUX3_DEBUG_B", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmDC_RBBMIF_RDWR_CNTL3[] = {
 	 { "DC_RBBMIF_CLIENT10_RDWR_DELAY", 0, 3, &umr_bitfield_default },
@@ -8330,13 +8328,13 @@ static struct umr_bitfield mmDCCG_VPCLK_CNTL[] = {
 	 { "MCIFWB_LIGHT_SLEEP_MODE_FORCE", 27, 27, &umr_bitfield_default },
 	 { "MCIFWB_MEM_SHUTDOWN_MODE_FORCE", 28, 28, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX3_DEBUG_C[] = {
-	 { "DP_AUX3_DEBUG_C", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR10[] = {
 	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
 	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
 	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDP_AUX3_DEBUG_C[] = {
+	 { "DP_AUX3_DEBUG_C", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmDCI_TEST_DEBUG_INDEX[] = {
 	 { "DCI_TEST_DEBUG_INDEX", 0, 7, &umr_bitfield_default },
@@ -8394,13 +8392,13 @@ static struct umr_bitfield mmPIPE0_DMIF_BUFFER_CONTROL[] = {
 	 { "DMIF_BUFFERS_ALLOCATED", 0, 2, &umr_bitfield_default },
 	 { "DMIF_BUFFERS_ALLOCATION_COMPLETED", 4, 4, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX3_DEBUG_D[] = {
-	 { "DP_AUX3_DEBUG_D", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR11[] = {
 	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
 	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
 	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDP_AUX3_DEBUG_D[] = {
+	 { "DP_AUX3_DEBUG_D", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmPIPE1_DMIF_BUFFER_CONTROL[] = {
 	 { "DMIF_BUFFERS_ALLOCATED", 0, 2, &umr_bitfield_default },
@@ -8410,13 +8408,13 @@ static struct umr_bitfield mmPIPE2_DMIF_BUFFER_CONTROL[] = {
 	 { "DMIF_BUFFERS_ALLOCATED", 0, 2, &umr_bitfield_default },
 	 { "DMIF_BUFFERS_ALLOCATION_COMPLETED", 4, 4, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX3_DEBUG_E[] = {
-	 { "DP_AUX3_DEBUG_E", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR12[] = {
 	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
 	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
 	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDP_AUX3_DEBUG_E[] = {
+	 { "DP_AUX3_DEBUG_E", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmPIPE3_DMIF_BUFFER_CONTROL[] = {
 	 { "DMIF_BUFFERS_ALLOCATED", 0, 2, &umr_bitfield_default },
@@ -8426,13 +8424,13 @@ static struct umr_bitfield mmPIPE4_DMIF_BUFFER_CONTROL[] = {
 	 { "DMIF_BUFFERS_ALLOCATED", 0, 2, &umr_bitfield_default },
 	 { "DMIF_BUFFERS_ALLOCATION_COMPLETED", 4, 4, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX3_DEBUG_F[] = {
-	 { "DP_AUX3_DEBUG_F", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR13[] = {
 	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
 	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
 	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDP_AUX3_DEBUG_F[] = {
+	 { "DP_AUX3_DEBUG_F", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmPIPE5_DMIF_BUFFER_CONTROL[] = {
 	 { "DMIF_BUFFERS_ALLOCATED", 0, 2, &umr_bitfield_default },
@@ -8478,9 +8476,6 @@ static struct umr_bitfield mmMCIF_BUF_1_STATUS[] = {
 	 { "MCIF_BUF_NXT_BUF", 12, 14, &umr_bitfield_default },
 	 { "MCIF_BUF_CUR_LINE", 16, 28, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX3_DEBUG_G[] = {
-	 { "DP_AUX3_DEBUG_G", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_MULTICHANNEL_ENABLE[] = {
 	 { "MULTICHANNEL01_ENABLE", 0, 0, &umr_bitfield_default },
 	 { "MULTICHANNEL01_MUTE", 1, 1, &umr_bitfield_default },
@@ -8494,6 +8489,9 @@ static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_MULTICHANNEL_ENABLE[] =
 	 { "MULTICHANNEL67_ENABLE", 24, 24, &umr_bitfield_default },
 	 { "MULTICHANNEL67_MUTE", 25, 25, &umr_bitfield_default },
 	 { "MULTICHANNEL67_CHANNEL_ID", 28, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDP_AUX3_DEBUG_G[] = {
+	 { "DP_AUX3_DEBUG_G", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmMCIF_BUF_2_ADDR_Y_LOW[] = {
 	 { "MCIF_BUF_ADDR_Y_LOW", 0, 31, &umr_bitfield_default },
@@ -8569,12 +8567,12 @@ static struct umr_bitfield mmMCIF_URGENCY_WATERMARK[] = {
 	 { "MCIF_SI_CLIENT0_URGENCY_WATERMARK", 0, 15, &umr_bitfield_default },
 	 { "MCIF_SI_CLIENT1_URGENCY_WATERMARK", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX3_DEBUG_H[] = {
-	 { "DP_AUX3_DEBUG_H", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_RESPONSE_LIPSYNC[] = {
 	 { "VIDEO_LIPSYNC", 0, 7, &umr_bitfield_default },
 	 { "AUDIO_LIPSYNC", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDP_AUX3_DEBUG_H[] = {
+	 { "DP_AUX3_DEBUG_H", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F2_CODEC_PIN_CONTROL_RESPONSE_CONNECTION_LIST_ENTRY[] = {
 	 { "CONNECTION_LIST_ENTRY", 0, 31, &umr_bitfield_default },
@@ -8625,15 +8623,15 @@ static struct umr_bitfield ixAZALIA_F2_CODEC_PIN_CONTROL_DOWN_MIX_INFO[] = {
 	 { "LEVEL_SHIFT", 3, 6, &umr_bitfield_default },
 	 { "DOWN_MIX_INHIBIT", 7, 7, &umr_bitfield_default },
 };
+static struct umr_bitfield ixAZALIA_F2_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR_DATA[] = {
+	 { "DESCRIPTOR", 0, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield ixAZALIA_F2_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR[] = {
 	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
 	 { "FORMAT_CODE", 3, 6, &umr_bitfield_default },
 	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
 	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
 	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAZALIA_F2_CODEC_PIN_CONTROL_AUDIO_DESCRIPTOR_DATA[] = {
-	 { "DESCRIPTOR", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F2_CODEC_PIN_CONTROL_MULTICHANNEL01_ENABLE[] = {
 	 { "MULTICHANNEL01_ENABLE", 0, 0, &umr_bitfield_default },
@@ -8738,49 +8736,49 @@ static struct umr_bitfield ixAZALIA_F2_CODEC_PIN_ASSOCIATION_INFO[] = {
 static struct umr_bitfield ixAZALIA_F2_CODEC_PIN_CONTROL_DIGITAL_OUTPUT_STATUS[] = {
 	 { "OUTPUT_ACTIVE", 0, 0, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX3_DEBUG_I[] = {
-	 { "DP_AUX3_DEBUG_I", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_RESPONSE_HBR[] = {
 	 { "HBR_CAPABLE", 0, 0, &umr_bitfield_default },
 	 { "HBR_ENABLE", 4, 4, &umr_bitfield_default },
 };
+static struct umr_bitfield ixDP_AUX3_DEBUG_I[] = {
+	 { "DP_AUX3_DEBUG_I", 0, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield ixDP_AUX3_DEBUG_J[] = {
 	 { "DP_AUX3_DEBUG_J", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDP_AUX3_DEBUG_K[] = {
-	 { "DP_AUX3_DEBUG_K", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_SINK_INFO0[] = {
 	 { "MANUFACTURER_ID", 0, 15, &umr_bitfield_default },
 	 { "PRODUCT_ID", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX3_DEBUG_L[] = {
-	 { "DP_AUX3_DEBUG_L", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixDP_AUX3_DEBUG_K[] = {
+	 { "DP_AUX3_DEBUG_K", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_SINK_INFO1[] = {
 	 { "SINK_DESCRIPTION_LEN", 0, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX3_DEBUG_M[] = {
-	 { "DP_AUX3_DEBUG_M", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixDP_AUX3_DEBUG_L[] = {
+	 { "DP_AUX3_DEBUG_L", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_SINK_INFO2[] = {
 	 { "PORT_ID0", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX3_DEBUG_N[] = {
-	 { "DP_AUX3_DEBUG_N", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixDP_AUX3_DEBUG_M[] = {
+	 { "DP_AUX3_DEBUG_M", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_SINK_INFO3[] = {
 	 { "PORT_ID1", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX3_DEBUG_O[] = {
-	 { "DP_AUX3_DEBUG_O", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixDP_AUX3_DEBUG_N[] = {
+	 { "DP_AUX3_DEBUG_N", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_SINK_INFO4[] = {
 	 { "DESCRIPTION0", 0, 7, &umr_bitfield_default },
 	 { "DESCRIPTION1", 8, 15, &umr_bitfield_default },
 	 { "DESCRIPTION2", 16, 23, &umr_bitfield_default },
 	 { "DESCRIPTION3", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDP_AUX3_DEBUG_O[] = {
+	 { "DP_AUX3_DEBUG_O", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmXDMA_MC_PCIE_CLIENT_CONFIG[] = {
 	 { "XDMA_MC_PCIE_SWAP", 8, 9, &umr_bitfield_default },
@@ -8853,14 +8851,14 @@ static struct umr_bitfield mmXDMA_TEST_DEBUG_INDEX[] = {
 static struct umr_bitfield mmXDMA_TEST_DEBUG_DATA[] = {
 	 { "XDMA_TEST_DEBUG_DATA", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX3_DEBUG_P[] = {
-	 { "DP_AUX3_DEBUG_P", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_SINK_INFO5[] = {
 	 { "DESCRIPTION4", 0, 7, &umr_bitfield_default },
 	 { "DESCRIPTION5", 8, 15, &umr_bitfield_default },
 	 { "DESCRIPTION6", 16, 23, &umr_bitfield_default },
 	 { "DESCRIPTION7", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDP_AUX3_DEBUG_P[] = {
+	 { "DP_AUX3_DEBUG_P", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F2_CODEC_PIN_PARAMETER_AUDIO_WIDGET_CAPABILITIES[] = {
 	 { "AUDIO_CHANNEL_CAPABILITIES", 0, 0, &umr_bitfield_default },
@@ -8918,35 +8916,6 @@ static struct umr_bitfield mmXDMA_AON_TEST_DEBUG_INDEX[] = {
 static struct umr_bitfield mmXDMA_AON_TEST_DEBUG_DATA[] = {
 	 { "XDMA_AON_TEST_DEBUG_DATA", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixSEQ04[] = {
-	 { "SEQ_256K", 1, 1, &umr_bitfield_default },
-	 { "SEQ_ODDEVEN", 2, 2, &umr_bitfield_default },
-	 { "SEQ_CHAIN", 3, 3, &umr_bitfield_default },
-};
-static struct umr_bitfield ixATTR04[] = {
-	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDCIO_DEBUG4[] = {
-	 { "DCIO_DEBUG4", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield mmGLOBAL_STATUS[] = {
-	 { "FLUSH_STATUS", 1, 1, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAUDIO_DESCRIPTOR3[] = {
-	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
-	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
-	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
-	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAZALIA_CRC0_CHANNEL4[] = {
-	 { "CRC_CHANNEL4", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAZALIA_CUMULATIVE_REQUEST_COUNT[] = {
-	 { "AZALIA_CUMULATIVE_REQUEST_COUNT", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAZALIA_F2_CODEC_PIN_CONTROL_PORTID1[] = {
-	 { "PORTID", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_CONTROL_DIGITAL_CONVERTER[] = {
 	 { "DIGEN", 0, 0, &umr_bitfield_default },
 	 { "V", 1, 1, &umr_bitfield_default },
@@ -8959,8 +8928,34 @@ static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_CONTROL_DIGITAL_CONVERTER
 	 { "CC", 8, 14, &umr_bitfield_default },
 	 { "KEEPALIVE", 23, 23, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX4_DEBUG_A[] = {
-	 { "DP_AUX4_DEBUG_A", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixAZALIA_F2_CODEC_PIN_CONTROL_PORTID1[] = {
+	 { "PORTID", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixAZALIA_CUMULATIVE_REQUEST_COUNT[] = {
+	 { "AZALIA_CUMULATIVE_REQUEST_COUNT", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixAZALIA_CRC0_CHANNEL4[] = {
+	 { "CRC_CHANNEL4", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixAUDIO_DESCRIPTOR3[] = {
+	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
+	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
+	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
+	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmGLOBAL_STATUS[] = {
+	 { "FLUSH_STATUS", 1, 1, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDCIO_DEBUG4[] = {
+	 { "DCIO_DEBUG4", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixATTR04[] = {
+	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
+};
+static struct umr_bitfield ixSEQ04[] = {
+	 { "SEQ_256K", 1, 1, &umr_bitfield_default },
+	 { "SEQ_ODDEVEN", 2, 2, &umr_bitfield_default },
+	 { "SEQ_CHAIN", 3, 3, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_SINK_INFO6[] = {
 	 { "DESCRIPTION8", 0, 7, &umr_bitfield_default },
@@ -8968,8 +8963,8 @@ static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_SINK_INFO6[] = {
 	 { "DESCRIPTION10", 16, 23, &umr_bitfield_default },
 	 { "DESCRIPTION11", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX4_DEBUG_B[] = {
-	 { "DP_AUX4_DEBUG_B", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixDP_AUX4_DEBUG_A[] = {
+	 { "DP_AUX4_DEBUG_A", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_SINK_INFO7[] = {
 	 { "DESCRIPTION12", 0, 7, &umr_bitfield_default },
@@ -8977,12 +8972,15 @@ static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_SINK_INFO7[] = {
 	 { "DESCRIPTION14", 16, 23, &umr_bitfield_default },
 	 { "DESCRIPTION15", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDP_AUX4_DEBUG_C[] = {
-	 { "DP_AUX4_DEBUG_C", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixDP_AUX4_DEBUG_B[] = {
+	 { "DP_AUX4_DEBUG_B", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_SINK_INFO8[] = {
 	 { "DESCRIPTION16", 0, 7, &umr_bitfield_default },
 	 { "DESCRIPTION17", 8, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDP_AUX4_DEBUG_C[] = {
+	 { "DP_AUX4_DEBUG_C", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixDP_AUX4_DEBUG_D[] = {
 	 { "DP_AUX4_DEBUG_D", 0, 31, &umr_bitfield_default },
@@ -9261,16 +9259,14 @@ static struct umr_bitfield ixDP_AUX4_DEBUG_O[] = {
 static struct umr_bitfield ixDP_AUX4_DEBUG_P[] = {
 	 { "DP_AUX4_DEBUG_P", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCRT05[] = {
-	 { "H_SYNC_END", 0, 4, &umr_bitfield_default },
-	 { "H_SYNC_SKEW", 5, 6, &umr_bitfield_default },
-	 { "H_BLANK_END_B5", 7, 7, &umr_bitfield_default },
+static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_PARAMETER_STREAM_FORMATS[] = {
+	 { "STREAM_FORMATS", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixATTR05[] = {
-	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
+static struct umr_bitfield ixAZALIA_CRC0_CHANNEL5[] = {
+	 { "CRC_CHANNEL5", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDCIO_DEBUG5[] = {
-	 { "DCIO_DEBUG5", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixAZALIA_STREAM_DEBUG[] = {
+	 { "STREAM_DEBUG_DATA", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAUDIO_DESCRIPTOR4[] = {
 	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
@@ -9278,14 +9274,16 @@ static struct umr_bitfield ixAUDIO_DESCRIPTOR4[] = {
 	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
 	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_STREAM_DEBUG[] = {
-	 { "STREAM_DEBUG_DATA", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixDCIO_DEBUG5[] = {
+	 { "DCIO_DEBUG5", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_CRC0_CHANNEL5[] = {
-	 { "CRC_CHANNEL5", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixATTR05[] = {
+	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_PARAMETER_STREAM_FORMATS[] = {
-	 { "STREAM_FORMATS", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixCRT05[] = {
+	 { "H_SYNC_END", 0, 4, &umr_bitfield_default },
+	 { "H_SYNC_SKEW", 5, 6, &umr_bitfield_default },
+	 { "H_BLANK_END_B5", 7, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_HOT_PLUG_CONTROL[] = {
 	 { "CLOCK_GATING_DISABLE", 0, 0, &umr_bitfield_default },
@@ -9355,14 +9353,15 @@ static struct umr_bitfield ixAZALIA_F0_PIN_CONTROL_CODEC_CS_OVERRIDE_6[] = {
 	 { "IEC_60958_CS_CHANNEL_NUMBER_2", 0, 3, &umr_bitfield_default },
 	 { "IEC_60958_CS_CHANNEL_NUMBER_3", 4, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCRT06[] = {
-	 { "V_TOTAL", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_PARAMETER_SUPPORTED_SIZE_RATES[] = {
+	 { "AUDIO_RATE_CAPABILITIES", 0, 11, &umr_bitfield_default },
+	 { "AUDIO_BIT_CAPABILITIES", 16, 20, &umr_bitfield_default },
 };
-static struct umr_bitfield ixATTR06[] = {
-	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
+static struct umr_bitfield mmOUTPUT_STREAM_PAYLOAD_CAPABILITY[] = {
+	 { "OUTSTRMPAY", 0, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDCIO_DEBUG6[] = {
-	 { "DCIO_DEBUG6", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixAZALIA_CRC0_CHANNEL6[] = {
+	 { "CRC_CHANNEL6", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAUDIO_DESCRIPTOR5[] = {
 	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
@@ -9370,15 +9369,14 @@ static struct umr_bitfield ixAUDIO_DESCRIPTOR5[] = {
 	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
 	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_CRC0_CHANNEL6[] = {
-	 { "CRC_CHANNEL6", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixDCIO_DEBUG6[] = {
+	 { "DCIO_DEBUG6", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmOUTPUT_STREAM_PAYLOAD_CAPABILITY[] = {
-	 { "OUTSTRMPAY", 0, 15, &umr_bitfield_default },
+static struct umr_bitfield ixATTR06[] = {
+	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_PARAMETER_SUPPORTED_SIZE_RATES[] = {
-	 { "AUDIO_RATE_CAPABILITIES", 0, 11, &umr_bitfield_default },
-	 { "AUDIO_BIT_CAPABILITIES", 16, 20, &umr_bitfield_default },
+static struct umr_bitfield ixCRT06[] = {
+	 { "V_TOTAL", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F0_PIN_CONTROL_CODEC_CS_OVERRIDE_7[] = {
 	 { "IEC_60958_CS_CHANNEL_NUMBER_4", 0, 3, &umr_bitfield_default },
@@ -9394,6 +9392,25 @@ static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_ASSOCIATION_INFO[] = {
 static struct umr_bitfield ixAZALIA_F0_CODEC_PIN_CONTROL_DIGITAL_OUTPUT_STATUS[] = {
 	 { "OUTPUT_ACTIVE", 0, 0, &umr_bitfield_default },
 };
+static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_STRIPE_CONTROL[] = {
+	 { "STRIPE_CONTROL", 0, 1, &umr_bitfield_default },
+	 { "STRIPE_CAPABILITY", 20, 22, &umr_bitfield_default },
+};
+static struct umr_bitfield ixAZALIA_CRC0_CHANNEL7[] = {
+	 { "CRC_CHANNEL7", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixAUDIO_DESCRIPTOR6[] = {
+	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
+	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
+	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
+	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDCIO_DEBUG7[] = {
+	 { "DCIO_DEBUG7", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixATTR07[] = {
+	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
+};
 static struct umr_bitfield ixCRT07[] = {
 	 { "V_TOTAL_B8", 0, 0, &umr_bitfield_default },
 	 { "V_DISP_END_B8", 1, 1, &umr_bitfield_default },
@@ -9403,25 +9420,6 @@ static struct umr_bitfield ixCRT07[] = {
 	 { "V_TOTAL_B9", 5, 5, &umr_bitfield_default },
 	 { "V_DISP_END_B9", 6, 6, &umr_bitfield_default },
 	 { "V_SYNC_START_B9", 7, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixATTR07[] = {
-	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDCIO_DEBUG7[] = {
-	 { "DCIO_DEBUG7", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAUDIO_DESCRIPTOR6[] = {
-	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
-	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
-	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
-	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAZALIA_CRC0_CHANNEL7[] = {
-	 { "CRC_CHANNEL7", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_STRIPE_CONTROL[] = {
-	 { "STRIPE_CONTROL", 0, 1, &umr_bitfield_default },
-	 { "STRIPE_CAPABILITY", 20, 22, &umr_bitfield_default },
 };
 static struct umr_bitfield ixDP_AUX5_DEBUG_A[] = {
 	 { "DP_AUX5_DEBUG_A", 0, 31, &umr_bitfield_default },
@@ -9471,15 +9469,8 @@ static struct umr_bitfield ixVGADCC_DBG_DCCIF_C[] = {
 static struct umr_bitfield ixDP_AUX5_DEBUG_O[] = {
 	 { "DP_AUX5_DEBUG_O", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCRT08[] = {
-	 { "ROW_SCAN_START", 0, 4, &umr_bitfield_default },
-	 { "BYTE_PAN", 5, 6, &umr_bitfield_default },
-};
-static struct umr_bitfield ixATTR08[] = {
-	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDCIO_DEBUG8[] = {
-	 { "DCIO_DEBUG8", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_CONTROL_RAMP_RATE[] = {
+	 { "RAMP_RATE", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield mmINTERRUPT_CONTROL[] = {
 	 { "OUTPUT_STREAM_0_INTERRUPT_ENABLE", 0, 0, &umr_bitfield_default },
@@ -9491,8 +9482,15 @@ static struct umr_bitfield mmINTERRUPT_CONTROL[] = {
 	 { "CONTROLLER_INTERRUPT_ENABLE", 30, 30, &umr_bitfield_default },
 	 { "GLOBAL_INTERRUPT_ENABLE", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_CONTROL_RAMP_RATE[] = {
-	 { "RAMP_RATE", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield ixDCIO_DEBUG8[] = {
+	 { "DCIO_DEBUG8", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixATTR08[] = {
+	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
+};
+static struct umr_bitfield ixCRT08[] = {
+	 { "ROW_SCAN_START", 0, 4, &umr_bitfield_default },
+	 { "BYTE_PAN", 5, 6, &umr_bitfield_default },
 };
 static struct umr_bitfield ixDP_AUX6_DEBUG_A[] = {
 	 { "DP_AUX6_DEBUG_A", 0, 31, &umr_bitfield_default },
@@ -9545,17 +9543,20 @@ static struct umr_bitfield ixDP_AUX6_DEBUG_N[] = {
 static struct umr_bitfield ixDP_AUX6_DEBUG_O[] = {
 	 { "DP_AUX6_DEBUG_O", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCRT09[] = {
-	 { "MAX_ROW_SCAN", 0, 4, &umr_bitfield_default },
-	 { "V_BLANK_START_B9", 5, 5, &umr_bitfield_default },
-	 { "LINE_CMP_B9", 6, 6, &umr_bitfield_default },
-	 { "DOUBLE_CHAR_HEIGHT", 7, 7, &umr_bitfield_default },
+static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_CONTROL_GTC_EMBEDDING[] = {
+	 { "PRESENTATION_TIME_EMBEDDING_ENABLE", 0, 0, &umr_bitfield_default },
+	 { "PRESENTATION_TIME_OFFSET_CHANGED", 1, 1, &umr_bitfield_default },
+	 { "CLEAR_GTC_COUNTER_MIN_MAX_DELTA", 2, 2, &umr_bitfield_default },
+	 { "PRESENTATION_TIME_EMBEDDING_GROUP", 4, 6, &umr_bitfield_default },
 };
-static struct umr_bitfield ixATTR09[] = {
-	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
+static struct umr_bitfield ixIDDCCIF02_DBG_DCCIF_C[] = {
+	 { "DBG_DCCIF_C", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDCIO_DEBUG9[] = {
-	 { "DCIO_DEBUG9", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixAUDIO_DESCRIPTOR8[] = {
+	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
+	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
+	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
+	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmINTERRUPT_STATUS[] = {
 	 { "OUTPUT_STREAM_0_INTERRUPT_STATUS", 0, 0, &umr_bitfield_default },
@@ -9567,20 +9568,17 @@ static struct umr_bitfield mmINTERRUPT_STATUS[] = {
 	 { "CONTROLLER_INTERRUPT_STATUS", 30, 30, &umr_bitfield_default },
 	 { "GLOBAL_INTERRUPT_STATUS", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAUDIO_DESCRIPTOR8[] = {
-	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
-	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
-	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
-	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
+static struct umr_bitfield ixDCIO_DEBUG9[] = {
+	 { "DCIO_DEBUG9", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixIDDCCIF02_DBG_DCCIF_C[] = {
-	 { "DBG_DCCIF_C", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixATTR09[] = {
+	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_CONTROL_GTC_EMBEDDING[] = {
-	 { "PRESENTATION_TIME_EMBEDDING_ENABLE", 0, 0, &umr_bitfield_default },
-	 { "PRESENTATION_TIME_OFFSET_CHANGED", 1, 1, &umr_bitfield_default },
-	 { "CLEAR_GTC_COUNTER_MIN_MAX_DELTA", 2, 2, &umr_bitfield_default },
-	 { "PRESENTATION_TIME_EMBEDDING_GROUP", 4, 6, &umr_bitfield_default },
+static struct umr_bitfield ixCRT09[] = {
+	 { "MAX_ROW_SCAN", 0, 4, &umr_bitfield_default },
+	 { "V_BLANK_START_B9", 5, 5, &umr_bitfield_default },
+	 { "LINE_CMP_B9", 6, 6, &umr_bitfield_default },
+	 { "DOUBLE_CHAR_HEIGHT", 7, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield ixDP_AUX1_DEBUG_Q[] = {
 	 { "DP_AUX1_DEBUG_Q", 0, 31, &umr_bitfield_default },
@@ -9606,15 +9604,13 @@ static struct umr_bitfield ixDP_AUX6_DEBUG_P[] = {
 static struct umr_bitfield ixDP_AUX6_DEBUG_Q[] = {
 	 { "DP_AUX6_DEBUG_Q", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCRT0A[] = {
-	 { "CURSOR_START", 0, 4, &umr_bitfield_default },
-	 { "CURSOR_DISABLE", 5, 5, &umr_bitfield_default },
+static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_CONTROL_GTC_OFFSET_DEBUG[] = {
+	 { "PRESENTATION_TIME_OFFSET_DEBUG", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixATTR0A[] = {
-	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDCIO_DEBUGA[] = {
-	 { "DCIO_DEBUGA", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixDMIF_DEBUG02_CORE1[] = {
+	 { "DB_DATA", 0, 15, &umr_bitfield_default },
+	 { "MC_RDRET_COUNT_EN", 16, 16, &umr_bitfield_default },
+	 { "MC_RDRET_COUNTER", 17, 27, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAUDIO_DESCRIPTOR9[] = {
 	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
@@ -9622,26 +9618,18 @@ static struct umr_bitfield ixAUDIO_DESCRIPTOR9[] = {
 	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
 	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDMIF_DEBUG02_CORE1[] = {
-	 { "DB_DATA", 0, 15, &umr_bitfield_default },
-	 { "MC_RDRET_COUNT_EN", 16, 16, &umr_bitfield_default },
-	 { "MC_RDRET_COUNTER", 17, 27, &umr_bitfield_default },
+static struct umr_bitfield ixDCIO_DEBUGA[] = {
+	 { "DCIO_DEBUGA", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_CONTROL_GTC_OFFSET_DEBUG[] = {
-	 { "PRESENTATION_TIME_OFFSET_DEBUG", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixCRT0B[] = {
-	 { "CURSOR_END", 0, 4, &umr_bitfield_default },
-	 { "CURSOR_SKEW", 5, 6, &umr_bitfield_default },
-};
-static struct umr_bitfield ixATTR0B[] = {
+static struct umr_bitfield ixATTR0A[] = {
 	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDCIO_DEBUGB[] = {
-	 { "DCIO_DEBUGB", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixCRT0A[] = {
+	 { "CURSOR_START", 0, 4, &umr_bitfield_default },
+	 { "CURSOR_DISABLE", 5, 5, &umr_bitfield_default },
 };
-static struct umr_bitfield ixSINK_DESCRIPTION6[] = {
-	 { "DESCRIPTION", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield ixIDDCCIF04_DBG_DCCIF_E[] = {
+	 { "DBG_DCCIF_E", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAUDIO_DESCRIPTOR10[] = {
 	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
@@ -9649,33 +9637,43 @@ static struct umr_bitfield ixAUDIO_DESCRIPTOR10[] = {
 	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
 	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixIDDCCIF04_DBG_DCCIF_E[] = {
-	 { "DBG_DCCIF_E", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixSINK_DESCRIPTION6[] = {
+	 { "DESCRIPTION", 0, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCRT0C[] = {
-	 { "DISP_START", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield ixDCIO_DEBUGB[] = {
+	 { "DCIO_DEBUGB", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixATTR0C[] = {
+static struct umr_bitfield ixATTR0B[] = {
 	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDCIO_DEBUGC[] = {
-	 { "DCIO_DEBUGC", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixCRT0B[] = {
+	 { "CURSOR_END", 0, 4, &umr_bitfield_default },
+	 { "CURSOR_SKEW", 5, 6, &umr_bitfield_default },
+};
+static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_GTC_COUNTER_DELTA[] = {
+	 { "GTC_COUNTER_DELTA", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixIDDCCIF05_DBG_DCCIF_F[] = {
+	 { "DBG_DCCIF_F", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmWALL_CLOCK_COUNTER[] = {
+	 { "WALL_CLOCK_COUNTER", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixSINK_DESCRIPTION7[] = {
+	 { "DESCRIPTION", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield ixMVP_DEBUG_12[] = {
 	 { "IDEC_MVP_DATA_A_H", 0, 0, &umr_bitfield_default },
 	 { "IDEC_MVP_DATA_A", 1, 24, &umr_bitfield_default },
 };
-static struct umr_bitfield ixSINK_DESCRIPTION7[] = {
-	 { "DESCRIPTION", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield ixDCIO_DEBUGC[] = {
+	 { "DCIO_DEBUGC", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmWALL_CLOCK_COUNTER[] = {
-	 { "WALL_CLOCK_COUNTER", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixATTR0C[] = {
+	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
 };
-static struct umr_bitfield ixIDDCCIF05_DBG_DCCIF_F[] = {
-	 { "DBG_DCCIF_F", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_GTC_COUNTER_DELTA[] = {
-	 { "GTC_COUNTER_DELTA", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixCRT0C[] = {
+	 { "DISP_START", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield mmVGA_RENDER_CONTROL[] = {
 	 { "VGA_BLINK_RATE", 0, 4, &umr_bitfield_default },
@@ -9763,14 +9761,17 @@ static struct umr_bitfield mmD2VGA_CONTROL[] = {
 static struct umr_bitfield mmVGA_HW_DEBUG[] = {
 	 { "VGA_HW_DEBUG", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCRT0D[] = {
-	 { "DISP_START", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_GTC_COUNTER_DELTA_MIN[] = {
+	 { "GTC_COUNTER_DELTA_MIN", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixATTR0D[] = {
-	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
+static struct umr_bitfield ixAUDIO_DESCRIPTOR12[] = {
+	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
+	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
+	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
+	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDCIO_DEBUGD[] = {
-	 { "DCIO_DEBUGD", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixSINK_DESCRIPTION8[] = {
+	 { "DESCRIPTION", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield ixMVP_DEBUG_13[] = {
 	 { "IDED_MVP_DATA_B_H", 0, 0, &umr_bitfield_default },
@@ -9779,17 +9780,14 @@ static struct umr_bitfield ixMVP_DEBUG_13[] = {
 	 { "IDED_READ_FIFO_ENTRY_DE_B", 26, 26, &umr_bitfield_default },
 	 { "IDED_WRITE_ADD_B", 27, 29, &umr_bitfield_default },
 };
-static struct umr_bitfield ixSINK_DESCRIPTION8[] = {
-	 { "DESCRIPTION", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield ixDCIO_DEBUGD[] = {
+	 { "DCIO_DEBUGD", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAUDIO_DESCRIPTOR12[] = {
-	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
-	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
-	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
-	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
+static struct umr_bitfield ixATTR0D[] = {
+	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_GTC_COUNTER_DELTA_MIN[] = {
-	 { "GTC_COUNTER_DELTA_MIN", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixCRT0D[] = {
+	 { "DISP_START", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield mmVGA_STATUS[] = {
 	 { "VGA_MEM_ACCESS_STATUS", 0, 0, &umr_bitfield_default },
@@ -9864,14 +9862,25 @@ static struct umr_bitfield mmVGA41_PPLL_FB_DIV[] = {
 	 { "VGA41_PPLL_FB_DIV_FRACTION_CNTL", 4, 5, &umr_bitfield_default },
 	 { "VGA41_PPLL_FB_DIV", 16, 26, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCRT0E[] = {
-	 { "CURSOR_LOC_HI", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_GTC_COUNTER_DELTA_MAX[] = {
+	 { "GTC_COUNTER_DELTA_MAX", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixATTR0E[] = {
-	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
+static struct umr_bitfield mmSTREAM_SYNCHRONIZATION[] = {
+	 { "STREAM_0_SYNCHRONIZATION", 0, 0, &umr_bitfield_default },
+	 { "STREAM_1_SYNCHRONIZATION", 1, 1, &umr_bitfield_default },
+	 { "STREAM_2_SYNCHRONIZATION", 2, 2, &umr_bitfield_default },
+	 { "STREAM_3_SYNCHRONIZATION", 3, 3, &umr_bitfield_default },
+	 { "STREAM_4_SYNCHRONIZATION", 4, 4, &umr_bitfield_default },
+	 { "STREAM_5_SYNCHRONIZATION", 5, 5, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDCIO_DEBUGE[] = {
-	 { "DCIO_DIGA_DEBUG", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixAUDIO_DESCRIPTOR13[] = {
+	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
+	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
+	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
+	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixSINK_DESCRIPTION9[] = {
+	 { "DESCRIPTION", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield ixMVP_DEBUG_14[] = {
 	 { "IDEE_READ_ADD", 0, 2, &umr_bitfield_default },
@@ -9890,25 +9899,14 @@ static struct umr_bitfield ixMVP_DEBUG_14[] = {
 	 { "IDEE_CRTC1_CNTL_CAPTURE_START_A", 19, 19, &umr_bitfield_default },
 	 { "IDEE_CRC_PHASE", 20, 20, &umr_bitfield_default },
 };
-static struct umr_bitfield ixSINK_DESCRIPTION9[] = {
-	 { "DESCRIPTION", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield ixDCIO_DEBUGE[] = {
+	 { "DCIO_DIGA_DEBUG", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixAUDIO_DESCRIPTOR13[] = {
-	 { "MAX_CHANNELS", 0, 2, &umr_bitfield_default },
-	 { "SUPPORTED_FREQUENCIES", 8, 15, &umr_bitfield_default },
-	 { "DESCRIPTOR_BYTE_2", 16, 23, &umr_bitfield_default },
-	 { "SUPPORTED_FREQUENCIES_STEREO", 24, 31, &umr_bitfield_default },
+static struct umr_bitfield ixATTR0E[] = {
+	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
 };
-static struct umr_bitfield mmSTREAM_SYNCHRONIZATION[] = {
-	 { "STREAM_0_SYNCHRONIZATION", 0, 0, &umr_bitfield_default },
-	 { "STREAM_1_SYNCHRONIZATION", 1, 1, &umr_bitfield_default },
-	 { "STREAM_2_SYNCHRONIZATION", 2, 2, &umr_bitfield_default },
-	 { "STREAM_3_SYNCHRONIZATION", 3, 3, &umr_bitfield_default },
-	 { "STREAM_4_SYNCHRONIZATION", 4, 4, &umr_bitfield_default },
-	 { "STREAM_5_SYNCHRONIZATION", 5, 5, &umr_bitfield_default },
-};
-static struct umr_bitfield ixAZALIA_F0_CODEC_CONVERTER_GTC_COUNTER_DELTA_MAX[] = {
-	 { "GTC_COUNTER_DELTA_MAX", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixCRT0E[] = {
+	 { "CURSOR_LOC_HI", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield mmVGA25_PPLL_POST_DIV[] = {
 	 { "VGA25_PPLL_POST_DIV_PIXCLK", 0, 6, &umr_bitfield_default },
@@ -9946,42 +9944,35 @@ static struct umr_bitfield mmVGA41_PPLL_ANALOG[] = {
 	 { "VGA41_PPLL_LF_MODE", 12, 20, &umr_bitfield_default },
 	 { "VGA41_PPLL_IBIAS", 24, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield mmCRTC8_DATA[] = {
+	 { "VCRTC_DATA", 0, 7, &umr_bitfield_default },
+};
 static struct umr_bitfield mmCRTC8_IDX[] = {
 	 { "VCRTC_IDX", 0, 5, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCRTC8_DATA[] = {
-	 { "VCRTC_DATA", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield mmGENFC_WT[] = {
+	 { "VSYNC_SEL_W", 3, 3, &umr_bitfield_default },
 };
 static struct umr_bitfield mmGENS1[] = {
 	 { "NO_DISPLAY", 0, 0, &umr_bitfield_default },
 	 { "VGA_VSTATUS", 3, 3, &umr_bitfield_default },
 	 { "PIXEL_READ_BACK", 4, 5, &umr_bitfield_default },
 };
-static struct umr_bitfield mmGENFC_WT[] = {
-	 { "VSYNC_SEL_W", 3, 3, &umr_bitfield_default },
-};
-static struct umr_bitfield ixCRT0F[] = {
-	 { "CURSOR_LOC_LO", 0, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield ixATTR0F[] = {
-	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDCIO_DEBUGF[] = {
-	 { "DCIO_DIGB_DEBUG", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield ixSINK_DESCRIPTION10[] = {
+	 { "DESCRIPTION", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield ixMVP_DEBUG_15[] = {
 	 { "IDEF_MVP_ASYNC_FIFO_WEN", 0, 0, &umr_bitfield_default },
 	 { "IDEF_MVP_ASYNC_FIFO_WDATA", 4, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixSINK_DESCRIPTION10[] = {
-	 { "DESCRIPTION", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield ixDCIO_DEBUGF[] = {
+	 { "DCIO_DIGB_DEBUG", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmGENS0[] = {
-	 { "SENSE_SWITCH", 4, 4, &umr_bitfield_default },
-	 { "CRT_INTR", 7, 7, &umr_bitfield_default },
+static struct umr_bitfield ixATTR0F[] = {
+	 { "ATTR_PAL", 0, 5, &umr_bitfield_default },
 };
-static struct umr_bitfield mmGENENB[] = {
-	 { "BLK_IO_BASE", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield ixCRT0F[] = {
+	 { "CURSOR_LOC_LO", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield mmGENMO_WT[] = {
 	 { "GENMO_MONO_ADDRESS_B", 0, 0, &umr_bitfield_default },
@@ -9990,6 +9981,13 @@ static struct umr_bitfield mmGENMO_WT[] = {
 	 { "ODD_EVEN_MD_PGSEL", 5, 5, &umr_bitfield_default },
 	 { "VGA_HSYNC_POL", 6, 6, &umr_bitfield_default },
 	 { "VGA_VSYNC_POL", 7, 7, &umr_bitfield_default },
+};
+static struct umr_bitfield mmGENENB[] = {
+	 { "BLK_IO_BASE", 0, 7, &umr_bitfield_default },
+};
+static struct umr_bitfield mmGENS0[] = {
+	 { "SENSE_SWITCH", 4, 4, &umr_bitfield_default },
+	 { "CRT_INTR", 7, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield ixAZALIA_F2_CODEC_ROOT_PARAMETER_VENDOR_AND_DEVICE_ID[] = {
 	 { "AZALIA_CODEC_ROOT_PARAMETER_VENDOR_AND_DEVICE_ID", 0, 31, &umr_bitfield_default },
@@ -10000,20 +9998,26 @@ static struct umr_bitfield ixAZALIA_F2_CODEC_ROOT_PARAMETER_REVISION_ID[] = {
 static struct umr_bitfield ixAZALIA_F2_CODEC_ROOT_PARAMETER_SUBORDINATE_NODE_COUNT[] = {
 	 { "AZALIA_CODEC_ROOT_PARAMETER_SUBORDINATE_NODE_COUNT", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmDAC_MASK[] = {
-	 { "DAC_MASK", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield mmDAC_R_INDEX[] = {
+	 { "DAC_R_INDEX", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield mmSEQ8_DATA[] = {
 	 { "SEQ_DATA", 0, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield mmDAC_R_INDEX[] = {
-	 { "DAC_R_INDEX", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield mmDAC_MASK[] = {
+	 { "DAC_MASK", 0, 7, &umr_bitfield_default },
+};
+static struct umr_bitfield mmDAC_W_INDEX[] = {
+	 { "DAC_W_INDEX", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield mmGENFC_RD[] = {
 	 { "VSYNC_SEL_R", 3, 3, &umr_bitfield_default },
 };
-static struct umr_bitfield mmDAC_W_INDEX[] = {
-	 { "DAC_W_INDEX", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield mmGRPH8_DATA[] = {
+	 { "GRPH_DATA", 0, 7, &umr_bitfield_default },
+};
+static struct umr_bitfield mmGRPH8_IDX[] = {
+	 { "GRPH_IDX", 0, 3, &umr_bitfield_default },
 };
 static struct umr_bitfield mmGENMO_RD[] = {
 	 { "GENMO_MONO_ADDRESS_B", 0, 0, &umr_bitfield_default },
@@ -10022,12 +10026,6 @@ static struct umr_bitfield mmGENMO_RD[] = {
 	 { "ODD_EVEN_MD_PGSEL", 5, 5, &umr_bitfield_default },
 	 { "VGA_HSYNC_POL", 6, 6, &umr_bitfield_default },
 	 { "VGA_VSYNC_POL", 7, 7, &umr_bitfield_default },
-};
-static struct umr_bitfield mmGRPH8_IDX[] = {
-	 { "GRPH_IDX", 0, 3, &umr_bitfield_default },
-};
-static struct umr_bitfield mmGRPH8_DATA[] = {
-	 { "GRPH_DATA", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield mmD3VGA_CONTROL[] = {
 	 { "D3VGA_MODE_ENABLE", 0, 0, &umr_bitfield_default },

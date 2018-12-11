@@ -2276,10 +2276,6 @@ static struct umr_bitfield mmHDP_NONSURF_FLAGS_CLR[] = {
 static struct umr_bitfield mmHDP_SW_SEMAPHORE[] = {
 	 { "SW_SEMAPHORE", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmHDP_DEBUG0[] = {
-};
-static struct umr_bitfield mmHDP_DEBUG1[] = {
-};
 static struct umr_bitfield mmHDP_LAST_SURFACE_HIT[] = {
 	 { "LAST_SURFACE_HIT", 0, 5, &umr_bitfield_default },
 };

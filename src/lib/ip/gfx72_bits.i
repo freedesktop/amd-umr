@@ -1,3 +1,39 @@
+static struct umr_bitfield ixCLIPPER_DEBUG_REG00[] = {
+	 { "ALWAYS_ZERO", 0, 7, &umr_bitfield_default },
+	 { "clip_ga_bc_fifo_write", 8, 8, &umr_bitfield_default },
+	 { "su_clip_baryc_free", 9, 10, &umr_bitfield_default },
+	 { "clip_to_ga_fifo_write", 11, 11, &umr_bitfield_default },
+	 { "clip_to_ga_fifo_full", 12, 12, &umr_bitfield_default },
+	 { "primic_to_clprim_fifo_empty", 13, 13, &umr_bitfield_default },
+	 { "primic_to_clprim_fifo_full", 14, 14, &umr_bitfield_default },
+	 { "clip_to_outsm_fifo_empty", 15, 15, &umr_bitfield_default },
+	 { "clip_to_outsm_fifo_full", 16, 16, &umr_bitfield_default },
+	 { "vgt_to_clipp_fifo_empty", 17, 17, &umr_bitfield_default },
+	 { "vgt_to_clipp_fifo_full", 18, 18, &umr_bitfield_default },
+	 { "vgt_to_clips_fifo_empty", 19, 19, &umr_bitfield_default },
+	 { "vgt_to_clips_fifo_full", 20, 20, &umr_bitfield_default },
+	 { "clipcode_fifo_fifo_empty", 21, 21, &umr_bitfield_default },
+	 { "clipcode_fifo_full", 22, 22, &umr_bitfield_default },
+	 { "vte_out_clip_fifo_fifo_empty", 23, 23, &umr_bitfield_default },
+	 { "vte_out_clip_fifo_fifo_full", 24, 24, &umr_bitfield_default },
+	 { "vte_out_orig_fifo_fifo_empty", 25, 25, &umr_bitfield_default },
+	 { "vte_out_orig_fifo_fifo_full", 26, 26, &umr_bitfield_default },
+	 { "ccgen_to_clipcc_fifo_empty", 27, 27, &umr_bitfield_default },
+	 { "ccgen_to_clipcc_fifo_full", 28, 28, &umr_bitfield_default },
+	 { "clip_to_outsm_fifo_write", 29, 29, &umr_bitfield_default },
+	 { "vte_out_orig_fifo_fifo_write", 30, 30, &umr_bitfield_default },
+	 { "vgt_to_clipp_fifo_write", 31, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPA_SC_DEBUG_REG0[] = {
+	 { "REG0_FIELD0", 0, 1, &umr_bitfield_default },
+	 { "REG0_FIELD1", 2, 3, &umr_bitfield_default },
+};
+static struct umr_bitfield mmCSPRIV_CONNECT[] = {
+	 { "DOORBELL_OFFSET", 0, 20, &umr_bitfield_default },
+	 { "QUEUE_ID", 21, 23, &umr_bitfield_default },
+	 { "VMID", 26, 29, &umr_bitfield_default },
+	 { "UNORD_DISP", 31, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield ixWD_DEBUG_REG0[] = {
 	 { "wd_busy_extended", 0, 0, &umr_bitfield_default },
 	 { "wd_nodma_busy_extended", 1, 1, &umr_bitfield_default },
@@ -32,41 +68,40 @@ static struct umr_bitfield ixWD_DEBUG_REG0[] = {
 	 { "sclk_core_vld", 30, 30, &umr_bitfield_default },
 	 { "vgt3_active_q", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCSPRIV_CONNECT[] = {
-	 { "DOORBELL_OFFSET", 0, 20, &umr_bitfield_default },
-	 { "QUEUE_ID", 21, 23, &umr_bitfield_default },
-	 { "VMID", 26, 29, &umr_bitfield_default },
-	 { "UNORD_DISP", 31, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixPA_SC_DEBUG_REG0[] = {
-	 { "REG0_FIELD0", 0, 1, &umr_bitfield_default },
-	 { "REG0_FIELD1", 2, 3, &umr_bitfield_default },
-};
-static struct umr_bitfield ixCLIPPER_DEBUG_REG00[] = {
+static struct umr_bitfield ixCLIPPER_DEBUG_REG01[] = {
 	 { "ALWAYS_ZERO", 0, 7, &umr_bitfield_default },
-	 { "clip_ga_bc_fifo_write", 8, 8, &umr_bitfield_default },
-	 { "su_clip_baryc_free", 9, 10, &umr_bitfield_default },
-	 { "clip_to_ga_fifo_write", 11, 11, &umr_bitfield_default },
-	 { "clip_to_ga_fifo_full", 12, 12, &umr_bitfield_default },
-	 { "primic_to_clprim_fifo_empty", 13, 13, &umr_bitfield_default },
-	 { "primic_to_clprim_fifo_full", 14, 14, &umr_bitfield_default },
-	 { "clip_to_outsm_fifo_empty", 15, 15, &umr_bitfield_default },
-	 { "clip_to_outsm_fifo_full", 16, 16, &umr_bitfield_default },
-	 { "vgt_to_clipp_fifo_empty", 17, 17, &umr_bitfield_default },
-	 { "vgt_to_clipp_fifo_full", 18, 18, &umr_bitfield_default },
-	 { "vgt_to_clips_fifo_empty", 19, 19, &umr_bitfield_default },
-	 { "vgt_to_clips_fifo_full", 20, 20, &umr_bitfield_default },
-	 { "clipcode_fifo_fifo_empty", 21, 21, &umr_bitfield_default },
-	 { "clipcode_fifo_full", 22, 22, &umr_bitfield_default },
-	 { "vte_out_clip_fifo_fifo_empty", 23, 23, &umr_bitfield_default },
-	 { "vte_out_clip_fifo_fifo_full", 24, 24, &umr_bitfield_default },
-	 { "vte_out_orig_fifo_fifo_empty", 25, 25, &umr_bitfield_default },
-	 { "vte_out_orig_fifo_fifo_full", 26, 26, &umr_bitfield_default },
-	 { "ccgen_to_clipcc_fifo_empty", 27, 27, &umr_bitfield_default },
-	 { "ccgen_to_clipcc_fifo_full", 28, 28, &umr_bitfield_default },
-	 { "clip_to_outsm_fifo_write", 29, 29, &umr_bitfield_default },
-	 { "vte_out_orig_fifo_fifo_write", 30, 30, &umr_bitfield_default },
-	 { "vgt_to_clipp_fifo_write", 31, 31, &umr_bitfield_default },
+	 { "clip_extra_bc_valid", 8, 10, &umr_bitfield_default },
+	 { "clip_vert_vte_valid", 11, 13, &umr_bitfield_default },
+	 { "clip_to_outsm_vertex_deallocate", 14, 16, &umr_bitfield_default },
+	 { "clip_to_outsm_deallocate_slot", 17, 19, &umr_bitfield_default },
+	 { "clip_to_outsm_null_primitive", 20, 20, &umr_bitfield_default },
+	 { "vte_positions_vte_clip_vte_naninf_kill_2", 21, 21, &umr_bitfield_default },
+	 { "vte_positions_vte_clip_vte_naninf_kill_1", 22, 22, &umr_bitfield_default },
+	 { "vte_positions_vte_clip_vte_naninf_kill_0", 23, 23, &umr_bitfield_default },
+	 { "vte_out_clip_rd_extra_bc_valid", 24, 24, &umr_bitfield_default },
+	 { "vte_out_clip_rd_vte_naninf_kill", 25, 25, &umr_bitfield_default },
+	 { "vte_out_clip_rd_vertex_store_indx", 26, 27, &umr_bitfield_default },
+	 { "clip_ga_bc_fifo_write", 28, 28, &umr_bitfield_default },
+	 { "clip_to_ga_fifo_write", 29, 29, &umr_bitfield_default },
+	 { "vte_out_clip_fifo_fifo_advanceread", 30, 30, &umr_bitfield_default },
+	 { "vte_out_clip_fifo_fifo_empty", 31, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixPA_SC_DEBUG_REG1[] = {
+	 { "REG1_FIELD0", 0, 1, &umr_bitfield_default },
+	 { "REG1_FIELD1", 2, 3, &umr_bitfield_default },
+};
+static struct umr_bitfield ixGDS_DEBUG_REG1[] = {
+	 { "tag_hit", 0, 0, &umr_bitfield_default },
+	 { "tag_miss", 1, 1, &umr_bitfield_default },
+	 { "pixel_addr", 2, 16, &umr_bitfield_default },
+	 { "pixel_vld", 17, 17, &umr_bitfield_default },
+	 { "data_ready", 18, 18, &umr_bitfield_default },
+	 { "awaiting_data", 19, 19, &umr_bitfield_default },
+	 { "addr_fifo_full", 20, 20, &umr_bitfield_default },
+	 { "addr_fifo_empty", 21, 21, &umr_bitfield_default },
+	 { "buffer_loaded", 22, 22, &umr_bitfield_default },
+	 { "buffer_invalid", 23, 23, &umr_bitfield_default },
+	 { "spare", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixWD_DEBUG_REG1[] = {
 	 { "grbm_fifo_empty", 0, 0, &umr_bitfield_default },
@@ -91,40 +126,25 @@ static struct umr_bitfield ixWD_DEBUG_REG1[] = {
 	 { "rbiu_dr_fifo_empty", 30, 30, &umr_bitfield_default },
 	 { "rbiu_dr_fifo_full", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixGDS_DEBUG_REG1[] = {
-	 { "tag_hit", 0, 0, &umr_bitfield_default },
-	 { "tag_miss", 1, 1, &umr_bitfield_default },
-	 { "pixel_addr", 2, 16, &umr_bitfield_default },
-	 { "pixel_vld", 17, 17, &umr_bitfield_default },
-	 { "data_ready", 18, 18, &umr_bitfield_default },
-	 { "awaiting_data", 19, 19, &umr_bitfield_default },
-	 { "addr_fifo_full", 20, 20, &umr_bitfield_default },
-	 { "addr_fifo_empty", 21, 21, &umr_bitfield_default },
-	 { "buffer_loaded", 22, 22, &umr_bitfield_default },
-	 { "buffer_invalid", 23, 23, &umr_bitfield_default },
-	 { "spare", 24, 31, &umr_bitfield_default },
+static struct umr_bitfield ixCLIPPER_DEBUG_REG16[] = {
+	 { "sm0_prim_end_state", 0, 6, &umr_bitfield_default },
+	 { "sm0_ps_expand", 7, 7, &umr_bitfield_default },
+	 { "sm0_clip_vert_cnt", 8, 12, &umr_bitfield_default },
+	 { "sm0_vertex_clip_cnt", 13, 17, &umr_bitfield_default },
+	 { "sm0_inv_to_clip_data_valid_1", 18, 18, &umr_bitfield_default },
+	 { "sm0_inv_to_clip_data_valid_0", 19, 19, &umr_bitfield_default },
+	 { "sm0_current_state", 20, 26, &umr_bitfield_default },
+	 { "sm0_clip_to_clipga_clip_to_outsm_cnt_eq0", 27, 27, &umr_bitfield_default },
+	 { "sm0_clip_to_outsm_fifo_full", 28, 28, &umr_bitfield_default },
+	 { "sm0_highest_priority_seq", 29, 29, &umr_bitfield_default },
+	 { "sm0_outputcliptoclipga_0", 30, 30, &umr_bitfield_default },
+	 { "sm0_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixPA_SC_DEBUG_REG1[] = {
-	 { "REG1_FIELD0", 0, 1, &umr_bitfield_default },
-	 { "REG1_FIELD1", 2, 3, &umr_bitfield_default },
-};
-static struct umr_bitfield ixCLIPPER_DEBUG_REG01[] = {
-	 { "ALWAYS_ZERO", 0, 7, &umr_bitfield_default },
-	 { "clip_extra_bc_valid", 8, 10, &umr_bitfield_default },
-	 { "clip_vert_vte_valid", 11, 13, &umr_bitfield_default },
-	 { "clip_to_outsm_vertex_deallocate", 14, 16, &umr_bitfield_default },
-	 { "clip_to_outsm_deallocate_slot", 17, 19, &umr_bitfield_default },
-	 { "clip_to_outsm_null_primitive", 20, 20, &umr_bitfield_default },
-	 { "vte_positions_vte_clip_vte_naninf_kill_2", 21, 21, &umr_bitfield_default },
-	 { "vte_positions_vte_clip_vte_naninf_kill_1", 22, 22, &umr_bitfield_default },
-	 { "vte_positions_vte_clip_vte_naninf_kill_0", 23, 23, &umr_bitfield_default },
-	 { "vte_out_clip_rd_extra_bc_valid", 24, 24, &umr_bitfield_default },
-	 { "vte_out_clip_rd_vte_naninf_kill", 25, 25, &umr_bitfield_default },
-	 { "vte_out_clip_rd_vertex_store_indx", 26, 27, &umr_bitfield_default },
-	 { "clip_ga_bc_fifo_write", 28, 28, &umr_bitfield_default },
-	 { "clip_to_ga_fifo_write", 29, 29, &umr_bitfield_default },
-	 { "vte_out_clip_fifo_fifo_advanceread", 30, 30, &umr_bitfield_default },
-	 { "vte_out_clip_fifo_fifo_empty", 31, 31, &umr_bitfield_default },
+static struct umr_bitfield ixDIDT_SQ_WEIGHT0_3[] = {
+	 { "WEIGHT0", 0, 7, &umr_bitfield_default },
+	 { "WEIGHT1", 8, 15, &umr_bitfield_default },
+	 { "WEIGHT2", 16, 23, &umr_bitfield_default },
+	 { "WEIGHT3", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixVGT_DEBUG_REG16[] = {
 	 { "gog_busy", 0, 0, &umr_bitfield_default },
@@ -156,49 +176,6 @@ static struct umr_bitfield ixVGT_DEBUG_REG16[] = {
 	 { "num_gs_r2_q_not_0", 30, 30, &umr_bitfield_default },
 	 { "new_vs_thread_r2", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDIDT_SQ_WEIGHT0_3[] = {
-	 { "WEIGHT0", 0, 7, &umr_bitfield_default },
-	 { "WEIGHT1", 8, 15, &umr_bitfield_default },
-	 { "WEIGHT2", 16, 23, &umr_bitfield_default },
-	 { "WEIGHT3", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixCLIPPER_DEBUG_REG16[] = {
-	 { "sm0_prim_end_state", 0, 6, &umr_bitfield_default },
-	 { "sm0_ps_expand", 7, 7, &umr_bitfield_default },
-	 { "sm0_clip_vert_cnt", 8, 12, &umr_bitfield_default },
-	 { "sm0_vertex_clip_cnt", 13, 17, &umr_bitfield_default },
-	 { "sm0_inv_to_clip_data_valid_1", 18, 18, &umr_bitfield_default },
-	 { "sm0_inv_to_clip_data_valid_0", 19, 19, &umr_bitfield_default },
-	 { "sm0_current_state", 20, 26, &umr_bitfield_default },
-	 { "sm0_clip_to_clipga_clip_to_outsm_cnt_eq0", 27, 27, &umr_bitfield_default },
-	 { "sm0_clip_to_outsm_fifo_full", 28, 28, &umr_bitfield_default },
-	 { "sm0_highest_priority_seq", 29, 29, &umr_bitfield_default },
-	 { "sm0_outputcliptoclipga_0", 30, 30, &umr_bitfield_default },
-	 { "sm0_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixSQ_WAVE_MODE[] = {
-	 { "FP_ROUND", 0, 3, &umr_bitfield_default },
-	 { "FP_DENORM", 4, 7, &umr_bitfield_default },
-	 { "DX10_CLAMP", 8, 8, &umr_bitfield_default },
-	 { "IEEE", 9, 9, &umr_bitfield_default },
-	 { "LOD_CLAMPED", 10, 10, &umr_bitfield_default },
-	 { "DEBUG_EN", 11, 11, &umr_bitfield_default },
-	 { "EXCP_EN", 12, 20, &umr_bitfield_default },
-	 { "VSKIP", 28, 28, &umr_bitfield_default },
-	 { "CSP", 29, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixVGT_DEBUG_REG17[] = {
-	 { "gog_out_prim_rel_indx2_5_0", 0, 5, &umr_bitfield_default },
-	 { "gog_out_prim_rel_indx1_5_0", 6, 11, &umr_bitfield_default },
-	 { "gog_out_prim_rel_indx0_5_0", 12, 17, &umr_bitfield_default },
-	 { "gog_out_indx_13_0", 18, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDIDT_SQ_WEIGHT4_7[] = {
-	 { "WEIGHT4", 0, 7, &umr_bitfield_default },
-	 { "WEIGHT5", 8, 15, &umr_bitfield_default },
-	 { "WEIGHT6", 16, 23, &umr_bitfield_default },
-	 { "WEIGHT7", 24, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixCLIPPER_DEBUG_REG17[] = {
 	 { "sm1_prim_end_state", 0, 6, &umr_bitfield_default },
 	 { "sm1_ps_expand", 7, 7, &umr_bitfield_default },
@@ -212,6 +189,49 @@ static struct umr_bitfield ixCLIPPER_DEBUG_REG17[] = {
 	 { "sm1_highest_priority_seq", 29, 29, &umr_bitfield_default },
 	 { "sm1_outputcliptoclipga_0", 30, 30, &umr_bitfield_default },
 	 { "sm1_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDIDT_SQ_WEIGHT4_7[] = {
+	 { "WEIGHT4", 0, 7, &umr_bitfield_default },
+	 { "WEIGHT5", 8, 15, &umr_bitfield_default },
+	 { "WEIGHT6", 16, 23, &umr_bitfield_default },
+	 { "WEIGHT7", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixVGT_DEBUG_REG17[] = {
+	 { "gog_out_prim_rel_indx2_5_0", 0, 5, &umr_bitfield_default },
+	 { "gog_out_prim_rel_indx1_5_0", 6, 11, &umr_bitfield_default },
+	 { "gog_out_prim_rel_indx0_5_0", 12, 17, &umr_bitfield_default },
+	 { "gog_out_indx_13_0", 18, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixSQ_WAVE_MODE[] = {
+	 { "FP_ROUND", 0, 3, &umr_bitfield_default },
+	 { "FP_DENORM", 4, 7, &umr_bitfield_default },
+	 { "DX10_CLAMP", 8, 8, &umr_bitfield_default },
+	 { "IEEE", 9, 9, &umr_bitfield_default },
+	 { "LOD_CLAMPED", 10, 10, &umr_bitfield_default },
+	 { "DEBUG_EN", 11, 11, &umr_bitfield_default },
+	 { "EXCP_EN", 12, 20, &umr_bitfield_default },
+	 { "VSKIP", 28, 28, &umr_bitfield_default },
+	 { "CSP", 29, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixCLIPPER_DEBUG_REG18[] = {
+	 { "sm2_prim_end_state", 0, 6, &umr_bitfield_default },
+	 { "sm2_ps_expand", 7, 7, &umr_bitfield_default },
+	 { "sm2_clip_vert_cnt", 8, 12, &umr_bitfield_default },
+	 { "sm2_vertex_clip_cnt", 13, 17, &umr_bitfield_default },
+	 { "sm2_inv_to_clip_data_valid_1", 18, 18, &umr_bitfield_default },
+	 { "sm2_inv_to_clip_data_valid_0", 19, 19, &umr_bitfield_default },
+	 { "sm2_current_state", 20, 26, &umr_bitfield_default },
+	 { "sm2_clip_to_clipga_clip_to_outsm_cnt_eq0", 27, 27, &umr_bitfield_default },
+	 { "sm2_clip_to_outsm_fifo_full", 28, 28, &umr_bitfield_default },
+	 { "sm2_highest_priority_seq", 29, 29, &umr_bitfield_default },
+	 { "sm2_outputcliptoclipga_0", 30, 30, &umr_bitfield_default },
+	 { "sm2_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDIDT_SQ_WEIGHT8_11[] = {
+	 { "WEIGHT8", 0, 7, &umr_bitfield_default },
+	 { "WEIGHT9", 8, 15, &umr_bitfield_default },
+	 { "WEIGHT10", 16, 23, &umr_bitfield_default },
+	 { "WEIGHT11", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixSQ_WAVE_STATUS[] = {
 	 { "SCC", 0, 0, &umr_bitfield_default },
@@ -239,31 +259,6 @@ static struct umr_bitfield ixSQ_WAVE_STATUS[] = {
 	 { "DISPATCH_CACHE_CTRL", 24, 26, &umr_bitfield_default },
 	 { "MUST_EXPORT", 27, 27, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDIDT_SQ_WEIGHT8_11[] = {
-	 { "WEIGHT8", 0, 7, &umr_bitfield_default },
-	 { "WEIGHT9", 8, 15, &umr_bitfield_default },
-	 { "WEIGHT10", 16, 23, &umr_bitfield_default },
-	 { "WEIGHT11", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixCLIPPER_DEBUG_REG18[] = {
-	 { "sm2_prim_end_state", 0, 6, &umr_bitfield_default },
-	 { "sm2_ps_expand", 7, 7, &umr_bitfield_default },
-	 { "sm2_clip_vert_cnt", 8, 12, &umr_bitfield_default },
-	 { "sm2_vertex_clip_cnt", 13, 17, &umr_bitfield_default },
-	 { "sm2_inv_to_clip_data_valid_1", 18, 18, &umr_bitfield_default },
-	 { "sm2_inv_to_clip_data_valid_0", 19, 19, &umr_bitfield_default },
-	 { "sm2_current_state", 20, 26, &umr_bitfield_default },
-	 { "sm2_clip_to_clipga_clip_to_outsm_cnt_eq0", 27, 27, &umr_bitfield_default },
-	 { "sm2_clip_to_outsm_fifo_full", 28, 28, &umr_bitfield_default },
-	 { "sm2_highest_priority_seq", 29, 29, &umr_bitfield_default },
-	 { "sm2_outputcliptoclipga_0", 30, 30, &umr_bitfield_default },
-	 { "sm2_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixSQ_WAVE_TRAPSTS[] = {
-	 { "EXCP", 0, 8, &umr_bitfield_default },
-	 { "EXCP_CYCLE", 16, 21, &umr_bitfield_default },
-	 { "DP_RATE", 29, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixCLIPPER_DEBUG_REG19[] = {
 	 { "sm3_prim_end_state", 0, 6, &umr_bitfield_default },
 	 { "sm3_ps_expand", 7, 7, &umr_bitfield_default },
@@ -278,6 +273,32 @@ static struct umr_bitfield ixCLIPPER_DEBUG_REG19[] = {
 	 { "sm3_outputcliptoclipga_0", 30, 30, &umr_bitfield_default },
 	 { "sm3_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixSQ_WAVE_TRAPSTS[] = {
+	 { "EXCP", 0, 8, &umr_bitfield_default },
+	 { "EXCP_CYCLE", 16, 21, &umr_bitfield_default },
+	 { "DP_RATE", 29, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixSXIFCCG_DEBUG_REG0[] = {
+	 { "position_address", 0, 5, &umr_bitfield_default },
+	 { "point_address", 6, 8, &umr_bitfield_default },
+	 { "sx_pending_rd_state_var_indx", 9, 11, &umr_bitfield_default },
+	 { "sx_pending_rd_req_mask", 12, 15, &umr_bitfield_default },
+	 { "sx_pending_rd_pci", 16, 25, &umr_bitfield_default },
+	 { "sx_pending_rd_aux_sel", 26, 27, &umr_bitfield_default },
+	 { "sx_pending_rd_sp_id", 28, 29, &umr_bitfield_default },
+	 { "sx_pending_rd_aux_inc", 30, 30, &umr_bitfield_default },
+	 { "sx_pending_rd_advance", 31, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixVGT_DEBUG_REG20[] = {
+	 { "dbg_VGT_SPI_vsthread_sovertexindex", 0, 15, &umr_bitfield_default },
+	 { "dbg_VGT_SPI_vsthread_sovertexcount_not_0", 16, 16, &umr_bitfield_default },
+	 { "SPARE17", 17, 17, &umr_bitfield_default },
+	 { "alloc_counter_q", 18, 21, &umr_bitfield_default },
+	 { "curr_dealloc_distance_q", 22, 28, &umr_bitfield_default },
+	 { "new_allocate_q", 29, 29, &umr_bitfield_default },
+	 { "curr_slot_in_vtx_vect_q_not_0", 30, 30, &umr_bitfield_default },
+	 { "int_vtx_counter_q_not_0", 31, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield ixSQ_WAVE_HW_ID[] = {
 	 { "WAVE_ID", 0, 3, &umr_bitfield_default },
 	 { "SIMD_ID", 4, 5, &umr_bitfield_default },
@@ -291,26 +312,23 @@ static struct umr_bitfield ixSQ_WAVE_HW_ID[] = {
 	 { "STATE_ID", 27, 29, &umr_bitfield_default },
 	 { "ME_ID", 30, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixVGT_DEBUG_REG20[] = {
-	 { "dbg_VGT_SPI_vsthread_sovertexindex", 0, 15, &umr_bitfield_default },
-	 { "dbg_VGT_SPI_vsthread_sovertexcount_not_0", 16, 16, &umr_bitfield_default },
-	 { "SPARE17", 17, 17, &umr_bitfield_default },
-	 { "alloc_counter_q", 18, 21, &umr_bitfield_default },
-	 { "curr_dealloc_distance_q", 22, 28, &umr_bitfield_default },
-	 { "new_allocate_q", 29, 29, &umr_bitfield_default },
-	 { "curr_slot_in_vtx_vect_q_not_0", 30, 30, &umr_bitfield_default },
-	 { "int_vtx_counter_q_not_0", 31, 31, &umr_bitfield_default },
+static struct umr_bitfield ixSXIFCCG_DEBUG_REG1[] = {
+	 { "available_positions", 0, 6, &umr_bitfield_default },
+	 { "sx_receive_indx", 7, 9, &umr_bitfield_default },
+	 { "sx_pending_fifo_contents", 10, 14, &umr_bitfield_default },
+	 { "statevar_bits_vs_out_misc_vec_ena", 15, 15, &umr_bitfield_default },
+	 { "statevar_bits_disable_sp", 16, 19, &umr_bitfield_default },
+	 { "aux_sel", 20, 21, &umr_bitfield_default },
+	 { "sx_to_pa_empty_1", 22, 22, &umr_bitfield_default },
+	 { "sx_to_pa_empty_0", 23, 23, &umr_bitfield_default },
+	 { "pasx_req_cnt_1", 24, 27, &umr_bitfield_default },
+	 { "pasx_req_cnt_0", 28, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixSXIFCCG_DEBUG_REG0[] = {
-	 { "position_address", 0, 5, &umr_bitfield_default },
-	 { "point_address", 6, 8, &umr_bitfield_default },
-	 { "sx_pending_rd_state_var_indx", 9, 11, &umr_bitfield_default },
-	 { "sx_pending_rd_req_mask", 12, 15, &umr_bitfield_default },
-	 { "sx_pending_rd_pci", 16, 25, &umr_bitfield_default },
-	 { "sx_pending_rd_aux_sel", 26, 27, &umr_bitfield_default },
-	 { "sx_pending_rd_sp_id", 28, 29, &umr_bitfield_default },
-	 { "sx_pending_rd_aux_inc", 30, 30, &umr_bitfield_default },
-	 { "sx_pending_rd_advance", 31, 31, &umr_bitfield_default },
+static struct umr_bitfield ixSQ_WAVE_GPR_ALLOC[] = {
+	 { "VGPR_BASE", 0, 5, &umr_bitfield_default },
+	 { "VGPR_SIZE", 8, 13, &umr_bitfield_default },
+	 { "SGPR_BASE", 16, 21, &umr_bitfield_default },
+	 { "SGPR_SIZE", 24, 27, &umr_bitfield_default },
 };
 static struct umr_bitfield ixVGT_DEBUG_REG21[] = {
 	 { "out_indx_fifo_empty", 0, 0, &umr_bitfield_default },
@@ -344,23 +362,18 @@ static struct umr_bitfield ixVGT_DEBUG_REG21[] = {
 	 { "eopg_p0_q", 30, 30, &umr_bitfield_default },
 	 { "p0_nobp", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixSQ_WAVE_GPR_ALLOC[] = {
-	 { "VGPR_BASE", 0, 5, &umr_bitfield_default },
-	 { "VGPR_SIZE", 8, 13, &umr_bitfield_default },
-	 { "SGPR_BASE", 16, 21, &umr_bitfield_default },
-	 { "SGPR_SIZE", 24, 27, &umr_bitfield_default },
+static struct umr_bitfield ixSXIFCCG_DEBUG_REG2[] = {
+	 { "param_cache_base", 0, 6, &umr_bitfield_default },
+	 { "sx_aux", 7, 8, &umr_bitfield_default },
+	 { "sx_request_indx", 9, 14, &umr_bitfield_default },
+	 { "req_active_verts_loaded", 15, 15, &umr_bitfield_default },
+	 { "req_active_verts", 16, 22, &umr_bitfield_default },
+	 { "vgt_to_ccgen_state_var_indx", 23, 25, &umr_bitfield_default },
+	 { "vgt_to_ccgen_active_verts", 26, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixSXIFCCG_DEBUG_REG1[] = {
-	 { "available_positions", 0, 6, &umr_bitfield_default },
-	 { "sx_receive_indx", 7, 9, &umr_bitfield_default },
-	 { "sx_pending_fifo_contents", 10, 14, &umr_bitfield_default },
-	 { "statevar_bits_vs_out_misc_vec_ena", 15, 15, &umr_bitfield_default },
-	 { "statevar_bits_disable_sp", 16, 19, &umr_bitfield_default },
-	 { "aux_sel", 20, 21, &umr_bitfield_default },
-	 { "sx_to_pa_empty_1", 22, 22, &umr_bitfield_default },
-	 { "sx_to_pa_empty_0", 23, 23, &umr_bitfield_default },
-	 { "pasx_req_cnt_1", 24, 27, &umr_bitfield_default },
-	 { "pasx_req_cnt_0", 28, 31, &umr_bitfield_default },
+static struct umr_bitfield ixSQ_WAVE_LDS_ALLOC[] = {
+	 { "LDS_BASE", 0, 7, &umr_bitfield_default },
+	 { "LDS_SIZE", 12, 20, &umr_bitfield_default },
 };
 static struct umr_bitfield ixVGT_DEBUG_REG22[] = {
 	 { "cm_state16", 0, 1, &umr_bitfield_default },
@@ -380,24 +393,22 @@ static struct umr_bitfield ixVGT_DEBUG_REG22[] = {
 	 { "cm_state30", 28, 29, &umr_bitfield_default },
 	 { "cm_state31", 30, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixSQ_WAVE_LDS_ALLOC[] = {
-	 { "LDS_BASE", 0, 7, &umr_bitfield_default },
-	 { "LDS_SIZE", 12, 20, &umr_bitfield_default },
-};
-static struct umr_bitfield ixSXIFCCG_DEBUG_REG2[] = {
-	 { "param_cache_base", 0, 6, &umr_bitfield_default },
-	 { "sx_aux", 7, 8, &umr_bitfield_default },
-	 { "sx_request_indx", 9, 14, &umr_bitfield_default },
-	 { "req_active_verts_loaded", 15, 15, &umr_bitfield_default },
-	 { "req_active_verts", 16, 22, &umr_bitfield_default },
-	 { "vgt_to_ccgen_state_var_indx", 23, 25, &umr_bitfield_default },
-	 { "vgt_to_ccgen_active_verts", 26, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixSQ_WAVE_IB_STS[] = {
-	 { "VM_CNT", 0, 3, &umr_bitfield_default },
-	 { "EXP_CNT", 4, 6, &umr_bitfield_default },
-	 { "LGKM_CNT", 8, 11, &umr_bitfield_default },
-	 { "VALU_CNT", 12, 14, &umr_bitfield_default },
+static struct umr_bitfield ixSXIFCCG_DEBUG_REG3[] = {
+	 { "ALWAYS_ZERO", 0, 7, &umr_bitfield_default },
+	 { "vertex_fifo_entriesavailable", 8, 11, &umr_bitfield_default },
+	 { "statevar_bits_vs_out_ccdist1_vec_ena", 12, 12, &umr_bitfield_default },
+	 { "statevar_bits_vs_out_ccdist0_vec_ena", 13, 13, &umr_bitfield_default },
+	 { "available_positions", 14, 20, &umr_bitfield_default },
+	 { "current_state", 21, 22, &umr_bitfield_default },
+	 { "vertex_fifo_empty", 23, 23, &umr_bitfield_default },
+	 { "vertex_fifo_full", 24, 24, &umr_bitfield_default },
+	 { "sx0_receive_fifo_empty", 25, 25, &umr_bitfield_default },
+	 { "sx0_receive_fifo_full", 26, 26, &umr_bitfield_default },
+	 { "vgt_to_ccgen_fifo_empty", 27, 27, &umr_bitfield_default },
+	 { "vgt_to_ccgen_fifo_full", 28, 28, &umr_bitfield_default },
+	 { "ccgen_to_clipcc_fifo_full", 29, 29, &umr_bitfield_default },
+	 { "sx0_receive_fifo_write", 30, 30, &umr_bitfield_default },
+	 { "ccgen_to_clipcc_write", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixVGT_DEBUG_REG23[] = {
 	 { "frmt_busy", 0, 0, &umr_bitfield_default },
@@ -420,30 +431,11 @@ static struct umr_bitfield ixVGT_DEBUG_REG23[] = {
 	 { "prim_state_sel_r2_q", 21, 23, &umr_bitfield_default },
 	 { "SPARE", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixSXIFCCG_DEBUG_REG3[] = {
-	 { "ALWAYS_ZERO", 0, 7, &umr_bitfield_default },
-	 { "vertex_fifo_entriesavailable", 8, 11, &umr_bitfield_default },
-	 { "statevar_bits_vs_out_ccdist1_vec_ena", 12, 12, &umr_bitfield_default },
-	 { "statevar_bits_vs_out_ccdist0_vec_ena", 13, 13, &umr_bitfield_default },
-	 { "available_positions", 14, 20, &umr_bitfield_default },
-	 { "current_state", 21, 22, &umr_bitfield_default },
-	 { "vertex_fifo_empty", 23, 23, &umr_bitfield_default },
-	 { "vertex_fifo_full", 24, 24, &umr_bitfield_default },
-	 { "sx0_receive_fifo_empty", 25, 25, &umr_bitfield_default },
-	 { "sx0_receive_fifo_full", 26, 26, &umr_bitfield_default },
-	 { "vgt_to_ccgen_fifo_empty", 27, 27, &umr_bitfield_default },
-	 { "vgt_to_ccgen_fifo_full", 28, 28, &umr_bitfield_default },
-	 { "ccgen_to_clipcc_fifo_full", 29, 29, &umr_bitfield_default },
-	 { "sx0_receive_fifo_write", 30, 30, &umr_bitfield_default },
-	 { "ccgen_to_clipcc_write", 31, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixSQ_WAVE_PC_LO[] = {
-	 { "PC_LO", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixVGT_DEBUG_REG24[] = {
-	 { "avail_es_rb_space_r0_q_23_0", 0, 23, &umr_bitfield_default },
-	 { "dependent_st_cut_mode_q", 24, 25, &umr_bitfield_default },
-	 { "SPARE31", 26, 31, &umr_bitfield_default },
+static struct umr_bitfield ixSQ_WAVE_IB_STS[] = {
+	 { "VM_CNT", 0, 3, &umr_bitfield_default },
+	 { "EXP_CNT", 4, 6, &umr_bitfield_default },
+	 { "LGKM_CNT", 8, 11, &umr_bitfield_default },
+	 { "VALU_CNT", 12, 14, &umr_bitfield_default },
 };
 static struct umr_bitfield ixSETUP_DEBUG_REG0[] = {
 	 { "su_baryc_cntl_state", 0, 1, &umr_bitfield_default },
@@ -462,8 +454,17 @@ static struct umr_bitfield ixSETUP_DEBUG_REG0[] = {
 	 { "su_dyn_sclk_vld", 30, 30, &umr_bitfield_default },
 	 { "cl_dyn_sclk_vld", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixSQ_WAVE_PC_HI[] = {
-	 { "PC_HI", 0, 7, &umr_bitfield_default },
+static struct umr_bitfield ixVGT_DEBUG_REG24[] = {
+	 { "avail_es_rb_space_r0_q_23_0", 0, 23, &umr_bitfield_default },
+	 { "dependent_st_cut_mode_q", 24, 25, &umr_bitfield_default },
+	 { "SPARE31", 26, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixSQ_WAVE_PC_LO[] = {
+	 { "PC_LO", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixSETUP_DEBUG_REG1[] = {
+	 { "y_sort0_gated_23_8", 0, 15, &umr_bitfield_default },
+	 { "x_sort0_gated_23_8", 16, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixVGT_DEBUG_REG25[] = {
 	 { "avail_gs_rb_space_r0_q_25_0", 0, 25, &umr_bitfield_default },
@@ -471,13 +472,16 @@ static struct umr_bitfield ixVGT_DEBUG_REG25[] = {
 	 { "add_gs_rb_space_r1_q", 30, 30, &umr_bitfield_default },
 	 { "add_gs_rb_space_r0_q", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixSETUP_DEBUG_REG1[] = {
-	 { "y_sort0_gated_23_8", 0, 15, &umr_bitfield_default },
-	 { "x_sort0_gated_23_8", 16, 31, &umr_bitfield_default },
+static struct umr_bitfield ixSQ_WAVE_PC_HI[] = {
+	 { "PC_HI", 0, 7, &umr_bitfield_default },
 };
 static struct umr_bitfield ixSETUP_DEBUG_REG2[] = {
 	 { "y_sort1_gated_23_8", 0, 15, &umr_bitfield_default },
 	 { "x_sort1_gated_23_8", 16, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixSETUP_DEBUG_REG3[] = {
+	 { "y_sort2_gated_23_8", 0, 15, &umr_bitfield_default },
+	 { "x_sort2_gated_23_8", 16, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixVGT_DEBUG_REG27[] = {
 	 { "pipe0_dr", 0, 0, &umr_bitfield_default },
@@ -501,9 +505,18 @@ static struct umr_bitfield ixVGT_DEBUG_REG27[] = {
 	 { "gsc_indx_count_p0_q", 20, 30, &umr_bitfield_default },
 	 { "last_vsprim_of_gsprim", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixSETUP_DEBUG_REG3[] = {
-	 { "y_sort2_gated_23_8", 0, 15, &umr_bitfield_default },
-	 { "x_sort2_gated_23_8", 16, 31, &umr_bitfield_default },
+static struct umr_bitfield ixSETUP_DEBUG_REG4[] = {
+	 { "attr_indx_sort0_gated", 0, 13, &umr_bitfield_default },
+	 { "null_prim_gated", 14, 14, &umr_bitfield_default },
+	 { "backfacing_gated", 15, 15, &umr_bitfield_default },
+	 { "st_indx_gated", 16, 18, &umr_bitfield_default },
+	 { "clipped_gated", 19, 19, &umr_bitfield_default },
+	 { "dealloc_slot_gated", 20, 22, &umr_bitfield_default },
+	 { "xmajor_gated", 23, 23, &umr_bitfield_default },
+	 { "diamond_rule_gated", 24, 25, &umr_bitfield_default },
+	 { "type_gated", 26, 28, &umr_bitfield_default },
+	 { "fpov_gated", 29, 30, &umr_bitfield_default },
+	 { "eop_gated", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixSQ_WAVE_IB_DBG0[] = {
 	 { "IBUF_ST", 0, 2, &umr_bitfield_default },
@@ -520,18 +533,12 @@ static struct umr_bitfield ixSQ_WAVE_IB_DBG0[] = {
 	 { "KILL", 27, 27, &umr_bitfield_default },
 	 { "NEED_KILL_IFETCH", 28, 28, &umr_bitfield_default },
 };
-static struct umr_bitfield ixSETUP_DEBUG_REG4[] = {
-	 { "attr_indx_sort0_gated", 0, 13, &umr_bitfield_default },
-	 { "null_prim_gated", 14, 14, &umr_bitfield_default },
-	 { "backfacing_gated", 15, 15, &umr_bitfield_default },
-	 { "st_indx_gated", 16, 18, &umr_bitfield_default },
-	 { "clipped_gated", 19, 19, &umr_bitfield_default },
-	 { "dealloc_slot_gated", 20, 22, &umr_bitfield_default },
-	 { "xmajor_gated", 23, 23, &umr_bitfield_default },
-	 { "diamond_rule_gated", 24, 25, &umr_bitfield_default },
-	 { "type_gated", 26, 28, &umr_bitfield_default },
-	 { "fpov_gated", 29, 30, &umr_bitfield_default },
-	 { "eop_gated", 31, 31, &umr_bitfield_default },
+static struct umr_bitfield ixSETUP_DEBUG_REG5[] = {
+	 { "attr_indx_sort2_gated", 0, 13, &umr_bitfield_default },
+	 { "attr_indx_sort1_gated", 14, 27, &umr_bitfield_default },
+	 { "provoking_vtx_gated", 28, 29, &umr_bitfield_default },
+	 { "valid_prim_gated", 30, 30, &umr_bitfield_default },
+	 { "pa_reg_sclk_vld", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixVGT_DEBUG_REG29[] = {
 	 { "con_state_q", 0, 3, &umr_bitfield_default },
@@ -564,12 +571,8 @@ static struct umr_bitfield ixVGT_DEBUG_REG29[] = {
 	 { "pipe1_edge_rtr", 30, 30, &umr_bitfield_default },
 	 { "use_stored_inner_q_ring3", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixSETUP_DEBUG_REG5[] = {
-	 { "attr_indx_sort2_gated", 0, 13, &umr_bitfield_default },
-	 { "attr_indx_sort1_gated", 14, 27, &umr_bitfield_default },
-	 { "provoking_vtx_gated", 28, 29, &umr_bitfield_default },
-	 { "valid_prim_gated", 30, 30, &umr_bitfield_default },
-	 { "pa_reg_sclk_vld", 31, 31, &umr_bitfield_default },
+static struct umr_bitfield mmCSPRIV_THREAD_TRACE_TG0[] = {
+	 { "TGID_X", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixVGT_DEBUG_REG2[] = {
 	 { "hs_grp_busy", 0, 0, &umr_bitfield_default },
@@ -603,8 +606,8 @@ static struct umr_bitfield ixVGT_DEBUG_REG2[] = {
 	 { "lsWaveSendFlush", 28, 28, &umr_bitfield_default },
 	 { "SPARE", 29, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCSPRIV_THREAD_TRACE_TG0[] = {
-	 { "TGID_X", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmCSPRIV_THREAD_TRACE_EVENT[] = {
+	 { "EVENT_ID", 0, 4, &umr_bitfield_default },
 };
 static struct umr_bitfield ixVGT_DEBUG_REG3[] = {
 	 { "lsTgRelInd", 0, 11, &umr_bitfield_default },
@@ -612,8 +615,34 @@ static struct umr_bitfield ixVGT_DEBUG_REG3[] = {
 	 { "lsPatchCnt", 18, 25, &umr_bitfield_default },
 	 { "hsWaveRelInd", 26, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCSPRIV_THREAD_TRACE_EVENT[] = {
-	 { "EVENT_ID", 0, 4, &umr_bitfield_default },
+static struct umr_bitfield ixCLIPPER_DEBUG_REG02[] = {
+	 { "clip_extra_bc_valid", 0, 2, &umr_bitfield_default },
+	 { "clip_vert_vte_valid", 3, 5, &umr_bitfield_default },
+	 { "clip_to_outsm_clip_seq_indx", 6, 7, &umr_bitfield_default },
+	 { "clip_to_outsm_vertex_store_indx_2", 8, 11, &umr_bitfield_default },
+	 { "clip_to_outsm_vertex_store_indx_1", 12, 15, &umr_bitfield_default },
+	 { "clip_to_outsm_vertex_store_indx_0", 16, 19, &umr_bitfield_default },
+	 { "clip_to_clipga_extra_bc_coords", 20, 20, &umr_bitfield_default },
+	 { "clip_to_clipga_vte_naninf_kill", 21, 21, &umr_bitfield_default },
+	 { "clip_to_outsm_end_of_packet", 22, 22, &umr_bitfield_default },
+	 { "clip_to_outsm_first_prim_of_slot", 23, 23, &umr_bitfield_default },
+	 { "clip_to_outsm_clipped_prim", 24, 24, &umr_bitfield_default },
+	 { "clip_to_outsm_null_primitive", 25, 25, &umr_bitfield_default },
+	 { "clip_ga_bc_fifo_full", 26, 26, &umr_bitfield_default },
+	 { "clip_to_ga_fifo_full", 27, 27, &umr_bitfield_default },
+	 { "clip_ga_bc_fifo_write", 28, 28, &umr_bitfield_default },
+	 { "clip_to_ga_fifo_write", 29, 29, &umr_bitfield_default },
+	 { "clip_to_outsm_fifo_advanceread", 30, 30, &umr_bitfield_default },
+	 { "clip_to_outsm_fifo_empty", 31, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixGDS_DEBUG_REG2[] = {
+	 { "ds_full", 0, 0, &umr_bitfield_default },
+	 { "ds_credit_avail", 1, 1, &umr_bitfield_default },
+	 { "ord_idx_free", 2, 2, &umr_bitfield_default },
+	 { "cmd_write", 3, 3, &umr_bitfield_default },
+	 { "app_sel", 4, 7, &umr_bitfield_default },
+	 { "req", 8, 22, &umr_bitfield_default },
+	 { "spare", 23, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixWD_DEBUG_REG2[] = {
 	 { "p1_grbm_fifo_empty", 0, 0, &umr_bitfield_default },
@@ -638,42 +667,6 @@ static struct umr_bitfield ixWD_DEBUG_REG2[] = {
 	 { "p1_rbiu_dr_fifo_empty", 30, 30, &umr_bitfield_default },
 	 { "p1_rbiu_dr_fifo_full", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixGDS_DEBUG_REG2[] = {
-	 { "ds_full", 0, 0, &umr_bitfield_default },
-	 { "ds_credit_avail", 1, 1, &umr_bitfield_default },
-	 { "ord_idx_free", 2, 2, &umr_bitfield_default },
-	 { "cmd_write", 3, 3, &umr_bitfield_default },
-	 { "app_sel", 4, 7, &umr_bitfield_default },
-	 { "req", 8, 22, &umr_bitfield_default },
-	 { "spare", 23, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixCLIPPER_DEBUG_REG02[] = {
-	 { "clip_extra_bc_valid", 0, 2, &umr_bitfield_default },
-	 { "clip_vert_vte_valid", 3, 5, &umr_bitfield_default },
-	 { "clip_to_outsm_clip_seq_indx", 6, 7, &umr_bitfield_default },
-	 { "clip_to_outsm_vertex_store_indx_2", 8, 11, &umr_bitfield_default },
-	 { "clip_to_outsm_vertex_store_indx_1", 12, 15, &umr_bitfield_default },
-	 { "clip_to_outsm_vertex_store_indx_0", 16, 19, &umr_bitfield_default },
-	 { "clip_to_clipga_extra_bc_coords", 20, 20, &umr_bitfield_default },
-	 { "clip_to_clipga_vte_naninf_kill", 21, 21, &umr_bitfield_default },
-	 { "clip_to_outsm_end_of_packet", 22, 22, &umr_bitfield_default },
-	 { "clip_to_outsm_first_prim_of_slot", 23, 23, &umr_bitfield_default },
-	 { "clip_to_outsm_clipped_prim", 24, 24, &umr_bitfield_default },
-	 { "clip_to_outsm_null_primitive", 25, 25, &umr_bitfield_default },
-	 { "clip_ga_bc_fifo_full", 26, 26, &umr_bitfield_default },
-	 { "clip_to_ga_fifo_full", 27, 27, &umr_bitfield_default },
-	 { "clip_ga_bc_fifo_write", 28, 28, &umr_bitfield_default },
-	 { "clip_to_ga_fifo_write", 29, 29, &umr_bitfield_default },
-	 { "clip_to_outsm_fifo_advanceread", 30, 30, &umr_bitfield_default },
-	 { "clip_to_outsm_fifo_empty", 31, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixDIDT_DB_CTRL0[] = {
-	 { "DIDT_CTRL_EN", 0, 0, &umr_bitfield_default },
-	 { "USE_REF_CLOCK", 1, 1, &umr_bitfield_default },
-	 { "PHASE_OFFSET", 2, 3, &umr_bitfield_default },
-	 { "DIDT_CTRL_RST", 4, 4, &umr_bitfield_default },
-	 { "DIDT_CLK_EN_OVERRIDE", 5, 5, &umr_bitfield_default },
-};
 static struct umr_bitfield ixVGT_DEBUG_REG4[] = {
 	 { "hsPatchCnt", 0, 7, &umr_bitfield_default },
 	 { "hsPrimId_15_0", 8, 23, &umr_bitfield_default },
@@ -681,6 +674,13 @@ static struct umr_bitfield ixVGT_DEBUG_REG4[] = {
 	 { "hsWaveSendFlush", 29, 29, &umr_bitfield_default },
 	 { "hsFwaveFlag", 30, 30, &umr_bitfield_default },
 	 { "SPARE", 31, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDIDT_DB_CTRL0[] = {
+	 { "DIDT_CTRL_EN", 0, 0, &umr_bitfield_default },
+	 { "USE_REF_CLOCK", 1, 1, &umr_bitfield_default },
+	 { "PHASE_OFFSET", 2, 3, &umr_bitfield_default },
+	 { "DIDT_CTRL_RST", 4, 4, &umr_bitfield_default },
+	 { "DIDT_CLK_EN_OVERRIDE", 5, 5, &umr_bitfield_default },
 };
 static struct umr_bitfield mmGRBM_CNTL[] = {
 	 { "READ_TIMEOUT", 0, 7, &umr_bitfield_default },
@@ -1075,13 +1075,6 @@ static struct umr_bitfield mmCP_PRT_LOD_STATS_CNTL2[] = {
 	 { "MC_ENDIAN_SWAP", 20, 21, &umr_bitfield_default },
 	 { "MC_VMID", 23, 26, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCP_CE_COMPARE_COUNT[] = {
-	 { "COMPARE_COUNT", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixSQ_INTERRUPT_WORD_CMN[] = {
-	 { "SE_ID", 24, 25, &umr_bitfield_default },
-	 { "ENCODING", 26, 27, &umr_bitfield_default },
-};
 static struct umr_bitfield ixSQ_INTERRUPT_WORD_AUTO[] = {
 	 { "THREAD_TRACE", 0, 0, &umr_bitfield_default },
 	 { "WLT", 1, 1, &umr_bitfield_default },
@@ -1093,6 +1086,13 @@ static struct umr_bitfield ixSQ_INTERRUPT_WORD_AUTO[] = {
 	 { "IMMED_OVERFLOW", 7, 7, &umr_bitfield_default },
 	 { "SE_ID", 24, 25, &umr_bitfield_default },
 	 { "ENCODING", 26, 27, &umr_bitfield_default },
+};
+static struct umr_bitfield ixSQ_INTERRUPT_WORD_CMN[] = {
+	 { "SE_ID", 24, 25, &umr_bitfield_default },
+	 { "ENCODING", 26, 27, &umr_bitfield_default },
+};
+static struct umr_bitfield mmCP_CE_COMPARE_COUNT[] = {
+	 { "COMPARE_COUNT", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCP_CE_DE_COUNT[] = {
 	 { "DRAW_ENGINE_COUNT", 0, 31, &umr_bitfield_default },
@@ -1106,10 +1106,6 @@ static struct umr_bitfield mmCP_DE_LAST_INVAL_COUNT[] = {
 static struct umr_bitfield mmCP_DE_DE_COUNT[] = {
 	 { "DRAW_ENGINE_COUNT", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixDIDT_DB_CTRL1[] = {
-	 { "MIN_POWER", 0, 15, &umr_bitfield_default },
-	 { "MAX_POWER", 16, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixVGT_DEBUG_REG5[] = {
 	 { "SPARE4", 0, 2, &umr_bitfield_default },
 	 { "hsWaveCreditCnt_0", 3, 7, &umr_bitfield_default },
@@ -1119,6 +1115,10 @@ static struct umr_bitfield ixVGT_DEBUG_REG5[] = {
 	 { "lsWaveCreditCnt_0", 19, 23, &umr_bitfield_default },
 	 { "SPARE1", 24, 26, &umr_bitfield_default },
 	 { "lsVertCreditCnt_0", 27, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixDIDT_DB_CTRL1[] = {
+	 { "MIN_POWER", 0, 15, &umr_bitfield_default },
+	 { "MAX_POWER", 16, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCP_STALLED_STAT3[] = {
 	 { "CE_TO_CSF_NOT_RDY_TO_RCV", 0, 0, &umr_bitfield_default },
@@ -1298,10 +1298,10 @@ static struct umr_bitfield mmCP_RB2_RPTR[] = {
 static struct umr_bitfield mmCP_RB1_RPTR[] = {
 	 { "RB_RPTR", 0, 19, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCP_RB_RPTR[] = {
+static struct umr_bitfield mmCP_RB0_RPTR[] = {
 	 { "RB_RPTR", 0, 19, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCP_RB0_RPTR[] = {
+static struct umr_bitfield mmCP_RB_RPTR[] = {
 	 { "RB_RPTR", 0, 19, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCP_RB_WPTR_DELAY[] = {
@@ -1413,14 +1413,14 @@ static struct umr_bitfield mmCP_INT_STAT_DEBUG[] = {
 	 { "GENERIC1_INT_ASSERTED", 30, 30, &umr_bitfield_default },
 	 { "GENERIC0_INT_ASSERTED", 31, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixVGT_DEBUG_REG6[] = {
+	 { "debug_BASE", 0, 15, &umr_bitfield_default },
+	 { "debug_SIZE", 16, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield ixDIDT_DB_CTRL2[] = {
 	 { "MAX_POWER_DELTA", 0, 13, &umr_bitfield_default },
 	 { "SHORT_TERM_INTERVAL_SIZE", 16, 25, &umr_bitfield_default },
 	 { "LONG_TERM_INTERVAL_RATIO", 27, 30, &umr_bitfield_default },
-};
-static struct umr_bitfield ixVGT_DEBUG_REG6[] = {
-	 { "debug_BASE", 0, 15, &umr_bitfield_default },
-	 { "debug_SIZE", 16, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmVGT_VTX_VECT_EJECT_REG[] = {
 	 { "PRIM_COUNT", 0, 9, &umr_bitfield_default },
@@ -1819,23 +1819,9 @@ static struct umr_bitfield mmSQ_TIME_HI[] = {
 static struct umr_bitfield mmSQ_TIME_LO[] = {
 	 { "TIME", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmSQ_SOP2[] = {
-	 { "SSRC0", 0, 7, &umr_bitfield_default },
-	 { "SSRC1", 8, 15, &umr_bitfield_default },
-	 { "SDST", 16, 22, &umr_bitfield_default },
-	 { "OP", 23, 29, &umr_bitfield_default },
-	 { "ENCODING", 30, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield mmSQ_EXP_1[] = {
-	 { "VSRC0", 0, 7, &umr_bitfield_default },
-	 { "VSRC1", 8, 15, &umr_bitfield_default },
-	 { "VSRC2", 16, 23, &umr_bitfield_default },
-	 { "VSRC3", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield mmSQ_VOP3_0[] = {
+static struct umr_bitfield mmSQ_VOP3_0_SDST_ENC[] = {
 	 { "VDST", 0, 7, &umr_bitfield_default },
-	 { "ABS", 8, 10, &umr_bitfield_default },
-	 { "CLAMP", 11, 11, &umr_bitfield_default },
+	 { "SDST", 8, 14, &umr_bitfield_default },
 	 { "OP", 17, 25, &umr_bitfield_default },
 	 { "ENCODING", 26, 31, &umr_bitfield_default },
 };
@@ -1847,11 +1833,25 @@ static struct umr_bitfield mmSQ_MTBUF_1[] = {
 	 { "TFE", 23, 23, &umr_bitfield_default },
 	 { "SOFFSET", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmSQ_VOP3_0_SDST_ENC[] = {
+static struct umr_bitfield mmSQ_VOP3_0[] = {
 	 { "VDST", 0, 7, &umr_bitfield_default },
-	 { "SDST", 8, 14, &umr_bitfield_default },
+	 { "ABS", 8, 10, &umr_bitfield_default },
+	 { "CLAMP", 11, 11, &umr_bitfield_default },
 	 { "OP", 17, 25, &umr_bitfield_default },
 	 { "ENCODING", 26, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmSQ_EXP_1[] = {
+	 { "VSRC0", 0, 7, &umr_bitfield_default },
+	 { "VSRC1", 8, 15, &umr_bitfield_default },
+	 { "VSRC2", 16, 23, &umr_bitfield_default },
+	 { "VSRC3", 24, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmSQ_SOP2[] = {
+	 { "SSRC0", 0, 7, &umr_bitfield_default },
+	 { "SSRC1", 8, 15, &umr_bitfield_default },
+	 { "SDST", 16, 22, &umr_bitfield_default },
+	 { "OP", 23, 29, &umr_bitfield_default },
+	 { "ENCODING", 30, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmSQ_THREAD_TRACE_BASE[] = {
 	 { "ADDR", 0, 31, &umr_bitfield_default },
@@ -1961,24 +1961,42 @@ static struct umr_bitfield mmSQ_DED_INFO[] = {
 	 { "SOURCE", 6, 8, &umr_bitfield_default },
 	 { "VM_ID", 9, 12, &umr_bitfield_default },
 };
-static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_CMN[] = {
+static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_INST_USERDATA_1_OF_2[] = {
 	 { "TOKEN_TYPE", 0, 3, &umr_bitfield_default },
 	 { "TIME_DELTA", 4, 4, &umr_bitfield_default },
+	 { "SH_ID", 5, 5, &umr_bitfield_default },
+	 { "CU_ID", 6, 9, &umr_bitfield_default },
+	 { "WAVE_ID", 10, 13, &umr_bitfield_default },
+	 { "SIMD_ID", 14, 15, &umr_bitfield_default },
+	 { "DATA_LO", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_INST[] = {
+static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_TIMESTAMP_1_OF_2[] = {
+	 { "TOKEN_TYPE", 0, 3, &umr_bitfield_default },
+	 { "TIME_LO", 16, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_INST_PC_1_OF_2[] = {
 	 { "TOKEN_TYPE", 0, 3, &umr_bitfield_default },
 	 { "TIME_DELTA", 4, 4, &umr_bitfield_default },
 	 { "WAVE_ID", 5, 8, &umr_bitfield_default },
 	 { "SIMD_ID", 9, 10, &umr_bitfield_default },
-	 { "SIZE", 11, 11, &umr_bitfield_default },
-	 { "INST_TYPE", 12, 15, &umr_bitfield_default },
+	 { "PC_LO", 16, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_EVENT[] = {
+static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_REG_CS_1_OF_2[] = {
+	 { "TOKEN_TYPE", 0, 3, &umr_bitfield_default },
+	 { "TIME_DELTA", 4, 4, &umr_bitfield_default },
+	 { "PIPE_ID", 5, 6, &umr_bitfield_default },
+	 { "ME_ID", 7, 8, &umr_bitfield_default },
+	 { "REG_ADDR", 9, 15, &umr_bitfield_default },
+	 { "DATA_LO", 16, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_PERF_1_OF_2[] = {
 	 { "TOKEN_TYPE", 0, 3, &umr_bitfield_default },
 	 { "TIME_DELTA", 4, 4, &umr_bitfield_default },
 	 { "SH_ID", 5, 5, &umr_bitfield_default },
-	 { "STAGE", 6, 8, &umr_bitfield_default },
-	 { "EVENT_TYPE", 10, 15, &umr_bitfield_default },
+	 { "CU_ID", 6, 9, &umr_bitfield_default },
+	 { "CNTR_BANK", 10, 11, &umr_bitfield_default },
+	 { "CNTR0", 12, 24, &umr_bitfield_default },
+	 { "CNTR1_LO", 25, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_WAVE_START[] = {
 	 { "TOKEN_TYPE", 0, 3, &umr_bitfield_default },
@@ -1992,56 +2010,38 @@ static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_WAVE_START[] = {
 	 { "COUNT", 22, 28, &umr_bitfield_default },
 	 { "TG_ID", 29, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_PERF_1_OF_2[] = {
+static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_EVENT[] = {
 	 { "TOKEN_TYPE", 0, 3, &umr_bitfield_default },
 	 { "TIME_DELTA", 4, 4, &umr_bitfield_default },
 	 { "SH_ID", 5, 5, &umr_bitfield_default },
-	 { "CU_ID", 6, 9, &umr_bitfield_default },
-	 { "CNTR_BANK", 10, 11, &umr_bitfield_default },
-	 { "CNTR0", 12, 24, &umr_bitfield_default },
-	 { "CNTR1_LO", 25, 31, &umr_bitfield_default },
+	 { "STAGE", 6, 8, &umr_bitfield_default },
+	 { "EVENT_TYPE", 10, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_REG_CS_1_OF_2[] = {
-	 { "TOKEN_TYPE", 0, 3, &umr_bitfield_default },
-	 { "TIME_DELTA", 4, 4, &umr_bitfield_default },
-	 { "PIPE_ID", 5, 6, &umr_bitfield_default },
-	 { "ME_ID", 7, 8, &umr_bitfield_default },
-	 { "REG_ADDR", 9, 15, &umr_bitfield_default },
-	 { "DATA_LO", 16, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_INST_PC_1_OF_2[] = {
+static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_INST[] = {
 	 { "TOKEN_TYPE", 0, 3, &umr_bitfield_default },
 	 { "TIME_DELTA", 4, 4, &umr_bitfield_default },
 	 { "WAVE_ID", 5, 8, &umr_bitfield_default },
 	 { "SIMD_ID", 9, 10, &umr_bitfield_default },
-	 { "PC_LO", 16, 31, &umr_bitfield_default },
+	 { "SIZE", 11, 11, &umr_bitfield_default },
+	 { "INST_TYPE", 12, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_TIMESTAMP_1_OF_2[] = {
-	 { "TOKEN_TYPE", 0, 3, &umr_bitfield_default },
-	 { "TIME_LO", 16, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_INST_USERDATA_1_OF_2[] = {
+static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_CMN[] = {
 	 { "TOKEN_TYPE", 0, 3, &umr_bitfield_default },
 	 { "TIME_DELTA", 4, 4, &umr_bitfield_default },
-	 { "SH_ID", 5, 5, &umr_bitfield_default },
-	 { "CU_ID", 6, 9, &umr_bitfield_default },
-	 { "WAVE_ID", 10, 13, &umr_bitfield_default },
-	 { "SIMD_ID", 14, 15, &umr_bitfield_default },
-	 { "DATA_LO", 16, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_INST_USERDATA_2_OF_2[] = {
+	 { "DATA_HI", 0, 15, &umr_bitfield_default },
+};
+static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_TIMESTAMP_2_OF_2[] = {
+	 { "TIME_HI", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_INST_PC_2_OF_2[] = {
+	 { "PC_HI", 0, 23, &umr_bitfield_default },
 };
 static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_PERF_2_OF_2[] = {
 	 { "CNTR1_HI", 0, 5, &umr_bitfield_default },
 	 { "CNTR2", 6, 18, &umr_bitfield_default },
 	 { "CNTR3", 19, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_INST_PC_2_OF_2[] = {
-	 { "PC_HI", 0, 23, &umr_bitfield_default },
-};
-static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_TIMESTAMP_2_OF_2[] = {
-	 { "TIME_HI", 0, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield mmSQ_THREAD_TRACE_WORD_INST_USERDATA_2_OF_2[] = {
-	 { "DATA_HI", 0, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield mmSQ_BUF_RSRC_WORD0[] = {
 	 { "BASE_ADDRESS", 0, 31, &umr_bitfield_default },
@@ -4686,6 +4686,23 @@ static struct umr_bitfield mmCOMPUTE_USER_DATA_14[] = {
 static struct umr_bitfield mmCOMPUTE_USER_DATA_15[] = {
 	 { "DATA", 0, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixCLIPPER_DEBUG_REG03[] = {
+	 { "clipsm0_clprim_to_clip_clip_code_or", 0, 13, &umr_bitfield_default },
+	 { "clipsm0_clprim_to_clip_event_id", 14, 19, &umr_bitfield_default },
+	 { "clipsm0_clprim_to_clip_state_var_indx", 20, 22, &umr_bitfield_default },
+	 { "clipsm0_clprim_to_clip_clip_primitive", 23, 23, &umr_bitfield_default },
+	 { "clipsm0_clprim_to_clip_deallocate_slot", 24, 26, &umr_bitfield_default },
+	 { "clipsm0_clprim_to_clip_first_prim_of_slot", 27, 27, &umr_bitfield_default },
+	 { "clipsm0_clprim_to_clip_end_of_packet", 28, 28, &umr_bitfield_default },
+	 { "clipsm0_clprim_to_clip_event", 29, 29, &umr_bitfield_default },
+	 { "clipsm0_clprim_to_clip_null_primitive", 30, 30, &umr_bitfield_default },
+	 { "clipsm0_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixGDS_DEBUG_REG3[] = {
+	 { "pipe_num_busy", 0, 10, &umr_bitfield_default },
+	 { "pipe0_busy_num", 11, 14, &umr_bitfield_default },
+	 { "spare", 15, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield ixWD_DEBUG_REG3[] = {
 	 { "rbiu_spl_dr_valid", 0, 0, &umr_bitfield_default },
 	 { "SPARE0", 1, 1, &umr_bitfield_default },
@@ -4718,23 +4735,6 @@ static struct umr_bitfield ixWD_DEBUG_REG3[] = {
 	 { "pipe3_rtr", 29, 29, &umr_bitfield_default },
 	 { "wd_dma2draw_fifo_empty", 30, 30, &umr_bitfield_default },
 	 { "wd_dma2draw_fifo_full", 31, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixGDS_DEBUG_REG3[] = {
-	 { "pipe_num_busy", 0, 10, &umr_bitfield_default },
-	 { "pipe0_busy_num", 11, 14, &umr_bitfield_default },
-	 { "spare", 15, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixCLIPPER_DEBUG_REG03[] = {
-	 { "clipsm0_clprim_to_clip_clip_code_or", 0, 13, &umr_bitfield_default },
-	 { "clipsm0_clprim_to_clip_event_id", 14, 19, &umr_bitfield_default },
-	 { "clipsm0_clprim_to_clip_state_var_indx", 20, 22, &umr_bitfield_default },
-	 { "clipsm0_clprim_to_clip_clip_primitive", 23, 23, &umr_bitfield_default },
-	 { "clipsm0_clprim_to_clip_deallocate_slot", 24, 26, &umr_bitfield_default },
-	 { "clipsm0_clprim_to_clip_first_prim_of_slot", 27, 27, &umr_bitfield_default },
-	 { "clipsm0_clprim_to_clip_end_of_packet", 28, 28, &umr_bitfield_default },
-	 { "clipsm0_clprim_to_clip_event", 29, 29, &umr_bitfield_default },
-	 { "clipsm0_clprim_to_clip_null_primitive", 30, 30, &umr_bitfield_default },
-	 { "clipsm0_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixDIDT_DB_WEIGHT0_3[] = {
 	 { "WEIGHT0", 0, 7, &umr_bitfield_default },
@@ -4813,13 +4813,13 @@ static struct umr_bitfield mmCP_DFY_DATA_14[] = {
 static struct umr_bitfield mmCP_DFY_DATA_15[] = {
 	 { "DATA", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCP_RB_BASE[] = {
-	 { "RB_BASE", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield mmCP_RB0_BASE[] = {
 	 { "RB_BASE", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCP_RB_CNTL[] = {
+static struct umr_bitfield mmCP_RB_BASE[] = {
+	 { "RB_BASE", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmCP_RB0_CNTL[] = {
 	 { "RB_BUFSZ", 0, 5, &umr_bitfield_default },
 	 { "RB_BLKSZ", 8, 13, &umr_bitfield_default },
 	 { "BUF_SWAP", 16, 17, &umr_bitfield_default },
@@ -4830,7 +4830,7 @@ static struct umr_bitfield mmCP_RB_CNTL[] = {
 	 { "RB_NO_UPDATE", 27, 27, &umr_bitfield_default },
 	 { "RB_RPTR_WR_ENA", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCP_RB0_CNTL[] = {
+static struct umr_bitfield mmCP_RB_CNTL[] = {
 	 { "RB_BUFSZ", 0, 5, &umr_bitfield_default },
 	 { "RB_BLKSZ", 8, 13, &umr_bitfield_default },
 	 { "BUF_SWAP", 16, 17, &umr_bitfield_default },
@@ -4844,24 +4844,24 @@ static struct umr_bitfield mmCP_RB0_CNTL[] = {
 static struct umr_bitfield mmCP_RB_RPTR_WR[] = {
 	 { "RB_RPTR_WR", 0, 19, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCP_RB_RPTR_ADDR[] = {
-	 { "RB_RPTR_SWAP", 0, 1, &umr_bitfield_default },
-	 { "RB_RPTR_ADDR", 2, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield mmCP_RB0_RPTR_ADDR[] = {
 	 { "RB_RPTR_SWAP", 0, 1, &umr_bitfield_default },
 	 { "RB_RPTR_ADDR", 2, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCP_RB_RPTR_ADDR_HI[] = {
-	 { "RB_RPTR_ADDR_HI", 0, 15, &umr_bitfield_default },
+static struct umr_bitfield mmCP_RB_RPTR_ADDR[] = {
+	 { "RB_RPTR_SWAP", 0, 1, &umr_bitfield_default },
+	 { "RB_RPTR_ADDR", 2, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCP_RB0_RPTR_ADDR_HI[] = {
 	 { "RB_RPTR_ADDR_HI", 0, 15, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCP_RB_WPTR[] = {
-	 { "RB_WPTR", 0, 19, &umr_bitfield_default },
+static struct umr_bitfield mmCP_RB_RPTR_ADDR_HI[] = {
+	 { "RB_RPTR_ADDR_HI", 0, 15, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCP_RB0_WPTR[] = {
+	 { "RB_WPTR", 0, 19, &umr_bitfield_default },
+};
+static struct umr_bitfield mmCP_RB_WPTR[] = {
 	 { "RB_WPTR", 0, 19, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCP_RB_WPTR_POLL_ADDR_LO[] = {
@@ -4901,34 +4901,34 @@ static struct umr_bitfield mmCP_INT_STATUS[] = {
 static struct umr_bitfield mmCP_DEVICE_ID[] = {
 	 { "DEVICE_ID", 0, 7, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCP_RING_PRIORITY_CNTS[] = {
-	 { "PRIORITY1_CNT", 0, 7, &umr_bitfield_default },
-	 { "PRIORITY2A_CNT", 8, 15, &umr_bitfield_default },
-	 { "PRIORITY2B_CNT", 16, 23, &umr_bitfield_default },
-	 { "PRIORITY3_CNT", 24, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield mmCP_ME0_PIPE_PRIORITY_CNTS[] = {
 	 { "PRIORITY1_CNT", 0, 7, &umr_bitfield_default },
 	 { "PRIORITY2A_CNT", 8, 15, &umr_bitfield_default },
 	 { "PRIORITY2B_CNT", 16, 23, &umr_bitfield_default },
 	 { "PRIORITY3_CNT", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCP_RING0_PRIORITY[] = {
-	 { "PRIORITY", 0, 1, &umr_bitfield_default },
+static struct umr_bitfield mmCP_RING_PRIORITY_CNTS[] = {
+	 { "PRIORITY1_CNT", 0, 7, &umr_bitfield_default },
+	 { "PRIORITY2A_CNT", 8, 15, &umr_bitfield_default },
+	 { "PRIORITY2B_CNT", 16, 23, &umr_bitfield_default },
+	 { "PRIORITY3_CNT", 24, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCP_ME0_PIPE0_PRIORITY[] = {
 	 { "PRIORITY", 0, 1, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCP_RING1_PRIORITY[] = {
+static struct umr_bitfield mmCP_RING0_PRIORITY[] = {
 	 { "PRIORITY", 0, 1, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCP_ME0_PIPE1_PRIORITY[] = {
 	 { "PRIORITY", 0, 1, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCP_RING2_PRIORITY[] = {
+static struct umr_bitfield mmCP_RING1_PRIORITY[] = {
 	 { "PRIORITY", 0, 1, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCP_ME0_PIPE2_PRIORITY[] = {
+	 { "PRIORITY", 0, 1, &umr_bitfield_default },
+};
+static struct umr_bitfield mmCP_RING2_PRIORITY[] = {
 	 { "PRIORITY", 0, 1, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCP_ENDIAN_SWAP[] = {
@@ -5579,14 +5579,14 @@ static struct umr_bitfield mmRLC_LOAD_BALANCE_CNTR[] = {
 static struct umr_bitfield mmRLC_SAVE_AND_RESTORE_BASE[] = {
 	 { "BASE", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmRLC_JUMP_TABLE_RESTORE[] = {
-	 { "ADDR", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield mmRLC_DRIVER_CPDMA_STATUS[] = {
 	 { "DRIVER_REQUEST", 0, 0, &umr_bitfield_default },
 	 { "RESERVED1", 1, 3, &umr_bitfield_default },
 	 { "DRIVER_ACK", 4, 4, &umr_bitfield_default },
 	 { "RESERVED", 5, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmRLC_JUMP_TABLE_RESTORE[] = {
+	 { "ADDR", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmRLC_PG_DELAY_2[] = {
 	 { "SERDES_TIMEOUT_VALUE", 0, 7, &umr_bitfield_default },
@@ -5913,13 +5913,13 @@ static struct umr_bitfield mmRLC_GPM_LOG_CONT[] = {
 static struct umr_bitfield mmRLC_GPR_REG1[] = {
 	 { "DATA", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmRLC_GPR_REG2[] = {
-	 { "DATA", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield mmRLC_SAFE_MODE[] = {
 	 { "REQ", 0, 0, &umr_bitfield_default },
 	 { "MESSAGE", 1, 4, &umr_bitfield_default },
 	 { "RESERVED", 5, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmRLC_GPR_REG2[] = {
+	 { "DATA", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmSPI_ARB_PRIORITY[] = {
 	 { "PIPE_ORDER_TS0", 0, 2, &umr_bitfield_default },
@@ -6851,6 +6851,37 @@ static struct umr_bitfield mmRAS_BCI_SIGNATURE0[] = {
 static struct umr_bitfield mmRAS_BCI_SIGNATURE1[] = {
 	 { "SIGNATURE", 0, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixCLIPPER_DEBUG_REG04[] = {
+	 { "clipsm0_clprim_to_clip_param_cache_indx_0", 1, 10, &umr_bitfield_default },
+	 { "clipsm0_clprim_to_clip_vertex_store_indx_2", 11, 16, &umr_bitfield_default },
+	 { "clipsm0_clprim_to_clip_vertex_store_indx_1", 17, 22, &umr_bitfield_default },
+	 { "clipsm0_clprim_to_clip_vertex_store_indx_0", 23, 28, &umr_bitfield_default },
+	 { "clipsm0_clprim_to_clip_event", 29, 29, &umr_bitfield_default },
+	 { "clipsm0_clprim_to_clip_null_primitive", 30, 30, &umr_bitfield_default },
+	 { "clipsm0_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixGDS_DEBUG_REG4[] = {
+	 { "gws_busy", 0, 0, &umr_bitfield_default },
+	 { "gws_req", 1, 1, &umr_bitfield_default },
+	 { "gws_out_stall", 2, 2, &umr_bitfield_default },
+	 { "cur_reso", 3, 8, &umr_bitfield_default },
+	 { "cur_reso_head_valid", 9, 9, &umr_bitfield_default },
+	 { "cur_reso_head_dirty", 10, 10, &umr_bitfield_default },
+	 { "cur_reso_head_flag", 11, 11, &umr_bitfield_default },
+	 { "cur_reso_fed", 12, 12, &umr_bitfield_default },
+	 { "cur_reso_barrier", 13, 13, &umr_bitfield_default },
+	 { "cur_reso_flag", 14, 14, &umr_bitfield_default },
+	 { "cur_reso_cnt_gt0", 15, 15, &umr_bitfield_default },
+	 { "credit_cnt_gt0", 16, 16, &umr_bitfield_default },
+	 { "cmd_write", 17, 17, &umr_bitfield_default },
+	 { "grbm_gws_reso_wr", 18, 18, &umr_bitfield_default },
+	 { "grbm_gws_reso_rd", 19, 19, &umr_bitfield_default },
+	 { "ram_read_busy", 20, 20, &umr_bitfield_default },
+	 { "gws_bulkfree", 21, 21, &umr_bitfield_default },
+	 { "ram_gws_re", 22, 22, &umr_bitfield_default },
+	 { "ram_gws_we", 23, 23, &umr_bitfield_default },
+	 { "spare", 24, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield ixWD_DEBUG_REG4[] = {
 	 { "rbiu_spl_di_valid", 0, 0, &umr_bitfield_default },
 	 { "spl_rbiu_di_read", 1, 1, &umr_bitfield_default },
@@ -6882,37 +6913,6 @@ static struct umr_bitfield ixWD_DEBUG_REG4[] = {
 	 { "send_to_ia1_q", 30, 30, &umr_bitfield_default },
 	 { "dual_ia_mode", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixGDS_DEBUG_REG4[] = {
-	 { "gws_busy", 0, 0, &umr_bitfield_default },
-	 { "gws_req", 1, 1, &umr_bitfield_default },
-	 { "gws_out_stall", 2, 2, &umr_bitfield_default },
-	 { "cur_reso", 3, 8, &umr_bitfield_default },
-	 { "cur_reso_head_valid", 9, 9, &umr_bitfield_default },
-	 { "cur_reso_head_dirty", 10, 10, &umr_bitfield_default },
-	 { "cur_reso_head_flag", 11, 11, &umr_bitfield_default },
-	 { "cur_reso_fed", 12, 12, &umr_bitfield_default },
-	 { "cur_reso_barrier", 13, 13, &umr_bitfield_default },
-	 { "cur_reso_flag", 14, 14, &umr_bitfield_default },
-	 { "cur_reso_cnt_gt0", 15, 15, &umr_bitfield_default },
-	 { "credit_cnt_gt0", 16, 16, &umr_bitfield_default },
-	 { "cmd_write", 17, 17, &umr_bitfield_default },
-	 { "grbm_gws_reso_wr", 18, 18, &umr_bitfield_default },
-	 { "grbm_gws_reso_rd", 19, 19, &umr_bitfield_default },
-	 { "ram_read_busy", 20, 20, &umr_bitfield_default },
-	 { "gws_bulkfree", 21, 21, &umr_bitfield_default },
-	 { "ram_gws_re", 22, 22, &umr_bitfield_default },
-	 { "ram_gws_we", 23, 23, &umr_bitfield_default },
-	 { "spare", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixCLIPPER_DEBUG_REG04[] = {
-	 { "clipsm0_clprim_to_clip_param_cache_indx_0", 1, 10, &umr_bitfield_default },
-	 { "clipsm0_clprim_to_clip_vertex_store_indx_2", 11, 16, &umr_bitfield_default },
-	 { "clipsm0_clprim_to_clip_vertex_store_indx_1", 17, 22, &umr_bitfield_default },
-	 { "clipsm0_clprim_to_clip_vertex_store_indx_0", 23, 28, &umr_bitfield_default },
-	 { "clipsm0_clprim_to_clip_event", 29, 29, &umr_bitfield_default },
-	 { "clipsm0_clprim_to_clip_null_primitive", 30, 30, &umr_bitfield_default },
-	 { "clipsm0_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixDIDT_TD_CTRL0[] = {
 	 { "DIDT_CTRL_EN", 0, 0, &umr_bitfield_default },
 	 { "USE_REF_CLOCK", 1, 1, &umr_bitfield_default },
@@ -6928,6 +6928,28 @@ static struct umr_bitfield ixDIDT_TD_CTRL2[] = {
 	 { "MAX_POWER_DELTA", 0, 13, &umr_bitfield_default },
 	 { "SHORT_TERM_INTERVAL_SIZE", 16, 25, &umr_bitfield_default },
 	 { "LONG_TERM_INTERVAL_RATIO", 27, 30, &umr_bitfield_default },
+};
+static struct umr_bitfield ixCLIPPER_DEBUG_REG05[] = {
+	 { "clipsm1_clprim_to_clip_clip_code_or", 0, 13, &umr_bitfield_default },
+	 { "clipsm1_clprim_to_clip_event_id", 14, 19, &umr_bitfield_default },
+	 { "clipsm1_clprim_to_clip_state_var_indx", 20, 22, &umr_bitfield_default },
+	 { "clipsm1_clprim_to_clip_clip_primitive", 23, 23, &umr_bitfield_default },
+	 { "clipsm1_clprim_to_clip_deallocate_slot", 24, 26, &umr_bitfield_default },
+	 { "clipsm1_clprim_to_clip_first_prim_of_slot", 27, 27, &umr_bitfield_default },
+	 { "clipsm1_clprim_to_clip_end_of_packet", 28, 28, &umr_bitfield_default },
+	 { "clipsm1_clprim_to_clip_event", 29, 29, &umr_bitfield_default },
+	 { "clipsm1_clprim_to_clip_null_primitive", 30, 30, &umr_bitfield_default },
+	 { "clipsm1_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixGDS_DEBUG_REG5[] = {
+	 { "write_dis", 0, 0, &umr_bitfield_default },
+	 { "dec_error", 1, 1, &umr_bitfield_default },
+	 { "alloc_opco_error", 2, 2, &umr_bitfield_default },
+	 { "dealloc_opco_error", 3, 3, &umr_bitfield_default },
+	 { "wrap_opco_error", 4, 4, &umr_bitfield_default },
+	 { "spare", 5, 7, &umr_bitfield_default },
+	 { "error_ds_address", 8, 21, &umr_bitfield_default },
+	 { "spare1", 22, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixWD_DEBUG_REG5[] = {
 	 { "p1_rbiu_spl_dr_valid", 0, 0, &umr_bitfield_default },
@@ -6962,28 +6984,6 @@ static struct umr_bitfield ixWD_DEBUG_REG5[] = {
 	 { "p1_wd_dma2draw_fifo_empty", 30, 30, &umr_bitfield_default },
 	 { "p1_wd_dma2draw_fifo_full", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixGDS_DEBUG_REG5[] = {
-	 { "write_dis", 0, 0, &umr_bitfield_default },
-	 { "dec_error", 1, 1, &umr_bitfield_default },
-	 { "alloc_opco_error", 2, 2, &umr_bitfield_default },
-	 { "dealloc_opco_error", 3, 3, &umr_bitfield_default },
-	 { "wrap_opco_error", 4, 4, &umr_bitfield_default },
-	 { "spare", 5, 7, &umr_bitfield_default },
-	 { "error_ds_address", 8, 21, &umr_bitfield_default },
-	 { "spare1", 22, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixCLIPPER_DEBUG_REG05[] = {
-	 { "clipsm1_clprim_to_clip_clip_code_or", 0, 13, &umr_bitfield_default },
-	 { "clipsm1_clprim_to_clip_event_id", 14, 19, &umr_bitfield_default },
-	 { "clipsm1_clprim_to_clip_state_var_indx", 20, 22, &umr_bitfield_default },
-	 { "clipsm1_clprim_to_clip_clip_primitive", 23, 23, &umr_bitfield_default },
-	 { "clipsm1_clprim_to_clip_deallocate_slot", 24, 26, &umr_bitfield_default },
-	 { "clipsm1_clprim_to_clip_first_prim_of_slot", 27, 27, &umr_bitfield_default },
-	 { "clipsm1_clprim_to_clip_end_of_packet", 28, 28, &umr_bitfield_default },
-	 { "clipsm1_clprim_to_clip_event", 29, 29, &umr_bitfield_default },
-	 { "clipsm1_clprim_to_clip_null_primitive", 30, 30, &umr_bitfield_default },
-	 { "clipsm1_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixDIDT_TD_WEIGHT0_3[] = {
 	 { "WEIGHT0", 0, 7, &umr_bitfield_default },
 	 { "WEIGHT1", 8, 15, &umr_bitfield_default },
@@ -7002,6 +7002,21 @@ static struct umr_bitfield ixDIDT_TD_WEIGHT8_11[] = {
 	 { "WEIGHT10", 16, 23, &umr_bitfield_default },
 	 { "WEIGHT11", 24, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixCLIPPER_DEBUG_REG06[] = {
+	 { "clipsm1_clprim_to_clip_param_cache_indx_0", 1, 10, &umr_bitfield_default },
+	 { "clipsm1_clprim_to_clip_vertex_store_indx_2", 11, 16, &umr_bitfield_default },
+	 { "clipsm1_clprim_to_clip_vertex_store_indx_1", 17, 22, &umr_bitfield_default },
+	 { "clipsm1_clprim_to_clip_vertex_store_indx_0", 23, 28, &umr_bitfield_default },
+	 { "clipsm1_clprim_to_clip_event", 29, 29, &umr_bitfield_default },
+	 { "clipsm1_clprim_to_clip_null_primitive", 30, 30, &umr_bitfield_default },
+	 { "clipsm1_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixGDS_DEBUG_REG6[] = {
+	 { "oa_busy", 0, 0, &umr_bitfield_default },
+	 { "counters_enabled", 1, 4, &umr_bitfield_default },
+	 { "counters_busy", 5, 20, &umr_bitfield_default },
+	 { "spare", 21, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield ixIA_DEBUG_REG6[] = {
 	 { "current_shift_q", 0, 3, &umr_bitfield_default },
 	 { "current_stride_pre", 4, 7, &umr_bitfield_default },
@@ -7014,21 +7029,6 @@ static struct umr_bitfield ixIA_DEBUG_REG6[] = {
 	 { "after_group_partial", 22, 22, &umr_bitfield_default },
 	 { "extract_group", 23, 23, &umr_bitfield_default },
 	 { "grp_shift_debug_data", 24, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixGDS_DEBUG_REG6[] = {
-	 { "oa_busy", 0, 0, &umr_bitfield_default },
-	 { "counters_enabled", 1, 4, &umr_bitfield_default },
-	 { "counters_busy", 5, 20, &umr_bitfield_default },
-	 { "spare", 21, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixCLIPPER_DEBUG_REG06[] = {
-	 { "clipsm1_clprim_to_clip_param_cache_indx_0", 1, 10, &umr_bitfield_default },
-	 { "clipsm1_clprim_to_clip_vertex_store_indx_2", 11, 16, &umr_bitfield_default },
-	 { "clipsm1_clprim_to_clip_vertex_store_indx_1", 17, 22, &umr_bitfield_default },
-	 { "clipsm1_clprim_to_clip_vertex_store_indx_0", 23, 28, &umr_bitfield_default },
-	 { "clipsm1_clprim_to_clip_event", 29, 29, &umr_bitfield_default },
-	 { "clipsm1_clprim_to_clip_null_primitive", 30, 30, &umr_bitfield_default },
-	 { "clipsm1_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixDIDT_TCP_CTRL0[] = {
 	 { "DIDT_CTRL_EN", 0, 0, &umr_bitfield_default },
@@ -7046,22 +7046,17 @@ static struct umr_bitfield ixDIDT_TCP_CTRL2[] = {
 	 { "SHORT_TERM_INTERVAL_SIZE", 16, 25, &umr_bitfield_default },
 	 { "LONG_TERM_INTERVAL_RATIO", 27, 30, &umr_bitfield_default },
 };
-static struct umr_bitfield ixIA_DEBUG_REG7[] = {
-	 { "reset_indx_state_q", 0, 3, &umr_bitfield_default },
-	 { "shift_vect_valid_p2_q", 4, 7, &umr_bitfield_default },
-	 { "shift_vect1_valid_p2_q", 8, 11, &umr_bitfield_default },
-	 { "shift_vect0_reset_match_p2_q", 12, 15, &umr_bitfield_default },
-	 { "shift_vect1_reset_match_p2_q", 16, 19, &umr_bitfield_default },
-	 { "num_indx_in_group_p2_q", 20, 22, &umr_bitfield_default },
-	 { "last_group_of_draw_p2_q", 23, 23, &umr_bitfield_default },
-	 { "shift_event_flag_p2_q", 24, 24, &umr_bitfield_default },
-	 { "indx_shift_is_one_p2_q", 25, 25, &umr_bitfield_default },
-	 { "indx_shift_is_two_p2_q", 26, 26, &umr_bitfield_default },
-	 { "indx_stride_is_four_p2_q", 27, 27, &umr_bitfield_default },
-	 { "shift_prim1_reset_p3_q", 28, 28, &umr_bitfield_default },
-	 { "shift_prim1_partial_p3_q", 29, 29, &umr_bitfield_default },
-	 { "shift_prim0_reset_p3_q", 30, 30, &umr_bitfield_default },
-	 { "shift_prim0_partial_p3_q", 31, 31, &umr_bitfield_default },
+static struct umr_bitfield ixCLIPPER_DEBUG_REG07[] = {
+	 { "clipsm2_clprim_to_clip_clip_code_or", 0, 13, &umr_bitfield_default },
+	 { "clipsm2_clprim_to_clip_event_id", 14, 19, &umr_bitfield_default },
+	 { "clipsm2_clprim_to_clip_state_var_indx", 20, 22, &umr_bitfield_default },
+	 { "clipsm2_clprim_to_clip_clip_primitive", 23, 23, &umr_bitfield_default },
+	 { "clipsm2_clprim_to_clip_deallocate_slot", 24, 26, &umr_bitfield_default },
+	 { "clipsm2_clprim_to_clip_first_prim_of_slot", 27, 27, &umr_bitfield_default },
+	 { "clipsm2_clprim_to_clip_end_of_packet", 28, 28, &umr_bitfield_default },
+	 { "clipsm2_clprim_to_clip_event", 29, 29, &umr_bitfield_default },
+	 { "clipsm2_clprim_to_clip_null_primitive", 30, 30, &umr_bitfield_default },
+	 { "clipsm2_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixVGT_DEBUG_REG18[] = {
 	 { "grp_vr_valid", 0, 0, &umr_bitfield_default },
@@ -7091,17 +7086,22 @@ static struct umr_bitfield ixVGT_DEBUG_REG18[] = {
 	 { "gs_scenario_b_r0_q", 28, 28, &umr_bitfield_default },
 	 { "components_valid_r0_q", 29, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCLIPPER_DEBUG_REG07[] = {
-	 { "clipsm2_clprim_to_clip_clip_code_or", 0, 13, &umr_bitfield_default },
-	 { "clipsm2_clprim_to_clip_event_id", 14, 19, &umr_bitfield_default },
-	 { "clipsm2_clprim_to_clip_state_var_indx", 20, 22, &umr_bitfield_default },
-	 { "clipsm2_clprim_to_clip_clip_primitive", 23, 23, &umr_bitfield_default },
-	 { "clipsm2_clprim_to_clip_deallocate_slot", 24, 26, &umr_bitfield_default },
-	 { "clipsm2_clprim_to_clip_first_prim_of_slot", 27, 27, &umr_bitfield_default },
-	 { "clipsm2_clprim_to_clip_end_of_packet", 28, 28, &umr_bitfield_default },
-	 { "clipsm2_clprim_to_clip_event", 29, 29, &umr_bitfield_default },
-	 { "clipsm2_clprim_to_clip_null_primitive", 30, 30, &umr_bitfield_default },
-	 { "clipsm2_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
+static struct umr_bitfield ixIA_DEBUG_REG7[] = {
+	 { "reset_indx_state_q", 0, 3, &umr_bitfield_default },
+	 { "shift_vect_valid_p2_q", 4, 7, &umr_bitfield_default },
+	 { "shift_vect1_valid_p2_q", 8, 11, &umr_bitfield_default },
+	 { "shift_vect0_reset_match_p2_q", 12, 15, &umr_bitfield_default },
+	 { "shift_vect1_reset_match_p2_q", 16, 19, &umr_bitfield_default },
+	 { "num_indx_in_group_p2_q", 20, 22, &umr_bitfield_default },
+	 { "last_group_of_draw_p2_q", 23, 23, &umr_bitfield_default },
+	 { "shift_event_flag_p2_q", 24, 24, &umr_bitfield_default },
+	 { "indx_shift_is_one_p2_q", 25, 25, &umr_bitfield_default },
+	 { "indx_shift_is_two_p2_q", 26, 26, &umr_bitfield_default },
+	 { "indx_stride_is_four_p2_q", 27, 27, &umr_bitfield_default },
+	 { "shift_prim1_reset_p3_q", 28, 28, &umr_bitfield_default },
+	 { "shift_prim1_partial_p3_q", 29, 29, &umr_bitfield_default },
+	 { "shift_prim0_reset_p3_q", 30, 30, &umr_bitfield_default },
+	 { "shift_prim0_partial_p3_q", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixDIDT_TCP_WEIGHT0_3[] = {
 	 { "WEIGHT0", 0, 7, &umr_bitfield_default },
@@ -7121,23 +7121,18 @@ static struct umr_bitfield ixDIDT_TCP_WEIGHT8_11[] = {
 	 { "WEIGHT10", 16, 23, &umr_bitfield_default },
 	 { "WEIGHT11", 24, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixIA_DEBUG_REG8[] = {
-	 { "di_prim_type_p1_q", 0, 4, &umr_bitfield_default },
-	 { "two_cycle_xfer_p1_q", 5, 5, &umr_bitfield_default },
-	 { "two_prim_input_p1_q", 6, 6, &umr_bitfield_default },
-	 { "shift_vect_end_of_packet_p5_q", 7, 7, &umr_bitfield_default },
-	 { "last_group_of_inst_p5_q", 8, 8, &umr_bitfield_default },
-	 { "shift_prim1_null_flag_p5_q", 9, 9, &umr_bitfield_default },
-	 { "shift_prim0_null_flag_p5_q", 10, 10, &umr_bitfield_default },
-	 { "grp_continued", 11, 11, &umr_bitfield_default },
-	 { "grp_state_sel", 12, 14, &umr_bitfield_default },
-	 { "grp_sub_prim_type", 15, 20, &umr_bitfield_default },
-	 { "grp_output_path", 21, 23, &umr_bitfield_default },
-	 { "grp_null_primitive", 24, 24, &umr_bitfield_default },
-	 { "grp_eop", 25, 25, &umr_bitfield_default },
-	 { "grp_eopg", 26, 26, &umr_bitfield_default },
-	 { "grp_event_flag", 27, 27, &umr_bitfield_default },
-	 { "grp_components_valid", 28, 31, &umr_bitfield_default },
+static struct umr_bitfield ixCLIPPER_DEBUG_REG08[] = {
+	 { "clipsm2_clprim_to_clip_param_cache_indx_0", 1, 10, &umr_bitfield_default },
+	 { "clipsm2_clprim_to_clip_vertex_store_indx_2", 11, 16, &umr_bitfield_default },
+	 { "clipsm2_clprim_to_clip_vertex_store_indx_1", 17, 22, &umr_bitfield_default },
+	 { "clipsm2_clprim_to_clip_vertex_store_indx_0", 23, 28, &umr_bitfield_default },
+	 { "clipsm2_clprim_to_clip_event", 29, 29, &umr_bitfield_default },
+	 { "clipsm2_clprim_to_clip_null_primitive", 30, 30, &umr_bitfield_default },
+	 { "clipsm2_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixSQ_DEBUG_STS_LOCAL[] = {
+	 { "BUSY", 0, 0, &umr_bitfield_default },
+	 { "WAVE_LEVEL", 4, 9, &umr_bitfield_default },
 };
 static struct umr_bitfield ixVGT_DEBUG_REG8[] = {
 	 { "rcm_busy_q", 0, 0, &umr_bitfield_default },
@@ -7173,41 +7168,35 @@ static struct umr_bitfield ixVGT_DEBUG_REG8[] = {
 	 { "te_vert_fifo_empty", 30, 30, &umr_bitfield_default },
 	 { "te_vert_fifo_full", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixSQ_DEBUG_STS_LOCAL[] = {
-	 { "BUSY", 0, 0, &umr_bitfield_default },
-	 { "WAVE_LEVEL", 4, 9, &umr_bitfield_default },
+static struct umr_bitfield ixIA_DEBUG_REG8[] = {
+	 { "di_prim_type_p1_q", 0, 4, &umr_bitfield_default },
+	 { "two_cycle_xfer_p1_q", 5, 5, &umr_bitfield_default },
+	 { "two_prim_input_p1_q", 6, 6, &umr_bitfield_default },
+	 { "shift_vect_end_of_packet_p5_q", 7, 7, &umr_bitfield_default },
+	 { "last_group_of_inst_p5_q", 8, 8, &umr_bitfield_default },
+	 { "shift_prim1_null_flag_p5_q", 9, 9, &umr_bitfield_default },
+	 { "shift_prim0_null_flag_p5_q", 10, 10, &umr_bitfield_default },
+	 { "grp_continued", 11, 11, &umr_bitfield_default },
+	 { "grp_state_sel", 12, 14, &umr_bitfield_default },
+	 { "grp_sub_prim_type", 15, 20, &umr_bitfield_default },
+	 { "grp_output_path", 21, 23, &umr_bitfield_default },
+	 { "grp_null_primitive", 24, 24, &umr_bitfield_default },
+	 { "grp_eop", 25, 25, &umr_bitfield_default },
+	 { "grp_eopg", 26, 26, &umr_bitfield_default },
+	 { "grp_event_flag", 27, 27, &umr_bitfield_default },
+	 { "grp_components_valid", 28, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCLIPPER_DEBUG_REG08[] = {
-	 { "clipsm2_clprim_to_clip_param_cache_indx_0", 1, 10, &umr_bitfield_default },
-	 { "clipsm2_clprim_to_clip_vertex_store_indx_2", 11, 16, &umr_bitfield_default },
-	 { "clipsm2_clprim_to_clip_vertex_store_indx_1", 17, 22, &umr_bitfield_default },
-	 { "clipsm2_clprim_to_clip_vertex_store_indx_0", 23, 28, &umr_bitfield_default },
-	 { "clipsm2_clprim_to_clip_event", 29, 29, &umr_bitfield_default },
-	 { "clipsm2_clprim_to_clip_null_primitive", 30, 30, &umr_bitfield_default },
-	 { "clipsm2_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixIA_DEBUG_REG9[] = {
-	 { "send_to_se1_p6", 0, 0, &umr_bitfield_default },
-	 { "gfx_se_switch_p6", 1, 1, &umr_bitfield_default },
-	 { "null_eoi_xfer_prim1_p6", 2, 2, &umr_bitfield_default },
-	 { "null_eoi_xfer_prim0_p6", 3, 3, &umr_bitfield_default },
-	 { "prim1_eoi_p6", 4, 4, &umr_bitfield_default },
-	 { "prim0_eoi_p6", 5, 5, &umr_bitfield_default },
-	 { "prim1_valid_eopg_p6", 6, 6, &umr_bitfield_default },
-	 { "prim0_valid_eopg_p6", 7, 7, &umr_bitfield_default },
-	 { "prim1_to_other_se_p6", 8, 8, &umr_bitfield_default },
-	 { "eopg_on_last_prim_p6", 9, 9, &umr_bitfield_default },
-	 { "eopg_between_prims_p6", 10, 10, &umr_bitfield_default },
-	 { "prim_count_eq_group_size_p6", 11, 11, &umr_bitfield_default },
-	 { "prim_count_gt_group_size_p6", 12, 12, &umr_bitfield_default },
-	 { "two_prim_output_p5_q", 13, 13, &umr_bitfield_default },
-	 { "SPARE0", 14, 14, &umr_bitfield_default },
-	 { "SPARE1", 15, 15, &umr_bitfield_default },
-	 { "shift_vect_end_of_packet_p5_q", 16, 16, &umr_bitfield_default },
-	 { "prim1_xfer_p6", 17, 17, &umr_bitfield_default },
-	 { "grp_se1_fifo_empty", 18, 18, &umr_bitfield_default },
-	 { "grp_se1_fifo_full", 19, 19, &umr_bitfield_default },
-	 { "prim_counter_q", 20, 31, &umr_bitfield_default },
+static struct umr_bitfield ixCLIPPER_DEBUG_REG09[] = {
+	 { "clipsm3_clprim_to_clip_clip_code_or", 0, 13, &umr_bitfield_default },
+	 { "clipsm3_clprim_to_clip_event_id", 14, 19, &umr_bitfield_default },
+	 { "clipsm3_clprim_to_clip_state_var_indx", 20, 22, &umr_bitfield_default },
+	 { "clipsm3_clprim_to_clip_clip_primitive", 23, 23, &umr_bitfield_default },
+	 { "clipsm3_clprim_to_clip_deallocate_slot", 24, 26, &umr_bitfield_default },
+	 { "clipsm3_clprim_to_clip_first_prim_of_slot", 27, 27, &umr_bitfield_default },
+	 { "clipsm3_clprim_to_clip_end_of_packet", 28, 28, &umr_bitfield_default },
+	 { "clipsm3_clprim_to_clip_event", 29, 29, &umr_bitfield_default },
+	 { "clipsm3_clprim_to_clip_null_primitive", 30, 30, &umr_bitfield_default },
+	 { "clipsm3_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixVGT_DEBUG_REG9[] = {
 	 { "indices_to_send_r2_q", 0, 1, &umr_bitfield_default },
@@ -7234,14 +7223,34 @@ static struct umr_bitfield ixVGT_DEBUG_REG9[] = {
 	 { "SPARE0", 30, 30, &umr_bitfield_default },
 	 { "off_chip_hs_r2_q", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCLIPPER_DEBUG_REG09[] = {
-	 { "clipsm3_clprim_to_clip_clip_code_or", 0, 13, &umr_bitfield_default },
-	 { "clipsm3_clprim_to_clip_event_id", 14, 19, &umr_bitfield_default },
-	 { "clipsm3_clprim_to_clip_state_var_indx", 20, 22, &umr_bitfield_default },
-	 { "clipsm3_clprim_to_clip_clip_primitive", 23, 23, &umr_bitfield_default },
-	 { "clipsm3_clprim_to_clip_deallocate_slot", 24, 26, &umr_bitfield_default },
-	 { "clipsm3_clprim_to_clip_first_prim_of_slot", 27, 27, &umr_bitfield_default },
-	 { "clipsm3_clprim_to_clip_end_of_packet", 28, 28, &umr_bitfield_default },
+static struct umr_bitfield ixIA_DEBUG_REG9[] = {
+	 { "send_to_se1_p6", 0, 0, &umr_bitfield_default },
+	 { "gfx_se_switch_p6", 1, 1, &umr_bitfield_default },
+	 { "null_eoi_xfer_prim1_p6", 2, 2, &umr_bitfield_default },
+	 { "null_eoi_xfer_prim0_p6", 3, 3, &umr_bitfield_default },
+	 { "prim1_eoi_p6", 4, 4, &umr_bitfield_default },
+	 { "prim0_eoi_p6", 5, 5, &umr_bitfield_default },
+	 { "prim1_valid_eopg_p6", 6, 6, &umr_bitfield_default },
+	 { "prim0_valid_eopg_p6", 7, 7, &umr_bitfield_default },
+	 { "prim1_to_other_se_p6", 8, 8, &umr_bitfield_default },
+	 { "eopg_on_last_prim_p6", 9, 9, &umr_bitfield_default },
+	 { "eopg_between_prims_p6", 10, 10, &umr_bitfield_default },
+	 { "prim_count_eq_group_size_p6", 11, 11, &umr_bitfield_default },
+	 { "prim_count_gt_group_size_p6", 12, 12, &umr_bitfield_default },
+	 { "two_prim_output_p5_q", 13, 13, &umr_bitfield_default },
+	 { "SPARE0", 14, 14, &umr_bitfield_default },
+	 { "SPARE1", 15, 15, &umr_bitfield_default },
+	 { "shift_vect_end_of_packet_p5_q", 16, 16, &umr_bitfield_default },
+	 { "prim1_xfer_p6", 17, 17, &umr_bitfield_default },
+	 { "grp_se1_fifo_empty", 18, 18, &umr_bitfield_default },
+	 { "grp_se1_fifo_full", 19, 19, &umr_bitfield_default },
+	 { "prim_counter_q", 20, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixCLIPPER_DEBUG_REG10[] = {
+	 { "clipsm3_clprim_to_clip_param_cache_indx_0", 1, 10, &umr_bitfield_default },
+	 { "clipsm3_clprim_to_clip_vertex_store_indx_2", 11, 16, &umr_bitfield_default },
+	 { "clipsm3_clprim_to_clip_vertex_store_indx_1", 17, 22, &umr_bitfield_default },
+	 { "clipsm3_clprim_to_clip_vertex_store_indx_0", 23, 28, &umr_bitfield_default },
 	 { "clipsm3_clprim_to_clip_event", 29, 29, &umr_bitfield_default },
 	 { "clipsm3_clprim_to_clip_null_primitive", 30, 30, &umr_bitfield_default },
 	 { "clipsm3_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
@@ -7256,15 +7265,6 @@ static struct umr_bitfield ixVGT_DEBUG_REG10[] = {
 	 { "rcm_mem_gsprim_re_q", 12, 12, &umr_bitfield_default },
 	 { "gs_rb_space_avail_r3_q_9_0", 13, 22, &umr_bitfield_default },
 	 { "es_rb_space_avail_r2_q_8_0", 23, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixCLIPPER_DEBUG_REG10[] = {
-	 { "clipsm3_clprim_to_clip_param_cache_indx_0", 1, 10, &umr_bitfield_default },
-	 { "clipsm3_clprim_to_clip_vertex_store_indx_2", 11, 16, &umr_bitfield_default },
-	 { "clipsm3_clprim_to_clip_vertex_store_indx_1", 17, 22, &umr_bitfield_default },
-	 { "clipsm3_clprim_to_clip_vertex_store_indx_0", 23, 28, &umr_bitfield_default },
-	 { "clipsm3_clprim_to_clip_event", 29, 29, &umr_bitfield_default },
-	 { "clipsm3_clprim_to_clip_null_primitive", 30, 30, &umr_bitfield_default },
-	 { "clipsm3_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmDB_RENDER_CONTROL[] = {
 	 { "DEPTH_CLEAR_ENABLE", 0, 0, &umr_bitfield_default },
@@ -9872,6 +9872,28 @@ static struct umr_bitfield mmCB_COLOR7_CLEAR_WORD0[] = {
 static struct umr_bitfield mmCB_COLOR7_CLEAR_WORD1[] = {
 	 { "CLEAR_WORD1", 0, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield ixCLIPPER_DEBUG_REG11[] = {
+	 { "clipsm3_clip_to_clipga_event", 0, 0, &umr_bitfield_default },
+	 { "clipsm2_clip_to_clipga_event", 1, 1, &umr_bitfield_default },
+	 { "clipsm1_clip_to_clipga_event", 2, 2, &umr_bitfield_default },
+	 { "clipsm0_clip_to_clipga_event", 3, 3, &umr_bitfield_default },
+	 { "clipsm3_clip_to_clipga_clip_primitive", 4, 4, &umr_bitfield_default },
+	 { "clipsm2_clip_to_clipga_clip_primitive", 5, 5, &umr_bitfield_default },
+	 { "clipsm1_clip_to_clipga_clip_primitive", 6, 6, &umr_bitfield_default },
+	 { "clipsm0_clip_to_clipga_clip_primitive", 7, 7, &umr_bitfield_default },
+	 { "clipsm3_clip_to_clipga_clip_to_outsm_cnt", 8, 11, &umr_bitfield_default },
+	 { "clipsm2_clip_to_clipga_clip_to_outsm_cnt", 12, 15, &umr_bitfield_default },
+	 { "clipsm1_clip_to_clipga_clip_to_outsm_cnt", 16, 19, &umr_bitfield_default },
+	 { "clipsm0_clip_to_clipga_clip_to_outsm_cnt", 20, 23, &umr_bitfield_default },
+	 { "clipsm3_clip_to_clipga_prim_valid", 24, 24, &umr_bitfield_default },
+	 { "clipsm2_clip_to_clipga_prim_valid", 25, 25, &umr_bitfield_default },
+	 { "clipsm1_clip_to_clipga_prim_valid", 26, 26, &umr_bitfield_default },
+	 { "clipsm0_clip_to_clipga_prim_valid", 27, 27, &umr_bitfield_default },
+	 { "clipsm3_inc_clip_to_clipga_clip_to_outsm_cnt", 28, 28, &umr_bitfield_default },
+	 { "clipsm2_inc_clip_to_clipga_clip_to_outsm_cnt", 29, 29, &umr_bitfield_default },
+	 { "clipsm1_inc_clip_to_clipga_clip_to_outsm_cnt", 30, 30, &umr_bitfield_default },
+	 { "clipsm0_inc_clip_to_clipga_clip_to_outsm_cnt", 31, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield ixVGT_DEBUG_REG11[] = {
 	 { "tm_busy_q", 0, 0, &umr_bitfield_default },
 	 { "tm_noif_busy_q", 1, 1, &umr_bitfield_default },
@@ -9906,42 +9928,6 @@ static struct umr_bitfield ixVGT_DEBUG_REG11[] = {
 	 { "es_tbl_empty", 30, 30, &umr_bitfield_default },
 	 { "no_active_states_r0", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCLIPPER_DEBUG_REG11[] = {
-	 { "clipsm3_clip_to_clipga_event", 0, 0, &umr_bitfield_default },
-	 { "clipsm2_clip_to_clipga_event", 1, 1, &umr_bitfield_default },
-	 { "clipsm1_clip_to_clipga_event", 2, 2, &umr_bitfield_default },
-	 { "clipsm0_clip_to_clipga_event", 3, 3, &umr_bitfield_default },
-	 { "clipsm3_clip_to_clipga_clip_primitive", 4, 4, &umr_bitfield_default },
-	 { "clipsm2_clip_to_clipga_clip_primitive", 5, 5, &umr_bitfield_default },
-	 { "clipsm1_clip_to_clipga_clip_primitive", 6, 6, &umr_bitfield_default },
-	 { "clipsm0_clip_to_clipga_clip_primitive", 7, 7, &umr_bitfield_default },
-	 { "clipsm3_clip_to_clipga_clip_to_outsm_cnt", 8, 11, &umr_bitfield_default },
-	 { "clipsm2_clip_to_clipga_clip_to_outsm_cnt", 12, 15, &umr_bitfield_default },
-	 { "clipsm1_clip_to_clipga_clip_to_outsm_cnt", 16, 19, &umr_bitfield_default },
-	 { "clipsm0_clip_to_clipga_clip_to_outsm_cnt", 20, 23, &umr_bitfield_default },
-	 { "clipsm3_clip_to_clipga_prim_valid", 24, 24, &umr_bitfield_default },
-	 { "clipsm2_clip_to_clipga_prim_valid", 25, 25, &umr_bitfield_default },
-	 { "clipsm1_clip_to_clipga_prim_valid", 26, 26, &umr_bitfield_default },
-	 { "clipsm0_clip_to_clipga_prim_valid", 27, 27, &umr_bitfield_default },
-	 { "clipsm3_inc_clip_to_clipga_clip_to_outsm_cnt", 28, 28, &umr_bitfield_default },
-	 { "clipsm2_inc_clip_to_clipga_clip_to_outsm_cnt", 29, 29, &umr_bitfield_default },
-	 { "clipsm1_inc_clip_to_clipga_clip_to_outsm_cnt", 30, 30, &umr_bitfield_default },
-	 { "clipsm0_inc_clip_to_clipga_clip_to_outsm_cnt", 31, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixVGT_DEBUG_REG12[] = {
-	 { "gs_state0_r0_q", 0, 2, &umr_bitfield_default },
-	 { "gs_state1_r0_q", 3, 5, &umr_bitfield_default },
-	 { "gs_state2_r0_q", 6, 8, &umr_bitfield_default },
-	 { "gs_state3_r0_q", 9, 11, &umr_bitfield_default },
-	 { "gs_state4_r0_q", 12, 14, &umr_bitfield_default },
-	 { "gs_state5_r0_q", 15, 17, &umr_bitfield_default },
-	 { "gs_state6_r0_q", 18, 20, &umr_bitfield_default },
-	 { "gs_state7_r0_q", 21, 23, &umr_bitfield_default },
-	 { "gs_state8_r0_q", 24, 26, &umr_bitfield_default },
-	 { "gs_state9_r0_q", 27, 29, &umr_bitfield_default },
-	 { "hold_eswave_eop", 30, 30, &umr_bitfield_default },
-	 { "SPARE0", 31, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixCLIPPER_DEBUG_REG12[] = {
 	 { "ALWAYS_ZERO", 0, 7, &umr_bitfield_default },
 	 { "clip_priority_available_vte_out_clip", 8, 12, &umr_bitfield_default },
@@ -9957,6 +9943,20 @@ static struct umr_bitfield ixCLIPPER_DEBUG_REG12[] = {
 	 { "clipsm1_clprim_to_clip_prim_valid", 29, 29, &umr_bitfield_default },
 	 { "clipsm0_clprim_to_clip_clip_primitive", 30, 30, &umr_bitfield_default },
 	 { "clipsm0_clprim_to_clip_prim_valid", 31, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixVGT_DEBUG_REG12[] = {
+	 { "gs_state0_r0_q", 0, 2, &umr_bitfield_default },
+	 { "gs_state1_r0_q", 3, 5, &umr_bitfield_default },
+	 { "gs_state2_r0_q", 6, 8, &umr_bitfield_default },
+	 { "gs_state3_r0_q", 9, 11, &umr_bitfield_default },
+	 { "gs_state4_r0_q", 12, 14, &umr_bitfield_default },
+	 { "gs_state5_r0_q", 15, 17, &umr_bitfield_default },
+	 { "gs_state6_r0_q", 18, 20, &umr_bitfield_default },
+	 { "gs_state7_r0_q", 21, 23, &umr_bitfield_default },
+	 { "gs_state8_r0_q", 24, 26, &umr_bitfield_default },
+	 { "gs_state9_r0_q", 27, 29, &umr_bitfield_default },
+	 { "hold_eswave_eop", 30, 30, &umr_bitfield_default },
+	 { "SPARE0", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCP_EOP_DONE_ADDR_LO[] = {
 	 { "ADDR_SWAP", 0, 1, &umr_bitfield_default },
@@ -10180,40 +10180,40 @@ static struct umr_bitfield mmCP_APPEND_LAST_CS_FENCE[] = {
 static struct umr_bitfield mmCP_APPEND_LAST_PS_FENCE[] = {
 	 { "LAST_FENCE", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCP_ATOMIC_PREOP_LO[] = {
-	 { "ATOMIC_PREOP_LO", 0, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield mmCP_ME_ATOMIC_PREOP_LO[] = {
 	 { "ATOMIC_PREOP_LO", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCP_ATOMIC_PREOP_HI[] = {
-	 { "ATOMIC_PREOP_HI", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmCP_ATOMIC_PREOP_LO[] = {
+	 { "ATOMIC_PREOP_LO", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCP_ME_ATOMIC_PREOP_HI[] = {
 	 { "ATOMIC_PREOP_HI", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCP_GDS_ATOMIC0_PREOP_LO[] = {
-	 { "GDS_ATOMIC0_PREOP_LO", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmCP_ATOMIC_PREOP_HI[] = {
+	 { "ATOMIC_PREOP_HI", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCP_ME_GDS_ATOMIC0_PREOP_LO[] = {
 	 { "GDS_ATOMIC0_PREOP_LO", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCP_GDS_ATOMIC0_PREOP_HI[] = {
-	 { "GDS_ATOMIC0_PREOP_HI", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmCP_GDS_ATOMIC0_PREOP_LO[] = {
+	 { "GDS_ATOMIC0_PREOP_LO", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCP_ME_GDS_ATOMIC0_PREOP_HI[] = {
 	 { "GDS_ATOMIC0_PREOP_HI", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCP_GDS_ATOMIC1_PREOP_LO[] = {
-	 { "GDS_ATOMIC1_PREOP_LO", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmCP_GDS_ATOMIC0_PREOP_HI[] = {
+	 { "GDS_ATOMIC0_PREOP_HI", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCP_ME_GDS_ATOMIC1_PREOP_LO[] = {
 	 { "GDS_ATOMIC1_PREOP_LO", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield mmCP_GDS_ATOMIC1_PREOP_HI[] = {
-	 { "GDS_ATOMIC1_PREOP_HI", 0, 31, &umr_bitfield_default },
+static struct umr_bitfield mmCP_GDS_ATOMIC1_PREOP_LO[] = {
+	 { "GDS_ATOMIC1_PREOP_LO", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCP_ME_GDS_ATOMIC1_PREOP_HI[] = {
+	 { "GDS_ATOMIC1_PREOP_HI", 0, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield mmCP_GDS_ATOMIC1_PREOP_HI[] = {
 	 { "GDS_ATOMIC1_PREOP_HI", 0, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCP_ME_MC_WADDR_LO[] = {
@@ -10799,21 +10799,6 @@ static struct umr_bitfield mmGDS_OA_INCDEC[] = {
 static struct umr_bitfield mmGDS_OA_RING_SIZE[] = {
 	 { "RING_SIZE", 0, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixVGT_DEBUG_REG13[] = {
-	 { "gs_state10_r0_q", 0, 2, &umr_bitfield_default },
-	 { "gs_state11_r0_q", 3, 5, &umr_bitfield_default },
-	 { "gs_state12_r0_q", 6, 8, &umr_bitfield_default },
-	 { "gs_state13_r0_q", 9, 11, &umr_bitfield_default },
-	 { "gs_state14_r0_q", 12, 14, &umr_bitfield_default },
-	 { "gs_state15_r0_q", 15, 17, &umr_bitfield_default },
-	 { "gs_tbl_wrptr_r0_q_3_0", 18, 21, &umr_bitfield_default },
-	 { "gsfetch_done_fifo_cnt_q_not_0", 22, 22, &umr_bitfield_default },
-	 { "gsfetch_done_cnt_q_not_0", 23, 23, &umr_bitfield_default },
-	 { "es_tbl_full", 24, 24, &umr_bitfield_default },
-	 { "SPARE1", 25, 25, &umr_bitfield_default },
-	 { "SPARE0", 26, 26, &umr_bitfield_default },
-	 { "active_cm_sm_r0_q", 27, 31, &umr_bitfield_default },
-};
 static struct umr_bitfield ixCLIPPER_DEBUG_REG13[] = {
 	 { "clprim_in_back_state_var_indx", 0, 2, &umr_bitfield_default },
 	 { "point_clip_candidate", 3, 3, &umr_bitfield_default },
@@ -10833,6 +10818,21 @@ static struct umr_bitfield ixCLIPPER_DEBUG_REG13[] = {
 	 { "outsm_clr_fifo_full", 29, 29, &umr_bitfield_default },
 	 { "outsm_clr_fifo_advanceread", 30, 30, &umr_bitfield_default },
 	 { "outsm_clr_fifo_write", 31, 31, &umr_bitfield_default },
+};
+static struct umr_bitfield ixVGT_DEBUG_REG13[] = {
+	 { "gs_state10_r0_q", 0, 2, &umr_bitfield_default },
+	 { "gs_state11_r0_q", 3, 5, &umr_bitfield_default },
+	 { "gs_state12_r0_q", 6, 8, &umr_bitfield_default },
+	 { "gs_state13_r0_q", 9, 11, &umr_bitfield_default },
+	 { "gs_state14_r0_q", 12, 14, &umr_bitfield_default },
+	 { "gs_state15_r0_q", 15, 17, &umr_bitfield_default },
+	 { "gs_tbl_wrptr_r0_q_3_0", 18, 21, &umr_bitfield_default },
+	 { "gsfetch_done_fifo_cnt_q_not_0", 22, 22, &umr_bitfield_default },
+	 { "gsfetch_done_cnt_q_not_0", 23, 23, &umr_bitfield_default },
+	 { "es_tbl_full", 24, 24, &umr_bitfield_default },
+	 { "SPARE1", 25, 25, &umr_bitfield_default },
+	 { "SPARE0", 26, 26, &umr_bitfield_default },
+	 { "active_cm_sm_r0_q", 27, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCPG_PERFCOUNTER1_LO[] = {
 	 { "PERFCOUNTER_LO", 0, 31, &umr_bitfield_default },
@@ -12356,6 +12356,18 @@ static struct umr_bitfield mmRLC_PERFCOUNTER0_SELECT[] = {
 static struct umr_bitfield mmRLC_PERFCOUNTER1_SELECT[] = {
 	 { "PERFCOUNTER_SELECT", 0, 7, &umr_bitfield_default },
 };
+static struct umr_bitfield ixCLIPPER_DEBUG_REG14[] = {
+	 { "clprim_in_back_vertex_store_indx_2", 0, 5, &umr_bitfield_default },
+	 { "clprim_in_back_vertex_store_indx_1", 6, 11, &umr_bitfield_default },
+	 { "clprim_in_back_vertex_store_indx_0", 12, 17, &umr_bitfield_default },
+	 { "outputclprimtoclip_null_primitive", 18, 18, &umr_bitfield_default },
+	 { "clprim_in_back_end_of_packet", 19, 19, &umr_bitfield_default },
+	 { "clprim_in_back_first_prim_of_slot", 20, 20, &umr_bitfield_default },
+	 { "clprim_in_back_deallocate_slot", 21, 23, &umr_bitfield_default },
+	 { "clprim_in_back_event_id", 24, 29, &umr_bitfield_default },
+	 { "clprim_in_back_event", 30, 30, &umr_bitfield_default },
+	 { "prim_back_valid", 31, 31, &umr_bitfield_default },
+};
 static struct umr_bitfield ixVGT_DEBUG_REG14[] = {
 	 { "SPARE3", 0, 3, &umr_bitfield_default },
 	 { "gsfetch_done_fifo_full", 4, 4, &umr_bitfield_default },
@@ -12376,17 +12388,12 @@ static struct umr_bitfield ixVGT_DEBUG_REG14[] = {
 	 { "SPARE0", 30, 30, &umr_bitfield_default },
 	 { "VGT_SE1SPI_esthread_rtr_q", 31, 31, &umr_bitfield_default },
 };
-static struct umr_bitfield ixCLIPPER_DEBUG_REG14[] = {
-	 { "clprim_in_back_vertex_store_indx_2", 0, 5, &umr_bitfield_default },
-	 { "clprim_in_back_vertex_store_indx_1", 6, 11, &umr_bitfield_default },
-	 { "clprim_in_back_vertex_store_indx_0", 12, 17, &umr_bitfield_default },
-	 { "outputclprimtoclip_null_primitive", 18, 18, &umr_bitfield_default },
-	 { "clprim_in_back_end_of_packet", 19, 19, &umr_bitfield_default },
-	 { "clprim_in_back_first_prim_of_slot", 20, 20, &umr_bitfield_default },
-	 { "clprim_in_back_deallocate_slot", 21, 23, &umr_bitfield_default },
-	 { "clprim_in_back_event_id", 24, 29, &umr_bitfield_default },
-	 { "clprim_in_back_event", 30, 30, &umr_bitfield_default },
-	 { "prim_back_valid", 31, 31, &umr_bitfield_default },
+static struct umr_bitfield ixCLIPPER_DEBUG_REG15[] = {
+	 { "vertval_bits_vertex_vertex_store_msb", 0, 15, &umr_bitfield_default },
+	 { "primic_to_clprim_fifo_vertex_store_indx_2", 16, 20, &umr_bitfield_default },
+	 { "primic_to_clprim_fifo_vertex_store_indx_1", 21, 25, &umr_bitfield_default },
+	 { "primic_to_clprim_fifo_vertex_store_indx_0", 26, 30, &umr_bitfield_default },
+	 { "primic_to_clprim_valid", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield ixVGT_DEBUG_REG15[] = {
 	 { "cm_busy_q", 0, 0, &umr_bitfield_default },
@@ -12401,13 +12408,6 @@ static struct umr_bitfield ixVGT_DEBUG_REG15[] = {
 	 { "st_cut_mode_q", 26, 27, &umr_bitfield_default },
 	 { "gs_done_array_q_not_0", 28, 28, &umr_bitfield_default },
 	 { "SPARE31", 29, 31, &umr_bitfield_default },
-};
-static struct umr_bitfield ixCLIPPER_DEBUG_REG15[] = {
-	 { "vertval_bits_vertex_vertex_store_msb", 0, 15, &umr_bitfield_default },
-	 { "primic_to_clprim_fifo_vertex_store_indx_2", 16, 20, &umr_bitfield_default },
-	 { "primic_to_clprim_fifo_vertex_store_indx_1", 21, 25, &umr_bitfield_default },
-	 { "primic_to_clprim_fifo_vertex_store_indx_0", 26, 30, &umr_bitfield_default },
-	 { "primic_to_clprim_valid", 31, 31, &umr_bitfield_default },
 };
 static struct umr_bitfield mmCGTS_SM_CTRL_REG[] = {
 	 { "ON_SEQ_DELAY", 0, 3, &umr_bitfield_default },

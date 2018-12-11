@@ -66,11 +66,11 @@ static struct umr_bitfield mmVCE_UENC_DMA_DCLK_CTRL[] = {
 static struct umr_bitfield mmVCE_SYS_INT_EN[] = {
 	 { "VCE_SYS_INT_TRAP_INTERRUPT_EN", 3, 3, &umr_bitfield_default },
 };
-static struct umr_bitfield mmVCE_SYS_INT_ACK[] = {
-	 { "VCE_SYS_INT_TRAP_INTERRUPT_ACK", 3, 3, &umr_bitfield_default },
-};
 static struct umr_bitfield mmVCE_SYS_INT_STATUS[] = {
 	 { "VCE_SYS_INT_TRAP_INTERRUPT_INT", 3, 3, &umr_bitfield_default },
+};
+static struct umr_bitfield mmVCE_SYS_INT_ACK[] = {
+	 { "VCE_SYS_INT_TRAP_INTERRUPT_ACK", 3, 3, &umr_bitfield_default },
 };
 static struct umr_bitfield mmVCE_LMI_VCPU_CACHE_40BIT_BAR[] = {
 	 { "BAR", 0, 31, &umr_bitfield_default },
