@@ -69,6 +69,27 @@ valid.
 If you are debugging a PTB then more pages can be decoded at once
 by changing the second argument to the --vm-decode command.
 
+Various ASICs have special memory hubs that can be accessed via the
+VMID field.  In umr, the bits 8:15 of the VMID indicate the hub:
+
++-----------+-------------------------+
+| **Value** | **Memory Hub**          |
++-----------+-------------------------+
+| 0x000     | GFX memory hub          |
++-----------+-------------------------+
+| 0x100     | MM memory hub           |
++-----------+-------------------------+
+
+For instance the command:
+
+::
+
+	umr --vm-decode 0x105@0x12345600 1
+
+Will decode the virtual address 0x12345600 of VMID 5 from the MM
+memory hub.  These extra bits can be used for VM reads and writes
+as well.
+
 --------------------
 Virtual Memory Reads
 --------------------

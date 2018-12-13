@@ -101,6 +101,17 @@ banks can be selected with the --bank command:
 Which mirrors the kernel\'s **amdgpu_gfx_select_se_sh()** function.
 The value 'x' can be passed to indicate a broadcast value.
 
+-------------------
+SRBM Bank Selection
+-------------------
+
+Certain registers are banked and selected by SRBM register selection.
+These are selected with the --sbank command:
+
+::
+
+	umr --sbank <me> <pipe> <queue>
+
 -------------
 Direct Access
 -------------
