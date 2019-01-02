@@ -39,7 +39,7 @@ struct umr_pm4_stream *umr_pm4_decode_stream(struct umr_asic *asic, int vmid, ui
 static void parse_pm4(struct umr_asic *asic, int vmid, struct umr_pm4_stream *ps)
 {
 	uint64_t addr;
-	uint32_t size, tvmid;
+	uint32_t size, tvmid, rsrc1, rsrc2;
 	void *buf;
 
 	switch (ps->opcode) {
@@ -51,21 +51,27 @@ static void parse_pm4(struct umr_asic *asic, int vmid, struct umr_pm4_stream *ps
 			int type = 0;
 			char *tmp;
 
+			rsrc1 = rsrc2 = 0;
+
 			for (na = 0, n = 1; n < ps->n_words; n++) {
 				tmp = umr_reg_name(asic, reg_addr + n - 1);
 				if (strstr(tmp, "SPI_SHADER_PGM_LO_") || strstr(tmp, "COMPUTE_PGM_LO")) {
 					// grab shader type (pixel, vertex, compute)
 					if (strstr(tmp, "LO_PS"))
-						type = 0;
+						type = UMR_SHADER_PIXEL;
 					else if (strstr(tmp, "LO_VS"))
-						type = 1;
+						type = UMR_SHADER_VERTEX;
 					else
-						type = 2;
+						type = UMR_SHADER_COMPUTE;
 					shader_addr = (shader_addr & ~0xFFFFFFFFFFULL) | ((uint64_t)ps->words[n] << 8);
 					na |= 1;
 				} else if (strstr(tmp, "SPI_SHADER_PGM_HI_") || strstr(tmp, "COMPUTE_PGM_HI")) {
 					shader_addr = (shader_addr & 0xFFFFFFFFFFULL) | ((uint64_t)ps->words[n] << 40);
 					na |= 2;
+				} else if (strstr(tmp, "SPI_SHADER_PGM_RSRC1") || strstr(tmp, "COMPUTE_PGM_RSRC1")) {
+					rsrc1 = ps->words[n];
+				} else if (strstr(tmp, "SPI_SHADER_PGM_RSRC2") || strstr(tmp, "COMPUTE_PGM_RSRC2")) {
+					rsrc2 = ps->words[n];
 				}
 			}
 
@@ -76,6 +82,8 @@ static void parse_pm4(struct umr_asic *asic, int vmid, struct umr_pm4_stream *ps
 				ps->shader->addr = shader_addr;
 				ps->shader->size = umr_compute_shader_size(asic, ps->shader);
 				ps->shader->type = type;
+				ps->shader->rsrc1 = rsrc1;
+				ps->shader->rsrc2 = rsrc2;
 			}
 			break;
 		}

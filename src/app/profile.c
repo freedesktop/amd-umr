@@ -354,9 +354,9 @@ throw_back:
 	}
 	total_hits = total_hits_by_type[0] + total_hits_by_type[1] +
 				 total_hits_by_type[2];
-	printf("\nPixel Shaders:   %3u.%01u %%\n", ((1000 * total_hits_by_type[0]) / total_hits) / 10, ((1000 * total_hits_by_type[0]) / total_hits) % 10);
-	printf("Vertex Shaders:  %3u.%01u %%\n", ((1000 * total_hits_by_type[1]) / total_hits) / 10, ((1000 * total_hits_by_type[1]) / total_hits) % 10);
-	printf("Compute Shaders: %3u.%01u %%\n", ((1000 * total_hits_by_type[2]) / total_hits) / 10, ((1000 * total_hits_by_type[2]) / total_hits) % 10);
+	printf("\nPixel Shaders:   %3u.%01u %%\n", ((1000 * total_hits_by_type[UMR_SHADER_PIXEL]) / total_hits) / 10, ((1000 * total_hits_by_type[UMR_SHADER_PIXEL]) / total_hits) % 10);
+	printf("Vertex Shaders:  %3u.%01u %%\n", ((1000 * total_hits_by_type[UMR_SHADER_VERTEX]) / total_hits) / 10, ((1000 * total_hits_by_type[UMR_SHADER_VERTEX]) / total_hits) % 10);
+	printf("Compute Shaders: %3u.%01u %%\n", ((1000 * total_hits_by_type[UMR_SHADER_COMPUTE]) / total_hits) / 10, ((1000 * total_hits_by_type[UMR_SHADER_COMPUTE]) / total_hits) % 10);
 
 	texts = otext;
 	while (texts) {

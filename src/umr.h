@@ -53,6 +53,12 @@ enum umr_hub_space {
 	UMR_LINEAR_HUB = 0xFF << 8,  // this is for linear access to vram
 };
 
+enum umr_shader_type {
+	UMR_SHADER_PIXEL = 0,
+	UMR_SHADER_VERTEX,
+	UMR_SHADER_COMPUTE,
+};
+
 /* sourced from amd_powerplay.h from the kernel */
 enum amd_pp_sensors {
 	AMDGPU_PP_SENSOR_GFX_SCLK = 0,
@@ -381,7 +387,9 @@ struct umr_shaders_pgm {
 	// VMID and length in bytes
 	uint32_t
 		vmid,
-		size;
+		size,
+		rsrc1,
+		rsrc2;
 
 	// shader type (0==PS, 1==VS, 2==COMPUTE)
 	int
