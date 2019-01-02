@@ -53,7 +53,7 @@ uint64_t umr_vm_dma_to_phys(struct umr_asic *asic, uint64_t dma_addr)
  */
 int umr_access_sram(struct umr_asic *asic, uint64_t address, uint32_t size, void *dst, int write_en)
 {
-	int fd, need_close=0;
+	int fd, need_close=0, r;
 
 	DEBUG("Reading physical sys addr: 0x" PRIx64 "\n", address);
 
@@ -74,13 +74,17 @@ int umr_access_sram(struct umr_asic *asic, uint64_t address, uint32_t size, void
 		lseek(fd, address, SEEK_SET);
 		if (write_en == 0) {
 			memset(dst, 0xFF, size);
-			if (read(fd, dst, size) != size) {
+			if ((r = read(fd, dst, size)) != size) {
+				perror("Cannot read from system memory");
+				fprintf(stderr, "[ERROR]: Accessing system memory returned: %d\n", r);
 				if (need_close)
 					close(fd);
 				return -1;
 			}
 		} else {
-			if (write(fd, dst, size) != size) {
+			if ((r = write(fd, dst, size)) != size) {
+				perror("Cannot write to system memory");
+				fprintf(stderr, "[ERROR]: Accessing system memory returned: %d\n", r);
 				if (need_close)
 					close(fd);
 				return -1;
