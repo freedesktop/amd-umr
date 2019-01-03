@@ -182,6 +182,7 @@ struct umr_fw_config {
 };
 
 #define UMR_MAX_FW 32
+#define UMR_MAX_XGMI_DEVICES 32
 
 struct umr_options {
 	int hw_inst,
@@ -204,7 +205,8 @@ struct umr_options {
 	    halt_waves,
 	    no_kernel,
 	    no_disasm,
-	    disasm_early_term;
+	    disasm_early_term,
+	    use_xgmi;
 
 	union {
 		struct {
@@ -234,6 +236,13 @@ struct umr_options {
 		    func;
 		char name[32];
 	} pci;
+
+	struct {
+		uint64_t base_addr,
+			 size;
+		int instance;
+		struct umr_asic *asic;
+	} xgmi_devices[UMR_MAX_XGMI_DEVICES];
 };
 
 struct umr_asic {

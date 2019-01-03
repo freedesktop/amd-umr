@@ -721,6 +721,21 @@ int umr_access_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint
 
 	if ((vmid & 0xFF00) == UMR_LINEAR_HUB) {
 		DEBUG("Reading physical VRAM addr: 0x%" PRIx64 "\n", address);
+
+		// if we are using xgmi let's find the device for this address
+		if (asic->options.use_xgmi) {
+			int n;
+			for (n = 0; n < asic->options.use_xgmi; n++) {
+				if ((address >= asic->options.xgmi_devices[n].base_addr) &&
+				    (address < (asic->options.xgmi_devices[n].base_addr + asic->options.xgmi_devices[n].size))) {
+					address -= asic->options.xgmi_devices[n].base_addr;
+					DEBUG("Found address in XGMI device %d, using relative address 0x%" PRIx64 "\n", n, address);
+					asic = asic->options.xgmi_devices[n].asic;
+					break;
+				}
+			}
+		}
+
 		// addressing is physical
 		if (asic->options.use_pci == 0)
 			umr_access_linear_vram(asic, address, size, data, write_en);
