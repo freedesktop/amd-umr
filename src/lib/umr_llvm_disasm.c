@@ -167,6 +167,15 @@ int umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t 
 	if (umr_read_vram(asic, vmid, addr + start_offset, size, (void*)opcodes))
 		goto error;
 
+	if (asic->options.verbose) {
+		fflush(stdout);
+		fprintf(stderr, "pgm[] = { ");
+		for (x = 0; x < size/4; x++)
+			fprintf(stderr, "0x%08" PRIx32 ", ", opcodes[x]);
+		fprintf(stderr, "}\n");
+		fflush(stderr);
+	}
+
 	umr_llvm_disasm(asic, (uint8_t *)opcodes, size, addr + start_offset, &opcode_strs[0]);
 
 	for (y = 0, x = start_offset / 4; x < (start_offset + size)/4; x++, y++) {
