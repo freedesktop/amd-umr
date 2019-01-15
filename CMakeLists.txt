@@ -46,6 +46,7 @@ if(LLVM_CMAKE_DIR)
     AllTargetsInfos
     MC
     Support
+    MCDisassembler
   )
 endif()
 
