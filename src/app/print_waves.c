@@ -113,7 +113,7 @@ void umr_print_waves(struct umr_asic *asic)
 					}
 				}
 			}
-			if (ring_halted) {
+			if (ring_halted && wd->ws.wave_status.halt) {
 				pgm_addr = (((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo) - (NUM_OPCODE_WORDS*4)/2;
 				umr_vm_disasm(asic, wd->ws.hw_id.vm_id, pgm_addr, (((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo), NUM_OPCODE_WORDS*4, 0, NULL);
 			}
@@ -236,7 +236,7 @@ void umr_print_waves(struct umr_asic *asic)
 				}
 			}
 
-			if (ring_halted) {
+			if (ring_halted && wd->ws.wave_status.halt) {
 				printf("\n\nPGM_MEM:");
 				pgm_addr = (((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo);
 				if (stream)
