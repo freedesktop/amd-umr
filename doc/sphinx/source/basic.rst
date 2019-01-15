@@ -142,6 +142,8 @@ The options available are:
 +-------------------+-------------------------------------------------------------------------+
 | no_disasm         | Disable LLVM disassembly.  Used on systems with outdated llvm-dev       |
 +-------------------+-------------------------------------------------------------------------+
+| disasm_anyways    | Enable disassembly in --waves even if rings are not halted.             |
++-------------------+-------------------------------------------------------------------------+
 
 ------------------
 Device Information

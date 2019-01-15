@@ -206,7 +206,8 @@ struct umr_options {
 	    no_kernel,
 	    no_disasm,
 	    disasm_early_term,
-	    use_xgmi;
+	    use_xgmi,
+	    disasm_anyways;
 
 	union {
 		struct {

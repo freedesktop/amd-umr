@@ -96,7 +96,8 @@ separated strings.  Options should be specified before --update or --force comma
      Disable shader disassembler logic (still outputs text just doesn't use LLVM to decode).  Useful
      if the linked llvm-dev doesn't support the hardware being debugged.  Avoids segfualts/asserts.
 
-
+.B disasm_anyways
+     Enable shader disassembly in --waves even if the rings aren't halted.
 
 .SH Bank Selection
 .IP "--bank, -b <se> <sh> <instance>"

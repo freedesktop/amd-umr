@@ -47,10 +47,14 @@ void umr_print_waves(struct umr_asic *asic)
 	if (asic->options.halt_waves) {
 		umr_sq_cmd_halt_waves(asic, UMR_SQ_CMD_HALT);
 		if (!umr_pm4_decode_ring_is_halted(asic, asic->options.ring_name[0] ? asic->options.ring_name : "gfx"))
-			fprintf(stderr, "[WARNING]: Rings are not halted!\n");
+			fprintf(stderr, "[WARNING]: Rings are not halted!  %s\n", asic->options.disasm_anyways ? "" : "Use '-O disasm_anyways' to enable disassembly without halted rings");
 		else
 			ring_halted = 1;
 	}
+
+	// always disasm if disasm_anyways is enabled
+	if (asic->options.disasm_anyways)
+		ring_halted = 1;
 
 	// scan a ring but don't trigger the halt/resume
 	// since it would have already been done
