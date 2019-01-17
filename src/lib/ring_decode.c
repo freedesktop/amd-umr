@@ -1537,6 +1537,14 @@ static void parse_next_sdma_pkt(struct umr_asic *asic, struct umr_ring_decoder *
 					break;
 			}
 			break;
+		case 7: // SEM
+			switch (decoder->sdma.cur_word) {
+				case 1: printf("SEMAPHORE_ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					break;
+				case 2: printf("SEMAPHORE_ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					break;
+			}
+			break;
 		case 8: // POLL_REGMEM
 			switch (decoder->sdma.cur_sub_opcode) {
 				case 0: // WAIT_REG_MEM
@@ -1580,6 +1588,24 @@ static void parse_next_sdma_pkt(struct umr_asic *asic, struct umr_ring_decoder *
 					break;
 			}
 			break;
+		case 10:  // ATOMIC
+			switch (decoder->sdma.cur_word) {
+				case 1: printf("ADDR_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					break;
+				case 2: printf("ADDR_HI: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
+					break;
+				case 3: printf("SRC_DATA_LO: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+				case 4: printf("SRC_DATA_HI: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+				case 5: printf("CMP_DATA_LO: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+				case 6: printf("CMP_DATA_HI: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
+					break;
+				case 7: printf("LOOP_INTERVAL: %s0x%08lx%s", BLUE, (unsigned long)ib & 0x1FFF, RST);
+					break;
+			}
+			break;
 		case 11: // CONST_FILL
 			switch (decoder->sdma.cur_word) {
 				case 1: printf("CONST_FILL_DST_LO: %s0x%08lx%s", YELLOW, (unsigned long)ib, RST);
@@ -1620,7 +1646,7 @@ static void parse_next_sdma_pkt(struct umr_asic *asic, struct umr_ring_decoder *
 					if (asic->family <= FAMILY_VI)
 						printf("SRBM_WRITE_ADDR: %s0x%08lx%s(%s)", YELLOW, (unsigned long)ib & 0xFFFF, RST, umr_reg_name(asic, ib & 0xFFFF));
 					else
-						printf("SRBM_WRITE_ADDR: %s0x%08lx%s(%s)", YELLOW, (unsigned long)ib & 0xFFFF, RST, umr_reg_name(asic, ib & 0x3FFFF));
+						printf("SRBM_WRITE_ADDR: %s0x%08lx%s(%s)", YELLOW, (unsigned long)ib & 0x3FFFF, RST, umr_reg_name(asic, ib & 0x3FFFF));
 					decoder->sdma.next_write_mem = ib;
 					break;
 				case 2: printf("SRBM_WRITE_DATA: %s0x%08lx%s", BLUE, (unsigned long)ib, RST);
@@ -1628,6 +1654,11 @@ static void parse_next_sdma_pkt(struct umr_asic *asic, struct umr_ring_decoder *
 					break;
 			}
 			break;
+		case 15: // PRE_EXE
+			switch (decoder->sdma.cur_word) {
+				case 1: printf("COUNT: %s0x%08lu%s", BLUE, (unsigned long)ib & 0x3FFF, RST);
+					break;
+			}
 	}
 
 	decoder->sdma.cur_word++;
@@ -1718,7 +1749,6 @@ static void print_decode_sdma(struct umr_asic *asic, struct umr_ring_decoder *de
 					break;
 				case 6: // TRAP
 					decoder->sdma.n_words = 2;
-					break;
 					break;
 				case 7: // SEM
 					printf(", WRITE_ONE: %s%u%s, SIGNAL: %s%u%s, MAILBOX: %s%u%s",
