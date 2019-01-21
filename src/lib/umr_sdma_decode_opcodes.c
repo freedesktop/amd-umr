@@ -291,6 +291,7 @@ struct umr_sdma_stream *umr_sdma_decode_stream_opcodes(struct umr_asic *asic, st
 				break;
 			case 14: // SRBM_WRITE
 				ui->start_opcode(ui, ib_addr, ib_vmid, stream->opcode, stream->sub_opcode, stream->nwords + 1, "SRBM_WRITE");
+				ui->add_field(ui, ib_addr + 0, ib_vmid, "BYTE_ENABLE", (stream->header_dw >> 28), NULL, 10);
 				if (asic->family <= FAMILY_VI)
 					ui->add_field(ui, ib_addr + 4, ib_vmid, "SRBM_WRITE_ADDR", 0, umr_reg_name(asic, stream->words[0] & 0xFFFF), 0);
 				else
