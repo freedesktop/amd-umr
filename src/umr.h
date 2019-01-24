@@ -121,12 +121,23 @@ struct umr_reg_soc15 {
 	uint32_t value, reserved;
 };
 
+struct umr_find_reg_iter {
+	struct umr_asic *asic;
+	char *ip, *reg;
+	int ip_i, reg_i, reg_many;
+};
+
 struct umr_ip_block {
 	char *ipname;
 	int no_regs;
 	struct umr_reg *regs;
 	int (*grant)(struct umr_asic *asic);
 	int (*release)(struct umr_asic *asic);
+};
+
+struct umr_find_reg_iter_result {
+	struct umr_ip_block *ip;
+	struct umr_reg *reg;
 };
 
 struct umr_ip_offsets_soc15 {
@@ -622,6 +633,11 @@ int umr_create_mmio_accel(struct umr_asic *asic);
 
 // find the word address of a register
 uint32_t umr_find_reg(struct umr_asic *asic, char *regname);
+
+// wildcard searches
+struct umr_find_reg_iter *umr_find_reg_wild_first(struct umr_asic *asic, char *ip, char *reg);
+struct umr_find_reg_iter_result umr_find_reg_wild_next(struct umr_find_reg_iter *iter);
+
 
 // find a register and return a printable name (used for human readable output)
 char *umr_reg_name(struct umr_asic *asic, uint64_t addr);

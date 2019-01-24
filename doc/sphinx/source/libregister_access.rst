@@ -86,7 +86,72 @@ the same name the register data can be searched per IP block.
 This will search the ASIC for an IP block with a name that **begins with**
 the string 'ip' for a register that exactly matches 'regname'.  The IP
 block naming is partially matched to support blocks that have
-versions in the name, 
+versions in the name,
+
+'''''''''''''''''''''
+Searching by wildcard
+'''''''''''''''''''''
+
+To search for registers either by partial match or from multiple
+blocks the following functions can be used:
+
+::
+
+	struct umr_find_reg_iter *umr_find_reg_wild_first(struct umr_asic *asic, char *ip, char *reg);
+	struct umr_find_reg_iter_result umr_find_reg_wild_next(struct umr_find_reg_iter *iter);
+
+The umr_find_reg_wild_first() function creates an iterator structure that can be used
+by umr_find_reg_wild_next() to search for registers.
+
+If the "ip" pointer is NULL then it will match any IP block.  If the "ip" pointer is
+not NULL then it will be used for a partial match.  For instance,
+you can use "gfx" to search for any block starting with "gfx".
+
+If the string pointed to by "reg" is terminated with a '*' it means it should
+perform a partial match, otherwise it will perform a strict match.
+
+The umr_find_reg_wild_next() function returns the following structure:
+
+::
+
+	struct umr_find_reg_iter_result {
+		struct umr_ip_block *ip;
+		struct umr_reg *reg;
+	};
+
+Where the 'ip' and 'reg' pointers point to the next match found.  If they are
+NULL then there are no more matches.  The memory allocated by umr_find_reg_wild_first() will
+be freed at this point.
+
+This example searches for registers containing "RB_BASE" in any block:
+
+::
+
+	struct umr_find_reg_iter *iter;
+	struct umr_reg *reg;
+	struct umr_find_reg_iter_result res;
+	
+	iter = umr_find_reg_wild_first(asic, NULL, "RB_BASE*");
+	res = umr_find_reg_wild_next(iter);
+	while (res.reg) {
+		printf("%s.%s\n", res.ip->ipname, res.reg->regname);
+		res = umr_find_reg_wild_next(iter);
+	}
+
+This example searches for registers that are exactly called "mmVCE_RB_BASE_HI".
+
+::
+
+	struct umr_find_reg_iter *iter;
+	struct umr_reg *reg;
+	struct umr_find_reg_iter_result res;
+	
+	iter = umr_find_reg_wild_first(asic, NULL, "mmVCE_RB_BASE_HI");
+	res = umr_find_reg_wild_next(iter);
+	while (res.reg) {
+		printf("%s.%s\n", res.ip->ipname, res.reg->regname);
+		res = umr_find_reg_wild_next(iter);
+	}
 
 ---------------------------
 Reading and Writing Methods

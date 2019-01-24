@@ -24,6 +24,71 @@
  */
 #include "umr.h"
 
+struct umr_find_reg_iter *umr_find_reg_wild_first(struct umr_asic *asic, char *ip, char *reg)
+{
+	struct umr_find_reg_iter *iter;
+	char *p;
+
+	iter = calloc(1, sizeof(*iter));
+	if (!iter) {
+		fprintf(stderr, "[ERROR]: Out of memory\n");
+		return NULL;
+	}
+	iter->asic = asic;
+	iter->ip = ip ? strdup(ip) : NULL;
+	iter->reg = strdup(reg);
+	if ((p = strstr(iter->reg, "*"))) {
+		iter->reg_many = 1;
+		*p = 0; // trim * off
+	}
+	iter->ip_i = -1;
+	iter->reg_i = -1;
+	return iter;
+}
+
+struct umr_find_reg_iter_result umr_find_reg_wild_next(struct umr_find_reg_iter *iter)
+{
+	struct umr_find_reg_iter_result res;
+	for (;;) {
+		// if reg_i == -1 find the next IP block
+		if (iter->reg_i == -1) {
+			++(iter->ip_i);
+			while (iter->ip && iter->ip_i < iter->asic->no_blocks && !strstr(iter->asic->blocks[iter->ip_i]->ipname, iter->ip))
+				++(iter->ip_i);
+
+			// no more blocks
+			if (iter->ip_i >= iter->asic->no_blocks) {
+				free(iter->ip);
+				free(iter->reg);
+				free(iter);
+				res.ip = NULL;
+				res.reg = NULL;
+				return res;
+			}
+
+			iter->reg_i = 0;
+		}
+
+		while (iter->reg_i < iter->asic->blocks[iter->ip_i]->no_regs) {
+			if (iter->reg_many && strstr(iter->asic->blocks[iter->ip_i]->regs[iter->reg_i].regname, iter->reg)) {
+				res.reg = &iter->asic->blocks[iter->ip_i]->regs[iter->reg_i++];
+				res.ip = iter->asic->blocks[iter->ip_i];
+				return res;
+			}
+
+			if (!strcmp(iter->asic->blocks[iter->ip_i]->regs[iter->reg_i].regname, iter->reg)) {
+				res.reg = &iter->asic->blocks[iter->ip_i]->regs[iter->reg_i++];
+				res.ip = iter->asic->blocks[iter->ip_i];
+				return res;
+			}
+			++(iter->reg_i);
+		}
+
+		// no match go to next
+		iter->reg_i = -1;
+	}
+}
+
 /**
  * umr_find_reg - Find a register by name
  *
