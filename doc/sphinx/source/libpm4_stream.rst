@@ -102,3 +102,74 @@ will not free these copies.
 		} src;
 	};
 
+---------------
+Packet Decoding
+---------------
+
+To decode packets the following function is used:
+
+::
+
+	struct umr_pm4_stream *umr_pm4_decode_stream_opcodes(struct umr_asic *asic, struct umr_pm4_stream_decode_ui *ui, struct umr_pm4_stream *stream,
+							     uint64_t ib_addr, uint32_t ib_vmid, uint64_t from_addr, uint64_t from_vmid,
+							     unsigned long opcodes, int follow);
+
+The function takes an already streamed PM4 structure and proceeds to decode the packets and the internal fields.  The ib_addr/ib_vmid reference the address of the packets being
+decoded while the from_addr/from_vmid point to any stream that pointed to this data (e.g. the ring offset that points to this IB).  The 'opcodes' parameter
+indicates how many opcodes to decode (set to ~0UL for the entire stream).  The 'follow' parameter indicates whether the function should also decode packets from IBs pointed
+to by this stream.
+
+It returns the address of the first undecoded packet in the stream.
+
+The function uses the following callback structure to pass information back to the caller:
+
+::
+
+	struct umr_pm4_stream_decode_ui {
+
+		/** start_ib -- Start a new IB
+		 * ib_addr/ib_vmid: Address of the IB
+		 * from_addr/from_vmid: Where does this reference come from?
+		 * size: size of IB in DWORDs
+		 * type: type of IB (which type of packets
+		 */
+		void (*start_ib)(struct umr_pm4_stream_decode_ui *ui, uint64_t ib_addr, uint32_t ib_vmid, uint64_t from_addr, uint32_t from_vmid, uint32_t size, int type);
+
+		/** start_opcode -- Start a new opcode
+		 * ib_addr/ib_vmid: Address of where packet is found
+		 * opcode: The numeric value of the ocpode
+		 * nwords: number of DWORDS in this opcode
+		 * opcode_name: Printable string name of opcode
+		 */
+		void (*start_opcode)(struct umr_pm4_stream_decode_ui *ui, uint64_t ib_addr, uint32_t ib_vmid, int pkttype, uint32_t opcode, uint32_t nwords, char *opcode_name);
+
+		/** add_field -- Add a decoded field to a specific DWORD
+		 * ib_addr/ib_vmid:  Address of the word from which the field comes
+		 * field_name: printable name of the field
+		 * value:  Value of the field
+		 * ideal_radix: (10 decimal, 16 hex)
+		 */
+		void (*add_field)(struct umr_pm4_stream_decode_ui *ui, uint64_t ib_addr, uint32_t ib_vmid, const char *field_name, uint64_t value, char *str, int ideal_radix);
+
+		/** add_shader -- Add a reference to a shader found in the IB stream
+		 * ib_addr/ib_vmid:  Address of where reference comes from
+		 * asic:  The ASIC the IB stream and shader are bound to
+		 * shader: The shader reference
+		 */
+		void (*add_shader)(struct umr_pm4_stream_decode_ui *ui, struct umr_asic *asic, uint64_t ib_addr, uint32_t ib_vmid, struct umr_shaders_pgm *shader);
+
+		/** unhandled -- Decoder for unhandled (private) opcodes
+		 * asic: The ASIC the IB stream is bound to
+		 * ib_addr:ib_vmid: The address where the PM4 opcode comes from
+		 * stream:  The pointer to the current stream opcode being handled
+		 *
+		 * Can be NULL to drop support for unhandled opcodes.
+		 */
+		void (*unhandled)(struct umr_pm4_stream_decode_ui *ui, struct umr_asic *asic, uint64_t ib_addr, uint32_t ib_vmid, struct umr_pm4_stream *stream);
+
+		void (*done)(struct umr_pm4_stream_decode_ui *ui);
+
+		/** data -- opaque pointer that can be used to track state information */
+		void *data;
+	};
+

@@ -14,3 +14,4 @@ libumrcore.a: API Documentation
    libhalt_waves
    libwave_status
    libpm4_stream
+   libsdma_stream

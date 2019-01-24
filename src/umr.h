@@ -706,7 +706,6 @@ struct umr_shaders_pgm *umr_find_shader_in_stream(struct umr_pm4_stream *stream,
 struct umr_shaders_pgm *umr_find_shader_in_ring(struct umr_asic *asic, char *ringname, unsigned vmid, uint64_t addr, int no_halt);
 int umr_pm4_decode_ring_is_halted(struct umr_asic *asic, char *ringname);
 
-
 // PM4 decoding library
 struct umr_pm4_stream_decode_ui {
 
