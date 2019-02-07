@@ -182,6 +182,7 @@ static const struct {
 	{ 0x6939, &umr_create_tonga  },
 	{ 0x694C, &umr_create_vegam },
 	{ 0x694E, &umr_create_vegam },
+	{ 0x694F, &umr_create_vegam },
 	{ 0x6980, &umr_create_polaris12 },
 	{ 0x6981, &umr_create_polaris12 },
 	{ 0x6985, &umr_create_polaris12 },
