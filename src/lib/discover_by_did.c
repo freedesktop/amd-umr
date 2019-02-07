@@ -232,6 +232,7 @@ static const struct {
 	{ 0x98E4, &umr_create_stoney },
 	{ 0x6860, &umr_create_vega10 },
 	{ 0x6861, &umr_create_vega10 },
+	{ 0x6862, &umr_create_vega10 },
 	{ 0x6863, &umr_create_vega10 },
 	{ 0x6864, &umr_create_vega10 },
 	{ 0x6867, &umr_create_vega10 },
