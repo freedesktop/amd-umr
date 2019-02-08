@@ -632,10 +632,10 @@ int umr_read_sensor(struct umr_asic *asic, int sensor, void *dst, int *size);
 int umr_create_mmio_accel(struct umr_asic *asic);
 
 // find the word address of a register
-uint32_t umr_find_reg(struct umr_asic *asic, char *regname);
+uint32_t umr_find_reg(struct umr_asic *asic, const char *regname);
 
 // wildcard searches
-struct umr_find_reg_iter *umr_find_reg_wild_first(struct umr_asic *asic, char *ip, char *reg);
+struct umr_find_reg_iter *umr_find_reg_wild_first(struct umr_asic *asic, const char *ip, const char *reg);
 struct umr_find_reg_iter_result umr_find_reg_wild_next(struct umr_find_reg_iter *iter);
 
 

@@ -24,10 +24,44 @@
  */
 #include "umr.h"
 
-struct umr_find_reg_iter *umr_find_reg_wild_first(struct umr_asic *asic, char *ip, char *reg)
+static int expression_matches(const char* str, const char* pattern)
+{
+	const char *cp = NULL, *mp = NULL;
+
+	while ((*str) && (*pattern != '*')) {
+		if ((*pattern != *str) && (*pattern != '?')) {
+			return 0;
+		}
+		str++;
+		pattern++;
+	}
+
+	while (*str) {
+		if (*pattern == '*') {
+			if (!*++pattern) {
+				return 1;
+			}
+			mp = pattern;
+			cp = str + 1;
+		} else if ((*pattern == *str) || (*pattern == '?')) {
+			pattern++;
+			str++;
+		} else {
+			pattern = mp;
+			str = cp++;
+		}
+	}
+
+	while (*pattern == '*') {
+		pattern++;
+	}
+	return !*pattern;
+}
+
+
+struct umr_find_reg_iter *umr_find_reg_wild_first(struct umr_asic *asic, const char *ip, const char *reg)
 {
 	struct umr_find_reg_iter *iter;
-	char *p;
 
 	iter = calloc(1, sizeof(*iter));
 	if (!iter) {
@@ -37,10 +71,7 @@ struct umr_find_reg_iter *umr_find_reg_wild_first(struct umr_asic *asic, char *i
 	iter->asic = asic;
 	iter->ip = ip ? strdup(ip) : NULL;
 	iter->reg = strdup(reg);
-	if ((p = strstr(iter->reg, "*"))) {
-		iter->reg_many = 1;
-		*p = 0; // trim * off
-	}
+
 	iter->ip_i = -1;
 	iter->reg_i = -1;
 	return iter;
@@ -53,8 +84,10 @@ struct umr_find_reg_iter_result umr_find_reg_wild_next(struct umr_find_reg_iter 
 		// if reg_i == -1 find the next IP block
 		if (iter->reg_i == -1) {
 			++(iter->ip_i);
-			while (iter->ip && iter->ip_i < iter->asic->no_blocks && !strstr(iter->asic->blocks[iter->ip_i]->ipname, iter->ip))
-				++(iter->ip_i);
+			while ( (iter->ip_i < iter->asic->no_blocks) &&
+				(iter->ip && !expression_matches(iter->asic->blocks[iter->ip_i]->ipname, iter->ip))) {
+					++(iter->ip_i);
+			}
 
 			// no more blocks
 			if (iter->ip_i >= iter->asic->no_blocks) {
@@ -66,17 +99,12 @@ struct umr_find_reg_iter_result umr_find_reg_wild_next(struct umr_find_reg_iter 
 				return res;
 			}
 
+			// start search inside block from the first register
 			iter->reg_i = 0;
 		}
 
 		while (iter->reg_i < iter->asic->blocks[iter->ip_i]->no_regs) {
-			if (iter->reg_many && strstr(iter->asic->blocks[iter->ip_i]->regs[iter->reg_i].regname, iter->reg)) {
-				res.reg = &iter->asic->blocks[iter->ip_i]->regs[iter->reg_i++];
-				res.ip = iter->asic->blocks[iter->ip_i];
-				return res;
-			}
-
-			if (!strcmp(iter->asic->blocks[iter->ip_i]->regs[iter->reg_i].regname, iter->reg)) {
+			if (expression_matches(iter->asic->blocks[iter->ip_i]->regs[iter->reg_i].regname, iter->reg)) {
 				res.reg = &iter->asic->blocks[iter->ip_i]->regs[iter->reg_i++];
 				res.ip = iter->asic->blocks[iter->ip_i];
 				return res;
@@ -84,7 +112,7 @@ struct umr_find_reg_iter_result umr_find_reg_wild_next(struct umr_find_reg_iter 
 			++(iter->reg_i);
 		}
 
-		// no match go to next
+		// no match go to next block
 		iter->reg_i = -1;
 	}
 }
@@ -94,7 +122,7 @@ struct umr_find_reg_iter_result umr_find_reg_wild_next(struct umr_find_reg_iter 
  *
  * Returns the offset of the register if found or 0xFFFFFFFF if not.
  */
-uint32_t umr_find_reg(struct umr_asic *asic, char *regname)
+uint32_t umr_find_reg(struct umr_asic *asic, const char *regname)
 {
 	int i, j;
 

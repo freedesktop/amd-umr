@@ -107,8 +107,8 @@ If the "ip" pointer is NULL then it will match any IP block.  If the "ip" pointe
 not NULL then it will be used for a partial match.  For instance,
 you can use "gfx" to search for any block starting with "gfx".
 
-If the string pointed to by "reg" is terminated with a '*' it means it should
-perform a partial match, otherwise it will perform a strict match.
+If the string pointed to by "reg" contains a '*' or '?' it will perform
+partial matches on strings, otherwise it performs an exact match.
 
 The umr_find_reg_wild_next() function returns the following structure:
 
@@ -131,7 +131,7 @@ This example searches for registers containing "RB_BASE" in any block:
 	struct umr_reg *reg;
 	struct umr_find_reg_iter_result res;
 	
-	iter = umr_find_reg_wild_first(asic, NULL, "RB_BASE*");
+	iter = umr_find_reg_wild_first(asic, NULL, "*RB_BASE*");
 	res = umr_find_reg_wild_next(iter);
 	while (res.reg) {
 		printf("%s.%s\n", res.ip->ipname, res.reg->regname);
