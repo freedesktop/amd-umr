@@ -156,9 +156,14 @@ void umr_print_waves(struct umr_asic *asic)
 			PP(wave_status, perf_en);
 			PP(wave_status, cond_dbg_user);
 			PP(wave_status, cond_dbg_sys);
-			PP(wave_status, data_atc);
-			PP(wave_status, inst_atc);
-			PP(wave_status, dispatch_cache_ctrl);
+			if (asic->family < FAMILY_AI) {
+				PP(wave_status, data_atc);
+				PP(wave_status, inst_atc);
+				PP(wave_status, dispatch_cache_ctrl);
+			} else {
+				PP(wave_status, allow_replay);
+				PP(wave_status, fatal_halt);
+			}
 			PP(wave_status, must_export);
 
 			Hv("HW_ID", wd->ws.hw_id.value);
