@@ -85,7 +85,7 @@ void umr_print_waves(struct umr_asic *asic)
 (unsigned long)wd->ws.hw_id.value, (unsigned long)wd->ws.gpr_alloc.value, (unsigned long)wd->ws.lds_alloc.value, (unsigned long)wd->ws.trapsts.value, (unsigned long)wd->ws.ib_sts.value,
 (unsigned long)wd->ws.tba_hi, (unsigned long)wd->ws.tba_lo, (unsigned long)wd->ws.tma_hi, (unsigned long)wd->ws.tma_lo, (unsigned long)wd->ws.ib_dbg0, (unsigned long)wd->ws.m0
 );
-			if (wd->ws.wave_status.halt) {
+			if (wd->ws.wave_status.halt || wd->ws.wave_status.fatal_halt) {
 				for (x = 0; x < ((wd->ws.gpr_alloc.sgpr_size + 1) << shift); x += 4)
 					printf(">SGPRS[%s%u%s..%s%u%s] = { %s%08lx%s, %s%08lx%s, %s%08lx%s, %s%08lx%s }\n",
 						YELLOW, (unsigned)(x), RST,
@@ -113,7 +113,7 @@ void umr_print_waves(struct umr_asic *asic)
 					}
 				}
 			}
-			if (ring_halted && wd->ws.wave_status.halt) {
+			if (ring_halted && (wd->ws.wave_status.halt || wd->ws.wave_status.fatal_halt)) {
 				pgm_addr = (((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo) - (NUM_OPCODE_WORDS*4)/2;
 				umr_vm_disasm(asic, wd->ws.hw_id.vm_id, pgm_addr, (((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo), NUM_OPCODE_WORDS*4, 0, NULL);
 			}
@@ -180,7 +180,7 @@ void umr_print_waves(struct umr_asic *asic)
 			PP(gpr_alloc, sgpr_base);
 			PP(gpr_alloc, sgpr_size);
 
-			if (wd->ws.wave_status.halt) {
+			if (wd->ws.wave_status.halt || wd->ws.wave_status.fatal_halt) {
 				printf("\n\nSGPRS:\n");
 				for (x = 0; x < ((wd->ws.gpr_alloc.sgpr_size + 1) << shift); x += 4)
 					printf("\t[%s%4u%s..%s%4u%s] = { %s%08lx%s, %s%08lx%s, %s%08lx%s, %s%08lx%s }\n",
@@ -236,7 +236,7 @@ void umr_print_waves(struct umr_asic *asic)
 				}
 			}
 
-			if (ring_halted && wd->ws.wave_status.halt) {
+			if (ring_halted && (wd->ws.wave_status.halt || wd->ws.wave_status.fatal_halt)) {
 				printf("\n\nPGM_MEM:");
 				pgm_addr = (((uint64_t)wd->ws.pc_hi << 32) | wd->ws.pc_lo);
 				if (stream)

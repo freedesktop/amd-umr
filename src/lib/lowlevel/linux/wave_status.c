@@ -258,9 +258,8 @@ static int umr_get_wave_status_ai(struct umr_asic *asic, unsigned se, unsigned s
 		ws->wave_status.perf_en = (value >> 0x13) & 1;
 		ws->wave_status.cond_dbg_user = (value >> 0x14) & 1;
 		ws->wave_status.cond_dbg_sys = (value >> 0x15) & 1;
-		ws->wave_status.data_atc = (value >> 0x16) & 1;
-		ws->wave_status.inst_atc = (value >> 0x17) & 1;
-		ws->wave_status.dispatch_cache_ctrl = (value >> 0x18) & 3;
+		ws->wave_status.allow_replay = (value >> 0x16) & 1;
+		ws->wave_status.fatal_halt = (value >> 0x17) & 1;
 		ws->wave_status.must_export = (value >> 0x1b) & 1;
 
 	ws->pc_lo = buf[x++];

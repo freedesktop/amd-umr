@@ -325,6 +325,8 @@ struct umr_wave_status {
 			perf_en,
 			cond_dbg_user,
 			cond_dbg_sys,
+			allow_replay,
+			fatal_halt,
 			data_atc,
 			inst_atc,
 			dispatch_cache_ctrl,
