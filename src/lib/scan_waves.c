@@ -24,6 +24,76 @@
  */
 #include "umr.h"
 
+#include <stdbool.h>
+
+/**
+ * Scan the given wave slot. Return true and fill in \p pwd if a wave is present.
+ * Otherwise, return false.
+ *
+ * \param cu the CU on <=gfx9
+ */
+static bool umr_scan_wave_slot(struct umr_asic *asic, uint32_t se, uint32_t sh, uint32_t cu,
+			       uint32_t simd, uint32_t wave, struct umr_wave_data *pwd)
+{
+	unsigned thread, num_threads;
+
+	umr_get_wave_status(asic, se, sh, cu, simd, wave, &pwd->ws);
+
+	if (!pwd->ws.wave_status.valid &&
+	    (!pwd->ws.wave_status.halt))
+		return false;
+
+	pwd->se = se;
+	pwd->sh = sh;
+	pwd->cu = cu;
+	pwd->simd = simd;
+	pwd->wave = wave;
+
+	umr_read_sgprs(asic, &pwd->ws, &pwd->sgprs[0]);
+
+	num_threads = 64;
+
+	pwd->have_vgprs = 1;
+	for (thread = 0; thread < num_threads; ++thread) {
+		if (umr_read_vgprs(asic, &pwd->ws, thread,
+				   &pwd->vgprs[256 * thread]) < 0) {
+			pwd->have_vgprs = 0;
+			break;
+		}
+	}
+
+	return true;
+}
+
+/**
+ * Scan for waves within a single SIMD.
+ *
+ * \param cu the CU instance on <=gfx9
+ * \param simd the SIMD within the CU
+ * \param pppwd points to the pointer-to-pointer-to the last element of a linked
+ *              list of wave data structures, with the last element yet to be filled in.
+ *              The pointer-to-pointer-to is updated by this function.
+ */
+static void umr_scan_wave_simd(struct umr_asic *asic, uint32_t se, uint32_t sh, uint32_t cu, uint32_t simd,
+			       struct umr_wave_data ***pppwd)
+{
+	uint32_t wave, wave_limit;
+
+	wave_limit = 10;
+
+	for (wave = 0; wave < wave_limit; wave++) {
+		struct umr_wave_data *pwd = **pppwd;
+		if (umr_scan_wave_slot(asic, se, sh, cu, simd, wave, pwd)) {
+			pwd->next = calloc(1, sizeof(*pwd));
+			if (!pwd->next) {
+				fprintf(stderr, "[ERROR]: Out of memory\n");
+				return;
+			}
+			*pppwd = &pwd->next;
+		}
+	}
+}
+
 /**
  * umr_scan_wave_data - Scan for any halted valid waves
  *
@@ -31,72 +101,28 @@
  */
 struct umr_wave_data *umr_scan_wave_data(struct umr_asic *asic)
 {
-	uint32_t se, sh, cu, simd, wave, thread;
-	struct umr_wave_data *opwd, *ppwd, *pwd;
+	uint32_t se, sh, cu, simd;
+	struct umr_wave_data *head, **ptail;
 
-	ppwd = opwd = pwd = calloc(1, sizeof *pwd);
-	if (!pwd) {
+	head = calloc(1, sizeof *head);
+	if (!head) {
 		fprintf(stderr, "[ERROR]: Out of memory\n");
 		return NULL;
 	}
+	ptail = &head;
 
 	for (se = 0; se < asic->config.gfx.max_shader_engines; se++)
 	for (sh = 0; sh < asic->config.gfx.max_sh_per_se; sh++)
 	for (cu = 0; cu < asic->config.gfx.max_cu_per_sh; cu++) {
-		// ensure the wave data is zeroed out if it was forwarded
-		// from a previous iteration
-		memset(&pwd->ws, 0, sizeof(pwd->ws));
-
-		pwd->se = se;
-		pwd->sh = sh;
-		pwd->cu = cu;
-		umr_get_wave_sq_info(asic, se, sh, cu, &pwd->ws);
-		if (pwd->ws.sq_info.busy) {
+		umr_get_wave_sq_info(asic, se, sh, cu, &(*ptail)->ws);
+		if ((*ptail)->ws.sq_info.busy) {
 			for (simd = 0; simd < 4; simd++)
-			for (wave = 0; wave < 10; wave++) { //both simd/wave are hard coded at the moment...
-				pwd->simd = simd;
-				pwd->wave = wave;
-				umr_get_wave_status(asic, se, sh, cu, simd, wave, &pwd->ws);
-				if (pwd->ws.wave_status.halt || pwd->ws.wave_status.valid) {
-					// grab sgprs..
-					if (pwd->ws.wave_status.halt) {
-						umr_read_sgprs(asic, &pwd->ws, &pwd->sgprs[0]);
-
-						pwd->have_vgprs = 1;
-						for (thread = 0; thread < 64; ++thread) {
-							if (umr_read_vgprs(asic, &pwd->ws, thread,
-									   &pwd->vgprs[256 * thread]) < 0) {
-								pwd->have_vgprs = 0;
-								break;
-							}
-						}
-					}
-
-					pwd->next = calloc(1, sizeof(*pwd));
-					if (!pwd->next) {
-						fprintf(stderr, "[ERROR]: Out of memory\n");
-						return opwd;
-					}
-					pwd->next->se = pwd->se;
-					pwd->next->sh = pwd->sh;
-					pwd->next->cu = pwd->cu;
-					pwd->next->ws = pwd->ws;
-					ppwd = pwd;
-					pwd = pwd->next;
-				}
-			}
+				umr_scan_wave_simd(asic, se, sh, cu, simd, &ptail);
 		}
 	}
 
-	// no waves to capture
-	if (opwd == pwd) {
-		free(pwd);
-		return NULL;
-	}
-
-	// drop tail node
-	free(ppwd->next);
-	ppwd->next = NULL;
-
-	return opwd;
+	// drop the pre-allocated tail node
+	free(*ptail);
+	*ptail = NULL;
+	return head;
 }
