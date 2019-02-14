@@ -388,7 +388,7 @@ static void decode_pkt3(struct umr_asic *asic, struct umr_pm4_stream_decode_ui *
 			break;
 		case 0x3C: // WAIT_REG_MEM
 			ui->add_field(ui, ib_addr + 4, ib_vmid, "ENGINE", 0, BITS(stream->words[0], 8, 9) ? "PFP" : "ME", 0);
-			ui->add_field(ui, ib_addr + 4, ib_vmid, "MEMSPACE", 0, BITS(stream->words[0], 4, 5) ? "REG" : "MEM", 0);
+			ui->add_field(ui, ib_addr + 4, ib_vmid, "MEMSPACE", 0, BITS(stream->words[0], 4, 5) ? "MEM" : "REG", 0);
 			ui->add_field(ui, ib_addr + 4, ib_vmid, "OPERATION", BITS(stream->words[0], 6, 8), NULL, 10);
 			ui->add_field(ui, ib_addr + 4, ib_vmid, "FUNCTION", 0, op_3c_functions[BITS(stream->words[0], 0, 4)], 0);
 			ui->add_field(ui, ib_addr + 8, ib_vmid, "POLL_ADDRESS_LO", BITS(stream->words[1], 2, 32) << 2, NULL, 16);

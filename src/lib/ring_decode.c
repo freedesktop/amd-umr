@@ -655,7 +655,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
 			switch(decoder->pm4.cur_word) {
 				case 0: printf("ENGINE:%s%s%s, MEMSPACE:%s%s%s, FUNC:[%s%s%s]",
 						BLUE, BITS(ib, 8, 9) ? "PFP" : "ME", RST,
-						BLUE, BITS(ib, 4, 5) ? "REG" : "MEM", RST,
+						BLUE, BITS(ib, 4, 5) ? "MEM" : "REG", RST,
 						BLUE, op_3c_functions[BITS(ib, 0, 4)], RST);
 					break;
 				case 1: printf("POLL_ADDRESS_LO: %s0x%08lx%s, SWAP: %s%lu%s",
