@@ -257,6 +257,49 @@ struct umr_options {
 	} xgmi_devices[UMR_MAX_XGMI_DEVICES];
 };
 
+struct umr_memory_access_funcs {
+	/** access_sram -- Access System RAM
+	 * @asic:  The device the memory is bound to
+	 * @address: The address relative to the GPUs bus (might not be a physical system memory access)
+	 * @size: Number of bytes
+	 * @dst: Buffer to read/write
+	 * @write_en: true for write, false for read
+	 */
+	int (*access_sram)(struct umr_asic *asic, uint64_t address, uint32_t size, void *dst, int write_en);
+
+	/** access_linear_vram -- Access Video RAM
+	 * @asic:  The device the memory is bound to
+	 * @address: The address relative to the GPUs start of VRAM (or relative to the start of an XGMI map)
+	 * @size: Number of bytes
+	 * @dst: Buffer to read/write
+	 * @write_en: true for write, false for read
+	 */
+	int (*access_linear_vram)(struct umr_asic *asic, uint64_t address, uint32_t size, void *data, int write_en);
+
+	/** data -- opaque pointer the callbacks can use for state tracking */
+	void *data;
+};
+
+struct umr_register_access_funcs {
+	/** read_reg -- Read a register
+	 * @asic: The device the register is from
+	 * @addr:  The byte address of the register to read
+	 * @type:  REG_MMIO or REG_SMC
+	 */
+	uint32_t (*read_reg)(struct umr_asic *asic, uint64_t addr, enum regclass type);
+
+	/** write_reg -- Write a register
+	 * @asic: The device the register is from
+	 * @addr: The byte address of the register to write
+	 * @value: The 32-bit value to write
+	 * @type: REG_MMIO or REG_SMC
+	 */
+	int (*write_reg)(struct umr_asic *asic, uint64_t addr, uint32_t value, enum regclass type);
+
+	/** data -- opaque pointer the callbacks can use for state tracking */
+	void *data;
+};
+
 struct umr_asic {
 	char *asicname;
 	int no_blocks;
@@ -294,6 +337,8 @@ struct umr_asic {
 		struct umr_reg **reglist;
 	} mmio_accel;
 	struct umr_dma_maps *maps;
+	struct umr_memory_access_funcs mem_funcs;
+	struct umr_register_access_funcs reg_funcs;
 };
 
 struct umr_wave_status {

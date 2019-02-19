@@ -265,7 +265,12 @@ next_page:
 		// allow destination to be NULL to simply use decoder
 		if (pdst) {
 			if (pte_fields.system) {
-				if (umr_access_sram(asic, start_addr, chunk_size, pdst, write_en) < 0) {
+				int r;
+				if (asic->mem_funcs.access_sram)
+					r = asic->mem_funcs.access_sram(asic, start_addr, chunk_size, pdst, write_en);
+				else
+					r = umr_access_sram(asic, start_addr, chunk_size, pdst, write_en);
+				if (r < 0) {
 					fprintf(stderr, "[ERROR]: Cannot access system ram, perhaps CONFIG_STRICT_DEVMEM is set in your kernel config?\n");
 					fprintf(stderr, "[ERROR]: Alternatively download and install /dev/fmem\n");
 					return -1;
@@ -489,7 +494,12 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 					if (umr_read_vram(asic, UMR_LINEAR_HUB, pde_address + pde_idx * 8, 8, &pde_entry) < 0)
 						return -1;
 				} else {
-					if (umr_access_sram(asic, pde_address + pde_idx * 8, 8, &pde_entry, 0) < 0)
+					int r;
+					if (asic->mem_funcs.access_sram)
+						r = asic->mem_funcs.access_sram(asic, pde_address + pde_idx * 8, 8, &pde_entry, 0);
+					else
+						r = umr_access_sram(asic, pde_address + pde_idx * 8, 8, &pde_entry, 0);
+					if (r < 0)
 						return -1;
 				}
 
@@ -546,7 +556,12 @@ pte_further:
 				if (umr_read_vram(asic, UMR_LINEAR_HUB, pde_fields.pte_base_addr + pte_idx*8, 8, &pte_entry) < 0)
 					return -1;
 			} else {
-				if (umr_access_sram(asic, pde_fields.pte_base_addr + pte_idx*8, 8, &pte_entry, 0) < 0)
+				int r;
+				if (asic->mem_funcs.access_sram)
+					r = asic->mem_funcs.access_sram(asic, pde_fields.pte_base_addr + pte_idx*8, 8, &pte_entry, 0);
+				else
+					r = umr_access_sram(asic, pde_fields.pte_base_addr + pte_idx*8, 8, &pte_entry, 0);
+				if (r < 0)
 					return -1;
 			}
 
@@ -654,7 +669,12 @@ next_page:
 		if (pte_fields.valid) {
 			if (pdst) {
 				if (pte_fields.system) {
-					if (umr_access_sram(asic, start_addr, chunk_size, pdst, write_en) < 0) {
+					int r;
+					if (asic->mem_funcs.access_sram)
+						r = asic->mem_funcs.access_sram(asic, start_addr, chunk_size, pdst, write_en);
+					else
+						r = umr_access_sram(asic, start_addr, chunk_size, pdst, write_en);
+					if (r < 0) {
 						fprintf(stderr, "[ERROR]: Cannot access system ram, perhaps CONFIG_STRICT_DEVMEM is set in your kernel config?\n");
 						fprintf(stderr, "[ERROR]: Alternatively download and install /dev/fmem\n");
 						return -1;
@@ -736,11 +756,16 @@ int umr_access_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint
 			}
 		}
 
-		// addressing is physical
-		if (asic->options.use_pci == 0)
-			umr_access_linear_vram(asic, address, size, data, write_en);
-		else
-			access_vram_via_mmio(asic, address, size, data, write_en);
+		// use callback for linear access if applicable
+		if (asic->mem_funcs.access_linear_vram == NULL) {
+			// addressing is physical
+			if (asic->options.use_pci == 0)
+				umr_access_linear_vram(asic, address, size, data, write_en);
+			else
+				access_vram_via_mmio(asic, address, size, data, write_en);
+		} else {
+			asic->mem_funcs.access_linear_vram(asic, address, size, data, write_en);
+		}
 		return 0;
 	}
 

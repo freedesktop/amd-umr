@@ -104,6 +104,9 @@ uint32_t umr_read_reg(struct umr_asic *asic, uint64_t addr, enum regclass type)
 	if (addr == 0xFFFFFFFF)
 		fprintf(stderr, "[BUG]: reading from addr==0xFFFFFFFF is likely a bug\n");
 
+	if (asic->reg_funcs.read_reg)
+		return asic->reg_funcs.read_reg(asic, addr, type);
+
 	// lop off top bits in no-kernel mode
 	if (asic->options.no_kernel)
 		addr &= 0xFFFFFF;
@@ -137,6 +140,9 @@ int umr_write_reg(struct umr_asic *asic, uint64_t addr, uint32_t value, enum reg
 {
 	if (addr == 0xFFFFFFFF)
 		fprintf(stderr, "[BUG]: reading from addr==0xFFFFFFFF is likely a bug\n");
+
+	if (asic->reg_funcs.write_reg)
+		return asic->reg_funcs.write_reg(asic, addr, value, type);
 
 	// lop off top bits in no-kernel mode
 	if (asic->options.no_kernel)
