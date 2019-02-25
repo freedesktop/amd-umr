@@ -19,10 +19,10 @@ add_library(umrcore STATIC
   ring_decode.c
   scan_config.c
   scan_waves.c
+  shader_disasm.c
   sq_cmd_halt_waves.c
   transfer_soc15.c
   umr_apply_bank_address.c
-  umr_llvm_disasm.c
   umr_read_ring_data.c
   umr_read_pm4_stream.c
   umr_read_sdma_stream.c

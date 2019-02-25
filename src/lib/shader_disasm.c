@@ -23,84 +23,6 @@
  *
  */
 #include "umr.h"
-#include <llvm-c/Disassembler.h>
-#include <llvm-c/Target.h>
-
-/**
- * umr_llvm_disasm - Diassemble a shader
- *
- * @inst:  Shader program
- * @inst_bytes: number of bytes in shader
- * @PC:  Shader address in virtual memory
- * @disasm_text:	array of pointers that are assigned pointers
- *					to disassembled shader.
- */
-int umr_llvm_disasm(struct umr_asic *asic,
-		     uint8_t *inst, unsigned inst_bytes,
-		     uint64_t PC,
-		     char **disasm_text)
-{
-	LLVMDisasmContextRef disasm_ref;
-	unsigned x, z, i;
-	size_t n;
-	char tmp[256], *cpuname;
-
-	if (asic->options.no_disasm) {
-		for (x = 0; x < inst_bytes; x += 4) {
-			disasm_text[x/4] = strdup("...");
-		}
-		return 0;
-	}
-
-	// initialize LLVM
-	LLVMInitializeAllTargetInfos();
-	LLVMInitializeAllTargetMCs();
-	LLVMInitializeAllDisassemblers();
-
-	// cpuname based on mesa usage
-	cpuname = asic->asicname;
-	if (asic->family == FAMILY_RV)
-		cpuname = "gfx902";
-	else if (asic->family > FAMILY_VI)
-		cpuname = "gfx900";
-	else if (!strcmp(cpuname, "polaris12") || !strcmp(cpuname, "vegam"))
-		cpuname = "polaris11";
-	else if (!strcmp(cpuname, "vega12"))
-		cpuname = "gfx902";
-
-	disasm_ref = LLVMCreateDisasmCPU(
-			"amdgcn-mesa-mesa3d", cpuname,
-			NULL, 0, NULL, NULL);
-
-	if (!disasm_ref) {
-		fprintf(stderr, "[ERROR]:  Could not create disassembler context\n");
-		return -1;
-	}
-
-	for (i = x = 0; x < inst_bytes; x += n) {
-		n = LLVMDisasmInstruction(
-				disasm_ref,
-				inst + x, inst_bytes - x,
-				PC + x,
-				tmp, sizeof(tmp));
-		if (!n) {
-			// invalid instruction, skip 4 bytes
-			n = 4;
-			disasm_text[i++] = strdup("...");
-		} else {
-			// valid instruction
-
-			// if the instruction is longer than 4 bytes
-			// then add ';;' to all but the first line
-			disasm_text[i++] = strdup(tmp);
-			for (z = 4; z < n; z += 4)
-				disasm_text[i++] = strdup(";;");
-		}
-	}
-
-	LLVMDisasmDispose(disasm_ref);
-	return 0;
-}
 
 /**
  * find_wave - Find a wave by VMID@PC inside an array of wave data
@@ -123,6 +45,61 @@ static struct umr_wave_data *find_wave(struct umr_wave_data *wd, unsigned vmid, 
 }
 
 /**
+ * umr_vm_disasm_to_str - Disassemble shader programs in GPU mapped memory to an array of strings
+ *
+ * @vmid: VMID of shader
+ * @addr: Address of shader
+ * @PC: Known wave PC address if any
+ * @size: Shader size in bytes
+ * @start_offset:  Offset of disassembly starting address from @addr
+ * @wd: Wave scan data (or NULL) used to track activity in this shader
+ * @out: array of strings containing formatted output
+ */
+int umr_vm_disasm_to_str(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t PC, uint32_t size, uint32_t start_offset, char ***out)
+{
+	uint32_t *opcodes = NULL, x, y;
+	char **opcode_strs;
+	int r = 0;
+	char linebuf[512];
+
+	opcodes = calloc(size/4, sizeof(*opcodes));
+	*out = calloc(size/4 + 1, sizeof(*out));
+
+	if (!*out || !opcode_strs || !opcodes) {
+		fprintf(stderr, "[ERROR]: Out of memory\n");
+		r = -1;
+		goto error;
+	}
+
+	// read the shader from an offset.  This allows us to know
+	// where the shader starts but only read/display a portion of it
+	if (umr_read_vram(asic, vmid, addr + start_offset, size, (void*)opcodes))
+		goto error;
+
+	umr_shader_disasm(asic, (uint8_t *)opcodes, size, addr + start_offset, &opcode_strs);
+
+	for (y = 0, x = start_offset / 4; x < (start_offset + size)/4; x++, y++) {
+		snprintf(linebuf, sizeof(linebuf) - 1, "%s pgm[%s%u%s@%s0x%" PRIx64 "%s + %s0x%-4x%s] = %s0x%08" PRIx32 "%s\t%s%-60s%s\t",
+			(addr + 4 * x == PC) ? " * " : "   ",
+			BLUE, (unsigned)vmid, RST,
+			YELLOW, addr, RST,
+			YELLOW, (unsigned)x * 4, RST,
+			BLUE, opcodes[y], RST,
+			GREEN, opcode_strs[y], RST);
+		free(opcode_strs[y]);
+		(*out)[y] = strdup(linebuf);
+	}
+	free(opcode_strs);
+	free(opcodes);
+	return 0;
+error:
+	free(opcode_strs);
+	free(opcodes);
+	free(*out);
+	return r;
+}
+
+/**
  * umr_vm_disasm - Disassemble shader programs in GPU mapped memory
  *
  * @vmid: VMID of shader
@@ -135,9 +112,9 @@ static struct umr_wave_data *find_wave(struct umr_wave_data *wd, unsigned vmid, 
 int umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t PC, uint32_t size, uint32_t start_offset, struct umr_wave_data *wd)
 {
 	uint32_t *opcodes = NULL, x, y, nwave, wavehits;
-	char **opcode_strs = NULL;
 	struct umr_wave_data *pwd;
 	int r = 0;
+	char **outstrs;
 
 	// count captured halted and valid waves so we can display
 	// relative counts
@@ -148,48 +125,12 @@ int umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t 
 		pwd = pwd->next;
 	}
 
-	opcodes = calloc(size/4, sizeof(*opcodes));
-	if (!opcodes) {
-		fprintf(stderr, "[ERROR]: Out of memory\n");
-		r = -1;
-		goto error;
-	}
-
-	opcode_strs = calloc(size/4, sizeof(opcode_strs[0]));
-	if (!opcode_strs) {
-		fprintf(stderr, "[ERROR]: Out of memory\n");
-		r = -1;
-		goto error;
-	}
-
-	// read the shader from an offset.  This allows us to know
-	// where the shader starts but only read/display a portion of it
-	if (umr_read_vram(asic, vmid, addr + start_offset, size, (void*)opcodes))
-		goto error;
-
-	if (asic->options.verbose) {
-		fflush(stdout);
-		fprintf(stderr, "pgm[] = { ");
-		for (x = 0; x < size/4; x++)
-			fprintf(stderr, "0x%08" PRIx32 ", ", opcodes[x]);
-		fprintf(stderr, "}\n");
-		fflush(stderr);
-	}
-
-	umr_llvm_disasm(asic, (uint8_t *)opcodes, size, addr + start_offset, &opcode_strs[0]);
-
+	r = umr_vm_disasm_to_str(asic, vmid, addr, PC, size, start_offset, &outstrs);
+	if (r)
+		return r;
 	for (y = 0, x = start_offset / 4; x < (start_offset + size)/4; x++, y++) {
-		if (addr + 4 * x == PC)
-			printf(" * ");
-		else
-			printf("   ");
-		printf("pgm[%s%u%s@%s0x%" PRIx64 "%s + %s0x%-4x%s] = %s0x%08" PRIx32 "%s\t%s%-60s%s\t",
-			BLUE, (unsigned)vmid, RST,
-			YELLOW, addr, RST,
-			YELLOW, (unsigned)x * 4, RST,
-			BLUE, opcodes[y], RST,
-			GREEN, opcode_strs[y], RST);
-		free(opcode_strs[y]);
+		printf("%s", outstrs[y]);
+		free(outstrs[y]);
 
 		// if we have wave data see if we can find a wave at this
 		// PC and then print out the stats for it
@@ -218,9 +159,7 @@ int umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t 
 	if (wd && wavehits)
 		printf("\t%u waves in this shader (out of %u active waves)\n", wavehits, nwave);
 
-error:
-	free(opcode_strs);
-	free(opcodes);
+	free(outstrs);
 	return r;
 }
 
@@ -237,7 +176,7 @@ error:
  * run out.
  */
 uint32_t umr_compute_shader_size(struct umr_asic *asic,
-								 struct umr_shaders_pgm *shader)
+				 struct umr_shaders_pgm *shader)
 {
 	uint64_t addr;
 	uint32_t buf[256/4]; // read 256 byte pages at a time

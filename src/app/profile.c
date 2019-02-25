@@ -309,9 +309,9 @@ throw_back:
 			total_hits_by_type[texts->type] += shaders[x].total_cnt;
 
 			// disasm shader
-			strs = calloc(texts->size/4, sizeof(strs[0]));
+			strs = NULL;
 			data = texts->text;
-			umr_llvm_disasm(asic, (uint8_t *)data, texts->size, 0xFFFFFFFF, strs);
+			umr_shader_disasm(asic, (uint8_t *)data, texts->size, 0xFFFFFFFF, &strs);
 
 			for (z = 0; z < shaders[x].hits[0].data.shader_size; z += 4) {
 				unsigned cnt=0, pct;
