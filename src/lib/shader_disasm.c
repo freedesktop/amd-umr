@@ -58,14 +58,14 @@ static struct umr_wave_data *find_wave(struct umr_wave_data *wd, unsigned vmid, 
 int umr_vm_disasm_to_str(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t PC, uint32_t size, uint32_t start_offset, char ***out)
 {
 	uint32_t *opcodes = NULL, x, y;
-	char **opcode_strs;
+	char **opcode_strs = NULL;
 	int r = 0;
 	char linebuf[512];
 
 	opcodes = calloc(size/4, sizeof(*opcodes));
-	*out = calloc(size/4 + 1, sizeof(*out));
+	*out = calloc(size/4 + 1, sizeof(**out));
 
-	if (!*out || !opcode_strs || !opcodes) {
+	if (!*out || !opcodes) {
 		fprintf(stderr, "[ERROR]: Out of memory\n");
 		r = -1;
 		goto error;
@@ -73,8 +73,10 @@ int umr_vm_disasm_to_str(struct umr_asic *asic, unsigned vmid, uint64_t addr, ui
 
 	// read the shader from an offset.  This allows us to know
 	// where the shader starts but only read/display a portion of it
-	if (umr_read_vram(asic, vmid, addr + start_offset, size, (void*)opcodes))
+	if (umr_read_vram(asic, vmid, addr + start_offset, size, (void*)opcodes)) {
+		r = -1;
 		goto error;
+	}
 
 	umr_shader_disasm(asic, (uint8_t *)opcodes, size, addr + start_offset, &opcode_strs);
 
@@ -111,7 +113,7 @@ error:
  */
 int umr_vm_disasm(struct umr_asic *asic, unsigned vmid, uint64_t addr, uint64_t PC, uint32_t size, uint32_t start_offset, struct umr_wave_data *wd)
 {
-	uint32_t *opcodes = NULL, x, y, nwave, wavehits;
+	uint32_t x, y, nwave, wavehits;
 	struct umr_wave_data *pwd;
 	int r = 0;
 	char **outstrs;
