@@ -230,7 +230,9 @@ int main(int argc, char **argv)
 			}
 		} else if (!strcmp(argv[i], "--force") || !strcmp(argv[i], "-f")) {
 			if (i + 1 < argc) {
-				if (sscanf(argv[i+1], "0x%lx", &options.forcedid) == 0) {
+				unsigned long did;
+				if (sscanf(argv[i+1], "0x%lx", &did) == 0) {
+					options.forcedid = did;
 					strncpy(options.dev_name, argv[i+1], sizeof(options.dev_name) - 1);
 					options.forcedid = 0;
 				}
@@ -702,7 +704,10 @@ int main(int argc, char **argv)
 "\n\t--profiler, -prof [pixel= | vertex= | compute=]<nsamples> [ring]"
 	"\n\t\tCapture 'nsamples' samples of wave data. Optionally specify a ring to search"
 	"\n\t\tfor IBs that point to shaders.  Defaults to 'gfx'.  Additionally, the type"
-	"\n\t\tof shader can be selected for as well to only profile a given type.\n"
+	"\n\t\tof shader can be selected for as well to only profile a given type.\n",
+	UMR_BUILD_VER, UMR_BUILD_REV);
+
+printf(
 "\n*** Virtual Memory Access ***\n"
 "\n\tVMIDs are specified in umr as 16 bit numbers where the lower 8 bits"
 "\n\tindicate the hardware VMID and the upper 8 bits indicate the which VM space to use."
@@ -735,7 +740,7 @@ int main(int argc, char **argv)
 	"\n\t\tDump an IB packet at an address with an optional VMID.  The length is specified"
 	"\n\t\tin bytes.  The type of decoder <pm> is optional and defaults to PM4 packets."
 	"\n\t\tCan specify '3' for SDMA packets.\n"
-"\n\n", UMR_BUILD_VER, UMR_BUILD_REV);
+"\n\n");
 			exit(EXIT_SUCCESS);
 		} else {
 			fprintf(stderr, "[ERROR]: Unknown option <%s>\n", argv[i]);

@@ -30,7 +30,7 @@ struct umr_sdma_stream *umr_sdma_decode_stream_opcodes(struct umr_asic *asic, st
 {
 	uint32_t n;
 	struct umr_sdma_stream *os = stream;
-	static const char *poll_regmem_funcs[] = { "always", "<", "<=", "==", "!=", ">=", ">", "N/A" };
+	static char *poll_regmem_funcs[] = { "always", "<", "<=", "==", "!=", ">=", ">", "N/A" };
 
 	n = 0;
 	while (os) {

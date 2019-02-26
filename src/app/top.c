@@ -768,7 +768,7 @@ static void grab_vram(struct umr_asic *asic)
 
 static void analyze_drm_info(struct umr_asic *asic)
 {
-	char region[256], name[256], line[256];
+	char region[256], name[256], line[512];
 	unsigned long old_pid, pid, id, size, tot_vram, tot_gtt, tot_vis_vram;
 	FILE *f;
 	unsigned long long vram_addr;

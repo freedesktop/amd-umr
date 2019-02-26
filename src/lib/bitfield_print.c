@@ -38,7 +38,7 @@
  */
 void umr_bitfield_default(struct umr_asic *asic, char *asicname, char *ipname, char *regname, char *bitname, int start, int stop, uint32_t value)
 {
-	char buf[256], fpath[256];
+	char buf[512], fpath[256];
 	struct umr_options options = asic->options;
 	if (options.bitfields) {
 		snprintf(fpath, sizeof(fpath)-1, "%s.%s.%s%s%s.", asicname, ipname, CYAN, regname, RST);

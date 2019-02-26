@@ -255,7 +255,7 @@ static const struct {
 
 static int find_first_did(long did, long start_instance)
 {
-	char name[128], device[128];
+	char name[128], device[256];
 	FILE *f, *f2;
 
 	int x;

@@ -82,6 +82,8 @@ struct umr_sdma_stream *umr_sdma_decode_stream(struct umr_asic *asic, int vmid, 
 {
 	struct umr_sdma_stream *ops, *ps;
 
+(void)vmid;
+
 	ps = ops = calloc(1, sizeof *ops);
 	if (!ps) {
 		fprintf(stderr, "[ERROR]: Out of memory\n");

@@ -53,7 +53,8 @@ uint64_t umr_vm_dma_to_phys(struct umr_asic *asic, uint64_t dma_addr)
  */
 int umr_access_sram(struct umr_asic *asic, uint64_t address, uint32_t size, void *dst, int write_en)
 {
-	int fd, need_close=0, r;
+	int fd, need_close=0;
+	uint32_t r;
 
 	DEBUG("Reading physical sys addr: 0x" PRIx64 "\n", address);
 

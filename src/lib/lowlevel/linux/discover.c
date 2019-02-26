@@ -120,7 +120,7 @@ static int find_pci_instance(const char* pci_string)
  */
 struct umr_asic *umr_discover_asic(struct umr_options *options)
 {
-	char driver[256], name[256], fname[256];
+	char driver[512], name[256], fname[256];
 	FILE *f;
 	unsigned did;
 	struct umr_asic *asic;
@@ -139,6 +139,7 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 	if (options->pci.domain || options->pci.bus ||
 	    options->pci.slot || options->pci.func) {
 		int parsed_did;
+		unsigned long did;
 
 		snprintf(options->pci.name, sizeof(options->pci.name), "%04x:%02x:%02x.%x",
 			options->pci.domain, options->pci.bus, options->pci.slot,
@@ -153,7 +154,8 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 			if (!options->quiet) perror("Cannot open PCI device name under sysfs (is a display attached?)");
 			return NULL;
 		}
-		parsed_did = fscanf(f, "0x%04lx", &trydid);
+		parsed_did = fscanf(f, "0x%04lx", &did);
+		trydid = did;
 		fclose(f);
 		if (parsed_did != 1) {
 			if (!options->quiet) printf("Could not read device id");
