@@ -83,6 +83,22 @@ static void parse_rev3(struct umr_asic *asic, uint32_t *data, int *r)
 	asic->config.pci.subsystem_vendor = data[(*r)++];
 }
 
+static uint64_t read_int(char *pci_name, char *fname)
+{
+	char buf[256];
+	FILE *f;
+	uint64_t n;
+
+	snprintf(buf, sizeof(buf)-1, "/sys/bus/pci/devices/%s/%s", pci_name, fname);
+	f = fopen(buf, "r");
+	if (f) {
+		fscanf(f, "%"SCNu64"\n", &n);
+		fclose(f);
+		return n;
+	}
+	return 0;
+}
+
 /**
  * umr_scan_config - Scan the debugfs confiruration data
  */
@@ -95,6 +111,11 @@ int umr_scan_config(struct umr_asic *asic)
 
 	if (asic->options.no_kernel)
 		return -1;
+
+	// read memory sizes
+	asic->config.gtt_size = read_int(asic->options.pci.name, "mem_info_gtt_total");
+	asic->config.vis_vram_size = read_int(asic->options.pci.name, "mem_info_vis_vram_total");
+	asic->config.vram_size = read_int(asic->options.pci.name, "mem_info_vram_total");
 
 	// read vbios version
 	snprintf(fname, sizeof(fname)-1, "/sys/bus/pci/devices/%s/vbios_version", asic->options.pci.name);

@@ -312,6 +312,9 @@ struct umr_asic {
 		struct umr_fw_config fw[UMR_MAX_FW];
 		struct umr_pci_config pci;
 		char vbios_version[128];
+		uint64_t vram_size,
+			 vis_vram_size,
+			 gtt_size;
 	} config;
 	struct {
 		int mmio,
