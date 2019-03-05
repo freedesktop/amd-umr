@@ -1161,7 +1161,7 @@ static void print_decode_pm4_pkt3(struct umr_asic *asic, struct umr_ring_decoder
  */
 static void print_decode_pm4(struct umr_asic *asic, struct umr_ring_decoder *decoder, uint32_t ib)
 {
-	char *name;
+	char namecpy[128], *name;
 	switch (decoder->pm4.cur_opcode) {
 		case 0xFFFFFFFF: // initial decode
 			decoder->pm4.pkt_type = ib >> 30;
@@ -1197,6 +1197,7 @@ static void print_decode_pm4(struct umr_asic *asic, struct umr_ring_decoder *dec
 			name = strstr(name, ".");
 			if (name) {
 				if (name[0] == '.') ++name;
+				strcpy(namecpy, umr_find_reg_by_addr(asic, decoder->pm4.next_write_mem.addr_lo, NULL)->regname);
 
 				// detect VCN/UVD IBs and chain them once all
 				// 4 pieces of information are found
@@ -1222,6 +1223,25 @@ static void print_decode_pm4(struct umr_asic *asic, struct umr_ring_decoder *dec
 				if (decoder->pm4.next_ib_state.tally == 15) {
 					decoder->pm4.next_ib_state.tally = 0;
 					add_ib_pm4(decoder);
+				}
+
+				if (strstr(namecpy, "GPCOM_VCPU_CMD")) {
+					// print out command
+					printf(", OPCODE [%s0x%x%s, %s",
+						BLUE, (unsigned)umr_bitslice_reg_by_name(asic, namecpy, "CMD", ib), RST,
+						CYAN);
+					switch (umr_bitslice_reg_by_name(asic, namecpy, "CMD", ib)) {
+						case 0: printf("CMD_MSG_BUFFER"); break;
+						case 1: printf("DPB_MSG_BUFFER"); break;
+						case 2: printf("DECODING_TARGET_BUFFER"); break;
+						case 3: printf("FEEDBACK_BUFFER"); break;
+						case 5: printf("SESSSION_CONTEXT_BUFFER"); break;
+						case 0x100: printf("BITSTREAM_BUFFER"); break;
+						case 0x204: printf("ITSCALING_TABLE_BUFFER"); break;
+						case 0x206: printf("CONTEXT_BUFFER"); break;
+						default: printf("UNKNOWN"); break;
+					}
+					printf("%s]", RST);
 				}
 			}
 
