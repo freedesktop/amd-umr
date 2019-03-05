@@ -207,6 +207,10 @@ static struct umr_bitfield mmUVD_GPCOM_VCPU_DATA0[] = {
 static struct umr_bitfield mmUVD_GPCOM_VCPU_DATA1[] = {
 	 { "DATA1", 0, 31, &umr_bitfield_default },
 };
+static struct umr_bitfield mmUVD_ENGINE_CNTL[] = {
+	 { "ENGINE_START", 0, 0, &umr_bitfield_default },
+	 { "ENGINE_START_MODE", 1, 1, &umr_bitfield_default },
+};
 static struct umr_bitfield mmUVD_UDEC_DBW_UV_ADDR_CONFIG[] = {
 	 { "NUM_PIPES", 0, 2, &umr_bitfield_default },
 	 { "PIPE_INTERLEAVE_SIZE", 3, 5, &umr_bitfield_default },
