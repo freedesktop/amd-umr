@@ -44,6 +44,7 @@ static struct umr_asic *get_asic(void)
 		printf("ASIC not found (instance=%d, did=%08lx)\n", options.instance, (unsigned long)options.forcedid);
 		exit(EXIT_FAILURE);
 	}
+	umr_scan_config(asic, 1);
 	return asic;
 }
 
@@ -70,49 +71,6 @@ static char *get_block_name(struct umr_asic *asic, char *path)
 	}
 	return block;
 }
-
-// size,instance,size,instance...
-static void parse_xgmi(struct umr_options *options, char *str)
-{
-	uint64_t base;
-	int x, n;
-	char buf[32];
-	uint64_t nums[UMR_MAX_XGMI_DEVICES*2];
-	struct umr_options opts;
-
-	// parse numbers first
-	memset(buf, 0, sizeof buf);
-	n = x = 0;
-	while (*str) {
-		if (*str == ',') {
-			sscanf(buf, "%" SCNu64, &nums[n++]);
-			memset(buf, 0, sizeof buf);
-			x = 0;
-			++str;
-		} else {
-			buf[x++] = *str++;
-		}
-	}
-
-	if (x)
-		sscanf(buf, "%" SCNu64, &nums[n++]);
-
-	base = 0;
-	for (x = 0; x < n; x += 2) {
-		uint64_t size = nums[x + 0] * 1024ULL * 1024ULL;
-		options->xgmi_devices[x/2].base_addr = base;
-		options->xgmi_devices[x/2].size      = size;
-		options->xgmi_devices[x/2].instance  = nums[x + 1];
-		base += size;
-
-		// open instance for xgmi devices (TODO: no_kernel support)
-		memset(&opts, 0, sizeof opts);
-		opts.instance = nums[x + 1];
-		options->xgmi_devices[x/2].asic = umr_discover_asic(&opts);
-	}
-	options->use_xgmi = x/2;
-}
-
 
 static void parse_options(char *str)
 {
@@ -250,14 +208,6 @@ int main(int argc, char **argv)
 				++i;
 			} else {
 				printf("--pci requires domain:bus:slot.function\n");
-				return EXIT_FAILURE;
-			}
-		} else if (!strcmp(argv[i], "--xgmi")) {
-			if (i + 1 < argc) {
-				parse_xgmi(&options, argv[i + 1]);
-				++i;
-			} else {
-				printf("--xgmi requires vramsize,instance[,vramsize,instance,...]\n");
 				return EXIT_FAILURE;
 			}
 		} else if (!strcmp(argv[i], "--config") || !strcmp(argv[i], "-c")) {
@@ -661,9 +611,6 @@ int main(int argc, char **argv)
 	"\n\t\tForce a specific PCI device using the domain:bus:slot.function format in hex."
 	"\n\t\tThis is useful when more than one GPU is available. If the amdgpu driver is"
 	"\n\t\tloaded the corresponding instance will be automatically detected.\n"
-"\n\t--xgmi vramsize,instance[,vramsize,instance,...]"
-	"\n\t\tCreate a contiguous XGMI map for VRAM accesses.  Specify the VRAM size in MiB"
-	"\n\t\tin order of appearance in the XGMI map.\n"
 "\n\t--update, -u <filename>"
 	"\n\t\tSpecify update file to add, change, or delete registers from the register"
 	"\n\t\tdatabase.  Useful for adding registers that are not including in the kernel headers.  See"
@@ -756,10 +703,12 @@ printf(
 	if (options.print)
 		umr_print_asic(asic, "");
 
-	umr_close_asic(asic);
 	if (options.use_xgmi) {
+		// the parent 'asic' is included in the nodes array
 		int n;
-		for (n = 0; n < options.use_xgmi; n++)
-			umr_close_asic(options.xgmi_devices[n].asic);
+		for (n = 0; asic->config.xgmi.nodes[n].asic; n++)
+			umr_close_asic(asic->config.xgmi.nodes[n].asic);
+	} else {
+		umr_close_asic(asic);
 	}
 }

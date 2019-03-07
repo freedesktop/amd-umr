@@ -248,13 +248,6 @@ struct umr_options {
 		    func;
 		char name[32];
 	} pci;
-
-	struct {
-		uint64_t base_addr,
-			 size;
-		int instance;
-		struct umr_asic *asic;
-	} xgmi_devices[UMR_MAX_XGMI_DEVICES];
 };
 
 struct umr_memory_access_funcs {
@@ -315,6 +308,17 @@ struct umr_asic {
 		uint64_t vram_size,
 			 vis_vram_size,
 			 gtt_size;
+
+		struct {
+			uint64_t
+				device_id,
+				hive_id;
+			struct {
+				uint64_t node_id;
+				int instance;
+				struct umr_asic *asic;
+			} nodes[UMR_MAX_XGMI_DEVICES];
+		} xgmi;
 	} config;
 	struct {
 		int mmio,
@@ -905,4 +909,4 @@ int umr_access_linear_vram(struct umr_asic *asic, uint64_t address, uint32_t siz
 #define RST     (asic->options.use_colour ? "\x1b[0m" : "")
 
 void umr_bitfield_default(struct umr_asic *asic, char *asicname, char *ipname, char *regname, char *bitname, int start, int stop, uint32_t value);
-int umr_scan_config(struct umr_asic *asic);
+int umr_scan_config(struct umr_asic *asic, int xgmi_scan);

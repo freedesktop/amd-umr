@@ -101,7 +101,7 @@ struct umr_asic *umr_discover_asic_by_name(struct umr_options *options, char *na
 		} else {
 			asic->instance = options->instance;
 		}
-		umr_scan_config(asic);
+		umr_scan_config(asic, 0);
 	} else {
 		printf("ERROR: Device %s not found in UMR device table\n", name);
 	}

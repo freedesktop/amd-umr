@@ -745,15 +745,20 @@ int umr_access_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint
 		// if we are using xgmi let's find the device for this address
 		if (asic->options.use_xgmi) {
 			int n;
-			for (n = 0; n < asic->options.use_xgmi; n++) {
-				if ((address >= asic->options.xgmi_devices[n].base_addr) &&
-				    (address < (asic->options.xgmi_devices[n].base_addr + asic->options.xgmi_devices[n].size))) {
-					address -= asic->options.xgmi_devices[n].base_addr;
-					DEBUG("Found address in XGMI device %d, using relative address 0x%" PRIx64 "\n", n, address);
-					asic = asic->options.xgmi_devices[n].asic;
+			uint64_t addr = address;
+			for (n = 0; asic->config.xgmi.nodes[n].asic; n++) {
+				// if remaining address is within this nodes VRAM size use it
+				if (addr < asic->config.xgmi.nodes[n].asic->config.vram_size) {
+					asic = asic->config.xgmi.nodes[n].asic;
+					address = addr;
 					break;
+				} else {
+					// otherwise subtract this vram size from the address and go to the next device
+					addr -= asic->config.xgmi.nodes[n].asic->config.vram_size;
 				}
 			}
+			// now {asic, address} are the device and it's relative address
+			// that corresponds to the hive address the caller passed
 		}
 
 		// use callback for linear access if applicable

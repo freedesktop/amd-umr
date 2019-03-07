@@ -315,7 +315,7 @@ struct umr_asic *umr_discover_asic_by_did(struct umr_options *options, long did)
 	if (asic) {
 		asic->did = did;
 		asic->instance = find_first_did(did, options->instance);
-		umr_scan_config(asic);
+		umr_scan_config(asic, 0);
 
 		// set all file handles to -1 (so a call to close_asic won't close handle 0)
 		asic->fd.mmio = -1;

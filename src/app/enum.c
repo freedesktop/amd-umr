@@ -98,7 +98,7 @@ void umr_enumerate_devices(void)
 					    asics[x].pcopy.func == func) {
 						asics[x].instance = y;
 						asics[x].asic->instance = y;
-						umr_scan_config(asics[x].asic);
+						umr_scan_config(asics[x].asic, 0);
 					}
 
 				}

@@ -99,10 +99,27 @@ static uint64_t read_int(char *pci_name, char *fname)
 	return 0;
 }
 
+static uint64_t read_int_drm(int cardno, char *fname)
+{
+	char buf[256];
+	FILE *f;
+	uint64_t n;
+
+	snprintf(buf, sizeof(buf)-1, "/sys/class/drm/card%d/device/%s", cardno, fname);
+	f = fopen(buf, "r");
+	if (f) {
+		fscanf(f, "%"SCNu64"\n", &n);
+		fclose(f);
+		return n;
+	}
+	return 0;
+}
+
+
 /**
  * umr_scan_config - Scan the debugfs confiruration data
  */
-int umr_scan_config(struct umr_asic *asic)
+int umr_scan_config(struct umr_asic *asic, int xgmi_scan)
 {
 	uint32_t data[512];
 	FILE *f;
@@ -117,6 +134,43 @@ int umr_scan_config(struct umr_asic *asic)
 	asic->config.vis_vram_size = read_int(asic->options.pci.name, "mem_info_vis_vram_total");
 	asic->config.vram_size = read_int(asic->options.pci.name, "mem_info_vram_total");
 
+	// try to read xgmi info
+	asic->config.xgmi.device_id = read_int_drm(asic->instance, "xgmi_device_id");
+	if (xgmi_scan && asic->config.xgmi.device_id) {
+		int x, y;
+
+		asic->config.xgmi.hive_id = read_int_drm(asic->instance, "xgmi_hive_info/xgmi_hive_id");
+		for (x =  0; x < UMR_MAX_XGMI_DEVICES; x++) {
+			char buf[64];
+			snprintf(buf, sizeof(buf)-1, "xgmi_hive_info/node%d/xgmi_device_id", x+1);
+			asic->config.xgmi.nodes[x].node_id = read_int_drm(asic->instance, buf);
+		}
+
+		// now map instances to node ids
+		for (x = 0; asic->config.xgmi.nodes[x].node_id; x++) {
+			for (y = 0; y < UMR_MAX_XGMI_DEVICES; y++) {
+				uint64_t z;
+				z = read_int_drm(y, "xgmi_device_id");
+				if (z == asic->config.xgmi.nodes[x].node_id) {
+					asic->config.xgmi.nodes[x].instance = y;
+					break;
+				}
+			}
+		}
+
+		// now load all of the devices other than this one ...
+		for (x = 0; asic->config.xgmi.nodes[x].node_id; x++) {
+			if (asic->instance != asic->config.xgmi.nodes[x].instance) {
+				struct umr_options options;
+				memset(&options, 0, sizeof options);
+				options.instance = asic->config.xgmi.nodes[x].instance;
+				asic->config.xgmi.nodes[x].asic = umr_discover_asic(&options);
+			} else {
+				asic->config.xgmi.nodes[x].asic = asic;
+			}
+		}
+		asic->options.use_xgmi = 1;
+	}
 	// read vbios version
 	snprintf(fname, sizeof(fname)-1, "/sys/bus/pci/devices/%s/vbios_version", asic->options.pci.name);
 	f = fopen(fname, "r");

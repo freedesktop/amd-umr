@@ -169,7 +169,7 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 		if (asic) {
 			asic->instance = options->instance;
 			asic->options  = *options;
-			if (!umr_scan_config(asic) && asic->config.pci.device)
+			if (!umr_scan_config(asic, 0) && asic->config.pci.device)
 				trydid = asic->config.pci.device;
 			umr_free_asic(asic);
 			asic = NULL;
@@ -370,7 +370,7 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 	}
 
 	if (asic && need_config_scan)
-		umr_scan_config(asic);
+		umr_scan_config(asic, 0);
 
 	return asic;
 err_pci:
