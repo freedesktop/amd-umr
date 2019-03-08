@@ -704,6 +704,14 @@ invalid_page:
 	return -1;
 }
 
+static uint64_t round_up_pot(uint64_t x)
+{
+	uint64_t y = (64ULL * 1024 * 1024); // start at 64MiB
+	while (y < x)
+		y <<= 1;
+	return y;
+}
+
 /**
  * umr_access_vram - Access GPU mapped memory
  *
@@ -754,7 +762,7 @@ int umr_access_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint
 					break;
 				} else {
 					// otherwise subtract this vram size from the address and go to the next device
-					addr -= asic->config.xgmi.nodes[n].asic->config.vram_size;
+					addr -= round_up_pot(asic->config.xgmi.nodes[n].asic->config.vram_size);
 				}
 			}
 			// now {asic, address} are the device and it's relative address
