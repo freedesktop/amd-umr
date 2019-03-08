@@ -162,7 +162,6 @@ int umr_scan_config(struct umr_asic *asic, int xgmi_scan)
 		for (x = 0; asic->config.xgmi.nodes[x].node_id; x++) {
 			if (asic->instance != asic->config.xgmi.nodes[x].instance) {
 				struct umr_options options;
-				//options = asic->options;
 				memset(&options, 0, sizeof options);
 				options.instance = asic->config.xgmi.nodes[x].instance;
 				options.verbose = asic->options.verbose;
