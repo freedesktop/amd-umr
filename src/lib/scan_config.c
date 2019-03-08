@@ -162,8 +162,11 @@ int umr_scan_config(struct umr_asic *asic, int xgmi_scan)
 		for (x = 0; asic->config.xgmi.nodes[x].node_id; x++) {
 			if (asic->instance != asic->config.xgmi.nodes[x].instance) {
 				struct umr_options options;
+				//options = asic->options;
 				memset(&options, 0, sizeof options);
 				options.instance = asic->config.xgmi.nodes[x].instance;
+				options.verbose = asic->options.verbose;
+				options.use_colour = asic->options.use_colour;
 				asic->config.xgmi.nodes[x].asic = umr_discover_asic(&options);
 			} else {
 				asic->config.xgmi.nodes[x].asic = asic;
