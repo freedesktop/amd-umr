@@ -391,6 +391,38 @@ static int do_del(char **ptr, struct umr_asic *asic)
 	return 0;
 }
 
+int umr_update_string(struct umr_asic *asic, char *sdata)
+{
+	int r;
+
+	// parse script
+	while (*sdata) {
+		consume_whitespace(&sdata);
+
+		// should be pointing to "add/edit/del" now
+		if (!memcmp(sdata, "add", 3)) {
+			sdata += 3;
+			if ((r = do_add(&sdata, asic)))
+				return r;
+		} else if (!memcmp(sdata, "edit", 4)) {
+			sdata += 4;
+			r = do_edit(&sdata, asic);
+			if (r)
+				return r;
+		} else if (!memcmp(sdata, "del", 3)) {
+			sdata += 3;
+			r = do_del(&sdata, asic);
+			if (r)
+				return r;
+		} else if (*sdata) {
+			fprintf(stderr, "[ERROR]: Unknown update command [%s]\n", sdata);
+			*sdata = 0;
+			return -1;
+		}
+	}
+	return 0;
+}
+
 /**
  * umr_update - Update an ASIC device from script
  *
@@ -400,9 +432,8 @@ static int do_del(char **ptr, struct umr_asic *asic)
  */
 int umr_update(struct umr_asic *asic, char *script)
 {
-	int fd;
+	int fd, s;
 	void *smem;
-	char *sdata;
 	unsigned len, r;
 
 	fd = open(script, O_RDWR);
@@ -411,7 +442,7 @@ int umr_update(struct umr_asic *asic, char *script)
 		return -1;
 	}
 	len = lseek(fd, 0, SEEK_END) + 1;
-	sdata = smem = calloc(1, len);
+	smem = calloc(1, len);
 	lseek(fd, 0, SEEK_SET);
 	if (!smem) {
 		close(fd);
@@ -425,26 +456,7 @@ int umr_update(struct umr_asic *asic, char *script)
 		return 0;
 	}
 
-	// parse script
-	while (*sdata) {
-		consume_whitespace(&sdata);
-
-		// should be pointing to "add/edit/del" now
-		if (!memcmp(sdata, "add", 3)) {
-			sdata += 3;
-			if (do_add(&sdata, asic))
-				*sdata = 0;
-		} else if (!memcmp(sdata, "edit", 4)) {
-			sdata += 4;
-			do_edit(&sdata, asic);
-		} else if (!memcmp(sdata, "del", 3)) {
-			sdata += 3;
-			do_del(&sdata, asic);
-		} else if (*sdata) {
-			fprintf(stderr, "[ERROR]: Unknown update command [%s]\n", sdata);
-			*sdata = 0;
-		}
-	}
+	s = umr_update_string(asic, smem);
 	free(smem);
-	return 0;
+	return s;
 }
