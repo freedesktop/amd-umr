@@ -704,6 +704,7 @@ invalid_page:
 	return -1;
 }
 
+/** round_up_pot -- Round up value to next power of two */
 static uint64_t round_up_pot(uint64_t x)
 {
 	uint64_t y = (64ULL * 1024 * 1024); // start at 64MiB
@@ -754,6 +755,12 @@ int umr_access_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint
 		if (asic->options.use_xgmi) {
 			int n;
 			uint64_t addr = address;
+
+			// copy callbacks so that sysram/vram accesses
+			// go through callbacks when we use other nodes
+			if (!asic->config.xgmi.callbacks_applied)
+				umr_apply_callbacks(asic, &asic->mem_funcs, &asic->reg_funcs);
+
 			for (n = 0; asic->config.xgmi.nodes[n].asic; n++) {
 				// if remaining address is within this nodes VRAM size use it
 				if (addr < asic->config.xgmi.nodes[n].asic->config.vram_size) {
