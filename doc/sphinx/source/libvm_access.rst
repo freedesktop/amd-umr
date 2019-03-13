@@ -52,3 +52,40 @@ To read from the GFX hub (which is the default) the **UMR_GFX_HUB**
 flag can be used.  It is equal to zero so for these requests it
 can be safely omitted completely.
 
+---------------------
+Read and Write Macros
+---------------------
+
+To make access to VM memory simpler there are read and write macros:
+
+::
+
+	#define umr_read_vram(asic, vmid, address, size, dst) umr_access_vram(asic, vmid, address, size, dst, 0)
+	#define umr_write_vram(asic, vmid, address, size, src) umr_access_vram(asic, vmid, address, size, src, 1)
+
+Which take the same order of parameters as umr_access_vram() but omit the write_en parameter.
+
+------------
+XGMI Support
+------------
+
+On linux hosts with the XGMI sysfs support the umr_scan_config() function
+can be used to detect XGMI and map nodes:
+
+::
+
+	int umr_scan_config(struct umr_asic *asic, int xgmi_scan);
+
+With 'xgmi_scan' set to 1 the call will populate the xgmi configuration
+data (if any).  This will allow a VM access on 'asic' to access the
+VRAM backing the VM address on any node in the XGMI array.
+
+Behind the scenes the first time umr_access_vram() is called after this
+point the callbacks for register and memory access will be copied down
+to all XGMI node 'asic' instances.  So it is required to set the callbacks
+BEFORE calling umr_scan_config().
+
+The call to umr_scan_config() also copies the "use_colour" and "verbose"
+options from 'asic' to all of the node 'asic' instances which is used
+by umr_access_vram() recursively.
+
