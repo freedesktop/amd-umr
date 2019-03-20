@@ -58,11 +58,18 @@ if(LLVM_CMAKE_DIR)
 endif()
 endif()
 
+if($ENV{UMR_NEED_RT})
+set(RT_LIBS "-lrt")
+else()
+set(RT_LIBS "")
+endif()
+
 set(REQUIRED_EXTERNAL_LIBS
   ${CURSES_LIBRARIES}
   ${PCIACCESS_LIBRARIES}
   Threads::Threads
   ${LLVM_LIBS}
+  ${RT_LIBS}
 )
 
 # Global setting: build everything position independent
