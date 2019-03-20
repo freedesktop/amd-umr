@@ -23,6 +23,8 @@
  *
  */
 #include "umr.h"
+
+#ifndef UMR_NO_LLVM
 #include <llvm-c/Disassembler.h>
 #include <llvm-c/Target.h>
 
@@ -104,3 +106,31 @@ int umr_shader_disasm(struct umr_asic *asic,
 	LLVMDisasmDispose(disasm_ref);
 	return 0;
 }
+
+#else
+
+/**
+ * umr_shader_disasm - Diassemble a shader
+ *
+ * @inst:  Shader program
+ * @inst_bytes: number of bytes in shader
+ * @PC:  Shader address in virtual memory
+ * @disasm_text:	array of pointers that are assigned pointers
+ *					to disassembled shader.
+ */
+int umr_shader_disasm(struct umr_asic *asic,
+		     uint8_t *inst, unsigned inst_bytes,
+		     uint64_t PC,
+		     char ***disasm_text)
+{
+	unsigned x;
+
+	*disasm_text = calloc(inst_bytes/4, sizeof(**disasm_text));
+
+	for (x = 0; x < inst_bytes; x += 4) {
+		(*disasm_text)[x/4] = strdup("...");
+	}
+	return 0;
+}
+
+#endif

@@ -33,6 +33,9 @@ include_directories(${PCIACCESS_INCLUDE_DIR})
 find_package(LibDRM REQUIRED)
 include_directories(${LIBDRM_INCLUDE_DIR})
 
+if($ENV{UMR_NO_LLVM})
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DUMR_NO_LLVM")
+else()
 find_package(LLVM REQUIRED COMPONENTS all)
 include_directories(${LLVM_INCLUDE_DIR})
 
@@ -49,7 +52,7 @@ if(LLVM_CMAKE_DIR)
     MCDisassembler
   )
 endif()
-
+endif()
 
 set(REQUIRED_EXTERNAL_LIBS
   ${CURSES_LIBRARIES}

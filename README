@@ -47,6 +47,11 @@ NOTE:  Allowing untrusted users access to umr may lead to system
 comprimises, instability, and hardware damage.  Do not setuid this
 tool on multi-user systems.
 
+NOTE:  You may disable LLVM dependencies by adding UMR_NO_LLVM to your
+environment.  e.g.,
+
+    $ UMR_NO_LLVM=1 cmake ../
+
 Running umr
 ------------
 

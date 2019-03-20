@@ -75,3 +75,15 @@ Though keep in mind that this introduces a security vulnerability so you should 
 and development machines and not deployed machines.
 
 At this point umr should be installed and can be invoked by running the command ‘umr’.  
+
+-----------------
+Optional Packages
+-----------------
+
+You may disable LLVM dependencies by adding UMR_NO_LLVM to your shell environment:
+
+::
+
+	$ UMR_NO_LLVM=1 cmake .
+
+This will disable shader disassembly and result in "..." being printed for all opcode decodes.
