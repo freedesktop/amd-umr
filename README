@@ -52,6 +52,11 @@ environment.  e.g.,
 
     $ UMR_NO_LLVM=1 cmake ../
 
+NOTE:  You may disable libDRM dependencies by adding UMR_NO_DRM to your
+environment.  e.g.,
+
+    $ UMR_NO_DRM=1 cmake ../
+
 Running umr
 ------------
 

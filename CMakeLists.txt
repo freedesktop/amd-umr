@@ -30,8 +30,12 @@ include_directories(${CURSES_INCLUDE_DIRS})
 find_package(PCIAccess REQUIRED)
 include_directories(${PCIACCESS_INCLUDE_DIR})
 
+if($ENV{UMR_NO_DRM})
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DUMR_NO_DRM")
+else()
 find_package(LibDRM REQUIRED)
 include_directories(${LIBDRM_INCLUDE_DIR})
+endif()
 
 if($ENV{UMR_NO_LLVM})
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DUMR_NO_LLVM")

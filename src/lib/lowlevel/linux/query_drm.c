@@ -25,6 +25,8 @@
 #include "umr.h"
 #include <asm/ioctl.h>
 #include <sys/ioctl.h>
+
+#ifndef UMR_NO_DRM
 #include <drm.h>
 #include <amdgpu_drm.h>
 
@@ -49,3 +51,12 @@ int umr_query_drm(struct umr_asic *asic, int field, void *ret, int size)
 	return ioctl(asic->fd.drm, DRM_IOC(DRM_IOC_WRITE, DRM_IOCTL_BASE, DRM_COMMAND_BASE + DRM_AMDGPU_INFO, sizeof(inf)), &inf);
 
 }
+
+#else
+
+int umr_query_drm(struct umr_asic *asic, int field, void *ret, int size)
+{
+	return 0;
+}
+
+#endif
