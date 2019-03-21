@@ -24,28 +24,32 @@
  */
 #include "umr.h"
 
-static struct umr_ip_offsets_soc15 vega20_offs[] = {
-#include "vega20.i"
-	{ NULL },
+#include "sdma142_bits.i"
+
+static const struct umr_reg_soc15 sdma142_registers[] = {
+#include "sdma142_regs.i"
 };
 
-struct umr_asic *umr_create_vega20(struct umr_options *options)
+struct umr_ip_block *umr_create_sdma142(struct umr_ip_offsets_soc15 *soc15_offsets, struct umr_options *options)
 {
-	return
-		umr_create_asic_helper("vega20", FAMILY_AI,
-			umr_create_gfx90(vega20_offs, options),
-			umr_create_uvd70(vega20_offs, options),
-			umr_create_vce40(vega20_offs, options),
-			umr_create_dce120(vega20_offs, options),
-			umr_create_hdp40(vega20_offs, options),
-			umr_create_nbio61(vega20_offs, options),
-			umr_create_oss40(vega20_offs, options),
-			umr_create_sdma042(vega20_offs, options),
-			umr_create_sdma142(vega20_offs, options),
-			umr_create_thm90(vega20_offs, options),
-			umr_create_mmhub10(vega20_offs, options),
-			umr_create_mp90(vega20_offs, options),
-			umr_create_umc60(vega20_offs, options),
-			NULL);
-}
+	struct umr_ip_block *ip;
 
+	ip = calloc(1, sizeof *ip);
+	if (!ip)
+		return NULL;
+
+	ip->ipname = "sdma142";
+	ip->no_regs = sizeof(sdma142_registers)/sizeof(sdma142_registers[0]);
+	ip->regs = calloc(ip->no_regs, sizeof(ip->regs[0]));
+	if (!ip->regs) {
+		free(ip);
+		return NULL;
+	}
+
+	if (umr_transfer_soc15_to_reg(options, soc15_offsets, "SDMA1", sdma142_registers, ip)) {
+		free(ip);
+		return NULL;
+	}
+
+	return ip;
+}

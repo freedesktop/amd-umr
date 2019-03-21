@@ -72,6 +72,9 @@ ENDCB
 ) > /tmp/countbits.c
 gcc /tmp/countbits.c -o /tmp/countbits
 
+parse_bits ${pk}/sdma1/sdma1_4_2 src/lib/ip/sdma142
+parse_bits ${pk}/sdma0/sdma0_4_2 src/lib/ip/sdma042
+
 parse_bits ${pk}/dce/dce_12_0 src/lib/ip/dce120
 parse_bits ${pk}/vce/vce_4_0 src/lib/ip/vce40
 parse_bits ${pk}/uvd/uvd_7_0 src/lib/ip/uvd70
