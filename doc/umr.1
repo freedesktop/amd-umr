@@ -12,7 +12,7 @@ Pick a device instance to work with.  Defaults to the 0'th device.  The instance
 refers to a directory under
 .B /sys/kernel/debug/dri/
 where 0 is the first card probed.
-.IP "--force -f <number>"
+.IP "--force, -f <number>"
 Force a PCIE Device ID in hex or by asic name.  This is used in case the amdgpu driver
 is not yet loaded or a display is not yet attached.  A '@' prefix will specify a path to
  an NPI script, for instance, '@/home/user/device.npi'.  A '.' prefix will specify a virtual
@@ -22,7 +22,7 @@ for instance, '.vega10'.
 Force a specific PCI device using the domain:bus:slot.function format in hex.
 This is useful when more than one GPU is available. If the amdgpu driver is
 loaded the corresponding instance will be automatically detected.
-.IP "--update, -u" <filename>
+.IP "--update, -u <filename>"
 Specify update file to add, change, or delete registers from the register
 database.  Useful for adding registers that are not including in the kernel headers.
 
