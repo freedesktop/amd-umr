@@ -56,9 +56,17 @@ void umr_print_waves(struct umr_asic *asic)
 	if (asic->options.disasm_anyways)
 		ring_halted = 1;
 
-	// scan a ring but don't trigger the halt/resume
-	// since it would have already been done
-	stream = umr_pm4_decode_ring(asic, asic->options.ring_name[0] ? asic->options.ring_name : "gfx", 1);
+	// don't scan for shader info by reading the ring if no_disasm is
+	// requested.  This is useful for when the ring or IBs contain
+	// invalid or racy data that cannot be reliably parsed.
+	if (!asic->options.no_disasm) {
+		// scan a ring but don't trigger the halt/resume
+		// since it would have already been done
+		stream = umr_pm4_decode_ring(asic, asic->options.ring_name[0] ? asic->options.ring_name : "gfx", 1);
+	} else {
+		ring_halted = 0;
+		stream = NULL;
+	}
 
 	if (asic->family <= FAMILY_CIK)
 		shift = 3;  // on SI..CIK allocations were done in 8-dword blocks
