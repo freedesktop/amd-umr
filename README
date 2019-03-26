@@ -50,12 +50,12 @@ tool on multi-user systems.
 NOTE:  You may disable LLVM dependencies by adding UMR_NO_LLVM to your
 environment.  e.g.,
 
-    $ UMR_NO_LLVM=1 cmake ../
+    $ cmake -DUMR_NO_LLVM=ON ../
 
 NOTE:  You may disable libDRM dependencies by adding UMR_NO_DRM to your
 environment.  e.g.,
 
-    $ UMR_NO_DRM=1 cmake ../
+    $ cmake -DUMR_NO_DRM=ON ../
 
 Running umr
 ------------

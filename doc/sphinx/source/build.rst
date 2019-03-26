@@ -84,7 +84,7 @@ You may disable LLVM dependencies by adding UMR_NO_LLVM to your shell environmen
 
 ::
 
-	$ UMR_NO_LLVM=1 cmake .
+	$ cmake -DUMR_NO_LLVM=ON .
 
 This will disable shader disassembly and result in "..." being printed for all opcode decodes.
 
@@ -92,6 +92,6 @@ You may disable libDRM dependencies by adding UMR_NO_DRM to your shell environme
 
 ::
 
-	$ UMR_NO_DRM=1 cmake .
+	$ cmake -DUMR_NO_DRM=ON .
 
 This will disable libdrm support which will render some "--top" output nonsensical.
