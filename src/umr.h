@@ -701,7 +701,7 @@ struct umr_find_reg_iter_result umr_find_reg_wild_next(struct umr_find_reg_iter 
 char *umr_reg_name(struct umr_asic *asic, uint64_t addr);
 
 // find the register data for a register
-struct umr_reg *umr_find_reg_data_by_ip(struct umr_asic *asic, char *ip, char *regname);
+struct umr_reg *umr_find_reg_data_by_ip(struct umr_asic *asic, const char *ip, const char *regname);
 struct umr_reg *umr_find_reg_data(struct umr_asic *asic, char *regname);
 struct umr_reg *umr_find_reg_by_addr(struct umr_asic *asic, uint64_t addr, struct umr_ip_block **ip);
 

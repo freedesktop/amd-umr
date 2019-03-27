@@ -141,7 +141,7 @@ uint32_t umr_find_reg(struct umr_asic *asic, const char *regname)
  * with a specific name.  The IP block is optional (can be NULL) and
  * is only compared as a prefix (e.g., "gfx" will match "gfx90").
  */
-struct umr_reg *umr_find_reg_data_by_ip(struct umr_asic *asic, char *ip, char *regname)
+struct umr_reg *umr_find_reg_data_by_ip(struct umr_asic *asic, const char *ip, const char *regname)
 {
 	int i, j;
 
