@@ -200,22 +200,21 @@ struct umr_asic *umr_discover_asic(struct umr_options *options)
 
 		r = fscanf(f, "%*s %s", name);
 		fclose(f);
-		if (r != 1)
-			return NULL;
+		if (r == 1) {
+			// strip off dev= for kernels > 4.7
+			if (strstr(name, "dev="))
+				memmove(name, name+4, strlen(name)-3);
 
-		// strip off dev= for kernels > 4.7
-		if (strstr(name, "dev="))
-			memmove(name, name+4, strlen(name)-3);
-
-		if (!strlen(options->pci.name)) {
-			// read the PCI info
-			strcpy(options->pci.name, name);
-			sscanf(name, "%04x:%02x:%02x.%x",
-				&options->pci.domain,
-				&options->pci.bus,
-				&options->pci.slot,
-				&options->pci.func);
-			need_config_scan = 1;
+			if (!strlen(options->pci.name)) {
+				// read the PCI info
+				strcpy(options->pci.name, name);
+				sscanf(name, "%04x:%02x:%02x.%x",
+					&options->pci.domain,
+					&options->pci.bus,
+					&options->pci.slot,
+					&options->pci.func);
+				need_config_scan = 1;
+			}
 		}
 	}
 
