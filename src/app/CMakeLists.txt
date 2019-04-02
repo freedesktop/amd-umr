@@ -3,7 +3,7 @@
 project(umr)
 
 #application objects
-add_library(umrapp
+add_library(umrapp STATIC
   print.c
   print_config.c
   profile.c
