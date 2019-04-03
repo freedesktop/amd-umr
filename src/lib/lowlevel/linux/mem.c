@@ -32,17 +32,22 @@
 #define DEBUG(...)
 #endif
 
-// try to convert a DMA address to physical via trace
-uint64_t umr_vm_dma_to_phys(struct umr_asic *asic, uint64_t dma_addr)
+/** umr_vm_dma_to_phys -- Convert a GPU bound bus address to CPU physical */
+ uint64_t umr_vm_dma_to_phys(struct umr_asic *asic, uint64_t dma_addr)
 {
 	uint64_t phys;
 	if (asic->fd.iova >= 0) {
+		// older kernels had a iova debugfs file which would return
+		// an address given a seek to a given address this has been
+		// removed in newer kernels
 		lseek(asic->fd.iova, dma_addr & ~0xFFFULL, SEEK_SET);
 		if (read(asic->fd.iova, &phys, 8) != 8) {
 			fprintf(stderr, "[ERROR]: Could not read from debugfs iova file for address %" PRIx64 "\n", dma_addr);
 			return 0;
 		}
 	} else {
+		// newer kernels use iomem which requires a GPU bus address
+		// to read/write system memory bound to the GPU
 		phys = dma_addr;
 	}
 	return phys;
