@@ -269,6 +269,17 @@ struct umr_memory_access_funcs {
 	 */
 	int (*access_linear_vram)(struct umr_asic *asic, uint64_t address, uint32_t size, void *data, int write_en);
 
+	/** gpu_bus_to_cpu_address -- convert a GPU bound address for
+	 * 							  system memory pages to CPU bound
+	 * 							  addresses
+	 * @asic: The device the memory is bound to
+	 * @dma_addr: The GPU bound address
+	 *
+	 * Returns: The address the CPU can use to access the memory in
+	 * system memory
+	 */
+	uint64_t (*gpu_bus_to_cpu_address)(struct umr_asic *asic, uint64_t dma_addr);
+
 	/** data -- opaque pointer the callbacks can use for state tracking */
 	void *data;
 };

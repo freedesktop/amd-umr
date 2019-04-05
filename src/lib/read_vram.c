@@ -221,7 +221,10 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 				goto invalid_page;
 
 			// compute starting address
-			start_addr = umr_vm_dma_to_phys(asic, pte_fields.page_base_addr) + (address & 0xFFF);
+			if (!asic->mem_funcs.gpu_bus_to_cpu_address)
+				start_addr = umr_vm_dma_to_phys(asic, pte_fields.page_base_addr) + (address & 0xFFF);
+			else
+				start_addr = asic->mem_funcs.gpu_bus_to_cpu_address(asic, pte_fields.page_base_addr) + (address & 0xFFF);
 
 			if (!pte_fields.system)
 				start_addr = start_addr - vm_fb_offset;
@@ -250,7 +253,10 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 				goto invalid_page;
 
 			// compute starting address
-			start_addr = umr_vm_dma_to_phys(asic, pte_fields.page_base_addr) + (address & 0xFFF);
+			if (!asic->mem_funcs.gpu_bus_to_cpu_address)
+				start_addr = umr_vm_dma_to_phys(asic, pte_fields.page_base_addr) + (address & 0xFFF);
+			else
+				start_addr = asic->mem_funcs.gpu_bus_to_cpu_address(asic, pte_fields.page_base_addr) + (address & 0xFFF);
 		}
 
 next_page:
@@ -601,7 +607,11 @@ pde_is_pte:
 
 			// compute starting address
 			offset_mask = (1ULL << ((current_depth * 9) + (12 + page_table_size))) - 1;
-			start_addr = umr_vm_dma_to_phys(asic, pte_fields.page_base_addr) + (address & offset_mask);
+
+			if (!asic->mem_funcs.gpu_bus_to_cpu_address)
+				start_addr = umr_vm_dma_to_phys(asic, pte_fields.page_base_addr) + (address & offset_mask);
+			else
+				start_addr = asic->mem_funcs.gpu_bus_to_cpu_address(asic, pte_fields.page_base_addr) + (address & offset_mask);
 			DEBUG("phys address to read from: %" PRIx64 "\n\n\n", start_addr);
 		} else {
 			// in AI+ the BASE_ADDR is treated like a PDE entry...
@@ -651,7 +661,10 @@ pde_is_pte:
 				goto invalid_page;
 
 			// compute starting address
-			start_addr = umr_vm_dma_to_phys(asic, pte_fields.page_base_addr) + (address & 0xFFF);
+			if (!asic->mem_funcs.gpu_bus_to_cpu_address)
+				start_addr = umr_vm_dma_to_phys(asic, pte_fields.page_base_addr) + (address & 0xFFF);
+			else
+				start_addr = asic->mem_funcs.gpu_bus_to_cpu_address(asic, pte_fields.page_base_addr) + (address & 0xFFF);
 		}
 
 next_page:
