@@ -25,18 +25,21 @@
 #include "umr.h"
 #include <ctype.h>
 
-int istr_cmp(const char* a, const char* b) {
-	if(!a || !b) {
-		return 0;
-	}
-	
-	size_t size_a = strlen(a);
-	
-	if(strlen(b) != size_a){
+int istr_cmp(const char* a, const char* b)
+{
+	size_t size_a, i;
+
+	if (!a || !b) {
 		return 0;
 	}
 
-	for(size_t i = 0; i < size_a; i++, a++, b++) {
+	size_a = strlen(a);
+
+	if (strlen(b) != size_a){
+		return 0;
+	}
+
+	for (i = 0; i < size_a; i++, a++, b++) {
 		if(toupper(*a) != toupper(*b)) {
 			return 0;
 		}
@@ -45,7 +48,8 @@ int istr_cmp(const char* a, const char* b) {
 	return 1;
 }
 
-int expression_matches(const char* str, const char* pattern) {
+int expression_matches(const char* str, const char* pattern)
+{
 	const char *cp = NULL, *mp = NULL;
 
 	while ((*str) && (*pattern != '*')) {
@@ -78,7 +82,8 @@ int expression_matches(const char* str, const char* pattern) {
 	return !*pattern;
 }
 
-struct umr_find_reg_iter* umr_find_reg_wild_first(struct umr_asic* asic, const char* ip, const char* reg) {
+struct umr_find_reg_iter* umr_find_reg_wild_first(struct umr_asic* asic, const char* ip, const char* reg)
+{
 	struct umr_find_reg_iter* iter;
 
 	iter = calloc(1, sizeof(*iter));
@@ -95,7 +100,8 @@ struct umr_find_reg_iter* umr_find_reg_wild_first(struct umr_asic* asic, const c
 	return iter;
 }
 
-struct umr_find_reg_iter_result umr_find_reg_wild_next(struct umr_find_reg_iter* iter) {
+struct umr_find_reg_iter_result umr_find_reg_wild_next(struct umr_find_reg_iter* iter)
+{
 	struct umr_find_reg_iter_result res;
 	for (;;) {
 		// if reg_i == -1 find the next IP block
