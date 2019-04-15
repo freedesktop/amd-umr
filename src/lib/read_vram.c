@@ -34,7 +34,7 @@
 /**
  * access_vram_via_mmio - Access VRAM via direct MMIO control
  */
-static void access_vram_via_mmio(struct umr_asic *asic, uint64_t address, uint32_t size, void *dst, int write_en)
+int umr_access_vram_via_mmio(struct umr_asic *asic, uint64_t address, uint32_t size, void *dst, int write_en)
 {
 	uint32_t MM_INDEX, MM_INDEX_HI, MM_DATA;
 	uint32_t *out = dst;
@@ -48,7 +48,7 @@ static void access_vram_via_mmio(struct umr_asic *asic, uint64_t address, uint32
 	    MM_INDEX_HI == 0xFFFFFFFF ||
 	    MM_DATA == 0xFFFFFFFF) {
 		fprintf(stderr, "[BUG]: Cannot find MM access registers for this asic!\n");
-		return;
+		return -1;
 	}
 
 	while (size) {
@@ -61,8 +61,8 @@ static void access_vram_via_mmio(struct umr_asic *asic, uint64_t address, uint32
 		size -= 4;
 		address += 4;
 	}
+	return 0;
 }
-
 
 /**
  * umr_access_vram_vi - Access GPU mapped memory for SI .. VI platforms
@@ -221,10 +221,7 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 				goto invalid_page;
 
 			// compute starting address
-			if (!asic->mem_funcs.gpu_bus_to_cpu_address)
-				start_addr = umr_vm_dma_to_phys(asic, pte_fields.page_base_addr) + (address & 0xFFF);
-			else
-				start_addr = asic->mem_funcs.gpu_bus_to_cpu_address(asic, pte_fields.page_base_addr) + (address & 0xFFF);
+			start_addr = asic->mem_funcs.gpu_bus_to_cpu_address(asic, pte_fields.page_base_addr) + (address & 0xFFF);
 
 			if (!pte_fields.system)
 				start_addr = start_addr - vm_fb_offset;
@@ -253,10 +250,7 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 				goto invalid_page;
 
 			// compute starting address
-			if (!asic->mem_funcs.gpu_bus_to_cpu_address)
-				start_addr = umr_vm_dma_to_phys(asic, pte_fields.page_base_addr) + (address & 0xFFF);
-			else
-				start_addr = asic->mem_funcs.gpu_bus_to_cpu_address(asic, pte_fields.page_base_addr) + (address & 0xFFF);
+			start_addr = asic->mem_funcs.gpu_bus_to_cpu_address(asic, pte_fields.page_base_addr) + (address & 0xFFF);
 		}
 
 next_page:
@@ -272,10 +266,7 @@ next_page:
 		if (pdst) {
 			if (pte_fields.system) {
 				int r;
-				if (asic->mem_funcs.access_sram)
-					r = asic->mem_funcs.access_sram(asic, start_addr, chunk_size, pdst, write_en);
-				else
-					r = umr_access_sram(asic, start_addr, chunk_size, pdst, write_en);
+				r = asic->mem_funcs.access_sram(asic, start_addr, chunk_size, pdst, write_en);
 				if (r < 0) {
 					fprintf(stderr, "[ERROR]: Cannot access system ram, perhaps CONFIG_STRICT_DEVMEM is set in your kernel config?\n");
 					fprintf(stderr, "[ERROR]: Alternatively download and install /dev/fmem\n");
@@ -501,10 +492,7 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 						return -1;
 				} else {
 					int r;
-					if (asic->mem_funcs.access_sram)
-						r = asic->mem_funcs.access_sram(asic, pde_address + pde_idx * 8, 8, &pde_entry, 0);
-					else
-						r = umr_access_sram(asic, pde_address + pde_idx * 8, 8, &pde_entry, 0);
+					r = asic->mem_funcs.access_sram(asic, pde_address + pde_idx * 8, 8, &pde_entry, 0);
 					if (r < 0)
 						return -1;
 				}
@@ -563,10 +551,7 @@ pte_further:
 					return -1;
 			} else {
 				int r;
-				if (asic->mem_funcs.access_sram)
-					r = asic->mem_funcs.access_sram(asic, pde_fields.pte_base_addr + pte_idx*8, 8, &pte_entry, 0);
-				else
-					r = umr_access_sram(asic, pde_fields.pte_base_addr + pte_idx*8, 8, &pte_entry, 0);
+				r = asic->mem_funcs.access_sram(asic, pde_fields.pte_base_addr + pte_idx*8, 8, &pte_entry, 0);
 				if (r < 0)
 					return -1;
 			}
@@ -608,10 +593,7 @@ pde_is_pte:
 			// compute starting address
 			offset_mask = (1ULL << ((current_depth * 9) + (12 + page_table_size))) - 1;
 
-			if (!asic->mem_funcs.gpu_bus_to_cpu_address)
-				start_addr = umr_vm_dma_to_phys(asic, pte_fields.page_base_addr) + (address & offset_mask);
-			else
-				start_addr = asic->mem_funcs.gpu_bus_to_cpu_address(asic, pte_fields.page_base_addr) + (address & offset_mask);
+			start_addr = asic->mem_funcs.gpu_bus_to_cpu_address(asic, pte_fields.page_base_addr) + (address & offset_mask);
 			DEBUG("phys address to read from: %" PRIx64 "\n\n\n", start_addr);
 		} else {
 			// in AI+ the BASE_ADDR is treated like a PDE entry...
@@ -661,10 +643,7 @@ pde_is_pte:
 				goto invalid_page;
 
 			// compute starting address
-			if (!asic->mem_funcs.gpu_bus_to_cpu_address)
-				start_addr = umr_vm_dma_to_phys(asic, pte_fields.page_base_addr) + (address & 0xFFF);
-			else
-				start_addr = asic->mem_funcs.gpu_bus_to_cpu_address(asic, pte_fields.page_base_addr) + (address & 0xFFF);
+			start_addr = asic->mem_funcs.gpu_bus_to_cpu_address(asic, pte_fields.page_base_addr) + (address & 0xFFF);
 		}
 
 next_page:
@@ -790,16 +769,7 @@ int umr_access_vram(struct umr_asic *asic, uint32_t vmid, uint64_t address, uint
 		}
 
 		// use callback for linear access if applicable
-		if (asic->mem_funcs.access_linear_vram == NULL) {
-			// addressing is physical
-			if (asic->options.use_pci == 0)
-				umr_access_linear_vram(asic, address, size, data, write_en);
-			else
-				access_vram_via_mmio(asic, address, size, data, write_en);
-		} else {
-			asic->mem_funcs.access_linear_vram(asic, address, size, data, write_en);
-		}
-		return 0;
+		return asic->mem_funcs.access_linear_vram(asic, address, size, data, write_en);
 	}
 
 	switch (asic->family) {

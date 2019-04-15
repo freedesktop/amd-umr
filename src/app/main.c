@@ -45,6 +45,16 @@ static struct umr_asic *get_asic(void)
 		exit(EXIT_FAILURE);
 	}
 	umr_scan_config(asic, 1);
+
+	// assign linux callbacks
+	asic->mem_funcs.gpu_bus_to_cpu_address = umr_vm_dma_to_phys;
+	asic->mem_funcs.access_sram = umr_access_sram;
+
+	if (asic->options.use_pci == 0)
+		asic->mem_funcs.access_linear_vram = umr_access_linear_vram;
+	else
+		asic->mem_funcs.access_linear_vram = umr_access_vram_via_mmio;
+
 	return asic;
 }
 
