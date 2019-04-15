@@ -662,10 +662,7 @@ next_page:
 			if (pdst) {
 				if (pte_fields.system) {
 					int r;
-					if (asic->mem_funcs.access_sram)
-						r = asic->mem_funcs.access_sram(asic, start_addr, chunk_size, pdst, write_en);
-					else
-						r = umr_access_sram(asic, start_addr, chunk_size, pdst, write_en);
+					r = asic->mem_funcs.access_sram(asic, start_addr, chunk_size, pdst, write_en);
 					if (r < 0) {
 						fprintf(stderr, "[ERROR]: Cannot access system ram, perhaps CONFIG_STRICT_DEVMEM is set in your kernel config?\n");
 						fprintf(stderr, "[ERROR]: Alternatively download and install /dev/fmem\n");
