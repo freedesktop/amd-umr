@@ -55,6 +55,9 @@ static struct umr_asic *get_asic(void)
 	else
 		asic->mem_funcs.access_linear_vram = umr_access_vram_via_mmio;
 
+	asic->reg_funcs.read_reg = umr_read_reg;
+	asic->reg_funcs.write_reg = umr_write_reg;
+
 	return asic;
 }
 

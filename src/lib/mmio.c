@@ -37,7 +37,7 @@ uint32_t umr_read_reg_by_name_by_ip(struct umr_asic *asic, char *ip, char *name)
 	struct umr_reg *reg;
 	reg = umr_find_reg_data_by_ip(asic, ip, name);
 	if (reg)
-		return umr_read_reg(asic, reg->addr * (reg->type == REG_MMIO ? 4 : 1), reg->type);
+		return asic->reg_funcs.read_reg(asic, reg->addr * (reg->type == REG_MMIO ? 4 : 1), reg->type);
 	else
 		return 0;
 }
@@ -66,7 +66,7 @@ int umr_write_reg_by_name_by_ip(struct umr_asic *asic, char *ip, char *name, uin
 	struct umr_reg *reg;
 	reg = umr_find_reg_data_by_ip(asic, ip, name);
 	if (reg)
-		return umr_write_reg(asic, reg->addr * (reg->type == REG_MMIO ? 4 : 1), value, reg->type);
+		return asic->reg_funcs.write_reg(asic, reg->addr * (reg->type == REG_MMIO ? 4 : 1), value, reg->type);
 	else
 		return -1;
 }
