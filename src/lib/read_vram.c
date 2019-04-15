@@ -52,12 +52,12 @@ int umr_access_vram_via_mmio(struct umr_asic *asic, uint64_t address, uint32_t s
 	}
 
 	while (size) {
-		umr_write_reg(asic, MM_INDEX, address | 0x80000000, REG_MMIO);
-		umr_write_reg(asic, MM_INDEX_HI, address >> 31, REG_MMIO);
+		asic->reg_funcs.write_reg(asic, MM_INDEX, address | 0x80000000, REG_MMIO);
+		asic->reg_funcs.write_reg(asic, MM_INDEX_HI, address >> 31, REG_MMIO);
 		if (write_en == 0)
-			*out++ = umr_read_reg(asic, MM_DATA, REG_MMIO);
+			*out++ = asic->reg_funcs.read_reg(asic, MM_DATA, REG_MMIO);
 		else
-			umr_write_reg(asic, MM_DATA, *out++, REG_MMIO);
+			asic->reg_funcs.write_reg(asic, MM_DATA, *out++, REG_MMIO);
 		size -= 4;
 		address += 4;
 	}
