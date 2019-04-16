@@ -145,7 +145,7 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 	vm_fb_offset  = ((uint64_t)registers.mmMC_VM_FB_OFFSET & 0xFFFF) << 22;
 
 	if (asic->options.verbose)
-		fprintf(stderr,
+		asic->mem_funcs.vm_message(
 				"[VERBOSE]: mmVM_CONTEXT%d_PAGE_TABLE_START_ADDR=0x%" PRIx32 "\n"
 				"[VERBOSE]: mmVM_CONTEXT%d_PAGE_TABLE_BASE_ADDR=0x%" PRIx32 "\n"
 				"[VERBOSE]: mmVM_CONTEXT%d_CNTL=0x%" PRIx32 "\n"
@@ -183,7 +183,7 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 			pde_fields.pte_base_addr = pde_entry & 0xFFFFFFF000ULL;
 			pde_fields.valid         = pde_entry & 1;
 			if (memcmp(&pde_copy, &pde_fields, sizeof pde_fields) && asic->options.verbose)
-				fprintf(stderr, "[VERBOSE]: PDE=0x%016" PRIx64 ", VA=0x%010" PRIx64 ", PBA==0x%010" PRIx64 ", V=%" PRIu64 "\n",
+				asic->mem_funcs.vm_message("[VERBOSE]: PDE=0x%016" PRIx64 ", VA=0x%010" PRIx64 ", PBA==0x%010" PRIx64 ", V=%" PRIu64 "\n",
 						pde_entry,
 						address & pde_mask,
 						pde_fields.pte_base_addr,
@@ -210,7 +210,7 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 			pte_fields.system         = (pte_entry >> 1) & 1;
 			pte_fields.valid          = pte_entry & 1;
 			if (asic->options.verbose)
-				fprintf(stderr, "[VERBOSE]: \\-> PTE=0x%016" PRIx64 ", VA=0x%010" PRIx64 ", PBA==0x%010" PRIx64 ", V=%" PRIu64 ", S=%" PRIu64 "\n",
+				asic->mem_funcs.vm_message("[VERBOSE]: \\-> PTE=0x%016" PRIx64 ", VA=0x%010" PRIx64 ", PBA==0x%010" PRIx64 ", V=%" PRIu64 ", S=%" PRIu64 "\n",
 					pte_entry,
 					address & pte_mask,
 					pte_fields.page_base_addr,
@@ -239,7 +239,7 @@ static int umr_access_vram_vi(struct umr_asic *asic, uint32_t vmid,
 			pte_fields.system         = (pte_entry >> 1) & 1;
 			pte_fields.valid          = pte_entry & 1;
 			if (asic->options.verbose)
-				fprintf(stderr, "[VERBOSE]: PTE=0x%016" PRIx64 ", VA=0x%010" PRIx64 ", PBA==0x%010" PRIx64 ", V=%" PRIu64 ", S=%" PRIu64 "\n",
+				asic->mem_funcs.vm_message("[VERBOSE]: PTE=0x%016" PRIx64 ", VA=0x%010" PRIx64 ", PBA==0x%010" PRIx64 ", V=%" PRIu64 ", S=%" PRIu64 "\n",
 					pte_entry,
 					address & ~((uint64_t)0xFFF),
 					pte_fields.page_base_addr,
@@ -286,7 +286,7 @@ next_page:
 	return 0;
 
 invalid_page:
-	fprintf(stderr, "[ERROR]: No valid mapping for %u@%" PRIx64 "\n", vmid, address);
+	asic->mem_funcs.vm_message("[ERROR]: No valid mapping for %u@%" PRIx64 "\n", vmid, address);
 	return -1;
 }
 
@@ -416,7 +416,7 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 	vm_fb_base = (uint64_t)umr_read_reg_by_name(asic, "mmMC_VM_FB_LOCATION_BASE") << 24;
 
 	if (asic->options.verbose)
-		fprintf(stderr,
+		asic->mem_funcs.vm_message(
 				"[VERBOSE]: mmVM_CONTEXT%" PRIu32 "_PAGE_TABLE_START_ADDR_LO32=0x%" PRIx32 "\n"
 				"[VERBOSE]: mmVM_CONTEXT%" PRIu32 "_PAGE_TABLE_START_ADDR_HI32=0x%" PRIx32 "\n"
 				"[VERBOSE]: mmVM_CONTEXT%" PRIu32 "_PAGE_TABLE_BASE_ADDR_LO32=0x%" PRIx32 "\n"
@@ -460,7 +460,7 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 			pde_cnt = 0;
 
 			if (memcmp(&pde_fields, &pde_array[pde_cnt], sizeof pde_fields) && asic->options.verbose)
-				fprintf(stderr, "[VERBOSE]: BASE=0x%016" PRIx64 ", VA=0x%012" PRIx64 ", PBA==0x%012" PRIx64 ", V=%" PRIu64 ", S=%" PRIu64 ", C=%" PRIu64 ", P=%" PRIu64 "\n",
+				asic->mem_funcs.vm_message("[VERBOSE]: BASE=0x%016" PRIx64 ", VA=0x%012" PRIx64 ", PBA==0x%012" PRIx64 ", V=%" PRIu64 ", S=%" PRIu64 ", C=%" PRIu64 ", P=%" PRIu64 "\n",
 						pde_entry,
 						address & va_mask,
 						pde_fields.pte_base_addr,
@@ -506,7 +506,7 @@ static int umr_access_vram_ai(struct umr_asic *asic, uint32_t vmid,
 				pde_fields.pte           = (pde_entry >> 54) & 1;
 				if (!pde_fields.pte) {
 					if (memcmp(&pde_fields, &pde_array[pde_cnt], sizeof pde_fields) && asic->options.verbose)
-						fprintf(stderr, "[VERBOSE]: %s PDE%d=0x%016" PRIx64 ", VA=0x%012" PRIx64 ", PBA==0x%012" PRIx64 ", V=%" PRIu64 ", S=%" PRIu64 ", C=%" PRIu64 ", P=%" PRIu64 "\n",
+						asic->mem_funcs.vm_message("[VERBOSE]: %s PDE%d=0x%016" PRIx64 ", VA=0x%012" PRIx64 ", PBA==0x%012" PRIx64 ", V=%" PRIu64 ", S=%" PRIu64 ", C=%" PRIu64 ", P=%" PRIu64 "\n",
 								&indentation[12-pde_cnt*3],
 								page_table_depth - pde_cnt,
 								pde_entry,
@@ -565,7 +565,7 @@ pde_is_pte:
 			pte_fields.prt            = (pte_entry >> 61) & 1;
 			pte_fields.further        = (pte_entry >> 56) & 1;
 			if (asic->options.verbose)
-				fprintf(stderr, "[VERBOSE]: %s %s==0x%016" PRIx64 ", VA=0x%012" PRIx64 ", PBA==0x%012" PRIx64 ", V=%" PRIu64 ", S=%" PRIu64 ", P=%" PRIu64 "\n",
+				asic->mem_funcs.vm_message("[VERBOSE]: %s %s==0x%016" PRIx64 ", VA=0x%012" PRIx64 ", PBA==0x%012" PRIx64 ", V=%" PRIu64 ", S=%" PRIu64 ", P=%" PRIu64 "\n",
 					&indentation[12-pde_cnt*3],
 					(pte_fields.further) ? "PTE-FURTHER" : "PTE",
 					pte_entry,
@@ -606,7 +606,7 @@ pde_is_pte:
 			pde_fields.valid         = page_table_base_addr & 1;
 
 			if (memcmp(&pde_array[0], &pde_fields, sizeof pde_fields) && asic->options.verbose)
-				fprintf(stderr, "[VERBOSE]: PDE=0x%016" PRIx64 ", PBA==0x%012" PRIx64 ", V=%" PRIu64 ", S=%" PRIu64 ", FS=%" PRIu64 "\n",
+				asic->mem_funcs.vm_message("[VERBOSE]: PDE=0x%016" PRIx64 ", PBA==0x%012" PRIx64 ", V=%" PRIu64 ", S=%" PRIu64 ", FS=%" PRIu64 "\n",
 						page_table_base_addr,
 						pde_fields.pte_base_addr,
 						pde_fields.valid,
@@ -631,7 +631,7 @@ pde_is_pte:
 			pte_fields.prt            = 0;
 
 			if (asic->options.verbose)
-				fprintf(stderr, "[VERBOSE]: \\-> PTE=0x%016" PRIx64 ", VA=0x%016" PRIx64 ", PBA==0x%012" PRIx64 ", F=%" PRIu64 ", V=%" PRIu64 ", S=%" PRIu64 "\n",
+				asic->mem_funcs.vm_message("[VERBOSE]: \\-> PTE=0x%016" PRIx64 ", VA=0x%016" PRIx64 ", PBA==0x%012" PRIx64 ", F=%" PRIu64 ", V=%" PRIu64 ", S=%" PRIu64 "\n",
 					pte_entry,
 					address & ~((uint64_t)0xFFF),
 					pte_fields.page_base_addr,
@@ -678,7 +678,7 @@ next_page:
 			}
 		} else {
 			if (asic->options.verbose && pte_fields.prt)
-				fprintf(stderr, "[VERBOSE]: Page is set as PRT so we cannot read/write it, skipping ahead.\n");
+				asic->mem_funcs.vm_message("[VERBOSE]: Page is set as PRT so we cannot read/write it, skipping ahead.\n");
 
 			if (pdst)
 				pdst += chunk_size;
@@ -689,7 +689,7 @@ next_page:
 	return 0;
 
 invalid_page:
-	fprintf(stderr, "[ERROR]: No valid mapping for %u@%" PRIx64 "\n", vmid, address);
+	asic->mem_funcs.vm_message("[ERROR]: No valid mapping for %u@%" PRIx64 "\n", vmid, address);
 	return -1;
 }
 

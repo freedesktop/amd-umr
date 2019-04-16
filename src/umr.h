@@ -280,6 +280,13 @@ struct umr_memory_access_funcs {
 	 */
 	uint64_t (*gpu_bus_to_cpu_address)(struct umr_asic *asic, uint64_t dma_addr);
 
+	/** vm_message -- Display a VM decoding message
+	 *
+	 * @fmt:  The format string
+	 * @...:  Parameters to print
+	 */
+	int (*vm_message)(const char *fmt, ...);
+
 	/** data -- opaque pointer the callbacks can use for state tracking */
 	void *data;
 };

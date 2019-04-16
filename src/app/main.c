@@ -25,6 +25,7 @@
 #include "umrapp.h"
 #include <signal.h>
 #include <time.h>
+#include <stdarg.h>
 
 static int quit;
 
@@ -35,6 +36,17 @@ void sigint(int signo)
 }
 
 struct umr_options options;
+
+static int vm_printf(const char *fmt, ...)
+{
+	va_list ap;
+	int r;
+
+	va_start(ap, fmt);
+	r = vfprintf(stderr, fmt, ap);
+	va_end(ap);
+	return r;
+}
 
 static struct umr_asic *get_asic(void)
 {
@@ -47,6 +59,7 @@ static struct umr_asic *get_asic(void)
 	umr_scan_config(asic, 1);
 
 	// assign linux callbacks
+	asic->mem_funcs.vm_message = vm_printf;
 	asic->mem_funcs.gpu_bus_to_cpu_address = umr_vm_dma_to_phys;
 	asic->mem_funcs.access_sram = umr_access_sram;
 
